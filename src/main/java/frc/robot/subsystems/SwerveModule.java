@@ -4,11 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
+import com.revrobotics.*;
 
 public class SwerveModule extends SubsystemBase {
 
@@ -17,6 +18,9 @@ public class SwerveModule extends SubsystemBase {
     private final PIDController turnPIDController = new PIDController(.01, 0, .00);
     private Translation2d translation;
 
+    private final TalonFX driveMotor;
+    private final CANSparkMax turningMotor;
+
   /** Creates a new SwerveModule. */
 public SwerveModule(
             int driveMotorChannel,
@@ -24,8 +28,8 @@ public SwerveModule(
             int turningEncoderChannelA,
             Translation2d translation) {
         this.translation = translation;
-        //driveMotor = new TalonFX(driveMotorChannel);
-        //turningMotor = new CANSparkMax(turningMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        driveMotor= new TalonFX(driveMotorChannel);
+        turningMotor = new CANSparkMax(turningMotorChannel, CANSparkLowLevel.MotorType.kBrushless);//new CANSparkMax(turningMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
             }
   @Override
   public void periodic() {
