@@ -62,10 +62,10 @@ public class Constants{
   public static final double RADIANS_TO_DEGREES = 57.2958;
 
   // Can coder offsets
-  public static final double FRONT_LEFT_OFFSET = 190.283203125; // set this
-  public static final double FRONT_RIGHT_OFFSET = 314.208984375; // set this
-  public static final double BACK_LEFT_OFFSET = 134.033203125; // set this
-  public static final double BACK_RIGHT_OFFSET = 13.623046875; // set this
+  public static final double FRONT_LEFT_OFFSET = 190.283203125/360.0;
+  public static final double FRONT_RIGHT_OFFSET = 314.208984375/360.0;
+  public static final double BACK_LEFT_OFFSET = 134.033203125/360.0;
+  public static final double BACK_RIGHT_OFFSET = 13.623046875/360.0;
 
   // Speeds
   public static final double MAX_MODULE_SPEED = 20 * FEET_TO_METERS; // used to be 10 - max speed that the module can go
