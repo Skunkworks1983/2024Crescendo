@@ -25,7 +25,7 @@ public class Constants{
   public static final double TALON_GEAR_RATIO = 6.75;
   public static final double WHEEL_DIAMETER = .33333333;
   //public static final int TALON_TICKS_PER_MOTOR_REV = 2048;
-  public static final double REVS_PER_FOOT = TALON_GEAR_RATIO / WHEEL_DIAMETER * Math.PI;
+  public static final double REVS_PER_FOOT = TALON_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
   // Turning Encoders
   public static final int RIGHT_FRONT_CAN_CODER = 8;

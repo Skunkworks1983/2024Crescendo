@@ -50,7 +50,7 @@ public class SwerveModule extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
   
-    slot0Configs.kP = .1/204.8;
+    slot0Configs.kP = .25;
     slot0Configs.kD = 0;
     slot0Configs.kV = 0;
     slot0Configs.kI = 0;
@@ -60,9 +60,10 @@ public class SwerveModule extends SubsystemBase {
 
   public void setDriveMotorVelocity(double feetPerSecond) { // sets drive motor in velocity mode (set feet per second)
 
+    SmartDashboard.putNumber("fps vel input", feetPerSecond);
     double revsPerSecond = feetPerSecond * Constants.REVS_PER_FOOT;
-    // SmartDashboard.putNumber("velocity mode ticks speed", speed);
-    // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
+    SmartDashboard.putNumber("vel input", revsPerSecond);
+    SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError().getValue());
     velocityController.Slot = 0;
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
@@ -93,7 +94,7 @@ public class SwerveModule extends SubsystemBase {
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   
     SmartDashboard.putNumber("turn encoder", angle);
-    
+
     return angle;
   }
 
