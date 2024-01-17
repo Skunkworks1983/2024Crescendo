@@ -17,28 +17,29 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 
 public class Drivebase extends SubsystemBase {
 
-  private static Drivebase Drivebase;
+  private static Drivebase drivebase;
+  OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
 
-  // locations of the modules
-  Translation2d leftFrontLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.TRANSLATION_X,
-      Constants.FEET_TO_METERS * Constants.TRANSLATION_Y);
+  Translation2d leftFrontLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
+      Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
 
-  Translation2d rightFrontLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.TRANSLATION_X,
-      Constants.FEET_TO_METERS * Constants.TRANSLATION_Y);
+  Translation2d rightFrontLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
+      Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
 
-  Translation2d leftBackLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.TRANSLATION_X,
-      -Constants.FEET_TO_METERS * Constants.TRANSLATION_Y);
+  Translation2d leftBackLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
+      -Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
 
-  Translation2d rightBackLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.TRANSLATION_X,
-      -Constants.FEET_TO_METERS * Constants.TRANSLATION_Y);
+  Translation2d rightBackLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
+      -Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
 
 
   SwerveModule frontLeft = new SwerveModule(Constants.LEFT_FRONT_DRIVE, Constants.LEFT_FRONT_TURN,
@@ -54,13 +55,13 @@ public class Drivebase extends SubsystemBase {
       Constants.RIGHT_BACK_CAN_CODER, Constants.BACK_RIGHT_OFFSET);
 
 
-  SwerveDriveKinematics kinematics = new SwerveDriveKinematics( // creating kinematics
+  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       leftFrontLocation, rightFrontLocation, leftBackLocation, rightBackLocation);
 
 
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
       kinematics,
-      Rotation2d.fromDegrees(-getGyroAngle()), // creating odometry
+      Rotation2d.fromDegrees(-getGyroAngle()),
       new SwerveModulePosition[] {
           frontLeft.getPosition(),
           frontRight.getPosition(),
@@ -68,61 +69,53 @@ public class Drivebase extends SubsystemBase {
           backRight.getPosition()
       }); 
 
-
-
-  public Drivebase() {
-
+  private Drivebase() {
     gyro.reset();
-    
-    resetOdometry(new Pose2d((Constants.FIELD_Y_LENGTH-1.895833333) * Constants.FEET_TO_METERS, 
-    (Constants.FIELD_X_LENGTH-1.895833333) * Constants.FEET_TO_METERS,
-    Rotation2d.fromDegrees(180)));
-
+    // subtracting module translation because robot starts lined up in corner
+    resetOdometry(new Pose2d((Constants.FIELD_Y_LENGTH-Constants.MODULE_TRANSLATION_Y) * Constants.FEET_TO_METERS, 
+      (Constants.FIELD_X_LENGTH-Constants.MODULE_TRANSLATION_X) * Constants.FEET_TO_METERS,
+      Rotation2d.fromDegrees(180)));
     SmartDashboard.putData("Field Pos", odometryFieldPos);
   }
 
-  public double getGyroAngle() {
+  /** run in teleop init to set swerve as default teleop command */
+  public void setSwerveAsDefaultCommand() {
+    setDefaultCommand(new SwerveTeleop(drivebase, oi));
+  }
 
+  public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
     return angle;
   }
 
-
-
   public void resetOdometry(Pose2d position) {
-
     odometry.resetPosition(
       Rotation2d.fromDegrees(-getGyroAngle()), 
       new SwerveModulePosition[] {
-      frontLeft.getPosition(),
-      frontRight.getPosition(),
-      backLeft.getPosition(),
-      backRight.getPosition()}, 
-      position);
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()
+      }, 
+      position
+    );
 
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
-
   public Pose2d getOdometry() {
-
     return odometry.getPoseMeters();
   }
 
-  
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond, boolean fieldRelative) {
-
     if (fieldRelative) {
-
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           xFeetPerSecond * Constants.FEET_TO_METERS,
           yFeetPerSecond * Constants.FEET_TO_METERS,
           degreesPerSecond * Constants.DEGREES_TO_RADIANS,
           Rotation2d.fromDegrees(-getGyroAngle())); // negative because gyro reads differently than wpilib
-
     } else {
-
       speeds = new ChassisSpeeds(
           xFeetPerSecond * Constants.FEET_TO_METERS,
           yFeetPerSecond * Constants.FEET_TO_METERS,
@@ -131,13 +124,10 @@ public class Drivebase extends SubsystemBase {
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED); // sets module max speed
-
     setModuleStates(moduleStates);
   }
 
-
   public void setModuleStates(SwerveModuleState[] states) {
-
     frontLeft.setState(states[0]);
     frontRight.setState(states[1]);
     backLeft.setState(states[2]);
@@ -147,7 +137,6 @@ public class Drivebase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
     pose = odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
         new SwerveModulePosition[] {
             frontLeft.getPosition(),
@@ -162,9 +151,9 @@ public class Drivebase extends SubsystemBase {
 
   
   public static Drivebase getInstance() {
-    if (Drivebase == null) {
-      Drivebase = new Drivebase();
+    if (drivebase == null) {
+      drivebase = new Drivebase();
     }
-    return Drivebase;
+    return drivebase;
   }
 }

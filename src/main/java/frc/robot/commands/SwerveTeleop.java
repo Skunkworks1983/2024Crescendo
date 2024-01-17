@@ -5,23 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
 
-public class SwerveTeleop extends CommandBase {
-  /** Creates a new SwerveTeleop. */
+public class SwerveTeleop extends Command {
+  
   Drivebase drivebase;
   OI oi; 
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
-
     this.drivebase = drivebase;
     this.oi = oi;
-
-    addRequirements(drivebase, oi);
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
@@ -32,12 +30,11 @@ public class SwerveTeleop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     drivebase.setDrive(
         // applying deadband and setting drive
-        -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-        MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getRightX(), .2) * Constants.OI_TURN_SPEED_RATIO,
+        -MathUtil.applyDeadband(oi.getLeftX(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND) * Constants.OI_TURN_SPEED_RATIO,
         true);
   }
 
