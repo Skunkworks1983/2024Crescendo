@@ -18,8 +18,8 @@ public class OI extends SubsystemBase {
   
 
   public OI() {
-    leftJoystick = new Joystick(Constants.LEFT_JOYSTICK);
-    rightJoystick = new Joystick(Constants.RIGHT_JOYSTICK);
+    leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
+    rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
   }
 
   @Override

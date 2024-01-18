@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors. 8=======>
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -15,6 +15,7 @@ public class SwerveTeleop extends CommandBase {
   /** Creates a new SwerveTeleop. */
   Drivebase drivebase;
   OI oi; 
+  Boolean deadzone = true;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
 
@@ -33,12 +34,30 @@ public class SwerveTeleop extends CommandBase {
   @Override
   public void execute() {
 
-    drivebase.setDrive(
-        // applying deadband and setting drive
-        -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-        MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getRightX(), .2) * Constants.OI_TURN_SPEED_RATIO,
-        true);
+    if(Math.abs(oi.getLeftX())<=0.1 && !deadzone){
+      drivebase.setHeadingController(drivebase.getGyroAngle());
+      deadzone = true;
+    }
+    if(Math.abs(oi.getLeftX())>0.1 && deadzone){
+      deadzone = false;
+    }
+
+    if(!deadzone || deadzone){
+
+      drivebase.setDrive(
+          // applying deadband and setting drive
+          -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
+          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getRightX(), .2) * Constants.OI_TURN_SPEED_RATIO,
+          true);
+    }
+    else{
+        drivebase.setDriveDeadband(
+          -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
+          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
+          true
+        );
+    }
   }
 
   // Called once the command ends or is interrupted.
