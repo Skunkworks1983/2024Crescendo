@@ -51,6 +51,21 @@ public class Constants{
   public static final double DRIVE_KI = 0;
   public static final double DRIVE_KF = 0;
 
+  //pathplanner PID constants
+
+  public static final double PATHPLANNER_DRIVE_KP=.1;
+  public static final double PATHPLANNER_DRIVE_KD=.0;
+  public static final double PATHPLANNER_DRIVE_KI=.0;
+  public static final double PATHPLANNER_DRIVE_KF=.0;
+
+  public static final double PATHPLANNER_TURN_KP=.1;
+  public static final double PATHPLANNER_TURN_KD=.0;
+  public static final double PATHPLANNER_TURN_KI=.0;
+  public static final double PATHPLANNER_TURN_KF=.0;
+
+  public static final double PATHPLANNER_MAX_METERS_PER_SECOND=4;
+  public static final double PATHPLANNER_MAX_RADIANS_PER_SECOND=.4;
+
   // Module translations
   public static final double TRANSLATION_X = 1.895833333; // set this
   public static final double TRANSLATION_Y = 1.895833333; // set this

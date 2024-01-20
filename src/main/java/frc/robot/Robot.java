@@ -13,7 +13,7 @@ import frc.robot.subsystems.OI;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  
   
   Drivebase drivebase = Drivebase.getInstance();
   OI oi = new OI();
@@ -43,8 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    m_autonomousCommand = Drivebase.getInstance().followPathCommand("testPath");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
