@@ -43,17 +43,17 @@ public class SwerveModule extends SubsystemBase {
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously
-    turnController.setTolerance(Constants.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
+    turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     driveMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
     Slot0Configs slot0Configs = new Slot0Configs();
   
-    slot0Configs.kP = Constants.DRIVE_KP;
-    slot0Configs.kI = Constants.DRIVE_KI;
-    slot0Configs.kD = Constants.DRIVE_KD;
-    slot0Configs.kV = Constants.DRIVE_KF;
+    slot0Configs.kP = Constants.PIDControllers.DrivePID.KP;
+    slot0Configs.kI = Constants.PIDControllers.DrivePID.KI;
+    slot0Configs.kD = Constants.PIDControllers.DrivePID.KD;
+    slot0Configs.kV = Constants.PIDControllers.DrivePID.KF;
 
     driveMotor.getConfigurator().apply(slot0Configs);
   }
@@ -82,7 +82,7 @@ public class SwerveModule extends SubsystemBase {
 
   public double getDriveEncoderVelocity() {             // returns drive encoder velocity in feet per second
 
-    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.REVS_PER_FOOT;
+    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
   }
@@ -120,10 +120,8 @@ public class SwerveModule extends SubsystemBase {
         MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
 
     if (!atSetpoint) {
-
-      setTurnMotor(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
       // clamp and set speed
-      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.TURN_PID_LOW_LIMIT, Constants.TURN_PID_HIGH_LIMIT));
+      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
     }
   }
 }

@@ -32,27 +32,27 @@ public class SwerveTeleop extends Command {
   @Override
   public void execute() {
 
-    if(Math.abs(oi.getLeftX())<=0.1 && !deadzone){
+    if(Math.abs(oi.getRightX())<=0.1 && !deadzone){
       drivebase.setHeadingController(drivebase.getGyroAngle());
       deadzone = true;
     }
-    if(Math.abs(oi.getLeftX())>0.1 && deadzone){
+    if(Math.abs(oi.getRightX())>0.1 && deadzone){
       deadzone = false;
     }
 
-    if(!deadzone || deadzone){
+    if(!deadzone){
 
       drivebase.setDrive(
           // applying deadband and setting drive
-          -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
+          MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
           MathUtil.applyDeadband(oi.getRightX(), .2) * Constants.OI_TURN_SPEED_RATIO,
           true);
     }
     else{
         drivebase.setDriveDeadband(
-          -MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
+          MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
           true
         );
     }

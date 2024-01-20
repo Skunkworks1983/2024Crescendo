@@ -32,6 +32,7 @@ public class Constants{
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
+    public static final int BUTTON_STICK = 2;
   }
 
 
@@ -42,17 +43,17 @@ public class Constants{
     public static final double WHEEL_DIAMETER = .33333333;
     
     //public static final int TALON_TICKS_PER_MOTOR_REV = 2048;
-    public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / WHEEL_DIAMETER * Math.PI;
+    public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
     public static final double TRANSLATION_X = 1.895833333; // set this
     public static final double TRANSLATION_Y = 1.895833333; // set this
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 190.283203125/360.0;
-    public static final double FRONT_RIGHT_OFFSET = 314.208984375/360.0;
-    public static final double BACK_LEFT_OFFSET = 134.033203125/360.0;
-    public static final double BACK_RIGHT_OFFSET = 13.623046875/360.0;
+    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0;
+    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0;
+    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0;
+    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0;
   }
 
 
@@ -67,6 +68,7 @@ public class Constants{
       public static final double KD = 0;//.003;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
+      public static final double TURN_PID_TOLERANCE = 2;
     }
 
     public class DrivePID{
@@ -80,7 +82,7 @@ public class Constants{
 
     public class HeadingControlPID{
 
-      public static final double KP = 0;
+      public static final double KP = 0.9;
       public static final double KI = 0;
       public static final double KD = 0;
 
@@ -88,22 +90,16 @@ public class Constants{
   }
 
   
-
-  // Speeds
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(20); // used to be 10 - max speed that the module can go
-  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // max speed input is 15 fps in direction -- FAST
-  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn input in 360 degrees per second
-  public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0); // max is 10 feet per second trajectory
-  public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30); // max acceleration is 10 fps squared
   // Speed & Deadband
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = 20 * FEET_TO_METERS;
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
   public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
   public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
-  public static final double MAX_TRAJECTORY_SPEED = 2.0 * FEET_TO_METERS;
-  public static final double MAX_TRAJECTORY_ACCELERATION = 30 * FEET_TO_METERS;
+  public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
+  public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
+  public static final String CANIVORE_NAME = "Canivore_1";
 
   // Field dimensions
   public static final double FIELD_X_LENGTH = 26.291667; // feet
