@@ -30,7 +30,11 @@ public class SwerveModule extends SubsystemBase {
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
 
-  PIDController turnController = new PIDController(Constants.PIDControllers.TurnPID.KP, Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD);
+  PIDController turnController = new PIDController(
+    Constants.PIDControllers.TurnPID.KP, 
+    Constants.PIDControllers.TurnPID.KI, 
+    Constants.PIDControllers.TurnPID.KD
+    );
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
@@ -72,15 +76,16 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.set(speed);
   }
 
-
-  public double getDriveEncoderPosition() {             // gets drive encoder as distance traveled in feet
+  // gets drive encoder as distance traveled in feet
+  public double getDriveEncoderPosition() {
 
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder", distance);
     return distance;
   }
 
-  public double getDriveEncoderVelocity() {             // returns drive encoder velocity in feet per second
+  // returns drive encoder velocity in feet per second
+  public double getDriveEncoderVelocity() {
 
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);

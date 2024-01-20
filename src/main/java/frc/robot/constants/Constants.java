@@ -2,6 +2,8 @@
 
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants{
@@ -9,7 +11,7 @@ public class Constants{
 
 
   // Motor, Encoder, & Joystick IDS
-  public class IDS{
+  public class IDS {
 
     // Drive Motor IDS
     public static final int RIGHT_FRONT_DRIVE = 7;
@@ -37,7 +39,7 @@ public class Constants{
 
 
 
-  public class DrivebaseInfo{
+  public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
     public static final double WHEEL_DIAMETER = .33333333;
@@ -46,8 +48,8 @@ public class Constants{
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 1.895833333; // set this
-    public static final double TRANSLATION_Y = 1.895833333; // set this
+    public static final double TRANSLATION_X = 1.895833333; //feet
+    public static final double TRANSLATION_Y = 1.895833333; //feet
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0;
@@ -58,29 +60,29 @@ public class Constants{
 
 
 
-  public class PIDControllers{
+  public class PIDControllers {
 
-    public class TurnPID{
+    public class TurnPID {
 
       // Turning Motor PID Constants
       public static final double KP = .005;
       public static final double KI = 0;
-      public static final double KD = 0;//.003;
+      public static final double KD = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = 2;
     }
 
-    public class DrivePID{
+    public class DrivePID {
 
       // Velocity Mode PID Constants
       public static final double KP = .25;
       public static final double KI = 0;
-      public static final double KD = 0; // used to be 0
+      public static final double KD = 0;
       public static final double KF = 0;
     }
 
-    public class HeadingControlPID{
+    public class HeadingControlPID {
 
       public static final double KP = 0.9;
       public static final double KI = 0;
@@ -100,6 +102,7 @@ public class Constants{
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "Canivore_1";
+  public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
 
   // Field dimensions
   public static final double FIELD_X_LENGTH = 26.291667; // feet

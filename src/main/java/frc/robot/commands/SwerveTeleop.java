@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors. 8=======>
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -15,7 +15,7 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
-  Boolean deadzone = true;
+  boolean inJoystickDeadzone = true;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
     this.drivebase = drivebase;
@@ -32,27 +32,27 @@ public class SwerveTeleop extends Command {
   @Override
   public void execute() {
 
-    if(Math.abs(oi.getRightX())<=0.1 && !deadzone){
-      drivebase.setHeadingController(drivebase.getGyroAngle());
-      deadzone = true;
+    if(Math.abs(oi.getRightX())<=Constants.X_JOY_DEADBAND && !inJoystickDeadzone){
+      drivebase.setHeadingController(-drivebase.getGyroAngle());
+      inJoystickDeadzone = true;
     }
-    if(Math.abs(oi.getRightX())>0.1 && deadzone){
-      deadzone = false;
+    if(Math.abs(oi.getRightX())>Constants.X_JOY_DEADBAND && inJoystickDeadzone){
+      inJoystickDeadzone = false;
     }
 
-    if(!deadzone){
+    if(!inJoystickDeadzone){
 
       drivebase.setDrive(
-          // applying deadband and setting drive
-          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-          MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
-          MathUtil.applyDeadband(oi.getRightX(), .2) * Constants.OI_TURN_SPEED_RATIO,
-          true);
+          MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND) * Constants.OI_TURN_SPEED_RATIO,
+          true
+          );
     }
     else{
         drivebase.setDriveDeadband(
-          MathUtil.applyDeadband(oi.getLeftY(), .1) * Constants.OI_DRIVE_SPEED_RATIO, // flipped (frames of reference)
-          MathUtil.applyDeadband(oi.getLeftX(), .1) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+          MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
           true
         );
     }

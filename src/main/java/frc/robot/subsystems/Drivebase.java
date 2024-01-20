@@ -31,42 +31,65 @@ public class Drivebase extends SubsystemBase {
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
-  PIDController headingController = new PIDController(Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI, Constants.PIDControllers.HeadingControlPID.KD);
+  PIDController headingController = new PIDController(
+    Constants.PIDControllers.HeadingControlPID.KP, 
+    Constants.PIDControllers.HeadingControlPID.KI, 
+    Constants.PIDControllers.HeadingControlPID.KD
+    );
 
   // locations of the modules, x positive forward y positive left
-  Translation2d leftFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftFrontLocation = new Translation2d(
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
+    );
 
-  Translation2d rightFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightFrontLocation = new Translation2d(
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
+    );
 
-  Translation2d leftBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftBackLocation = new Translation2d(
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
+    );
 
-  Translation2d rightBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightBackLocation = new Translation2d(
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
+    );
 
 
-  SwerveModule frontLeft = new SwerveModule(Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
-      Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET);
+  SwerveModule frontLeft = new SwerveModule(
+    Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
+    Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET
+    );
 
-  SwerveModule frontRight = new SwerveModule(Constants.IDS.RIGHT_FRONT_DRIVE, Constants.IDS.RIGHT_FRONT_TURN,
-      Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET);
+  SwerveModule frontRight = new SwerveModule(
+    Constants.IDS.RIGHT_FRONT_DRIVE, Constants.IDS.RIGHT_FRONT_TURN,
+    Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET
+    );
 
-  SwerveModule backLeft = new SwerveModule(Constants.IDS.LEFT_BACK_DRIVE, Constants.IDS.LEFT_BACK_TURN,
-      Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET);
+  SwerveModule backLeft = new SwerveModule(
+    Constants.IDS.LEFT_BACK_DRIVE, Constants.IDS.LEFT_BACK_TURN,
+    Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET
+    );
 
-  SwerveModule backRight = new SwerveModule(Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
-      Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET);
+  SwerveModule backRight = new SwerveModule(
+    Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
+    Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET
+    );
 
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-      leftFrontLocation, rightFrontLocation, leftBackLocation, rightBackLocation);
+      leftFrontLocation, 
+      rightFrontLocation, 
+      leftBackLocation, 
+      rightBackLocation);
 
 
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
       kinematics,
-      Rotation2d.fromDegrees(-getGyroAngle()),
+      Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
           frontLeft.getPosition(),
           frontRight.getPosition(),
@@ -78,11 +101,7 @@ public class Drivebase extends SubsystemBase {
     gyro.reset();
     
     resetOdometry(
-      new Pose2d(
-        Units.feetToMeters(0), 
-        Units.feetToMeters(0),
-        Rotation2d.fromDegrees(0)
-      )
+      Constants.START_POSITION
     );
     headingController.enableContinuousInput(0, 360);
     SmartDashboard.putData("Field Pos", odometryFieldPos);
@@ -93,15 +112,16 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, oi));
   }
 
+  //returns angle going counterclockwise
   public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
-    return angle;
+    return -angle;
   }
 
   public void resetOdometry(Pose2d position) {
     odometry.resetPosition(
-      Rotation2d.fromDegrees(-getGyroAngle()), 
+      Rotation2d.fromDegrees(getGyroAngle()), 
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
         frontRight.getPosition(),
@@ -114,14 +134,15 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
-
+  //used when driving without rotating
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond, boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond),
           Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(-getGyroAngle())); // negative because gyro reads differently than wpilib
+          Rotation2d.fromDegrees(getGyroAngle())
+          ); // negative because gyro reads differently than wpilib
     } else {
       speeds = new ChassisSpeeds(
           Units.feetToMeters(xFeetPerSecond),
@@ -138,7 +159,7 @@ public class Drivebase extends SubsystemBase {
   public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
 
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(gyro.getAngle());
+    degreesPerSecond = headingController.calculate(-getGyroAngle());
 
 
     if (fieldRelative) {
@@ -147,16 +168,17 @@ public class Drivebase extends SubsystemBase {
           Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond),
           Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(-getGyroAngle()));
+          Rotation2d.fromDegrees(getGyroAngle())
+          );
 
     } else {
 
       speeds = new ChassisSpeeds(
           Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond),
-          Units.degreesToRadians(degreesPerSecond));
+          Units.degreesToRadians(degreesPerSecond)
+          );
     }
-    System.out.println(xFeetPerSecond+" "+yFeetPerSecond+" "+degreesPerSecond);
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
 
@@ -164,7 +186,6 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void setHeadingController(double setpoint){
-
     headingController.setSetpoint(setpoint);
   }
 
@@ -178,19 +199,15 @@ public class Drivebase extends SubsystemBase {
 
   public Pose2d getRobotPose() {
     // intentionally negating XY axes
-    Pose2d poseOutput;
+    Pose2d poseOutput; poseOutput = odometry.getPoseMeters();
 
-    poseOutput = odometry.getPoseMeters();
-
-    Pose2d returnPose = new Pose2d(-poseOutput.getX(), -poseOutput.getY(), poseOutput.getRotation());
-
-    return returnPose;
+    Pose2d returnPose = new Pose2d(-poseOutput.getX(), -poseOutput.getY(), poseOutput.getRotation()); return returnPose;
   }
 
   @Override
   public void periodic() {
     pose = odometry.update(
-      Rotation2d.fromDegrees(-getGyroAngle()),
+      Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
         frontRight.getPosition(),
