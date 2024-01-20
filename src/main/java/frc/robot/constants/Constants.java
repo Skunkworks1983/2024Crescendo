@@ -72,9 +72,9 @@ public class Constants{
     public class DrivePID{
 
       // Velocity Mode PID Constants
-      public static final double KP = .1;
+      public static final double KP = .25;
       public static final double KI = 0;
-      public static final double KD = .02; // used to be 0
+      public static final double KD = 0; // used to be 0
       public static final double KF = 0;
     }
 
@@ -95,6 +95,15 @@ public class Constants{
   public static final double OI_TURN_SPEED_RATIO = 360;  // max turn input in 360 degrees per second
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0); // max is 10 feet per second trajectory
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30); // max acceleration is 10 fps squared
+  // Speed & Deadband
+  public static final double X_JOY_DEADBAND = .1;
+  public static final double Y_JOY_DEADBAND = .1;
+  public static final double ROT_JOY_DEADBAND = .2;
+  public static final double MAX_MODULE_SPEED = 20 * FEET_TO_METERS;
+  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
+  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
+  public static final double MAX_TRAJECTORY_SPEED = 2.0 * FEET_TO_METERS;
+  public static final double MAX_TRAJECTORY_ACCELERATION = 30 * FEET_TO_METERS;
 
   // Field dimensions
   public static final double FIELD_X_LENGTH = 26.291667; // feet

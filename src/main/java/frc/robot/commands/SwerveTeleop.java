@@ -5,24 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
 
-public class SwerveTeleop extends CommandBase {
-  /** Creates a new SwerveTeleop. */
+public class SwerveTeleop extends Command {
+  
   Drivebase drivebase;
   OI oi; 
   Boolean deadzone = true;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
-
     this.drivebase = drivebase;
     this.oi = oi;
-
-    addRequirements(drivebase, oi);
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
