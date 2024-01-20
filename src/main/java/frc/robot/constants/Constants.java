@@ -70,8 +70,8 @@ public class Constants{
   public static final double PATHPLANNER_TURN_KI=.0;
   public static final double PATHPLANNER_TURN_KF=.0;
 
-  public static final double PATHPLANNER_MAX_METERS_PER_SECOND=4;
-  public static final double PATHPLANNER_MAX_RADIANS_PER_SECOND=.4;
+  public static final double PATHPLANNER_MAX_METERS_PER_SECOND=1;
+  public static final double PATHPLANNER_MAX_RADIANS_PER_SECOND=3.5;
 
   }
 

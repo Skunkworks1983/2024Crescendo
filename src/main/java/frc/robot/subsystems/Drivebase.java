@@ -119,7 +119,10 @@ public class Drivebase extends SubsystemBase {
       }, 
       position
     );
-
+    System.out.println("reset odometery is running");
+    System.out.println("position x: "+position.getX());
+    System.out.println("position y: "+position.getY());
+    System.out.println("position theta: "+position.getRotation());
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
@@ -174,10 +177,15 @@ public class Drivebase extends SubsystemBase {
 
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
     
-    setDrive(Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
-    Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
-    Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
-    false);
+    setDrive(
+      Units.metersToFeet(-chassisSpeeds.vxMetersPerSecond),
+      Units.metersToFeet(-chassisSpeeds.vxMetersPerSecond),
+      Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
+    false
+    );
+    System.out.println("setDrive x m/s: " + -chassisSpeeds.vxMetersPerSecond);
+    System.out.println("setDrive y m/s: " + -chassisSpeeds.vyMetersPerSecond);
+    System.out.println("setDrive theta r/s: " + chassisSpeeds.omegaRadiansPerSecond);
   }
 
   public void setHeadingController(double setpoint){
@@ -218,8 +226,6 @@ public class Drivebase extends SubsystemBase {
 
     odometryFieldPos.setRobotPose(getRobotPose());
   }
-
-
   
   public static Drivebase getInstance() {
     if (drivebase == null) {
@@ -228,18 +234,32 @@ public class Drivebase extends SubsystemBase {
     return drivebase;
   }
 
-public void resetPose(Pose2d pose){}
-
 public ChassisSpeeds getRobotRelativeSpeeds(){
-  return new ChassisSpeeds();
+  
+  ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(
+    frontLeft.getSwerveState(),
+    frontRight.getSwerveState(),
+    backLeft.getSwerveState(),
+    backRight.getSwerveState()
+  );
+    ChassisSpeeds chassisSpeedsMinus= new ChassisSpeeds(
+    -chassisSpeeds.vxMetersPerSecond,
+    -chassisSpeeds.vyMetersPerSecond,
+    chassisSpeeds.omegaRadiansPerSecond
+  );
+  System.out.println("xMetersChassisSpeeds: "+chassisSpeedsMinus.vxMetersPerSecond);
+  System.out.println("yMetersChassisSpeeds: "+chassisSpeedsMinus.vyMetersPerSecond);
+  System.out.println("thetaMetersChassisSpeeds: "+chassisSpeedsMinus.omegaRadiansPerSecond);
+
+  return chassisSpeedsMinus;
 }
 public void configurePathPlanner(){
 
   AutoBuilder.configureHolonomic(
-    this::getRobotPose, 
-    this::resetPose, 
-    this::getRobotRelativeSpeeds, 
-    this::setDriveChassisSpeed,
+    this::getRobotPose,
+    this::resetOdometry,
+    this::getRobotRelativeSpeeds, // uses -x,-y
+    this::setDriveChassisSpeed, // uses -x,-y
     new HolonomicPathFollowerConfig(
       new PIDConstants(
         Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP, 
@@ -268,6 +288,6 @@ public void configurePathPlanner(){
 }
   public Command followPathCommand(String pathName) {
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-    return AutoBuilder.followPath(path);
+    return AutoBuilder.followPath(path);.followPath(path);
   }
 }

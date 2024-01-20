@@ -58,7 +58,6 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.getConfigurator().apply(slot0Configs);
   }
 
-
   public void setDriveMotorVelocity(double feetPerSecond) { // sets drive motor in velocity mode (set feet per second)
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
@@ -72,7 +71,6 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.set(speed);
   }
 
-
   public double getDriveEncoderPosition() {             // gets drive encoder as distance traveled in feet
 
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
@@ -85,6 +83,14 @@ public class SwerveModule extends SubsystemBase {
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
+  }
+
+  public SwerveModuleState getSwerveState(){
+
+    return new SwerveModuleState(
+      Units.feetToMeters(getDriveEncoderVelocity()),
+      Rotation2d.fromDegrees(getTurnEncoder())//((getTurnEncoder()+180)%360)-180)
+    );
   }
 
   /**gets turn encoder as degrees, -180 180*/ 
@@ -102,7 +108,6 @@ public class SwerveModule extends SubsystemBase {
     return new SwerveModulePosition(
       Units.feetToMeters(getDriveEncoderPosition()), Rotation2d.fromDegrees(getTurnEncoder()));
   }
-
 
   public void setState(SwerveModuleState desiredState) {
     SwerveModuleState optimized = SwerveModuleState.optimize(
