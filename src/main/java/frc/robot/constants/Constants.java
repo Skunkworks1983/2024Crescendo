@@ -123,6 +123,12 @@ public class Constants{
   // Field dimensions
   public static final double FIELD_X_LENGTH = 26.291667; // feet
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
+
+  // swerve test directions
+  public static enum DIRECTION {
+    X,
+    Y
+  }
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

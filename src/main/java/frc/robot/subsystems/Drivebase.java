@@ -288,6 +288,6 @@ public void configurePathPlanner(){
 }
   public Command followPathCommand(String pathName) {
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-    return AutoBuilder.followPath(path);.followPath(path);
+    return AutoBuilder.followPath(path);
   }
 }

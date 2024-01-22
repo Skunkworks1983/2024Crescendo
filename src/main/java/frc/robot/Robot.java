@@ -7,14 +7,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DirectionTest;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.OI;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  
-  
-  Drivebase drivebase = Drivebase.getInstance();
   private RobotContainer m_robotContainer;
+
+  Drivebase drivebase = Drivebase.getInstance();
+  OI oi = OI.getInstance();
+  DirectionTest directionTest = new DirectionTest(drivebase, oi, Constants.DIRECTION.X, true);
 
   @Override
   public void robotInit() {
