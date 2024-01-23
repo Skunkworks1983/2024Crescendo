@@ -107,7 +107,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("gyro angle", angle);
     return angle;
   }
-
   public void resetOdometry(Pose2d position) {
     odometry.resetPosition(
       Rotation2d.fromDegrees(-getGyroAngle()), 
@@ -150,7 +149,7 @@ public class Drivebase extends SubsystemBase {
   public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
 
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(gyro.getAngle());
+    degreesPerSecond = headingController.calculate(-getGyroAngle());
 
 
     if (fieldRelative) {
@@ -178,13 +177,13 @@ public class Drivebase extends SubsystemBase {
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
     
     setDrive(
-      Units.metersToFeet(-chassisSpeeds.vxMetersPerSecond),
-      Units.metersToFeet(-chassisSpeeds.vxMetersPerSecond),
+      Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
+      Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
       Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
     false
     );
-    System.out.println("setDrive x m/s: " + -chassisSpeeds.vxMetersPerSecond);
-    System.out.println("setDrive y m/s: " + -chassisSpeeds.vyMetersPerSecond);
+    System.out.println("setDrive x m/s: " + chassisSpeeds.vxMetersPerSecond);
+    System.out.println("setDrive y m/s: " + chassisSpeeds.vyMetersPerSecond);
     System.out.println("setDrive theta r/s: " + chassisSpeeds.omegaRadiansPerSecond);
   }
 
@@ -202,14 +201,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public Pose2d getRobotPose() {
-    // intentionally negating XY axes
-    Pose2d poseOutput;
-
-    poseOutput = odometry.getPoseMeters();
-
-    Pose2d returnPose = new Pose2d(-poseOutput.getX(), -poseOutput.getY(), poseOutput.getRotation());
-
-    return returnPose;
+    return odometry.getPoseMeters();
   }
 
   @Override

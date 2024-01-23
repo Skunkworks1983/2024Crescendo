@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.DIRECTION;
 import frc.robot.subsystems.Drivebase;
@@ -36,12 +38,25 @@ public class DirectionTest extends Command {
   public void execute() {
     switch(direction) {
       case X:
+        if (!fieldRelative) {
+          ChassisSpeeds speeds = new ChassisSpeeds(oi.getLeftY(), 0, 0);
+          drivebase.setDriveChassisSpeed(speeds);
+        } else {
         drivebase.setDrive(oi.getLeftY(), 0, 0, fieldRelative);
+        SmartDashboard.putNumber("X", oi.getLeftY());
+        }
         break;
       case Y:
+        if (!fieldRelative) {
+          ChassisSpeeds speeds = new ChassisSpeeds(0, oi.getLeftY(), 0);
+          drivebase.setDriveChassisSpeed(speeds);
+        } else
         drivebase.setDrive(0, oi.getLeftY(), 0, fieldRelative);
+        SmartDashboard.putNumber("Y", oi.getLeftY());
         break;
     }
+
+    drivebase.getRobotRelativeSpeeds();
   }
 
   // Called once the command ends or is interrupted.

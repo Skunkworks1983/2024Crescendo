@@ -50,10 +50,10 @@ public class Constants{
     public static final double TRANSLATION_Y = 1.895833333; // set this
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0;
-    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0;
-    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0;
-    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0;
+    public static final double FRONT_LEFT_OFFSET = 0.778564453125;
+    public static final double FRONT_RIGHT_OFFSET = 0.122802734375;
+    public static final double BACK_LEFT_OFFSET = 0.622314453125;
+    public static final double BACK_RIGHT_OFFSET = 0.287841796875;
   }
 
   public class PathPlannerInfo{

@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
 
   Drivebase drivebase = Drivebase.getInstance();
   OI oi = OI.getInstance();
-  DirectionTest directionTest = new DirectionTest(drivebase, oi, Constants.DIRECTION.X, true);
+  DirectionTest directionTest = new DirectionTest(drivebase, oi, Constants.DIRECTION.X, false);
 
   @Override
   public void robotInit() {
@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
     }
 
     drivebase.setSwerveAsDefaultCommand();
+    //directionTest.schedule();
   }
 
   @Override

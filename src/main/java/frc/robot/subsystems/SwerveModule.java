@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -46,6 +47,7 @@ public class SwerveModule extends SubsystemBase {
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
+    talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     driveMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
     Slot0Configs slot0Configs = new Slot0Configs();
@@ -72,21 +74,18 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public double getDriveEncoderPosition() {             // gets drive encoder as distance traveled in feet
-
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder", distance);
     return distance;
   }
 
   public double getDriveEncoderVelocity() {             // returns drive encoder velocity in feet per second
-
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
   }
 
   public SwerveModuleState getSwerveState(){
-
     return new SwerveModuleState(
       Units.feetToMeters(getDriveEncoderVelocity()),
       Rotation2d.fromDegrees(getTurnEncoder())//((getTurnEncoder()+180)%360)-180)
@@ -114,6 +113,7 @@ public class SwerveModule extends SubsystemBase {
       desiredState, 
       new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
 
+    SmartDashboard.putNumber("setting velocity", Units.metersToFeet(optimized.speedMetersPerSecond));
     setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
     turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
     
