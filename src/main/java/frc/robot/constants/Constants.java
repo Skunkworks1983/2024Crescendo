@@ -60,12 +60,12 @@ public class Constants{
 
   //pathplanner PID constants
 
-  public static final double PATHPLANNER_DRIVE_KP=.1;
+  public static final double PATHPLANNER_DRIVE_KP = 2;
   public static final double PATHPLANNER_DRIVE_KD=.0;
   public static final double PATHPLANNER_DRIVE_KI=.0;
   public static final double PATHPLANNER_DRIVE_KF=.0;
 
-  public static final double PATHPLANNER_TURN_KP=.1;
+  public static final double PATHPLANNER_TURN_KP = 1;
   public static final double PATHPLANNER_TURN_KD=.0;
   public static final double PATHPLANNER_TURN_KI=.0;
   public static final double PATHPLANNER_TURN_KF=.0;

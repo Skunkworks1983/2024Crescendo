@@ -41,9 +41,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = Drivebase.getInstance().followPathCommand("testPath");
+    //m_autonomousCommand = Drivebase.getInstance().followPathCommand("testPath");
+    m_autonomousCommand = drivebase.followAutoTrajectory("New Auto");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      
     }
   }
 

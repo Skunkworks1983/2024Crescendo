@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -281,5 +282,10 @@ public void configurePathPlanner(){
   public Command followPathCommand(String pathName) {
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
     return AutoBuilder.followPath(path);
+  }
+
+  public Command followAutoTrajectory(String autoName) {
+    PathPlannerAuto auto = new PathPlannerAuto(autoName);
+    return auto;
   }
 }
