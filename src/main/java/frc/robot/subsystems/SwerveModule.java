@@ -34,7 +34,8 @@ public class SwerveModule extends SubsystemBase {
     Constants.PIDControllers.TurnPID.KP, 
     Constants.PIDControllers.TurnPID.KI, 
     Constants.PIDControllers.TurnPID.KD
-    );
+  );
+
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
@@ -62,8 +63,8 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.getConfigurator().apply(slot0Configs);
   }
 
-
-  public void setDriveMotorVelocity(double feetPerSecond) { // sets drive motor in velocity mode (set feet per second)
+  // sets drive motor in velocity mode (set feet per second)
+  public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
     // SmartDashboard.putNumber("velocity mode ticks speed", speed);

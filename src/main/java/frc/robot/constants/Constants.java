@@ -6,9 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
-public class Constants{
-
-
+public class Constants {
 
   // Motor, Encoder, & Joystick IDS
   public class IDS {
@@ -52,10 +50,10 @@ public class Constants{
     public static final double TRANSLATION_Y = 1.895833333; //feet
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0;
-    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0;
-    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0;
-    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0;
+    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0; //rotations
+    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0; //rotations
+    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0; //rotations
+    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0; //rotations
   }
 
 

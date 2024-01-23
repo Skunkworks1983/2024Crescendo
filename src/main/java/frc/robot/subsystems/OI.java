@@ -32,13 +32,11 @@ public class OI extends SubsystemBase {
   }
 
   public double getLeftX() { // Used to control the x field relative speed of the robot in SwerveTeleop.
-
     return leftJoystick.getX(); 
-
   }
 
   public double getLeftY() { // Used to control the y field relative speed of the robot in SwerveTeleop.
-  return leftJoystick.getY(); 
+    return leftJoystick.getY();
   }
 
   public double getRightX() { // Used to control the rotational speed of the robot in SwerveTeleop.
