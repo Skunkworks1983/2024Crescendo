@@ -119,6 +119,7 @@ public class Drivebase extends SubsystemBase {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
     return -angle;
+    // negative because gyro reads differently than wpilib
   }
 
   public void resetOdometry(Pose2d position) {
@@ -144,7 +145,7 @@ public class Drivebase extends SubsystemBase {
         Units.feetToMeters(yFeetPerSecond),
         Units.degreesToRadians(degreesPerSecond),
         Rotation2d.fromDegrees(getGyroAngle())
-      ); // negative because gyro reads differently than wpilib
+      ); 
     } else {
       speeds = new ChassisSpeeds(
         Units.feetToMeters(xFeetPerSecond),
@@ -203,7 +204,7 @@ public class Drivebase extends SubsystemBase {
 
   public Pose2d getRobotPose() {
     // intentionally negating XY axes
-    Pose2d poseOutput = new Pose2d(odometry.getPoseMeters().getX(), odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
+    Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
 
     return poseOutput;
   }
