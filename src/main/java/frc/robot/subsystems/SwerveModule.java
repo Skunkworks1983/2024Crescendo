@@ -19,6 +19,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
@@ -28,7 +29,13 @@ public class SwerveModule extends SubsystemBase {
   TalonFX driveMotor;
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
-  PIDController turnController = new PIDController(frc.robot.constants.Constants.TURN_KP, Constants.TURN_KI, Constants.TURN_KD);
+
+  PIDController turnController = new PIDController(
+    Constants.PIDControllers.TurnPID.KP, 
+    Constants.PIDControllers.TurnPID.KI, 
+    Constants.PIDControllers.TurnPID.KD
+  );
+
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
@@ -41,25 +48,28 @@ public class SwerveModule extends SubsystemBase {
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously
-    turnController.setTolerance(Constants.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
+    turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     driveMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
     Slot0Configs slot0Configs = new Slot0Configs();
   
-    slot0Configs.kP = Constants.DRIVE_KP;
-    slot0Configs.kI = Constants.DRIVE_KI;
-    slot0Configs.kD = Constants.DRIVE_KD;
-    slot0Configs.kV = Constants.DRIVE_KF;
+    slot0Configs.kP = Constants.PIDControllers.DrivePID.KP;
+    slot0Configs.kI = Constants.PIDControllers.DrivePID.KI;
+    slot0Configs.kD = Constants.PIDControllers.DrivePID.KD;
+    slot0Configs.kV = Constants.PIDControllers.DrivePID.KF;
 
     driveMotor.getConfigurator().apply(slot0Configs);
   }
 
-
+  // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
-    double revsPerSecond = feetPerSecond * Constants.REVS_PER_FOOT;
-    SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError().getValue());
+
+    double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
+    // SmartDashboard.putNumber("velocity mode ticks speed", speed);
+    // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
+    velocityController.Slot = 0;
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
@@ -67,16 +77,18 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.set(speed);
   }
 
-  /** gets drive encoder as distance traveled in feet*/ 
-  public double getDriveEncoderPosition() {             
-    double distance = driveMotor.getPosition().getValue() / Constants.REVS_PER_FOOT;
+  // gets drive encoder as distance traveled in feet
+  public double getDriveEncoderPosition() {
+
+    double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder", distance);
     return distance;
   }
 
-  /** returns drive encoder velocity in feet per second */
-  public double getDriveEncoderVelocity() {             
-    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.REVS_PER_FOOT;
+  // returns drive encoder velocity in feet per second
+  public double getDriveEncoderVelocity() {
+
+    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
   }
@@ -94,16 +106,16 @@ public class SwerveModule extends SubsystemBase {
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-      getDriveEncoderPosition() * Constants.FEET_TO_METERS, Rotation2d.fromDegrees(getTurnEncoder()));
+      Units.feetToMeters(getDriveEncoderPosition()), Rotation2d.fromDegrees(getTurnEncoder()));
   }
 
 
   public void setState(SwerveModuleState desiredState) {
     SwerveModuleState optimized = SwerveModuleState.optimize(
       desiredState, 
-      new Rotation2d(getTurnEncoder() * Constants.DEGREES_TO_RADIANS));
+      new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
 
-    setDriveMotorVelocity(optimized.speedMetersPerSecond * Constants.METERS_TO_FEET);
+    setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
     turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
     
     double speed = -turnController.calculate(getTurnEncoder()); // calculate speed
@@ -111,12 +123,11 @@ public class SwerveModule extends SubsystemBase {
 
     SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
     SmartDashboard.putNumber("setting turn speed",
-        MathUtil.clamp(speed, Constants.TURN_PID_LOW_LIMIT, Constants.TURN_PID_HIGH_LIMIT));
+        MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
 
     if (!atSetpoint) {
-
       // clamp and set speed
-      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.TURN_PID_LOW_LIMIT, Constants.TURN_PID_HIGH_LIMIT));
+      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
     }
   }
 }

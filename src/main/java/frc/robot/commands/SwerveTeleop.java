@@ -15,6 +15,7 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
+  boolean inJoystickDeadzone = true;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
     this.drivebase = drivebase;
@@ -30,12 +31,31 @@ public class SwerveTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivebase.setDrive(
-        // applying deadband and setting drive
-        -MathUtil.applyDeadband(oi.getLeftX(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+
+    if(Math.abs(oi.getRightX())<=Constants.X_JOY_DEADBAND && !inJoystickDeadzone){
+      drivebase.setHeadingController(-drivebase.getGyroAngle());
+      inJoystickDeadzone = true;
+    }
+    if(Math.abs(oi.getRightX())>Constants.X_JOY_DEADBAND && inJoystickDeadzone){
+      inJoystickDeadzone = false;
+    }
+
+    if(!inJoystickDeadzone){
+
+      drivebase.setDrive(
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND) * Constants.OI_TURN_SPEED_RATIO,
-        true);
+        true
+      );
+    }
+    else{
+      drivebase.setDriveDeadband(
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        true
+      );
+    }
   }
 
   // Called once the command ends or is interrupted.

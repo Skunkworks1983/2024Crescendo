@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,53 +31,81 @@ public class Drivebase extends SubsystemBase {
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
+  PIDController headingController = new PIDController(
+    Constants.PIDControllers.HeadingControlPID.KP, 
+    Constants.PIDControllers.HeadingControlPID.KI, 
+    Constants.PIDControllers.HeadingControlPID.KD
+  );
 
-  Translation2d leftFrontLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
-      Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
+  // locations of the modules, x positive forward y positive left
+  Translation2d leftFrontLocation = new Translation2d(
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
+  );
 
-  Translation2d rightFrontLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
-      Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
+  Translation2d rightFrontLocation = new Translation2d(
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
+  );
 
-  Translation2d leftBackLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
-      -Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
+  Translation2d leftBackLocation = new Translation2d(
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
+  );
 
-  Translation2d rightBackLocation = new Translation2d(Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
-      -Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
+  Translation2d rightBackLocation = new Translation2d(
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
+  );
 
 
-  SwerveModule frontLeft = new SwerveModule(Constants.LEFT_FRONT_DRIVE, Constants.LEFT_FRONT_TURN,
-      Constants.LEFT_FRONT_CAN_CODER, Constants.FRONT_LEFT_OFFSET);
+  SwerveModule frontLeft = new SwerveModule(
+    Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
+    Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET
+  );
 
-  SwerveModule frontRight = new SwerveModule(Constants.RIGHT_FRONT_DRIVE, Constants.RIGHT_FRONT_TURN,
-      Constants.RIGHT_FRONT_CAN_CODER, Constants.FRONT_RIGHT_OFFSET);
+  SwerveModule frontRight = new SwerveModule(
+    Constants.IDS.RIGHT_FRONT_DRIVE, Constants.IDS.RIGHT_FRONT_TURN,
+    Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET
+  );
 
-  SwerveModule backLeft = new SwerveModule(Constants.LEFT_BACK_DRIVE, Constants.LEFT_BACK_TURN,
-      Constants.LEFT_BACK_CAN_CODER, Constants.BACK_LEFT_OFFSET);
+  SwerveModule backLeft = new SwerveModule(
+    Constants.IDS.LEFT_BACK_DRIVE, Constants.IDS.LEFT_BACK_TURN,
+    Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET
+  );
 
-  SwerveModule backRight = new SwerveModule(Constants.RIGHT_BACK_DRIVE, Constants.RIGHT_BACK_TURN,
-      Constants.RIGHT_BACK_CAN_CODER, Constants.BACK_RIGHT_OFFSET);
+  SwerveModule backRight = new SwerveModule(
+    Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
+    Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET
+  );
 
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-      leftFrontLocation, rightFrontLocation, leftBackLocation, rightBackLocation);
+    leftFrontLocation, 
+    rightFrontLocation, 
+    leftBackLocation, 
+    rightBackLocation
+  );
 
 
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
-      kinematics,
-      Rotation2d.fromDegrees(-getGyroAngle()),
-      new SwerveModulePosition[] {
-          frontLeft.getPosition(),
-          frontRight.getPosition(),
-          backLeft.getPosition(),
-          backRight.getPosition()
-      }); 
+    kinematics,
+    Rotation2d.fromDegrees(getGyroAngle()),
+    new SwerveModulePosition[] {
+      frontLeft.getPosition(),
+      frontRight.getPosition(),
+      backLeft.getPosition(),
+      backRight.getPosition()
+    }
+  ); 
 
   private Drivebase() {
     gyro.reset();
-    // subtracting module translation because robot starts lined up in corner
-    resetOdometry(new Pose2d((Constants.FIELD_Y_LENGTH-Constants.MODULE_TRANSLATION_Y) * Constants.FEET_TO_METERS, 
-      (Constants.FIELD_X_LENGTH-Constants.MODULE_TRANSLATION_X) * Constants.FEET_TO_METERS,
-      Rotation2d.fromDegrees(180)));
+    
+    resetOdometry(
+      Constants.START_POSITION
+    );
+    headingController.enableContinuousInput(0, 360);
     SmartDashboard.putData("Field Pos", odometryFieldPos);
   }
 
@@ -83,15 +114,17 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, oi));
   }
 
+  //returns angle going counterclockwise
   public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
-    return angle;
+    return -angle;
+    // negative because gyro reads differently than wpilib
   }
 
   public void resetOdometry(Pose2d position) {
     odometry.resetPosition(
-      Rotation2d.fromDegrees(-getGyroAngle()), 
+      Rotation2d.fromDegrees(getGyroAngle()), 
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
         frontRight.getPosition(),
@@ -104,48 +137,91 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
-  public Pose2d getOdometry() {
-    return odometry.getPoseMeters();
-  }
-
+  //used when driving without rotating
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond, boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-          xFeetPerSecond * Constants.FEET_TO_METERS,
-          yFeetPerSecond * Constants.FEET_TO_METERS,
-          degreesPerSecond * Constants.DEGREES_TO_RADIANS,
-          Rotation2d.fromDegrees(-getGyroAngle())); // negative because gyro reads differently than wpilib
+        Units.feetToMeters(xFeetPerSecond),
+        Units.feetToMeters(yFeetPerSecond),
+        Units.degreesToRadians(degreesPerSecond),
+        Rotation2d.fromDegrees(getGyroAngle())
+      ); 
     } else {
       speeds = new ChassisSpeeds(
-          xFeetPerSecond * Constants.FEET_TO_METERS,
-          yFeetPerSecond * Constants.FEET_TO_METERS,
-          degreesPerSecond * Constants.DEGREES_TO_RADIANS);
+        Units.feetToMeters(xFeetPerSecond),
+        Units.feetToMeters(yFeetPerSecond),
+        Units.degreesToRadians(degreesPerSecond)
+      );
     }
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED); // sets module max speed
+
     setModuleStates(moduleStates);
   }
+
+  //used for when not using rotation, keeps robot heading in the right direction using PID
+  public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
+
+    double degreesPerSecond;
+    degreesPerSecond = headingController.calculate(-getGyroAngle());
+
+
+    if (fieldRelative) {
+
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        Units.feetToMeters(xFeetPerSecond),
+        Units.feetToMeters(yFeetPerSecond),
+        Units.degreesToRadians(degreesPerSecond),
+        Rotation2d.fromDegrees(getGyroAngle())
+      );
+
+    } else {
+
+      speeds = new ChassisSpeeds(
+        Units.feetToMeters(xFeetPerSecond),
+        Units.feetToMeters(yFeetPerSecond),
+        Units.degreesToRadians(degreesPerSecond)
+      );
+    }
+    SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
+
+    setModuleStates(moduleStates);
+  }
+
+  public void setHeadingController(double setpoint){
+    headingController.setSetpoint(setpoint);
+  }
+
 
   public void setModuleStates(SwerveModuleState[] states) {
     frontLeft.setState(states[0]);
     frontRight.setState(states[1]);
     backLeft.setState(states[2]);
     backRight.setState(states[3]);
-  }
+  } 
 
+  public Pose2d getRobotPose() {
+    // intentionally negating XY axes
+    Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
+
+    return poseOutput;
+  }
 
   @Override
   public void periodic() {
-    pose = odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
-        new SwerveModulePosition[] {
-            frontLeft.getPosition(),
-            frontRight.getPosition(),
-            backLeft.getPosition(),
-            backRight.getPosition()
-        });
+    pose = odometry.update(
+      Rotation2d.fromDegrees(getGyroAngle()),
+      new SwerveModulePosition[] {
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()
+      }
+    );
 
-    odometryFieldPos.setRobotPose(odometry.getPoseMeters());
+    odometryFieldPos.setRobotPose(getRobotPose());
   }
 
 
