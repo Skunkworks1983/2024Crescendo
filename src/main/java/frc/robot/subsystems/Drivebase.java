@@ -4,13 +4,24 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonUtils;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -33,8 +44,10 @@ public class Drivebase extends SubsystemBase {
   OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
   private final Field2d odometryFieldPos = new Field2d();
+  PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
   ChassisSpeeds speeds;
   Pose2d pose;
+  AprilTagFieldLayout aprilTagFieldLayout;
 
   Translation2d leftFrontLocation = new Translation2d(-Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_X,
       Constants.FEET_TO_METERS * Constants.MODULE_TRANSLATION_Y);
@@ -61,22 +74,10 @@ public class Drivebase extends SubsystemBase {
   SwerveModule backRight = new SwerveModule(Constants.RIGHT_BACK_DRIVE, Constants.RIGHT_BACK_TURN,
       Constants.RIGHT_BACK_CAN_CODER, Constants.BACK_RIGHT_OFFSET);
 
-
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       leftFrontLocation, rightFrontLocation, leftBackLocation, rightBackLocation);
 
-
-  SwerveDriveOdometry odometry = new SwerveDriveOdometry(
-      kinematics,
-      Rotation2d.fromDegrees(-getGyroAngle()),
-      new SwerveModulePosition[] {
-          frontLeft.getPosition(),
-          frontRight.getPosition(),
-          backLeft.getPosition(),
-          backRight.getPosition()
-      }); 
-
-  SwerveDrivePoseEstimator visualOdometry = new SwerveDrivePoseEstimator(
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
       kinematics,
       Rotation2d.fromDegrees(-getGyroAngle()),
       new SwerveModulePosition[] {
@@ -86,13 +87,23 @@ public class Drivebase extends SubsystemBase {
           backRight.getPosition()},
       new Pose2d(0, 0, Rotation2d.fromDegrees(0))); 
 
+  PhotonPoseEstimator visualOdometry = new PhotonPoseEstimator(
+    aprilTagFieldLayout, 
+    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+    camera, 
+    Constants.CAMERA_TO_ROBOT);
+
   private Drivebase() {
     gyro.reset();
-    // subtracting module translation because robot starts lined up in corner
-    resetOdometry(new Pose2d((Constants.FIELD_Y_LENGTH-Constants.MODULE_TRANSLATION_Y) * Constants.FEET_TO_METERS, 
-      (Constants.FIELD_X_LENGTH-Constants.MODULE_TRANSLATION_X) * Constants.FEET_TO_METERS,
-      Rotation2d.fromDegrees(180)));
+    //resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
     SmartDashboard.putData("Field Pos", odometryFieldPos);
+    try {
+      aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(
+      AprilTagFields.k2024Crescendo.m_resourceFile);
+    } catch (IOException e) {
+      System.out.println("exception reading field json " + e.toString());
+    }
+    
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -104,25 +115,6 @@ public class Drivebase extends SubsystemBase {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
     return angle;
-  }
-
-  public void resetOdometry(Pose2d position) {
-    odometry.resetPosition(
-      Rotation2d.fromDegrees(-getGyroAngle()), 
-      new SwerveModulePosition[] {
-        frontLeft.getPosition(),
-        frontRight.getPosition(),
-        backLeft.getPosition(),
-        backRight.getPosition()
-      }, 
-      position
-    );
-
-    SmartDashboard.putBoolean("odometry reset pos", true);
-  }
-
-  public Pose2d getOdometry() {
-    return odometry.getPoseMeters();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond, boolean fieldRelative) {
@@ -151,34 +143,51 @@ public class Drivebase extends SubsystemBase {
     backRight.setState(states[3]);
   }
 
-  // public void updateVisualOdometry() {
-  //   visualOdometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
-  //     new SwerveModulePosition[] {
-  //       frontLeft.getPosition(),
-  //       frontRight.getPosition(),
-  //       backLeft.getPosition(),
-  //       backRight.getPosition()
-  //     });
+  public Pose2d getOdometry() {
+    return odometry.getEstimatedPosition();
+  }
 
-  //   PhotonPipelineResult result = camera.getLatestResult();
-  //   if (result.hasTargets()) {
-  //     double captureTime = result.getTimestampSeconds();
-  //     visualOdometry.addVisionMeasurement(captureTime);
-  //   }
-  // }
+  public void resetOdometry(Pose2d resetPose) {
+    odometry.resetPosition(
+      Rotation2d.fromDegrees(-getGyroAngle()), 
+      new SwerveModulePosition[] {
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()
+      }, 
+      resetPose
+    );
+  }
+
+  public Pose2d updateVisualOdometry() {
+    Optional<EstimatedRobotPose> updateVisualPose = visualOdometry.update();
+    return updateVisualPose.orElse(null).estimatedPose.toPose2d();
+  }
+
+  public void updateOdometry() {
+
+    odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
+      new SwerveModulePosition[] {
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()
+      }
+    );
+    PhotonPipelineResult result = camera.getLatestResult();
+    if (result.hasTargets()) {
+      double captureTime = result.getTimestampSeconds();
+      odometry.addVisionMeasurement(updateVisualOdometry(), captureTime);
+    }
+    odometryFieldPos.setRobotPose(odometry.getEstimatedPosition());
+  }
 
 
   @Override
   public void periodic() {
-    pose = odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
-        new SwerveModulePosition[] {
-            frontLeft.getPosition(),
-            frontRight.getPosition(),
-            backLeft.getPosition(),
-            backRight.getPosition()
-        });
-
-    odometryFieldPos.setRobotPose(odometry.getPoseMeters());
+    Pose2d visualPose = updateVisualOdometry();
+    odometryFieldPos.
   }
 
 

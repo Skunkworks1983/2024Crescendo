@@ -2,8 +2,9 @@
 
 package frc.robot.constants;
 
-
-
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 
 public class Constants{
 
@@ -85,6 +86,9 @@ public class Constants{
   // Field dimensions
   public static final double FIELD_X_LENGTH = 26.291667; // feet
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
+
+  // Photon Camera to Robot
+  public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(0, 0, 0, new Rotation3d());
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
