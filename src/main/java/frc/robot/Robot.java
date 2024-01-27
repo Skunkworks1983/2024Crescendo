@@ -7,13 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.CameraTest;
 import frc.robot.subsystems.Drivebase;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  
-  Drivebase drivebase = Drivebase.getInstance();
+  CameraTest cameraTest = new CameraTest();
+
+  //Drivebase drivebase = Drivebase.getInstance();
   private RobotContainer m_robotContainer;
 
   @Override
@@ -56,7 +58,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    drivebase.setSwerveAsDefaultCommand();
+    cameraTest.schedule();
+    //drivebase.setSwerveAsDefaultCommand();
   }
 
   @Override

@@ -4,9 +4,16 @@
 
 package frc.robot.subsystems;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -68,6 +75,16 @@ public class Drivebase extends SubsystemBase {
           backLeft.getPosition(),
           backRight.getPosition()
       }); 
+
+  SwerveDrivePoseEstimator visualOdometry = new SwerveDrivePoseEstimator(
+      kinematics,
+      Rotation2d.fromDegrees(-getGyroAngle()),
+      new SwerveModulePosition[] {
+          frontLeft.getPosition(),
+          frontRight.getPosition(),
+          backLeft.getPosition(),
+          backRight.getPosition()},
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0))); 
 
   private Drivebase() {
     gyro.reset();
@@ -133,6 +150,22 @@ public class Drivebase extends SubsystemBase {
     backLeft.setState(states[2]);
     backRight.setState(states[3]);
   }
+
+  // public void updateVisualOdometry() {
+  //   visualOdometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
+  //     new SwerveModulePosition[] {
+  //       frontLeft.getPosition(),
+  //       frontRight.getPosition(),
+  //       backLeft.getPosition(),
+  //       backRight.getPosition()
+  //     });
+
+  //   PhotonPipelineResult result = camera.getLatestResult();
+  //   if (result.hasTargets()) {
+  //     double captureTime = result.getTimestampSeconds();
+  //     visualOdometry.addVisionMeasurement(captureTime);
+  //   }
+  // }
 
 
   @Override
