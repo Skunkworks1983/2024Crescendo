@@ -5,6 +5,7 @@ package frc.robot.constants;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
 
 public class Constants{
 
@@ -78,8 +79,8 @@ public class Constants{
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = 20 * FEET_TO_METERS;
-  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
-  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
+  public static final double OI_DRIVE_SPEED_RATIO = 1.0; // 7.0 is slow
+  public static final double OI_TURN_SPEED_RATIO = 60;  // max turn speed is 360 degrees per second
   public static final double MAX_TRAJECTORY_SPEED = 2.0 * FEET_TO_METERS;
   public static final double MAX_TRAJECTORY_ACCELERATION = 30 * FEET_TO_METERS;
 
@@ -88,7 +89,14 @@ public class Constants{
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
 
   // Photon Camera to Robot
-  public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(0, 0, 0, new Rotation3d());
+  public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(
+    0, 
+    Units.feetToMeters(1), 
+    0, new Rotation3d(0, 
+    Units.degreesToRadians(30), 
+    0));
+
+  public static final double DISTANCE_UNCERTAINTY = .241;
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

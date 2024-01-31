@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -19,10 +20,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -31,6 +34,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -87,11 +92,7 @@ public class Drivebase extends SubsystemBase {
           backRight.getPosition()},
       new Pose2d(0, 0, Rotation2d.fromDegrees(0))); 
 
-  PhotonPoseEstimator visualOdometry = new PhotonPoseEstimator(
-    aprilTagFieldLayout, 
-    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-    camera, 
-    Constants.CAMERA_TO_ROBOT);
+  PhotonPoseEstimator visualOdometry;
 
   private Drivebase() {
     gyro.reset();
@@ -103,7 +104,11 @@ public class Drivebase extends SubsystemBase {
     } catch (IOException e) {
       System.out.println("exception reading field json " + e.toString());
     }
-    
+    visualOdometry = new PhotonPoseEstimator(
+    aprilTagFieldLayout, 
+    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+    camera, 
+    Constants.CAMERA_TO_ROBOT);
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -160,13 +165,7 @@ public class Drivebase extends SubsystemBase {
     );
   }
 
-  public Pose2d updateVisualOdometry() {
-    Optional<EstimatedRobotPose> updateVisualPose = visualOdometry.update();
-    return updateVisualPose.orElse(null).estimatedPose.toPose2d();
-  }
-
   public void updateOdometry() {
-
     odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
@@ -175,22 +174,33 @@ public class Drivebase extends SubsystemBase {
         backRight.getPosition()
       }
     );
+    Optional<EstimatedRobotPose> updatedVisualOdometry = visualOdometry.update();
     PhotonPipelineResult result = camera.getLatestResult();
-    if (result.hasTargets()) {
-      double captureTime = result.getTimestampSeconds();
-      odometry.addVisionMeasurement(updateVisualOdometry(), captureTime);
+    SmartDashboard.putBoolean("Targets found", result.hasTargets());
+    SmartDashboard.putBoolean("Block running", updatedVisualOdometry.isPresent());
+    if (updatedVisualOdometry.isPresent()) {
+      EstimatedRobotPose pose = updatedVisualOdometry.get();
+      Transform3d distanceToTarget = result.getBestTarget().getBestCameraToTarget();
+      double distance = Math.sqrt(Math.pow(distanceToTarget.getX(), 2) + Math.pow(distanceToTarget.getY(), 2));
+      SmartDashboard.putNumber("Distance to target", distance);
+      Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(
+        new SimpleMatrix(
+          new double [] {
+            distance * Constants.DISTANCE_UNCERTAINTY,
+            distance * Constants.DISTANCE_UNCERTAINTY,
+            999999                                               // gyro is better, use gyro instead
+          }
+        )
+      );
+      odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds, uncertainty);
     }
     odometryFieldPos.setRobotPose(odometry.getEstimatedPosition());
   }
 
-
   @Override
   public void periodic() {
-    Pose2d visualPose = updateVisualOdometry();
-    odometryFieldPos.
+    updateOdometry();
   }
-
-
   
   public static Drivebase getInstance() {
     if (drivebase == null) {
