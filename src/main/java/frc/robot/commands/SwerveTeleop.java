@@ -17,8 +17,8 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
-  double setpointHeadingControl = 0; //set when not using heading control, is then used as a constant value to keep heading in check
-  double desiredHeadingSetpoint = 0; //the variable that is used to set the angle to turn to
+  double setpointHeadingControl = 0; //this is updated to the robots current angle when using the targeting button or not in the turn joystick deadzone. Used for heading correction when not using the targeting button and in the turn joystick deadzone
+  double desiredHeadingSetpoint = 0; //parts of the code set this variable, and then it is used to tell the drive command that turns to a certan angle instead of turning at a speed where to turn to
   Timer timer;
   double timeAtLastInput;
 
@@ -49,18 +49,17 @@ public class SwerveTeleop extends Command {
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else if(oi.getTargetingButton()) {
-
+      //calculates our current position on the field and where we are targeting to and figures out the angle to point at
       desiredHeadingSetpoint = Units.radiansToDegrees(-Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
-      //calculates our current position on the feild and where we are targeting too and figures out the ange to point at
       setpointHeadingControl = -drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else{
+      //waits a second to allow for extra turn momentum to dissipate
       if(timeAtLastInput - timer.getFPGATimestamp() < Constants.TIME_UNTIL_HEADING_CONTROL){
         setpointHeadingControl = -drivebase.getGyroAngle();
-        //waits a second to allow for extra turn velocity to wear out
-      }
       desiredHeadingSetpoint = setpointHeadingControl;
+      }
     }
     
     if(Math.abs(velocity) > 0)
