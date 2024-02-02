@@ -11,10 +11,8 @@ import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -24,20 +22,18 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.FloatEntry;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,8 +46,9 @@ public class Drivebase extends SubsystemBase {
   private static Drivebase drivebase;
   OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
-  private final Field2d odometryFieldPos = new Field2d();
-  PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
+  private final Field2d integrated = new Field2d();
+  private final Field2d visual = new Field2d();
+  PhotonCamera camera = new PhotonCamera(Constants.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
   Pose2d pose;
   AprilTagFieldLayout aprilTagFieldLayout;
@@ -112,7 +109,7 @@ public class Drivebase extends SubsystemBase {
 
   SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
       kinematics,
-      Rotation2d.fromDegrees(-getGyroAngle()),
+      Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
           frontLeft.getPosition(),
           frontRight.getPosition(),
@@ -124,8 +121,6 @@ public class Drivebase extends SubsystemBase {
 
   private Drivebase() {
     gyro.reset();
-    //resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-    SmartDashboard.putData("Field Pos", odometryFieldPos);
     try {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(
       AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -136,7 +131,13 @@ public class Drivebase extends SubsystemBase {
     aprilTagFieldLayout, 
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
     camera, 
-    Constants.CAMERA_TO_ROBOT);
+    Constants.ROBOT_TO_CAMERA);
+    resetOdometry(new Pose2d(
+      Units.feetToMeters(1.3), 
+      Units.feetToMeters(5.5), 
+      Rotation2d.fromDegrees(0)));
+    SmartDashboard.putData("Integrated Odom", integrated);
+    SmartDashboard.putData("Visual Odom", visual);
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -176,22 +177,16 @@ public class Drivebase extends SubsystemBase {
 
   //used for when not using rotation, keeps robot heading in the right direction using PID
   public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
-
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(-getGyroAngle());
-
-
+    degreesPerSecond = headingController.calculate(getGyroAngle());
     if (fieldRelative) {
-
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         Units.feetToMeters(xFeetPerSecond),
         Units.feetToMeters(yFeetPerSecond),
         Units.degreesToRadians(degreesPerSecond),
         Rotation2d.fromDegrees(getGyroAngle())
       );
-
     } else {
-
       speeds = new ChassisSpeeds(
         Units.feetToMeters(xFeetPerSecond),
         Units.feetToMeters(yFeetPerSecond),
@@ -200,9 +195,9 @@ public class Drivebase extends SubsystemBase {
     }
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
-
     setModuleStates(moduleStates);
   }
+
 
   public void setHeadingController(double setpoint){
     headingController.setSetpoint(setpoint);
@@ -214,27 +209,23 @@ public class Drivebase extends SubsystemBase {
     frontRight.setState(states[1]);
     backLeft.setState(states[2]);
     backRight.setState(states[3]);
-  } 
-
-  public Pose2d getOdometry() {
-    return odometry.getEstimatedPosition();
   }
 
   public void resetOdometry(Pose2d resetPose) {
     odometry.resetPosition(
-      Rotation2d.fromDegrees(-getGyroAngle()), 
+      Rotation2d.fromDegrees(getGyroAngle()), 
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
         frontRight.getPosition(),
         backLeft.getPosition(),
         backRight.getPosition()
-      }, 
+      },
       resetPose
     );
   }
 
   public void updateOdometry() {
-    odometry.update(Rotation2d.fromDegrees(-getGyroAngle()),
+    odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
         frontLeft.getPosition(),
         frontRight.getPosition(),
@@ -256,13 +247,15 @@ public class Drivebase extends SubsystemBase {
           new double [] {
             distance * Constants.DISTANCE_UNCERTAINTY,
             distance * Constants.DISTANCE_UNCERTAINTY,
-            999999                                               // gyro is better, use gyro instead
+            9999999                                     // gyro is better, use gyro instead
           }
         )
       );
+      visual.setRobotPose(pose.estimatedPose.toPose2d());
       odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds, uncertainty);
+      SmartDashboard.putNumber("vision uncertainty", distance * Constants.DISTANCE_UNCERTAINTY);
     }
-    odometryFieldPos.setRobotPose(odometry.getEstimatedPosition());
+    integrated.setRobotPose(odometry.getEstimatedPosition());
   }
 
   @Override

@@ -31,17 +31,6 @@ public class SwerveTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if(Math.abs(oi.getRightX())<=Constants.X_JOY_DEADBAND && !inJoystickDeadzone){
-      drivebase.setHeadingController(-drivebase.getGyroAngle());
-      inJoystickDeadzone = true;
-    }
-    if(Math.abs(oi.getRightX())>Constants.X_JOY_DEADBAND && inJoystickDeadzone){
-      inJoystickDeadzone = false;
-    }
-
-    if(!inJoystickDeadzone){
-
       drivebase.setDrive(
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
@@ -49,14 +38,6 @@ public class SwerveTeleop extends Command {
         true
       );
     }
-    else{
-      drivebase.setDriveDeadband(
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        true
-      );
-    }
-  }
 
   // Called once the command ends or is interrupted.
   @Override

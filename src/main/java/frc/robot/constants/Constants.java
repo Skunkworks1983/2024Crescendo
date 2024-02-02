@@ -97,8 +97,8 @@ public class Constants {
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
-  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
-  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
+  public static final double OI_DRIVE_SPEED_RATIO = 1.0;
+  public static final double OI_TURN_SPEED_RATIO = 60;
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "Canivore_1";
@@ -108,15 +108,16 @@ public class Constants {
   public static final double FIELD_X_LENGTH = 26.291667; // feet
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
 
-  // Photon Camera to Robot
-  public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(
+  // Photon Camera
+  public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 
+    Units.feetToMeters(1.083), 
+    0,
     0, 
-    Units.feetToMeters(1), 
-    0, new Rotation3d(0, 
-    Units.degreesToRadians(30), 
-    0));
+    new Rotation3d(0, Units.degreesToRadians(45), 0));
 
-  public static final double DISTANCE_UNCERTAINTY = .241;
+  public static final double DISTANCE_UNCERTAINTY = .3;
+  public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

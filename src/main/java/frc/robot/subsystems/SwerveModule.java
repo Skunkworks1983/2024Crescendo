@@ -44,6 +44,7 @@ public class SwerveModule extends SubsystemBase {
     turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
     turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
 
+    turnMotor.restoreFactoryDefaults();
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
