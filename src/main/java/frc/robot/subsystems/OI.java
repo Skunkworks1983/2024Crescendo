@@ -23,7 +23,7 @@ public class OI extends SubsystemBase {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    targeting = new JoystickButton(buttonStick, 11);
+    targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
   }
 
 

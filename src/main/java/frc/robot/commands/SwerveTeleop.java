@@ -17,8 +17,8 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
-  double defaultSetpoint = 0;
-  double angularPos = 0;
+  double setpointHeadingControl = 0; //set when not using heading control, is then used as a constant value to keep heading in check
+  double desiredHeadingSetpoint = 0; //the variable that is used to set the angle to turn to
   Timer timer;
   double timeAtLastInput;
 
@@ -45,20 +45,22 @@ public class SwerveTeleop extends Command {
     if(Math.abs(oi.getRightX())>Constants.ROT_JOY_DEADBAND) {
 
       velocity = oi.getRightX() * Constants.OI_TURN_SPEED_RATIO;
-      defaultSetpoint = -drivebase.getGyroAngle();
+      setpointHeadingControl = -drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else if(oi.getTargetingButton()) {
 
-      angularPos = Units.radiansToDegrees(-Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
-      defaultSetpoint = -drivebase.getGyroAngle();
+      desiredHeadingSetpoint = Units.radiansToDegrees(-Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
+      //calculates our current position on the feild and where we are targeting too and figures out the ange to point at
+      setpointHeadingControl = -drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else{
-      if(timeAtLastInput - timer.getFPGATimestamp() < 1){
-        defaultSetpoint = -drivebase.getGyroAngle();
+      if(timeAtLastInput - timer.getFPGATimestamp() < Constants.TIME_UNTIL_HEADING_CONTROL){
+        setpointHeadingControl = -drivebase.getGyroAngle();
+        //waits a second to allow for extra turn velocity to wear out
       }
-      angularPos = defaultSetpoint;
+      desiredHeadingSetpoint = setpointHeadingControl;
     }
     
     if(Math.abs(velocity) > 0)
@@ -71,7 +73,7 @@ public class SwerveTeleop extends Command {
       );
     }
     else{
-      drivebase.setHeadingController(angularPos);
+      drivebase.setHeadingController(desiredHeadingSetpoint);
       drivebase.setDriveTurnPos(
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
