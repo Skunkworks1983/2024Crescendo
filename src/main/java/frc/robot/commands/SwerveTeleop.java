@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -15,9 +17,15 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
-  boolean inJoystickDeadzone = true;
+  double defaultSetpoint = 0;
+  double angularPos = 0;
+  Timer timer;
+  double timeAtLastInput;
+
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
+    timer = new Timer();
+    timeAtLastInput = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
     addRequirements(drivebase);
@@ -32,6 +40,46 @@ public class SwerveTeleop extends Command {
   @Override
   public void execute() {
 
+    double velocity = 0;
+
+    if(Math.abs(oi.getRightX())>Constants.ROT_JOY_DEADBAND) {
+
+      velocity = oi.getRightX() * Constants.OI_TURN_SPEED_RATIO;
+      defaultSetpoint = -drivebase.getGyroAngle();
+      timeAtLastInput = timer.getFPGATimestamp();
+    }
+    else if(oi.getTargetingButton()) {
+
+      angularPos = Units.radiansToDegrees(-Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
+      defaultSetpoint = -drivebase.getGyroAngle();
+      timeAtLastInput = timer.getFPGATimestamp();
+    }
+    else{
+      if(timeAtLastInput - timer.getFPGATimestamp() < 1){
+        defaultSetpoint = -drivebase.getGyroAngle();
+      }
+      angularPos = defaultSetpoint;
+    }
+    
+    if(Math.abs(velocity) > 0)
+    {
+      drivebase.setDrive(
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        velocity,
+        true
+      );
+    }
+    else{
+      drivebase.setHeadingController(angularPos);
+      drivebase.setDriveTurnPos(
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        true
+      );
+    }
+
+    /*
     if(Math.abs(oi.getRightX())<=Constants.X_JOY_DEADBAND && !inJoystickDeadzone){
       drivebase.setHeadingController(-drivebase.getGyroAngle());
       inJoystickDeadzone = true;
@@ -50,12 +98,20 @@ public class SwerveTeleop extends Command {
       );
     }
     else{
-      drivebase.setDriveDeadband(
+      if(oi.getTargetingButton()) {
+
+        double targetingAngle = -Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX()));
+        drivebase.setHeadingController(Math.toDegrees(targetingAngle));
+        System.out.println("Turning to: "+targetingAngle);
+      }
+
+      drivebase.setDriveTurnPos(
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         true
       );
     }
+      */
   }
 
   // Called once the command ends or is interrupted.

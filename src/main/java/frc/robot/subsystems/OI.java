@@ -17,12 +17,13 @@ public class OI extends SubsystemBase {
   Joystick buttonStick;
 
   JoystickButton switchMotors;
-  
+  JoystickButton targeting;  
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
+    targeting = new JoystickButton(buttonStick, 11);
   }
 
 
@@ -45,6 +46,10 @@ public class OI extends SubsystemBase {
 
   public double getRightY() {
     return rightJoystick.getY();
+  }
+
+  public boolean getTargetingButton() {
+    return targeting.getAsBoolean();
   }
 
   public static OI getInstance() {

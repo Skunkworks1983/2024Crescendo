@@ -160,38 +160,18 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  //used for when not using rotation, keeps robot heading in the right direction using PID
-  public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
+  //used for keeping robot heading in the right direction using PID and the targeting buttion 
+  public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
 
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(-getGyroAngle());
 
-
-    if (fieldRelative) {
-
-      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        Units.feetToMeters(xFeetPerSecond),
-        Units.feetToMeters(yFeetPerSecond),
-        Units.degreesToRadians(degreesPerSecond),
-        Rotation2d.fromDegrees(getGyroAngle())
-      );
-
-    } else {
-
-      speeds = new ChassisSpeeds(
-        Units.feetToMeters(xFeetPerSecond),
-        Units.feetToMeters(yFeetPerSecond),
-        Units.degreesToRadians(degreesPerSecond)
-      );
-    }
-    SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
-
-    setModuleStates(moduleStates);
+    setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
   public void setHeadingController(double setpoint){
     headingController.setSetpoint(setpoint);
+    SmartDashboard.putNumber("Heading Setpoint", setpoint);
   }
 
 
@@ -222,6 +202,8 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
+    SmartDashboard.putNumber("X odometry Pos", getRobotPose().getX());
+    SmartDashboard.putNumber("Y odometry Pos", getRobotPose().getY());
   }
 
 

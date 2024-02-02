@@ -82,7 +82,7 @@ public class Constants {
 
     public class HeadingControlPID {
 
-      public static final double KP = 0.9;
+      public static final double KP = 6.5;
       public static final double KI = 0;
       public static final double KD = 0;
 
@@ -102,9 +102,11 @@ public class Constants {
   public static final String CANIVORE_NAME = "Canivore_1";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
 
-  // Field dimensions
+  // Field dimensions and positions
   public static final double FIELD_X_LENGTH = 26.291667; // feet
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
+  public static final double TARGETING_POSITION_X = 0;
+  public static final double TARGETING_POSITION_Y = 0;
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
