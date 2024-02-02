@@ -10,7 +10,6 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
-
 public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
@@ -33,7 +32,7 @@ public class SwerveTeleop extends Command {
   public void execute() {
 
     if(Math.abs(oi.getRightX())<=0.1 && !deadzone){
-      drivebase.setHeadingController(drivebase.getGyroAngle());
+      drivebase.setHeadingController(-drivebase.getGyroAngle());
       deadzone = true;
     }
     if(Math.abs(oi.getRightX())>0.1 && deadzone){

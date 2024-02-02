@@ -35,19 +35,16 @@ public class Constants{
     public static final int BUTTON_STICK = 2;
   }
 
-
-
   public class DrivebaseInfo{
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
-    public static final double WHEEL_DIAMETER = .33333333;
+    public static final double WHEEL_DIAMETER = .33333333*0.9691;
     
-    //public static final int TALON_TICKS_PER_MOTOR_REV = 2048;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 1.895833333; // set this
-    public static final double TRANSLATION_Y = 1.895833333; // set this
+    public static final double TRANSLATION_X = 23.0/12.0/2.0;
+    public static final double TRANSLATION_Y = 23.0/12.0/2.0;
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 0.778564453125;
@@ -65,14 +62,13 @@ public class Constants{
   public static final double PATHPLANNER_DRIVE_KI=.0;
   public static final double PATHPLANNER_DRIVE_KF=.0;
 
-  public static final double PATHPLANNER_TURN_KP = 1;
+  public static final double PATHPLANNER_TURN_KP = 8;
   public static final double PATHPLANNER_TURN_KD=.0;
   public static final double PATHPLANNER_TURN_KI=.0;
   public static final double PATHPLANNER_TURN_KF=.0;
 
-  public static final double PATHPLANNER_MAX_METERS_PER_SECOND=1;
-  public static final double PATHPLANNER_MAX_RADIANS_PER_SECOND=3.5;
-
+  public static final double PATHPLANNER_MAX_METERS_PER_SECOND=5;
+  public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS=0.413;
   }
 
 
@@ -84,26 +80,26 @@ public class Constants{
       // Turning Motor PID Constants
       public static final double KP = .005;
       public static final double KI = 0;
-      public static final double KD = 0;//.003;
+      public static final double KD = 0.0004;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
-      public static final double TURN_PID_TOLERANCE = 2;
+      public static final double TURN_PID_TOLERANCE = .5;
     }
 
     public class DrivePID{
 
       // Velocity Mode PID Constants
-      public static final double KP = .25;
-      public static final double KI = 0;
-      public static final double KD = 0; // used to be 0
-      public static final double KF = 0;
+      public static final double KP = .30;//was .35 at highest
+      public static final double KI = .003;//was 0
+      public static final double KD = 0.001;
+      public static final double KF = .11;//6 revs .17 //12 1.5
     }
 
     public class HeadingControlPID{
 
-      public static final double KP = 0.9;
+      public static final double KP = 2;
       public static final double KI = 0;
-      public static final double KD = 0;
+      public static final double KD = 0.04;
 
     }
   }

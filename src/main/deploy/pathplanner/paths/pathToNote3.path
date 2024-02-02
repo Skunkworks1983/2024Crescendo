@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 2.5607834674386933,
+        "y": 6.707344943517094
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 6.5
+        "x": 1.6040609524828078,
+        "y": 6.655908249159857
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "new pickup 2"
     },
     {
       "anchor": {
-        "x": 4.494803175070009,
-        "y": 6.481023488362766
+        "x": 2.3961860455049235,
+        "y": 5.637461700988565
       },
       "prevControl": {
-        "x": 3.4948031750700093,
-        "y": 7.481023488362766
-      },
-      "nextControl": {
-        "x": 5.494803175070009,
-        "y": 5.481023488362766
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.0,
-        "y": 1.0
-      },
-      "prevControl": {
-        "x": 6.75,
-        "y": 2.5
+        "x": 1.542336919260305,
+        "y": 6.048955255805248
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "new pickup 3"
     }
   ],
   "rotationTargets": [],
@@ -55,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "5PeiceAutoWithoutCommands",
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

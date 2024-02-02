@@ -66,11 +66,20 @@ public class SwerveModule extends SubsystemBase {
     // SmartDashboard.putNumber("velocity mode ticks speed", speed);
     // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
     velocityController.Slot = 0;
+
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
   public void setTurnMotorSpeed(double speed) {
     turnMotor.set(speed);
+  }
+
+  public double getTurnError(){
+    return turnController.getPositionError();
+  }
+
+  public double getDriveError(){
+    return driveMotor.getClosedLoopError().getValueAsDouble();//closedloop error
   }
 
   public double getDriveEncoderPosition() {             // gets drive encoder as distance traveled in feet
@@ -93,7 +102,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**gets turn encoder as degrees, -180 180*/ 
-  public double getTurnEncoder() {               
+  public double getTurnEncoder() {   //should be in radians!            
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   
@@ -102,6 +111,17 @@ public class SwerveModule extends SubsystemBase {
     return angle;
   }
 
+  public void setPID(double p, double i, double d){
+Slot0Configs slot0Configs = new Slot0Configs();
+  
+    slot0Configs.kP = p;
+    slot0Configs.kI = i;
+    slot0Configs.kD = d;
+
+    driveMotor.getConfigurator().apply(slot0Configs);
+
+
+  }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(

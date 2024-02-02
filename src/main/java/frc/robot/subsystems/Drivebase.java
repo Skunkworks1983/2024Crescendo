@@ -13,7 +13,6 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -44,6 +43,7 @@ public class Drivebase extends SubsystemBase {
   PIDController headingController = new PIDController(Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI, Constants.PIDControllers.HeadingControlPID.KD);
 
   // locations of the modules, x positive forward y positive left
+  
   Translation2d leftFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
       Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
@@ -68,7 +68,7 @@ public class Drivebase extends SubsystemBase {
 
   SwerveModule backRight = new SwerveModule(Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
       Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET);
-
+  SwerveModule[] modules = new SwerveModule[]{frontLeft,frontRight,backLeft,backRight};
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
       leftFrontLocation, rightFrontLocation, leftBackLocation, rightBackLocation);
@@ -96,6 +96,10 @@ public class Drivebase extends SubsystemBase {
     );
     headingController.enableContinuousInput(0, 360);
     SmartDashboard.putData("Field Pos", odometryFieldPos);
+
+    SmartDashboard.putNumber("testTurnP",0);
+    SmartDashboard.putNumber("testTurnI",0);
+    SmartDashboard.putNumber("testTurnD",0);
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -119,10 +123,10 @@ public class Drivebase extends SubsystemBase {
       }, 
       position
     );
-    System.out.println("reset odometery is running");
-    System.out.println("position x: "+position.getX());
-    System.out.println("position y: "+position.getY());
-    System.out.println("position theta: "+position.getRotation());
+    //System.out.println("reset odometery is running");
+    //System.out.println("position x: "+position.getX());
+    //System.out.println("position y: "+position.getY());
+    //System.out.println("position theta: "+position.getRotation());
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
@@ -147,45 +151,26 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
+  public void setDriveDeadband(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {//change name
 
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(-getGyroAngle());
 
-
-    if (fieldRelative) {
-
-      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-          Units.feetToMeters(xFeetPerSecond),
-          Units.feetToMeters(yFeetPerSecond),
-          Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(-getGyroAngle()));
-
-    } else {
-
-      speeds = new ChassisSpeeds(
-          Units.feetToMeters(xFeetPerSecond),
-          Units.feetToMeters(yFeetPerSecond),
-          Units.degreesToRadians(degreesPerSecond));
-    }
-    System.out.println(xFeetPerSecond+" "+yFeetPerSecond+" "+degreesPerSecond);
-    SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
-
-    setModuleStates(moduleStates);
-  }
+    setDrive(xFeetPerSecond,yFeetPerSecond,degreesPerSecond,fieldRelative);
+}
 
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
-    
+    SmartDashboard.putNumber("desired rotation", chassisSpeeds.omegaRadiansPerSecond);
     setDrive(
       Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
       Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
       Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
     false
     );
-    System.out.println("setDrive x m/s: " + chassisSpeeds.vxMetersPerSecond);
-    System.out.println("setDrive y m/s: " + chassisSpeeds.vyMetersPerSecond);
-    System.out.println("setDrive theta r/s: " + chassisSpeeds.omegaRadiansPerSecond);
+    //System.out.println("setDrive x m/s: " + chassisSpeeds.vxMetersPerSecond);
+    //System.out.println("setDrive y m/s: " + chassisSpeeds.vyMetersPerSecond);
+    //System.out.println("setDrive theta r/s: " + chassisSpeeds.omegaRadiansPerSecond);
+    //SmartDashboard.putNumber("set radians/second", chassisSpeeds.omegaRadiansPerSecond);
   }
 
   public void setHeadingController(double setpoint){
@@ -202,7 +187,9 @@ public class Drivebase extends SubsystemBase {
   }
 
   public Pose2d getRobotPose() {
-    return odometry.getPoseMeters();
+    Pose2d a =odometry.getPoseMeters();
+    a.getRotation();
+    return a;
   }
 
   @Override
@@ -218,6 +205,22 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
+
+      System.out.println("DRIVE ERROR: " + frontLeft.getDriveError());
+      
+    SmartDashboard.putNumberArray("drive basic error", new double[]{
+      Math.abs(frontLeft.getDriveError()),
+      Math.abs(frontRight.getDriveError()),
+      Math.abs(backRight.getDriveError()),
+      Math.abs(backLeft.getDriveError())
+    });
+      System.out.println("TURN ERROR: " + frontLeft.getTurnError());
+      SmartDashboard.putNumberArray("turn basic error", new double[]{
+        Math.abs(frontLeft.getTurnError()),
+        Math.abs(frontRight.getTurnError()),
+        Math.abs(backLeft.getTurnError()),
+        Math.abs(backRight.getTurnError())
+      });
   }
   
   public static Drivebase getInstance() {
@@ -235,24 +238,16 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     backLeft.getSwerveState(),
     backRight.getSwerveState()
   );
-    ChassisSpeeds chassisSpeedsMinus= new ChassisSpeeds(
-    -chassisSpeeds.vxMetersPerSecond,
-    -chassisSpeeds.vyMetersPerSecond,
-    chassisSpeeds.omegaRadiansPerSecond
-  );
-  System.out.println("xMetersChassisSpeeds: "+chassisSpeedsMinus.vxMetersPerSecond);
-  System.out.println("yMetersChassisSpeeds: "+chassisSpeedsMinus.vyMetersPerSecond);
-  System.out.println("thetaMetersChassisSpeeds: "+chassisSpeedsMinus.omegaRadiansPerSecond);
 
-  return chassisSpeedsMinus;
+  return chassisSpeeds;
 }
 public void configurePathPlanner(){
 
   AutoBuilder.configureHolonomic(
     this::getRobotPose,
     this::resetOdometry,
-    this::getRobotRelativeSpeeds, // uses -x,-y
-    this::setDriveChassisSpeed, // uses -x,-y
+    this::getRobotRelativeSpeeds, 
+    this::setDriveChassisSpeed,
     new HolonomicPathFollowerConfig(
       new PIDConstants(
         Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP, 
@@ -265,14 +260,14 @@ public void configurePathPlanner(){
         Constants.PathPlannerInfo.PATHPLANNER_TURN_KD
       ),
       Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
-      Constants.PathPlannerInfo.PATHPLANNER_MAX_RADIANS_PER_SECOND,
+      Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS,
       new ReplanningConfig()
     ), 
     () -> {
       var alliance = DriverStation.getAlliance();
       if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
-      }  
+      }
       return false;
     }, 
     this
@@ -285,7 +280,18 @@ public void configurePathPlanner(){
   }
 
   public Command followAutoTrajectory(String autoName) {
-    PathPlannerAuto auto = new PathPlannerAuto(autoName);
-    return auto;
+    return new PathPlannerAuto(autoName);
   }
-}
+
+
+  public void testResetTurnMotorPID(){
+    for(SwerveModule module : new SwerveModule[]{frontLeft,frontRight,backLeft,backRight}){
+      module.setPID(
+        SmartDashboard.getNumber("testTurnP",1.0),
+        SmartDashboard.getNumber("testTurnI",1.0),
+        SmartDashboard.getNumber("testTurnD",1.0)
+      
+      );
+     }
+    }
+  }
