@@ -78,40 +78,6 @@ public class SwerveTeleop extends Command {
         true
       );
     }
-
-    /*
-    if(Math.abs(oi.getRightX())<=Constants.X_JOY_DEADBAND && !inJoystickDeadzone){
-      drivebase.setHeadingController(-drivebase.getGyroAngle());
-      inJoystickDeadzone = true;
-    }
-    if(Math.abs(oi.getRightX())>Constants.X_JOY_DEADBAND && inJoystickDeadzone){
-      inJoystickDeadzone = false;
-    }
-
-    if(!inJoystickDeadzone){
-
-      drivebase.setDrive(
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND) * Constants.OI_TURN_SPEED_RATIO,
-        true
-      );
-    }
-    else{
-      if(oi.getTargetingButton()) {
-
-        double targetingAngle = -Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX()));
-        drivebase.setHeadingController(Math.toDegrees(targetingAngle));
-        System.out.println("Turning to: "+targetingAngle);
-      }
-
-      drivebase.setDriveTurnPos(
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        true
-      );
-    }
-      */
   }
 
   // Called once the command ends or is interrupted.
