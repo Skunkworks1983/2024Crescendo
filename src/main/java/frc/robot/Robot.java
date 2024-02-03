@@ -40,8 +40,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
-    if (swerve != null) {//cancels swerve teleop command to make sure it does not interfere with auto
+    //cancels swerve teleop command to make sure it does not interfere with auto
+    if (swerve != null) {
       swerve.cancel();
     }
 
