@@ -20,7 +20,6 @@ public class Robot extends TimedRobot {
 
   Drivebase drivebase = Drivebase.getInstance();
   OI oi = OI.getInstance();
-  DirectionTest directionTest = new DirectionTest(drivebase, oi, Constants.DIRECTION.X, false);
 
   @Override
   public void robotInit() {

@@ -2,14 +2,14 @@
 
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
-public class Constants{
-
-
+public class Constants {
 
   // Motor, Encoder, & Joystick IDS
-  public class IDS{
+  public class IDS {
 
     // Drive Motor IDS
     public static final int RIGHT_FRONT_DRIVE = 7;
@@ -33,9 +33,12 @@ public class Constants{
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
+    public static final int TARGETING_BUTTION = 11;
   }
 
-  public class DrivebaseInfo{
+
+
+  public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
     public static final double WHEEL_DIAMETER = .33333333*0.9691;
@@ -43,14 +46,71 @@ public class Constants{
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 23.0/12.0/2.0;
-    public static final double TRANSLATION_Y = 23.0/12.0/2.0;
+    public static final double TRANSLATION_X = 1.895833333/2; //feet
+    public static final double TRANSLATION_Y = 1.895833333/2; //feet
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 0.778564453125;
-    public static final double FRONT_RIGHT_OFFSET = 0.122802734375;
-    public static final double BACK_LEFT_OFFSET = 0.622314453125;
-    public static final double BACK_RIGHT_OFFSET = 0.287841796875;
+    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0; //rotations
+    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0; //rotations
+    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0; //rotations
+    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0; //rotations
+  }
+
+
+
+  public class PIDControllers {
+
+    public class TurnPID {
+
+      // Turning Motor PID Constants
+      public static final double KP = .005;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double PID_LOW_LIMIT = -.8;
+      public static final double PID_HIGH_LIMIT = .8;
+      public static final double TURN_PID_TOLERANCE = .5;
+    }
+
+    public class DrivePID {
+
+      // Velocity Mode PID Constants
+      public static final double KP = .25;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double KF = 0;
+    }
+
+    public class HeadingControlPID {
+
+      public static final double KP = 6.5;
+      public static final double KI = 0;
+      public static final double KD = 0.04;
+
+    }
+  }
+
+  
+  // Speed & Deadband
+  public static final double X_JOY_DEADBAND = .1;
+  public static final double Y_JOY_DEADBAND = .1;
+  public static final double ROT_JOY_DEADBAND = .2;
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
+  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
+  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
+  public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
+  public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
+  public static final String CANIVORE_NAME = "Canivore_1";
+  public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
+  public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
+
+  // Field dimensions and positions
+  public static final double FIELD_X_LENGTH = 26.291667; // feet
+  public static final double FIELD_Y_LENGTH = 54.2708333; // feet
+  public static final double TARGETING_POSITION_X = 0; //the position that the targeting buttion will point at
+  public static final double TARGETING_POSITION_Y = 0;
+  
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
   }
 
   public class PathPlannerInfo{
@@ -69,64 +129,5 @@ public class Constants{
 
   public static final double PATHPLANNER_MAX_METERS_PER_SECOND=5;
   public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS=0.413;
-  }
-
-
-
-  public class PIDControllers{
-
-    public class TurnPID{
-
-      // Turning Motor PID Constants
-      public static final double KP = .005;
-      public static final double KI = 0;
-      public static final double KD = 0.0004;
-      public static final double PID_LOW_LIMIT = -.8;
-      public static final double PID_HIGH_LIMIT = .8;
-      public static final double TURN_PID_TOLERANCE = .5;
-    }
-
-    public class DrivePID{
-
-      // Velocity Mode PID Constants
-      public static final double KP = .30;//was .35 at highest
-      public static final double KI = .003;//was 0
-      public static final double KD = 0.001;
-      public static final double KF = .11;//6 revs .17 //12 1.5
-    }
-
-    public class HeadingControlPID{
-
-      public static final double KP = 2;
-      public static final double KI = 0;
-      public static final double KD = 0.04;
-
-    }
-  }
-
-  
-  // Speed & Deadband
-  public static final double X_JOY_DEADBAND = .1;
-  public static final double Y_JOY_DEADBAND = .1;
-  public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
-  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
-  public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
-  public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
-  public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
-  public static final String CANIVORE_NAME = "Canivore_1";
-
-  // Field dimensions
-  public static final double FIELD_X_LENGTH = 26.291667; // feet
-  public static final double FIELD_Y_LENGTH = 54.2708333; // feet
-
-  // swerve test directions
-  public static enum DIRECTION {
-    X,
-    Y
-  }
-  
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
   }
 }

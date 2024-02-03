@@ -16,15 +16,14 @@ public class OI extends SubsystemBase {
   Joystick rightJoystick;
   Joystick buttonStick;
 
-  JoystickButton driveForward;
-
   JoystickButton switchMotors;
+  JoystickButton targeting;  
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    driveForward = new JoystickButton(buttonStick, 11);
+    targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
   }
 
 
@@ -34,16 +33,11 @@ public class OI extends SubsystemBase {
   }
 
   public double getLeftX() { // Used to control the x field relative speed of the robot in SwerveTeleop.
-    return -leftJoystick.getX(); 
+    return leftJoystick.getX(); 
   }
 
   public double getLeftY() { // Used to control the y field relative speed of the robot in SwerveTeleop.
-    if(-leftJoystick.getY() <= 0.1 && driveForward.getAsBoolean()){
-      return -1;
-    }
-    else{
-    return -leftJoystick.getY(); 
-    }  
+    return leftJoystick.getY();
   }
 
   public double getRightX() { // Used to control the rotational speed of the robot in SwerveTeleop.
@@ -51,7 +45,11 @@ public class OI extends SubsystemBase {
   }
 
   public double getRightY() {
-    return -rightJoystick.getY();
+    return rightJoystick.getY();
+  }
+
+  public boolean getTargetingButton() {
+    return targeting.getAsBoolean();
   }
 
   public static OI getInstance() {

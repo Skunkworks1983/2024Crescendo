@@ -31,7 +31,12 @@ public class SwerveModule extends SubsystemBase {
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
 
-  PIDController turnController = new PIDController(Constants.PIDControllers.TurnPID.KP, Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD);
+  PIDController turnController = new PIDController(
+    Constants.PIDControllers.TurnPID.KP, 
+    Constants.PIDControllers.TurnPID.KI, 
+    Constants.PIDControllers.TurnPID.KD
+  );
+
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
@@ -60,7 +65,8 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.getConfigurator().apply(slot0Configs);
   }
 
-  public void setDriveMotorVelocity(double feetPerSecond) { // sets drive motor in velocity mode (set feet per second)
+  // sets drive motor in velocity mode (set feet per second)
+  public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
     // SmartDashboard.putNumber("velocity mode ticks speed", speed);
@@ -74,21 +80,17 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.set(speed);
   }
 
-  public double getTurnError(){
-    return turnController.getPositionError();
-  }
+  // gets drive encoder as distance traveled in feet
+  public double getDriveEncoderPosition() {
 
-  public double getDriveError(){
-    return driveMotor.getClosedLoopError().getValueAsDouble();//closedloop error
-  }
-
-  public double getDriveEncoderPosition() {             // gets drive encoder as distance traveled in feet
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder", distance);
     return distance;
   }
 
-  public double getDriveEncoderVelocity() {             // returns drive encoder velocity in feet per second
+  // returns drive encoder velocity in feet per second
+  public double getDriveEncoderVelocity() {
+
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
