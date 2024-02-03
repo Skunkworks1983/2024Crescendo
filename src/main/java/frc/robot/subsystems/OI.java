@@ -7,8 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.TurnModuleTest;
-import frc.robot.commands.testResetTurnMotorPID;
 import frc.robot.constants.Constants;
 
 public class OI extends SubsystemBase {
@@ -21,18 +19,12 @@ public class OI extends SubsystemBase {
   JoystickButton driveForward;
 
   JoystickButton switchMotors;
-  JoystickButton testTurn;
-    JoystickButton setTurnPID;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    testTurn = new JoystickButton(rightJoystick,0);
-    setTurnPID = new JoystickButton(leftJoystick,0);
     driveForward = new JoystickButton(buttonStick, 11);
-    setTurnPID.onTrue(new testResetTurnMotorPID());
-    driveForward.onTrue(new TurnModuleTest(90.0));
   }
 
 
