@@ -53,7 +53,7 @@ public class SwerveTeleop extends Command {
       setpointHeadingControl = -drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
-    else{
+    else {
       //waits a second to allow for extra turn momentum to dissipate
       if(timeAtLastInput - timer.getFPGATimestamp() < Constants.TIME_UNTIL_HEADING_CONTROL){
         setpointHeadingControl = -drivebase.getGyroAngle();
@@ -70,7 +70,7 @@ public class SwerveTeleop extends Command {
         true
       );
     }
-    else{
+    else {
       drivebase.setHeadingController(desiredHeadingSetpoint);
       drivebase.setDriveTurnPos(
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,

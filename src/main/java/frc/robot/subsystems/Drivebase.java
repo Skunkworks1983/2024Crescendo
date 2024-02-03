@@ -179,7 +179,7 @@ public class Drivebase extends SubsystemBase {
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
-  public void setHeadingController(double setpoint){
+  public void setHeadingController(double setpoint) {
     headingController.setSetpoint(setpoint);
     SmartDashboard.putNumber("Heading Setpoint", setpoint);
   }
@@ -230,7 +230,7 @@ public class Drivebase extends SubsystemBase {
     return chassisSpeeds;
 }
 
-public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
+public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
   setDrive(
     Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
     Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
@@ -239,7 +239,7 @@ public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
   );
 }
 
-public void configurePathPlanner(){
+public void configurePathPlanner() {
 
   AutoBuilder.configureHolonomic(
     this::getRobotPose,

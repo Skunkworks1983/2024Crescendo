@@ -41,7 +41,7 @@ public class Constants {
   public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
-    public static final double WHEEL_DIAMETER = .33333333*0.9691;//rough aproxamation from diffrence trajectory.
+    public static final double WHEEL_DIAMETER = .33333333*0.9691;//aproxamation based on travel distance of trajectory.
     
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
