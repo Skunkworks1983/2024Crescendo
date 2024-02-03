@@ -198,9 +198,9 @@ public class Drivebase extends SubsystemBase {
 
   public Pose2d getRobotPose() {
     // intentionally negating XY axes
-    Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
+    //Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
 
-    return poseOutput;
+    return odometry.getPoseMeters();//poseOutput;
   }
 
 @Override
@@ -216,8 +216,6 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
-    SmartDashboard.putNumber("X odometry Pos", getRobotPose().getX());
-    SmartDashboard.putNumber("Y odometry Pos", getRobotPose().getY());
   }
   
   public static Drivebase getInstance() {
