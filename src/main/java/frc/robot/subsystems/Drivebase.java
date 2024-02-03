@@ -5,6 +5,12 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,9 +22,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
@@ -101,12 +109,16 @@ public class Drivebase extends SubsystemBase {
 
   private Drivebase() {
     gyro.reset();
-    
+    configurePathPlanner();
     resetOdometry(
       Constants.START_POSITION
     );
     headingController.enableContinuousInput(0, 360);
     SmartDashboard.putData("Field Pos", odometryFieldPos);
+
+    SmartDashboard.putNumber("testTurnP",0);
+    SmartDashboard.putNumber("testTurnI",0);
+    SmartDashboard.putNumber("testTurnD",0);
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -121,7 +133,6 @@ public class Drivebase extends SubsystemBase {
     return -angle;
     // negative because gyro reads differently than wpilib
   }
-
   public void resetOdometry(Pose2d position) {
     odometry.resetPosition(
       Rotation2d.fromDegrees(getGyroAngle()), 
@@ -133,7 +144,6 @@ public class Drivebase extends SubsystemBase {
       }, 
       position
     );
-
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
@@ -164,12 +174,12 @@ public class Drivebase extends SubsystemBase {
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
 
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(-getGyroAngle());
+    degreesPerSecond = headingController.calculate(getGyroAngle());
 
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
-  public void setHeadingController(double setpoint){
+  public void setHeadingController(double setpoint) {
     headingController.setSetpoint(setpoint);
     SmartDashboard.putNumber("Heading Setpoint", setpoint);
   }
@@ -183,10 +193,7 @@ public class Drivebase extends SubsystemBase {
   } 
 
   public Pose2d getRobotPose() {
-    // intentionally negating XY axes
-    Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
-
-    return poseOutput;
+    return odometry.getPoseMeters();
   }
 
   @Override
@@ -202,16 +209,76 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
-    SmartDashboard.putNumber("X odometry Pos", getRobotPose().getX());
-    SmartDashboard.putNumber("Y odometry Pos", getRobotPose().getY());
   }
-
-
   
   public static Drivebase getInstance() {
     if (drivebase == null) {
       drivebase = new Drivebase();
     }
     return drivebase;
+  }
+
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+  
+    ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(
+      frontLeft.getSwerveState(),
+      frontRight.getSwerveState(),
+      backLeft.getSwerveState(),
+      backRight.getSwerveState()
+    );
+
+    return chassisSpeeds;
+}
+
+public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
+  setDrive(
+    Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
+    Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
+    Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
+    //path planner uses robot reletive drive command.
+    false
+  );
+}
+
+public void configurePathPlanner() {
+
+  AutoBuilder.configureHolonomic(
+    this::getRobotPose,
+    this::resetOdometry,
+    this::getRobotRelativeSpeeds, 
+    this::setDriveChassisSpeed,
+    new HolonomicPathFollowerConfig(
+      new PIDConstants(
+        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP, 
+        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KI, 
+        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KD
+      ),
+      new PIDConstants(
+        Constants.PathPlannerInfo.PATHPLANNER_TURN_KP, 
+        Constants.PathPlannerInfo.PATHPLANNER_TURN_KI, 
+        Constants.PathPlannerInfo.PATHPLANNER_TURN_KD
+      ),
+      Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
+      Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS,
+      new ReplanningConfig()
+    ), 
+    () -> {
+      var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+      }
+      return false;
+    }, 
+    this
+  );
+
+}
+  public Command followPathCommand(String pathName) {
+    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+    return AutoBuilder.followPath(path);
+  }
+
+  public Command followAutoTrajectory(String autoName) {
+    return new PathPlannerAuto(autoName);
   }
 }
