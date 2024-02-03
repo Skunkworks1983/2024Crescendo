@@ -144,10 +144,6 @@ public class Drivebase extends SubsystemBase {
       }, 
       position
     );
-    //System.out.println("reset odometery is running");
-    //System.out.println("position x: "+position.getX());
-    //System.out.println("position y: "+position.getY());
-    //System.out.println("position theta: "+position.getRotation());
     SmartDashboard.putBoolean("odometry reset pos", true);
   }
 
@@ -197,13 +193,10 @@ public class Drivebase extends SubsystemBase {
   } 
 
   public Pose2d getRobotPose() {
-    // intentionally negating XY axes
-    //Pose2d poseOutput = new Pose2d(-odometry.getPoseMeters().getX(), -odometry.getPoseMeters().getY(), odometry.getPoseMeters().getRotation());
-
-    return odometry.getPoseMeters();//poseOutput;
+    return odometry.getPoseMeters();
   }
 
-@Override
+  @Override
   public void periodic() {
     pose = odometry.update(
       Rotation2d.fromDegrees(getGyroAngle()),
@@ -225,16 +218,16 @@ public class Drivebase extends SubsystemBase {
     return drivebase;
   }
 
-public ChassisSpeeds getRobotRelativeSpeeds(){
+  public ChassisSpeeds getRobotRelativeSpeeds() {
   
-  ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(
-    frontLeft.getSwerveState(),
-    frontRight.getSwerveState(),
-    backLeft.getSwerveState(),
-    backRight.getSwerveState()
-  );
+    ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(
+      frontLeft.getSwerveState(),
+      frontRight.getSwerveState(),
+      backLeft.getSwerveState(),
+      backRight.getSwerveState()
+    );
 
-  return chassisSpeeds;
+    return chassisSpeeds;
 }
 
 public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
@@ -242,7 +235,7 @@ public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds){
     Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
     Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
     Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
-  false
+  false//path planner uses robot reletive drive command.
   );
 }
 

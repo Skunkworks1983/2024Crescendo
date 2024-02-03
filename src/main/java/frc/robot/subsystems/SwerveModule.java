@@ -99,12 +99,12 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModuleState getSwerveState(){
     return new SwerveModuleState(
       Units.feetToMeters(getDriveEncoderVelocity()),
-      Rotation2d.fromDegrees(getTurnEncoder())//((getTurnEncoder()+180)%360)-180)
+      Rotation2d.fromDegrees(getTurnEncoder())
     );
   }
 
   /**gets turn encoder as degrees, -180 180*/ 
-  public double getTurnEncoder() {   //should be in radians!            
+  public double getTurnEncoder() {   //TODO: change from degrees to radians.            
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   

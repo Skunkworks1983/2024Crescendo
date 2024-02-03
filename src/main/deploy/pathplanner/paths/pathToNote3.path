@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6040609524828078,
-        "y": 6.655908249159857
+        "x": 1.2534625931668275,
+        "y": 6.652690408570471
       },
       "isLocked": false,
       "linkedName": "new pickup 2"
@@ -20,8 +20,8 @@
         "y": 5.637461700988565
       },
       "prevControl": {
-        "x": 1.542336919260305,
-        "y": 6.048955255805248
+        "x": 2.3759038987272283,
+        "y": 5.622006315102678
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PeiceAutoWithoutCommands",
+  "folder": "5PieceAutoWithoutCommands",
   "previewStartingState": null,
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

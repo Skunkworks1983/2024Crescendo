@@ -14,13 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote2"
+            "pathName": "pathToNote1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote4"
+            "pathName": "pathToNote2"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote5"
+            "pathName": "pathToNote4"
           }
         }
       ]

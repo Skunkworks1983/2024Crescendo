@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.SwerveTeleop;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
@@ -42,37 +41,30 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    if (swerve != null) {
+    if (swerve != null) {//cancels swerve teleop command to make sure it does not interfere with auto
       swerve.cancel();
     }
 
-    //m_autonomousCommand = Drivebase.getInstance().followPathCommand("testPath");
-    m_autonomousCommand = drivebase.followAutoTrajectory("Copy of New Auto");
+    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAutoWithoutCommands");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-      
     }
-        System.out.println("autonomousInit:" + Drivebase.getInstance().getRobotPose().getX() + ", " +Drivebase.getInstance().getRobotPose().getY());
-
   }
 
   @Override
   public void autonomousPeriodic() {}
 
   @Override
-  public void autonomousExit() {
-    System.out.println("autonomousExit:" + Drivebase.getInstance().getRobotPose().getX() + ", " +Drivebase.getInstance().getRobotPose().getY());
-  }
+  public void autonomousExit() {}
 
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    drivebase.setSwerveAsDefaultCommand();
     swerve=new SwerveTeleop(drivebase, oi);
     swerve.schedule();
-    //drivebase.setSwerveAsDefaultCommand();
-    //directionTest.schedule();
   }
 
   @Override

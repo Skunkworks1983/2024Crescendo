@@ -3,54 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.807326291344313,
-        "y": 7.427458664441138
+        "x": 2.3961860455049235,
+        "y": 5.637461700988565
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.807326291344313,
-        "y": 7.417171325570721
+        "x": 2.344749351152838,
+        "y": 5.647749039858983
       },
       "isLocked": false,
-      "linkedName": "new pickup 1"
+      "linkedName": "new pickup 3"
     },
     {
       "anchor": {
-        "x": 3.507218643517066,
-        "y": 6.2135526777370735
+        "x": 2.5196341119499284,
+        "y": 4.341257003316012
       },
       "prevControl": {
-        "x": 5.810444480069863,
-        "y": 6.601011229680535
-      },
-      "nextControl": {
-        "x": 2.406473384382437,
-        "y": 6.028380578069566
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.5607834674386933,
-        "y": 6.707344943517094
-      },
-      "prevControl": {
-        "x": 1.490900224915316,
-        "y": 6.553034860460838
+        "x": 1.758371035539064,
+        "y": 4.752750558132695
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "new pickup 2"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.25,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -140.0,
+    "rotation": 140.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PeiceAutoWithoutCommands",
+  "folder": "5PieceAutoWithoutCommands",
   "previewStartingState": null,
   "useDefaultConstraints": true
 }
