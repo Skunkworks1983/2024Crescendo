@@ -44,19 +44,19 @@ public class SwerveTeleop extends Command {
     if(Math.abs(oi.getRightX())>Constants.ROT_JOY_DEADBAND) {
 
       velocity = oi.getRightX() * Constants.OI_TURN_SPEED_RATIO;
-      setpointHeadingControl = -drivebase.getGyroAngle();
+      setpointHeadingControl = drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else if(oi.getTargetingButton()) {
       //calculates our current position on the field and where we are targeting to and figures out the angle to point at
-      desiredHeadingSetpoint = Units.radiansToDegrees(-Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
-      setpointHeadingControl = -drivebase.getGyroAngle();
+      desiredHeadingSetpoint = Units.radiansToDegrees(Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
+      setpointHeadingControl = drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
     }
     else {
       //waits a second to allow for extra turn momentum to dissipate
       if(timeAtLastInput - timer.getFPGATimestamp() < Constants.TIME_UNTIL_HEADING_CONTROL){
-        setpointHeadingControl = -drivebase.getGyroAngle();
+        setpointHeadingControl = drivebase.getGyroAngle();
       desiredHeadingSetpoint = setpointHeadingControl;
       }
     }

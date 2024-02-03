@@ -174,7 +174,7 @@ public class Drivebase extends SubsystemBase {
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
 
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(-getGyroAngle());
+    degreesPerSecond = headingController.calculate(getGyroAngle());
 
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }

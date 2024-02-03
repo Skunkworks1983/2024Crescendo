@@ -42,6 +42,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
     driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
     turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
+    turnMotor.restoreFactoryDefaults();
     turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
