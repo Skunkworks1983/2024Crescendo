@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
+import frc.robot.utils.SmartPIDController;
 
 public class Drivebase extends SubsystemBase {
 
@@ -31,10 +31,12 @@ public class Drivebase extends SubsystemBase {
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
-  PIDController headingController = new PIDController(
+  SmartPIDController headingController = new SmartPIDController(
     Constants.PIDControllers.HeadingControlPID.KP, 
     Constants.PIDControllers.HeadingControlPID.KI, 
-    Constants.PIDControllers.HeadingControlPID.KD
+    Constants.PIDControllers.HeadingControlPID.KD,
+    "Heading Controller",
+    true
   );
 
   // locations of the modules, x positive forward y positive left
@@ -61,22 +63,26 @@ public class Drivebase extends SubsystemBase {
 
   SwerveModule frontLeft = new SwerveModule(
     Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
-    Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET
+    Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET,
+    "Front Left"
   );
 
   SwerveModule frontRight = new SwerveModule(
     Constants.IDS.RIGHT_FRONT_DRIVE, Constants.IDS.RIGHT_FRONT_TURN,
-    Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET
+    Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET,
+    "Front Right"
   );
 
   SwerveModule backLeft = new SwerveModule(
     Constants.IDS.LEFT_BACK_DRIVE, Constants.IDS.LEFT_BACK_TURN,
-    Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET
+    Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET,
+    "Back Left"
   );
 
   SwerveModule backRight = new SwerveModule(
     Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
-    Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET
+    Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET,
+    "Back Right"
   );
 
 

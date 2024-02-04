@@ -15,7 +15,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -23,25 +22,33 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
+import frc.robot.utils.SmartPIDController;
 
 public class SwerveModule extends SubsystemBase {
 
   TalonFX driveMotor;
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
+  String modualPosition;
 
-  PIDController turnController = new PIDController(
-    Constants.PIDControllers.TurnPID.KP, 
-    Constants.PIDControllers.TurnPID.KI, 
-    Constants.PIDControllers.TurnPID.KD
-  );
+  SmartPIDController turnController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
+  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String modualPosition) {
     driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
     turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
     turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
+    turnMotor.restoreFactoryDefaults();
+    this.modualPosition = modualPosition;
+
+    turnController = new SmartPIDController(
+    Constants.PIDControllers.TurnPID.KP, 
+    Constants.PIDControllers.TurnPID.KI, 
+    Constants.PIDControllers.TurnPID.KD,
+    modualPosition + " Turn",
+    false
+    );
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
