@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -27,8 +28,9 @@ import frc.robot.constants.Constants;
 public class SwerveModule extends SubsystemBase {
 
   TalonFX driveMotor;
-  CANSparkMax turnMotor;
+  TalonFX turnMotor;
   CANcoder turnEncoder;
+  String canivoreName;
 
   PIDController turnController = new PIDController(
     Constants.PIDControllers.TurnPID.KP, 
@@ -38,10 +40,10 @@ public class SwerveModule extends SubsystemBase {
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
-    driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
-    turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
+  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String canivoreName) {
+    driveMotor = new TalonFX(driveMotorId, canivoreName);
+    turnMotor = new TalonFX(turnMotorId, canivoreName);
+    turnEncoder = new CANcoder(turnEncoderId, canivoreName);
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
@@ -50,8 +52,10 @@ public class SwerveModule extends SubsystemBase {
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
 
+    //reseting the configuration to default
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     driveMotor.getConfigurator().apply(talonConfig);
+    turnMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
     Slot0Configs slot0Configs = new Slot0Configs();
   
@@ -60,7 +64,11 @@ public class SwerveModule extends SubsystemBase {
     slot0Configs.kD = Constants.PIDControllers.DrivePID.KD;
     slot0Configs.kV = Constants.PIDControllers.DrivePID.KF;
 
-    driveMotor.getConfigurator().apply(slot0Configs);
+    TalonFXConfiguration driveConfigs = new TalonFXConfiguration();
+    driveConfigs.Slot0 = slot0Configs;
+    driveConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    driveMotor.getConfigurator().apply(driveConfigs);
   }
 
   // sets drive motor in velocity mode (set feet per second)
@@ -81,7 +89,7 @@ public class SwerveModule extends SubsystemBase {
   public double getDriveEncoderPosition() {
 
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
-    SmartDashboard.putNumber("drive encoder", distance);
+    SmartDashboard.putNumber("drive encoder " + turnMotor, distance);
     return distance;
   }
 
@@ -98,7 +106,7 @@ public class SwerveModule extends SubsystemBase {
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   
-    SmartDashboard.putNumber("turn encoder", angle);
+    SmartDashboard.putNumber("turn encoder" + turnMotor.getDeviceID(), angle);
 
     return angle;
   }
