@@ -44,7 +44,7 @@ public class Drivebase extends SubsystemBase {
     Constants.PIDControllers.HeadingControlPID.KI, 
     Constants.PIDControllers.HeadingControlPID.KD,
     "Heading Controller",
-    true
+    Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE
   );
 
   // locations of the modules, x positive forward y positive left

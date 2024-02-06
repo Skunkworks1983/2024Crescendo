@@ -30,26 +30,26 @@ public class SwerveModule extends SubsystemBase {
   TalonFX driveMotor;
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
-  String modualPosition;
+  String modulePosition;
 
   SmartPIDController turnController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String modualPosition) {
+  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String modulePosition) {
     driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
     turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
     turnMotor.restoreFactoryDefaults();
     turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
     turnMotor.restoreFactoryDefaults();
-    this.modualPosition = modualPosition;
+    this.modulePosition = modulePosition;
 
     turnController = new SmartPIDController(
-    Constants.PIDControllers.TurnPID.KP, 
-    Constants.PIDControllers.TurnPID.KI, 
-    Constants.PIDControllers.TurnPID.KD,
-    modualPosition + " Turn",
-    false
+      Constants.PIDControllers.TurnPID.KP, 
+      Constants.PIDControllers.TurnPID.KI, 
+      Constants.PIDControllers.TurnPID.KD,
+      modulePosition + " Turn",
+      Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE
     );
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();

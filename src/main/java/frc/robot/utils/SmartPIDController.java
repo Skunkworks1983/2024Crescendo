@@ -6,20 +6,16 @@ package frc.robot.utils;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.constants.Constants;
 
 /** Add your docs here. */
 public class SmartPIDController extends PIDController{
 
-
     public String name;
     public boolean smart;
 
-
-
     public SmartPIDController(double kp, double ki, double kd, String name, boolean smart) {
         super(kp, ki, kd);
-        //TODO Auto-generated constructor stub
-
 
         this.name = name;
         this.smart = smart;
@@ -32,7 +28,7 @@ public class SmartPIDController extends PIDController{
     @Override
     public double calculate(double measurement) {
 
-        if(smart) {
+        if(smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
             super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
             super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
@@ -46,7 +42,7 @@ public class SmartPIDController extends PIDController{
     @Override
     public double calculate(double measurement, double setpoint) {
 
-        if(smart) {
+        if(smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
             super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
             super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
