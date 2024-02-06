@@ -83,7 +83,7 @@ public class Constants {
 
     public class HeadingControlPID {
 
-      public static final double KP = 6.5;
+      public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
 
