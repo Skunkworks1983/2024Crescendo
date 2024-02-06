@@ -23,7 +23,26 @@ public class Constants {
     public static final int LEFT_FRONT_TURN = 9;
     public static final int LEFT_BACK_TURN = 12;
 
-      // Turning Encoders
+    //Collector Motor IDS
+    //stub
+    public static final int COLLECTOR_MOTOR = 0;
+    public static final int COLLECTOR_PIVOT_MOTOR = 0;
+
+    //Indexer Motor IDS
+    //stub
+    public static final int INDEXER_MOTOR = 0;
+
+    //Climber Motor IDS
+    //stub
+    public static final int CLIMBER_MOTOR_1 = 0;
+    public static final int CLIMBER_MOTOR_2 = 0;
+
+    //Shooter Motor IDS
+    //stub
+    public static final int SHOOTER_MOTOR = 0;
+    public static final int SHOOTER_PIVOT_MOTOR = 0;
+
+    //Turning Encoders
     public static final int RIGHT_FRONT_CAN_CODER = 8;
     public static final int RIGHT_BACK_CAN_CODER = 6;
     public static final int LEFT_FRONT_CAN_CODER = 4;

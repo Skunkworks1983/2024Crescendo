@@ -4,11 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
-  public Arm() {}
+//This is a stub subsystem
+public class Indexer extends SubsystemBase {
+
+    CANSparkMax indexerMotor = new CANSparkMax(Constants.IDS.INDEXER_MOTOR, MotorType.kBrushless);
+
+  /** Creates a new Climber. */
+  public Indexer() {
+    indexerMotor = new CanSparkMax(Constants.constants);
+
+  }
 
   @Override
   public void periodic() {

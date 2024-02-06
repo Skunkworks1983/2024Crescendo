@@ -7,15 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class TestCommandForPathPlanner extends Command {
+public class WaitDuration extends Command {
     Timer timer;
     double timeAtInit;
     double waitTime;
     
   /** Creates a new TestCommandForPathPlanner. */
-  public TestCommandForPathPlanner(double waitTime) {
+  public WaitDuration(double waitTime) {
     this.waitTime=waitTime;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +36,6 @@ public class TestCommandForPathPlanner extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timer.getFPGATimestamp()<(waitTime+timeAtInit));
+    return (timer.getFPGATimestamp()>(waitTime+timeAtInit));
   }
 }

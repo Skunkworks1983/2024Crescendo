@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.WaitDuration;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
@@ -22,7 +25,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-  }
+    }
 
   @Override
   public void robotPeriodic() {
@@ -45,7 +48,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAutoWithoutCommands");
+    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAuto");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
