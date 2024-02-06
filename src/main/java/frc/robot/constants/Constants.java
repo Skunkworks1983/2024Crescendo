@@ -41,14 +41,14 @@ public class Constants {
   public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
-    public static final double WHEEL_DIAMETER = .33333333;
     
-    //public static final int TALON_TICKS_PER_MOTOR_REV = 2048;
+    //aproxamation based on travel distance of trajectory. Value is in feet.
+    public static final double WHEEL_DIAMETER = .33333333*0.9691;    
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 1.895833333; //feet
-    public static final double TRANSLATION_Y = 1.895833333; //feet
+    public static final double TRANSLATION_X = 0.9479166665; //feet
+    public static final double TRANSLATION_Y = 0.9479166665; //feet
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0; //rotations
@@ -69,7 +69,7 @@ public class Constants {
       public static final double KD = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
-      public static final double TURN_PID_TOLERANCE = 2;
+      public static final double TURN_PID_TOLERANCE = .5;
     }
 
     public class DrivePID {
@@ -85,7 +85,7 @@ public class Constants {
 
       public static final double KP = 6.5;
       public static final double KI = 0;
-      public static final double KD = 0;
+      public static final double KD = 0.04;
 
     }
   }
@@ -112,5 +112,22 @@ public class Constants {
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  //pathplanner PID constants
+  public class PathPlannerInfo {
+
+    public static final double PATHPLANNER_DRIVE_KP = 2;
+    public static final double PATHPLANNER_DRIVE_KD=.0;
+    public static final double PATHPLANNER_DRIVE_KI=.0;
+    public static final double PATHPLANNER_DRIVE_KF=.0;
+
+    public static final double PATHPLANNER_TURN_KP = 8;
+    public static final double PATHPLANNER_TURN_KD=.0;
+    public static final double PATHPLANNER_TURN_KI=.0;
+    public static final double PATHPLANNER_TURN_KF=.0;
+
+    public static final double PATHPLANNER_MAX_METERS_PER_SECOND=5;
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS=0.413;//center to wheel
   }
 }

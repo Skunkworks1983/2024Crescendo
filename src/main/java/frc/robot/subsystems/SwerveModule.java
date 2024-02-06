@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -38,6 +39,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String modualPosition) {
     driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
     turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
+    turnMotor.restoreFactoryDefaults();
     turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
     turnMotor.restoreFactoryDefaults();
     this.modualPosition = modualPosition;
@@ -58,6 +60,7 @@ public class SwerveModule extends SubsystemBase {
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the tolerance of the turning pid controller.
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
+    talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     driveMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
     Slot0Configs slot0Configs = new Slot0Configs();
@@ -77,6 +80,7 @@ public class SwerveModule extends SubsystemBase {
     // SmartDashboard.putNumber("velocity mode ticks speed", speed);
     // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
     velocityController.Slot = 0;
+
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
@@ -100,8 +104,15 @@ public class SwerveModule extends SubsystemBase {
     return feetPerSecond;
   }
 
+  public SwerveModuleState getSwerveState(){
+    return new SwerveModuleState(
+      Units.feetToMeters(getDriveEncoderVelocity()),
+      Rotation2d.fromDegrees(getTurnEncoder())
+    );
+  }
+
   /**gets turn encoder as degrees, -180 180*/ 
-  public double getTurnEncoder() {               
+  public double getTurnEncoder() {   //TODO: change from degrees to radians.            
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   
@@ -110,18 +121,29 @@ public class SwerveModule extends SubsystemBase {
     return angle;
   }
 
+  public void setPID(double p, double i, double d){
+Slot0Configs slot0Configs = new Slot0Configs();
+  
+    slot0Configs.kP = p;
+    slot0Configs.kI = i;
+    slot0Configs.kD = d;
+
+    driveMotor.getConfigurator().apply(slot0Configs);
+
+
+  }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
       Units.feetToMeters(getDriveEncoderPosition()), Rotation2d.fromDegrees(getTurnEncoder()));
   }
 
-
   public void setState(SwerveModuleState desiredState) {
     SwerveModuleState optimized = SwerveModuleState.optimize(
       desiredState, 
       new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
 
+    SmartDashboard.putNumber("setting velocity", Units.metersToFeet(optimized.speedMetersPerSecond));
     setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
     turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
     
