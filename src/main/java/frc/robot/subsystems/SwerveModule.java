@@ -12,8 +12,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -46,7 +44,7 @@ public class SwerveModule extends SubsystemBase {
     turnEncoder = new CANcoder(turnEncoderId, canivoreName);
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
-    canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
+    canCoderConfig.MagnetSensor.MagnetOffset = turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously

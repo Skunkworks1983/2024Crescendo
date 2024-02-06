@@ -51,10 +51,10 @@ public class Constants {
     public static final double TRANSLATION_Y = 0.822916666; //feet
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 0.259033; //rotations, not actual values, get them again
-    public static final double FRONT_RIGHT_OFFSET = -0.213867; //rotations
-    public static final double BACK_LEFT_OFFSET = -0.349609; //rotations
-    public static final double BACK_RIGHT_OFFSET = 0.307373; //rotations
+    public static final double FRONT_LEFT_OFFSET = 0.262451; //rotations, not actual values, get them again
+    public static final double FRONT_RIGHT_OFFSET = -0.229492; //rotations
+    public static final double BACK_LEFT_OFFSET = -0.348145; //rotations
+    public static final double BACK_RIGHT_OFFSET = 0.295654; //rotations
   }
 
 
@@ -100,8 +100,7 @@ public class Constants {
   public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
-  public static final String CANIVORE_FRONT_NAME = "Comp 1983 Front";
-  public static final String CANIVORE_BACK_NAME = "Comp 1983 Rear";
+  public static final String CANIVORE_NAME = "1983 Comp Drivebase";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
 
