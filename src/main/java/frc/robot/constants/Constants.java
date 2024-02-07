@@ -68,11 +68,11 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(
-      3, 
-      9, 
-      4, 
-      0.77856445312, 
-      "Front Left"
+        3, 
+        9, 
+        4, 
+        0.77856445312, 
+        "Front Left"
       );
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(
@@ -179,5 +179,4 @@ public class Constants {
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND=5;
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS=0.413;//center to wheel
   }
-
 }
