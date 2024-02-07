@@ -12,9 +12,21 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "WaitOneSecond"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "pathToNote1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TestCommandForPathPlanner"
           }
         },
         {
@@ -24,15 +36,33 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "TestCommandForPathPlanner"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "pathToNote3"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "TestCommandForPathPlanner"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "pathToNote4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitOneSecond"
           }
         }
       ]
