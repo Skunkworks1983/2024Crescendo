@@ -16,6 +16,8 @@ public class Shooter extends SubsystemBase {
   TalonFX pivotMotor;
   TalonFX shootMotor;
 
+  private static Shooter shooter;
+
   /** Creates a new Shooter. */
   public Shooter() {
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
@@ -30,4 +32,11 @@ public class Shooter extends SubsystemBase {
   public void setShooterRotation(Rotation2d desiredRotation) {}
 
   public void runShooter(double speed) {}
+
+  public static Shooter getInstance() {
+    if (shooter == null) {
+      shooter = new Shooter();
+    }
+    return shooter;
+  }
 }

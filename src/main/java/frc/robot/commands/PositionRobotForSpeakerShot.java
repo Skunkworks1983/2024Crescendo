@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter;
 
 //This is a stub command
 public class PositionRobotForSpeakerShot extends Command {
   /** Creates a new PositionRobotForSpeakerShot. */
   public PositionRobotForSpeakerShot() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    //Note: subsystem dependencies will be difficult in this case.
+    addRequirements(Shooter.getInstance());
   }
 
   // Called when the command is initially scheduled.

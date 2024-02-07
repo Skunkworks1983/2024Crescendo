@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Collector;
 
 //This is a stub command
 public class CollectNote extends Command {
   /** Creates a new CollectNote. */
   public CollectNote() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Collector.getInstance());
   }
 
   // Called when the command is initially scheduled.

@@ -14,7 +14,7 @@ public class WaitDuration extends Command {
     
   /** Creates a new TestCommandForPathPlanner. */
   public WaitDuration(double waitTime) {
-    this.waitTime=waitTime;
+    this.waitTime = waitTime;
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +36,6 @@ public class WaitDuration extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timer.getFPGATimestamp()>(waitTime+timeAtInit));
+    return (timer.getFPGATimestamp() > (waitTime+timeAtInit));
   }
 }

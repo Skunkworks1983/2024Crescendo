@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Collector;
 
 //This is a stub command
-public class ExpellNote extends Command {
-  /** Creates a new ExpellNote. */
-  public ExpellNote() {
+public class ExpelNote extends Command {
+  /** Creates a new ExpelNote. */
+  public ExpelNote() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Collector.getInstance());
   }
 
   // Called when the command is initially scheduled.

@@ -15,6 +15,8 @@ public class Climber extends SubsystemBase {
   TalonFX climbMotor1;
   TalonFX climbMotor2;
 
+  private static Climber climber;
+
   /** Creates a new Climber. */
   public Climber() {
     climbMotor1 = new TalonFX(Constants.IDS.CLIMBER_MOTOR_1, Constants.CANIVORE_NAME);
@@ -30,5 +32,12 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public static Climber getInstance() {
+    if (climber == null) {
+      climber = new Climber();
+    }
+    return climber;
   }
 }

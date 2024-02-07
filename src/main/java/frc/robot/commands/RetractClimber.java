@@ -5,11 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Shooter;
 
 //This is a stub command
 public class RetractClimber extends Command {
     public RetractClimber(){
-      
+        addRequirements(Climber.getInstance());
     }
     // Called when the command is initially scheduled.
     @Override

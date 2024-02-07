@@ -5,12 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climber;
 
 //This is a stub command
 public class ExtendClimber extends Command {
   /** Creates a new ExtendClimber. */
   public ExtendClimber() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Climber.getInstance());
   }
 
   // Called when the command is initially scheduled.

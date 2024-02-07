@@ -18,6 +18,8 @@ public class Collector extends SubsystemBase {
   TalonFX pivotMotor;
   CANSparkMax collectorMotor;
 
+  private static Collector collector;
+
   /** Creates a new Collector. */
   public Collector() {
     collectorMotor = new CANSparkMax(Constants.IDS.COLLECTOR_PIVOT_MOTOR, MotorType.kBrushless);
@@ -33,4 +35,10 @@ public class Collector extends SubsystemBase {
 
   public void runCollector(double speed) {}
 
+  public static Collector getInstance() {
+    if (collector == null) {
+      collector = new Collector();
+    }
+    return collector;
+  }
 }

@@ -4,13 +4,16 @@
 
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter;
 
 //this is a stub command
 public class AutoShootNoteIntoSpeaker extends Command {
 
     
-  /** Creates a new TestCommandForPathPlanner. */
-  public AutoShootNoteIntoSpeaker() {}
+  /** Creates a new AutoShootNoteIntoSpeaker. */
+  public AutoShootNoteIntoSpeaker() {
+    addRequirements(Shooter.getInstance());
+  }
 
   // Called when the command is initially scheduled.
   @Override
