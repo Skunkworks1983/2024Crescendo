@@ -22,7 +22,6 @@ public class Collector extends SubsystemBase {
   public Collector() {
     collectorMotor = new CANSparkMax(Constants.IDS.COLLECTOR_PIVOT_MOTOR, MotorType.kBrushless);
     pivotMotor = new TalonFX(Constants.IDS.COLLECTOR_MOTOR, Constants.CANIVORE_NAME);
-
   }
 
   @Override
@@ -30,14 +29,8 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   
-  public void rotateCollector(Rotation2d desiredRotation){
+  public void rotateCollector(Rotation2d desiredRotation) {}
 
-
-  }
-
-  public void runCollector(double speed){
-
-
-  }
+  public void runCollector(double speed) {}
 
 }

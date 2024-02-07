@@ -5,8 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,7 +20,6 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
     shootMotor = new TalonFX(Constants.IDS.SHOOTER_MOTOR, Constants.CANIVORE_NAME);
-  
   }
 
   @Override
@@ -30,13 +27,7 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setShooterRotation(Rotation2d desiredRotation){
+  public void setShooterRotation(Rotation2d desiredRotation) {}
 
-
-  }
-
-  public void runShooter(double speed){
-
-
-  }
+  public void runShooter(double speed) {}
 }
