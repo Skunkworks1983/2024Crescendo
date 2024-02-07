@@ -12,7 +12,6 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -30,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
+import frc.robot.utils.SmartPIDController;
 
 public class Drivebase extends SubsystemBase {
 
@@ -39,10 +39,12 @@ public class Drivebase extends SubsystemBase {
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
-  PIDController headingController = new PIDController(
+  SmartPIDController headingController = new SmartPIDController(
     Constants.PIDControllers.HeadingControlPID.KP, 
     Constants.PIDControllers.HeadingControlPID.KI, 
-    Constants.PIDControllers.HeadingControlPID.KD
+    Constants.PIDControllers.HeadingControlPID.KD,
+    "Heading Controller",
+    Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE
   );
 
   // locations of the modules, x positive forward y positive left
@@ -66,27 +68,13 @@ public class Drivebase extends SubsystemBase {
     Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
   );
 
+  SwerveModule frontLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
 
-  SwerveModule frontLeft = new SwerveModule(
-    Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
-    Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET
-  );
+  SwerveModule frontRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
 
-  SwerveModule frontRight = new SwerveModule(
-    Constants.IDS.RIGHT_FRONT_DRIVE, Constants.IDS.RIGHT_FRONT_TURN,
-    Constants.IDS.RIGHT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_RIGHT_OFFSET
-  );
+  SwerveModule backLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
 
-  SwerveModule backLeft = new SwerveModule(
-    Constants.IDS.LEFT_BACK_DRIVE, Constants.IDS.LEFT_BACK_TURN,
-    Constants.IDS.LEFT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_LEFT_OFFSET
-  );
-
-  SwerveModule backRight = new SwerveModule(
-    Constants.IDS.RIGHT_BACK_DRIVE, Constants.IDS.RIGHT_BACK_TURN,
-    Constants.IDS.RIGHT_BACK_CAN_CODER, Constants.DrivebaseInfo.BACK_RIGHT_OFFSET
-  );
-
+  SwerveModule backRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
     leftFrontLocation, 
