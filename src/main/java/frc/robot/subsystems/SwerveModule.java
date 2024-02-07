@@ -78,8 +78,6 @@ public class SwerveModule extends SubsystemBase {
   public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
-    // SmartDashboard.putNumber("velocity mode ticks speed", speed);
-    // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
     velocityController.Slot = 0;
 
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));

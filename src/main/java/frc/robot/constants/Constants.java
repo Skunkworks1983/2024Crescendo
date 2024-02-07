@@ -26,6 +26,26 @@ public class Constants {
 
   // Motor, Encoder, & Joystick IDS
   public class IDS {
+
+    //Collector Motor IDS
+    //stub
+    public static final int COLLECTOR_MOTOR = 0;
+    public static final int COLLECTOR_PIVOT_MOTOR = 0;
+
+    //Indexer Motor IDS
+    //stub
+    public static final int INDEXER_MOTOR = 0;
+
+    //Climber Motor IDS
+    //stub
+    public static final int CLIMBER_MOTOR_1 = 0;
+    public static final int CLIMBER_MOTOR_2 = 0;
+
+    //Shooter Motor IDS
+    //stub
+    public static final int SHOOTER_MOTOR = 0;
+    public static final int SHOOTER_PIVOT_MOTOR = 0;
+
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
