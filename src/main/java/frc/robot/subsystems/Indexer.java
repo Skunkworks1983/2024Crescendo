@@ -16,7 +16,7 @@ public class Indexer extends SubsystemBase {
 
     CANSparkMax indexerMotor;
 
-    /** Creates a new Climber. */
+    /** Creates a new Indexer. */
     public Indexer() {
         indexerMotor = new CANSparkMax(Constants.IDS.INDEXER_MOTOR, MotorType.kBrushless);
     }

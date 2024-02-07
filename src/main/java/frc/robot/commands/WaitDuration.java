@@ -36,6 +36,6 @@ public class WaitDuration extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timer.getFPGATimestamp() > (waitTime+timeAtInit));
+    return (timer.getFPGATimestamp() > (waitTime + timeAtInit));
   }
 }
