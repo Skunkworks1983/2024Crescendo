@@ -147,9 +147,12 @@ public class SwerveModule extends SubsystemBase {
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
     setDriveMotorVelocity(scaledVelocity);
-    turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
+
+    // set setpoint
+    turnController.setSetpoint(optimized.angle.getDegrees());
     
-    double speed = -turnController.calculate(getTurnEncoder()); // calculate speed
+    // calculate speed
+    double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
 
     SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
