@@ -16,7 +16,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,29 +23,38 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.SwerveModuleConstants;
+import frc.robot.utils.SmartPIDController;
 
 public class SwerveModule extends SubsystemBase {
 
   TalonFX driveMotor;
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
+  String modulePosition;
 
-  PIDController turnController = new PIDController(
-    Constants.PIDControllers.TurnPID.KP, 
-    Constants.PIDControllers.TurnPID.KI, 
-    Constants.PIDControllers.TurnPID.KD
-  );
+  SmartPIDController turnController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
-    driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
+  public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
+    driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
+    turnMotor = new CANSparkMax(swerveModuleConstants.turnMotorId, MotorType.kBrushless);
     turnMotor.restoreFactoryDefaults();
-    turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
+    turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
+    turnMotor.restoreFactoryDefaults();
+    this.modulePosition = swerveModuleConstants.modulePosition;
+
+    turnController = new SmartPIDController(
+      Constants.PIDControllers.TurnPID.KP, 
+      Constants.PIDControllers.TurnPID.KI, 
+      Constants.PIDControllers.TurnPID.KD,
+      modulePosition + " Turn",
+      Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE
+    );
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
-    canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
+    canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously

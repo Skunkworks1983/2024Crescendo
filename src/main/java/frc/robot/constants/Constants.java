@@ -8,20 +8,24 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+    public static class SwerveModuleConstants {
+    public int driveMotorId; 
+    public int turnMotorId; 
+    public int turnEncoderId; 
+    public double turnEncoderOffset; 
+    public String modulePosition;
+
+    public SwerveModuleConstants(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String modulePosition) {
+      this.driveMotorId = driveMotorId; 
+      this.turnMotorId = turnMotorId; 
+      this.turnEncoderId = turnEncoderId; 
+      this.turnEncoderOffset = turnEncoderOffset; 
+      this.modulePosition = modulePosition;
+    }
+  }
+
   // Motor, Encoder, & Joystick IDS
   public class IDS {
-
-    // Drive Motor IDS
-    public static final int RIGHT_FRONT_DRIVE = 7;
-    public static final int RIGHT_BACK_DRIVE = 5;
-    public static final int LEFT_FRONT_DRIVE = 3;
-    public static final int LEFT_BACK_DRIVE = 1;
-
-    // Turn Motor IDS
-    public static final int RIGHT_FRONT_TURN = 11;
-    public static final int RIGHT_BACK_TURN = 10;
-    public static final int LEFT_FRONT_TURN = 9;
-    public static final int LEFT_BACK_TURN = 12;
 
     //Collector Motor IDS
     //stub
@@ -42,20 +46,12 @@ public class Constants {
     public static final int SHOOTER_MOTOR = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
 
-    //Turning Encoders
-    public static final int RIGHT_FRONT_CAN_CODER = 8;
-    public static final int RIGHT_BACK_CAN_CODER = 6;
-    public static final int LEFT_FRONT_CAN_CODER = 4;
-    public static final int LEFT_BACK_CAN_CODER = 2;
-
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
     public static final int TARGETING_BUTTION = 11;
   }
-
-
 
   public class DrivebaseInfo {
 
@@ -69,16 +65,47 @@ public class Constants {
     public static final double TRANSLATION_X = 0.9479166665; //feet
     public static final double TRANSLATION_Y = 0.9479166665; //feet
 
-    // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0; //rotations
-    public static final double FRONT_RIGHT_OFFSET = 44.208984375/360.0; //rotations
-    public static final double BACK_LEFT_OFFSET = 224.033203125/360.0; //rotations
-    public static final double BACK_RIGHT_OFFSET = 103.623046875/360.0; //rotations
+    public class ModuleConstants {
+
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(
+        3, 
+        9, 
+        4, 
+        0.77856445312, 
+        "Front Left"
+      );
+
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(
+        7, 
+        11, 
+        8, 
+        0.12280273437, 
+        "Front Right"
+      );
+
+      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(
+        1, 
+        12, 
+        2, 
+        0.62231445312, 
+        "Back Left"
+      );
+
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(
+        5, 
+        10, 
+        6, 
+        0.28784179687, 
+        "Back Right"
+      );
+    }
   }
 
 
 
   public class PIDControllers {
+
+    public static final boolean SMART_PID_ACTIVE = true;
 
     public class TurnPID {
 
@@ -89,6 +116,8 @@ public class Constants {
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
+
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class DrivePID {
@@ -102,10 +131,11 @@ public class Constants {
 
     public class HeadingControlPID {
 
-      public static final double KP = 6.5;
+      public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
 
+      public static final boolean SMART_PID_ACTIVE = false;
     }
   }
 
