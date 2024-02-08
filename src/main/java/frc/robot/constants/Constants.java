@@ -115,7 +115,7 @@ public class Constants {
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
-  public static final double OI_DRIVE_SPEED_RATIO = 7.0; // 7.0 is slow
+  public static final double OI_DRIVE_SPEED_RATIO = 17.0; // 7.0 is slow
   public static final double OI_TURN_SPEED_RATIO = 360;  // max turn speed is 360 degrees per second
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);

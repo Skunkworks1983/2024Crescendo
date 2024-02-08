@@ -211,6 +211,7 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
+    SmartDashboard.putNumber("speed ms", Math.sqrt(Math.pow(getRobotRelativeSpeeds().vxMetersPerSecond,2)+Math.pow(getRobotRelativeSpeeds().vyMetersPerSecond,2)));
   }
   
   public static Drivebase getInstance() {
