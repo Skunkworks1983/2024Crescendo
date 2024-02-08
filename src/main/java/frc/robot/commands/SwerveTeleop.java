@@ -17,9 +17,10 @@ public class SwerveTeleop extends Command {
   Drivebase drivebase;
   OI oi; 
   double setpointHeadingControl = 0; //this is updated to the robots current angle when using the targeting button or not in the turn joystick deadzone. Used for heading correction when not using the targeting button and in the turn joystick deadzone
-  double desiredHeadingSetpoint = 0; //parts of the code set this variable, and then the variable is used to tell the drive command that turns to a certan angle where to turn to 
+  Double desiredHeadingSetpoint = 0.0; //parts of the code set this variable, and then the variable is used to tell the drive command that turns to a certan angle where to turn to 
   Timer timer;
   double timeAtLastInput;
+  boolean hasUpdated=false;
 
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
@@ -39,34 +40,40 @@ public class SwerveTeleop extends Command {
   @Override
   public void execute() {
 
-    double velocity = 0;
+    double angularVelocity = 0;
+    boolean useHeadingControl = false;
 
     if(Math.abs(oi.getRightX())>Constants.ROT_JOY_DEADBAND) {
-
-      velocity = oi.getRightX() * Constants.OI_TURN_SPEED_RATIO;
+      angularVelocity = oi.getRightX() * Constants.OI_TURN_SPEED_RATIO;
       setpointHeadingControl = drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
+      hasUpdated=false;
     }
     else if(oi.getTargetingButton()) {
       //calculates our current position on the field and where we are targeting to and figures out the angle to point at
       desiredHeadingSetpoint = Units.radiansToDegrees(Math.atan2((Constants.TARGETING_POSITION_Y - drivebase.getRobotPose().getY()), (Constants.TARGETING_POSITION_X - drivebase.getRobotPose().getX())));
       setpointHeadingControl = drivebase.getGyroAngle();
       timeAtLastInput = timer.getFPGATimestamp();
+      hasUpdated=false;
+      useHeadingControl=true;
     }
     else {
       //waits a second to allow for extra turn momentum to dissipate
-      if(timeAtLastInput - timer.getFPGATimestamp() < Constants.TIME_UNTIL_HEADING_CONTROL){
+      if(timer.getFPGATimestamp() - timeAtLastInput > Constants.TIME_UNTIL_HEADING_CONTROL && !hasUpdated){
         setpointHeadingControl = drivebase.getGyroAngle();
-      desiredHeadingSetpoint = setpointHeadingControl;
+        desiredHeadingSetpoint = setpointHeadingControl;
+        hasUpdated=true;
       }
+      useHeadingControl=hasUpdated;
+
     }
     
-    if(Math.abs(velocity) > 0)
+    if(!useHeadingControl)
     {
       drivebase.setDrive(
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        velocity,
+        angularVelocity,
         true
       );
     }

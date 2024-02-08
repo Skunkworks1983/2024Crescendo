@@ -121,7 +121,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setPID(double p, double i, double d){
-Slot0Configs slot0Configs = new Slot0Configs();
+    Slot0Configs slot0Configs = new Slot0Configs();
   
     slot0Configs.kP = p;
     slot0Configs.kI = i;
@@ -138,12 +138,15 @@ Slot0Configs slot0Configs = new Slot0Configs();
   }
 
   public void setState(SwerveModuleState desiredState) {
+    double turnPositionRadians = Units.degreesToRadians(getTurnEncoder());
     SwerveModuleState optimized = SwerveModuleState.optimize(
       desiredState, 
-      new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
-
-    SmartDashboard.putNumber("setting velocity", Units.metersToFeet(optimized.speedMetersPerSecond));
-    setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
+      new Rotation2d(turnPositionRadians));
+      
+    double velocityScale = Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)),2);
+    double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
+    SmartDashboard.putNumber("setting velocity", scaledVelocity);
+    setDriveMotorVelocity(scaledVelocity);
     turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
     
     double speed = -turnController.calculate(getTurnEncoder()); // calculate speed
