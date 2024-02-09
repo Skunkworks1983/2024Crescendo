@@ -110,10 +110,10 @@ public class Constants {
 
   // Photon Camera
   public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 
-    Units.feetToMeters(1.083), 
+    Units.feetToMeters(1), 
     0,
-    0, 
-    new Rotation3d(0, Units.degreesToRadians(45), 0));
+    Units.feetToMeters(.5), 
+    new Rotation3d(0, Units.degreesToRadians(45), Units.degreesToRadians(0)));
 
   public static final double DISTANCE_UNCERTAINTY = .3;
   public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";

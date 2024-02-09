@@ -15,7 +15,6 @@ public class Robot extends TimedRobot {
 
   CameraTest cameraTest = new CameraTest();
 
-  Drivebase drivebase = Drivebase.getInstance();
   private RobotContainer m_robotContainer;
 
   @Override
@@ -58,8 +57,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    //cameraTest.schedule();
-    drivebase.setSwerveAsDefaultCommand();
+    cameraTest.schedule();
+    // drivebase.setSwerveAsDefaultCommand();
   }
 
   @Override

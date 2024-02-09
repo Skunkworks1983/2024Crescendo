@@ -32,8 +32,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.FloatEntry;
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -125,13 +123,14 @@ public class Drivebase extends SubsystemBase {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(
       AprilTagFields.k2024Crescendo.m_resourceFile);
     } catch (IOException e) {
-      System.out.println("exception reading field json " + e.toString());
+      System.out.println("Exception reading AprilTag Field JSON " + e.toString());
     }
     visualOdometry = new PhotonPoseEstimator(
     aprilTagFieldLayout, 
     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
     camera, 
     Constants.ROBOT_TO_CAMERA);
+    
     resetOdometry(new Pose2d(
       Units.feetToMeters(1.3), 
       Units.feetToMeters(5.5), 
