@@ -58,7 +58,7 @@ public class Constants {
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
     
     //aproxamation based on travel distance of trajectory. Value is in feet.
-    public static final double WHEEL_DIAMETER = .33333333*0.9691;    
+    public static final double WHEEL_DIAMETER = .33333333*0.9691;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
@@ -110,9 +110,10 @@ public class Constants {
     public class TurnPID {
 
       // Turning Motor PID Constants
+      //currently fairly fast but noisy.
       public static final double KP = .005;
       public static final double KI = 0;
-      public static final double KD = 0;
+      public static final double KD = 0.0004;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
@@ -124,9 +125,9 @@ public class Constants {
 
       // Velocity Mode PID Constants
       public static final double KP = .25;
-      public static final double KI = 0;
-      public static final double KD = 0;
-      public static final double KF = 0;
+      public static final double KI = .003;
+      public static final double KD = 0.001;
+      public static final double KF = .11;
     }
 
     public class HeadingControlPID {
@@ -147,12 +148,10 @@ public class Constants {
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
   //in feet //14.2 f/s was the max speed we could get in SwerveTeleop. TODO: charactarisation to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 14.2;
+  public static final double OI_DRIVE_SPEED_RATIO = 20;//14.2;
 
   // max turn speed is 360 degrees per second
   public static final double OI_TURN_SPEED_RATIO = 360;
-  public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
-  public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "Canivore_1";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
@@ -170,17 +169,17 @@ public class Constants {
   //pathplanner PID constants
   public class PathPlannerInfo {
 
-    public static final double PATHPLANNER_DRIVE_KP = 2;
-    public static final double PATHPLANNER_DRIVE_KD=.0;
-    public static final double PATHPLANNER_DRIVE_KI=.0;
-    public static final double PATHPLANNER_DRIVE_KF=.0;
+    public static final double PATHPLANNER_DRIVE_KP = 8;
+    public static final double PATHPLANNER_DRIVE_KD = .0;
+    public static final double PATHPLANNER_DRIVE_KI = .0;
+    public static final double PATHPLANNER_DRIVE_KF = .0;
 
     public static final double PATHPLANNER_TURN_KP = 8;
-    public static final double PATHPLANNER_TURN_KD=.0;
-    public static final double PATHPLANNER_TURN_KI=.0;
-    public static final double PATHPLANNER_TURN_KF=.0;
+    public static final double PATHPLANNER_TURN_KD = .0;
+    public static final double PATHPLANNER_TURN_KI = .0;
+    public static final double PATHPLANNER_TURN_KF = .0;
 
-    public static final double PATHPLANNER_MAX_METERS_PER_SECOND=5;
-    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS=0.413;//center to wheel
+    public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;//center to wheel
   }
 }

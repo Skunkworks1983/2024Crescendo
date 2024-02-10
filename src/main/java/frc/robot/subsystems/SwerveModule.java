@@ -97,9 +97,7 @@ public class SwerveModule extends SubsystemBase {
 
   // returns drive encoder velocity in feet per second
   public double getDriveEncoderVelocity() {
-
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
-    SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
   }
 
@@ -155,7 +153,13 @@ public class SwerveModule extends SubsystemBase {
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
 
-    SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
+    //in degrees
+    SmartDashboard.putNumber("turn pid error " + modulePosition, turnController.getPositionError());
+
+    //in feet
+    SmartDashboard.putNumber("drive pid error " + modulePosition, 
+      driveMotor.getClosedLoopError().getValueAsDouble() * Constants.DrivebaseInfo.REVS_PER_FOOT);
+
     SmartDashboard.putNumber("setting turn speed",
         MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
 
