@@ -156,14 +156,14 @@ public class Constants {
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
 
   // Field dimensions
-  public static final double FIELD_X_LENGTH = 54.2708333; // feet
-  public static final double FIELD_Y_LENGTH = 26.9375; // feet
-  public static final double WIDTH_WITH_BUMPER = 1.416667;
+  public static final double FIELD_X_LENGTH = Units.feetToMeters(54.2708333);
+  public static final double FIELD_Y_LENGTH = Units.feetToMeters(26.9375);
+  public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public static final Pose2d BLUE_START_POS = new Pose2d(
-    FIELD_X_LENGTH - WIDTH_WITH_BUMPER, 
-    FIELD_Y_LENGTH - WIDTH_WITH_BUMPER, 
-    Rotation2d.fromDegrees(0));
+    FIELD_X_LENGTH - 2, 
+    FIELD_Y_LENGTH - 2, 
+    Rotation2d.fromDegrees(180));
 
   // Photon Camera
   public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 

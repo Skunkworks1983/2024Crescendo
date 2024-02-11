@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAuto");
+    m_autonomousCommand = drivebase.followAutoTrajectory("AroundStageAuto");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

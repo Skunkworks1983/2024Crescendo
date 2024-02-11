@@ -243,7 +243,7 @@ public class Drivebase extends SubsystemBase {
       odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds, uncertainty);
       SmartDashboard.putNumber("vision uncertainty", distance * Constants.DISTANCE_UNCERTAINTY);
     }
-    integrated.setRobotPose(odometry.getEstimatedPosition());
+    integrated.setRobotPose(odometry.getEstimatedPosition()); 
   }
 
   @Override
