@@ -27,11 +27,6 @@ public class Constants {
   // Motor, Encoder, & Joystick IDS
   public class IDS {
 
-    //Collector Motor IDS
-    //stub
-    public static final int COLLECTOR_MOTOR = 0;
-    public static final int COLLECTOR_PIVOT_MOTOR = 0;
-
     //Indexer Motor IDS
     //stub
     public static final int INDEXER_MOTOR = 0;
@@ -51,6 +46,17 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
     public static final int TARGETING_BUTTION = 11;
+  }
+
+  public class Collector
+  {
+    //Collector Motor IDS
+    //stub
+    public static final int COLLECTOR_MOTOR = 0;
+    public static final int COLLECTOR_PIVOT_MOTOR = 0;
+    public static final int INTAKE_GEAR_RATIO = 25;
+    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; //meters
+    public static final double PIVOT_GEAR_RATIO = 20;
   }
 
   public class DrivebaseInfo {
@@ -134,6 +140,15 @@ public class Constants {
       public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
+
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class CollectorPID
+    {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
