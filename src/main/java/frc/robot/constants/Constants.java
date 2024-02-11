@@ -48,8 +48,8 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 1.895833333; //feet
-    public static final double TRANSLATION_Y = 1.895833333; //feet
+    public static final double TRANSLATION_X = 0.94791666667; //feet
+    public static final double TRANSLATION_Y = 0.94791666667; //feet
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 280.283203125/360.0; //rotations
@@ -97,16 +97,22 @@ public class Constants {
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
-  public static final double OI_DRIVE_SPEED_RATIO = 1.0;
-  public static final double OI_TURN_SPEED_RATIO = 60;
+  public static final double OI_DRIVE_SPEED_RATIO = 15.0;
+  public static final double OI_TURN_SPEED_RATIO = 360;
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "Canivore_1";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
 
   // Field dimensions
-  public static final double FIELD_X_LENGTH = 26.291667; // feet
-  public static final double FIELD_Y_LENGTH = 54.2708333; // feet
+  public static final double FIELD_X_LENGTH = 54.2708333; // feet
+  public static final double FIELD_Y_LENGTH = 26.9375; // feet
+  public static final double WIDTH_WITH_BUMPER = 1.416667;
+
+  public static final Pose2d BLUE_START_POS = new Pose2d(
+    FIELD_X_LENGTH - WIDTH_WITH_BUMPER, 
+    FIELD_Y_LENGTH - WIDTH_WITH_BUMPER, 
+    Rotation2d.fromDegrees(0));
 
   // Photon Camera
   public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 

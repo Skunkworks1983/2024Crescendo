@@ -13,7 +13,6 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -77,7 +76,6 @@ public class Drivebase extends SubsystemBase {
     Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
   );
 
-
   SwerveModule frontLeft = new SwerveModule(
     Constants.IDS.LEFT_FRONT_DRIVE, Constants.IDS.LEFT_FRONT_TURN,
     Constants.IDS.LEFT_FRONT_CAN_CODER, Constants.DrivebaseInfo.FRONT_LEFT_OFFSET
@@ -109,10 +107,10 @@ public class Drivebase extends SubsystemBase {
       kinematics,
       Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
-          frontLeft.getPosition(),
-          frontRight.getPosition(),
-          backLeft.getPosition(),
-          backRight.getPosition()},
+        frontLeft.getPosition(),
+        frontRight.getPosition(),
+        backLeft.getPosition(),
+        backRight.getPosition()},
       new Pose2d(0, 0, Rotation2d.fromDegrees(0))); 
 
   PhotonPoseEstimator visualOdometry;
@@ -126,15 +124,12 @@ public class Drivebase extends SubsystemBase {
       System.out.println("Exception reading AprilTag Field JSON " + e.toString());
     }
     visualOdometry = new PhotonPoseEstimator(
-    aprilTagFieldLayout, 
-    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-    camera, 
-    Constants.ROBOT_TO_CAMERA);
+      aprilTagFieldLayout, 
+      PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+      camera, 
+      Constants.ROBOT_TO_CAMERA);
+    resetOdometry(Constants.BLUE_START_POS);
     
-    resetOdometry(new Pose2d(
-      Units.feetToMeters(1.3), 
-      Units.feetToMeters(5.5), 
-      Rotation2d.fromDegrees(0)));
     SmartDashboard.putData("Integrated Odom", integrated);
     SmartDashboard.putData("Visual Odom", visual);
   }
@@ -144,7 +139,7 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, oi));
   }
 
-  //returns angle going counterclockwise
+  // returns angle going counterclockwise
   public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro angle", angle);
@@ -197,11 +192,9 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-
   public void setHeadingController(double setpoint){
     headingController.setSetpoint(setpoint);
   }
-
 
   public void setModuleStates(SwerveModuleState[] states) {
     frontLeft.setState(states[0]);
@@ -232,21 +225,20 @@ public class Drivebase extends SubsystemBase {
         backRight.getPosition()
       }
     );
-    Optional<EstimatedRobotPose> updatedVisualOdometry = visualOdometry.update();
+    Optional<EstimatedRobotPose> updated = visualOdometry.update();
     PhotonPipelineResult result = camera.getLatestResult();
     SmartDashboard.putBoolean("Targets found", result.hasTargets());
-    SmartDashboard.putBoolean("Block running", updatedVisualOdometry.isPresent());
-    if (updatedVisualOdometry.isPresent()) {
-      EstimatedRobotPose pose = updatedVisualOdometry.get();
-      Transform3d distanceToTarget = result.getBestTarget().getBestCameraToTarget();
-      double distance = Math.sqrt(Math.pow(distanceToTarget.getX(), 2) + Math.pow(distanceToTarget.getY(), 2));
+    if (updated.isPresent() && result.hasTargets()) {
+      Transform3d distanceTransform = result.getBestTarget().getBestCameraToTarget();
+      EstimatedRobotPose pose = updated.get();
+      double distance = Math.sqrt(Math.pow(distanceTransform.getX(), 2) + Math.pow(distanceTransform.getY(), 2));
       SmartDashboard.putNumber("Distance to target", distance);
       Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(
         new SimpleMatrix(
           new double [] {
             distance * Constants.DISTANCE_UNCERTAINTY,
             distance * Constants.DISTANCE_UNCERTAINTY,
-            9999999                                     // gyro is better, use gyro instead
+            9999999                                      // gyro is better, use gyro instead
           }
         )
       );

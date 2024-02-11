@@ -13,7 +13,7 @@ import frc.robot.subsystems.Drivebase;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  CameraTest cameraTest = new CameraTest();
+  Drivebase drivebase = Drivebase.getInstance();
 
   private RobotContainer m_robotContainer;
 
@@ -57,8 +57,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    cameraTest.schedule();
-    // drivebase.setSwerveAsDefaultCommand();
+    drivebase.setSwerveAsDefaultCommand();
   }
 
   @Override

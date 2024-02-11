@@ -38,6 +38,7 @@ public class CameraTest extends Command {
   AprilTagFieldLayout aprilTagFieldLayout;
   PhotonCamera camera = new PhotonCamera(Constants.PHOTON_CAMERA_NAME);
   private final Field2d visual = new Field2d();
+  private final Field2d mechanical  = new Field2d();
   ArrayList<Pose2d> rollingAverage = new ArrayList<>();
   int rollingAverageLength = 50;
 
@@ -62,32 +63,6 @@ public class CameraTest extends Command {
   @Override
   public void initialize() {}
 
-  Pose2d updateRollingAverage(Pose2d latestPose) {
-    rollingAverage.add(latestPose);
-      if (rollingAverage.size() > rollingAverageLength) {
-        rollingAverage.remove(0);
-      }
-      double xTotal = 0;
-      double yTotal = 0;
-      double rotAbsTotal = 0;
-      double rotTotal = 0;
-      for(int i = 0; i < rollingAverage.size()-1; i++) {
-        xTotal = xTotal + rollingAverage.get(i).getX();
-        yTotal = yTotal + rollingAverage.get(i).getY();
-        rotTotal = rotTotal + rollingAverage
-      }
-
-      double average = rotTotal1/rollingAverageLength;
-      if ((average))
-
-      Pose2d averagedPose = new Pose2d(
-        xTotal/rollingAverageLength, 
-        yTotal/rollingAverageLength, 
-        latestPose.getRotation());
-
-      return averagedPose;
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -102,23 +77,23 @@ public class CameraTest extends Command {
       double distance = Math.sqrt(Math.pow(distanceToTarget.getX(), 2) + Math.pow(distanceToTarget.getY(), 2));
       SmartDashboard.putNumber("Distance to target", Units.metersToFeet(distance));
 
-      // Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(
-      //   new SimpleMatrix(
-      //     new double [] {
-      //       distance * Constants.DISTANCE_UNCERTAINTY,
-      //       distance * Constants.DISTANCE_UNCERTAINTY,
-      //       0                                     // gyro is better, use gyro instead
-      //     }
-      //   )
-      // );
+      Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(
+        new SimpleMatrix(
+          new double [] {
+            distance * Constants.DISTANCE_UNCERTAINTY,
+            distance * Constants.DISTANCE_UNCERTAINTY,
+            0                                     // gyro is better, use gyro instead
+          }
+        )
+      );
       
 
       
-      visual.setRobotPose(updateRollingAverage(pose.estimatedPose.toPose2d()));
-      // SmartDashboard.putNumber("X", Units.metersToFeet(pose.estimatedPose.toPose2d().getX()));
-      // SmartDashboard.putNumber("Y", Units.metersToFeet(pose.estimatedPose.toPose2d().getY()));
-      // SmartDashboard.putNumber("angle", pose.estimatedPose.toPose2d().getRotation().getDegrees());
-      // SmartDashboard.putNumber("vision uncertainty", distance * Constants.DISTANCE_UNCERTAINTY);
+      visual.setRobotPose(pose.estimatedPose.toPose2d());
+      SmartDashboard.putNumber("X", Units.metersToFeet(pose.estimatedPose.toPose2d().getX()));
+      SmartDashboard.putNumber("Y", Units.metersToFeet(pose.estimatedPose.toPose2d().getY()));
+      SmartDashboard.putNumber("angle", pose.estimatedPose.toPose2d().getRotation().getDegrees());
+      SmartDashboard.putNumber("vision uncertainty", distance * Constants.DISTANCE_UNCERTAINTY);
     }
   }
 
