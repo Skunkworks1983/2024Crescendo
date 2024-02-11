@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.CameraTest;
+import frc.robot.commands.SwerveTeleop;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.OI;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command swerve;
+  private RobotContainer m_robotContainer;
 
   Drivebase drivebase = Drivebase.getInstance();
-
-  private RobotContainer m_robotContainer;
+  OI oi = OI.getInstance();
 
   @Override
   public void robotInit() {
@@ -38,8 +41,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //cancels swerve teleop command to make sure it does not interfere with auto
+    if (swerve != null) {
+      swerve.cancel();
+    }
 
+    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAuto");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -56,8 +63,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    
     drivebase.setSwerveAsDefaultCommand();
+    swerve=new SwerveTeleop(drivebase, oi);
+    swerve.schedule();
   }
 
   @Override

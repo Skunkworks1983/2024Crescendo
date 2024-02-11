@@ -16,7 +16,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,29 +23,39 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.SwerveModuleConstants;
+import frc.robot.utils.SmartPIDController;
 
 public class SwerveModule extends SubsystemBase {
 
   TalonFX driveMotor;
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
+  String modulePosition;
 
-  PIDController turnController = new PIDController(
-    Constants.PIDControllers.TurnPID.KP, 
-    Constants.PIDControllers.TurnPID.KI, 
-    Constants.PIDControllers.TurnPID.KD
-  );
+  SmartPIDController turnController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset) {
-    driveMotor = new TalonFX(driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new CANSparkMax(turnMotorId, MotorType.kBrushless);
-    turnEncoder = new CANcoder(turnEncoderId, Constants.CANIVORE_NAME);
+  public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
+    driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
+    turnMotor = new CANSparkMax(swerveModuleConstants.turnMotorId, MotorType.kBrushless);
+    turnMotor.restoreFactoryDefaults();
+    turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
+    turnMotor.restoreFactoryDefaults();
+    this.modulePosition = swerveModuleConstants.modulePosition;
+
+    turnController = new SmartPIDController(
+      Constants.PIDControllers.TurnPID.KP, 
+      Constants.PIDControllers.TurnPID.KI, 
+      Constants.PIDControllers.TurnPID.KD,
+      modulePosition + " Turn",
+      Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE
+    );
 
     turnMotor.restoreFactoryDefaults();
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
-    canCoderConfig.MagnetSensor.MagnetOffset = -turnEncoderOffset;
+    canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
     turnController.enableContinuousInput(-180, 180); // Pid controller will loop from -180 to 180 continuously
@@ -70,9 +79,8 @@ public class SwerveModule extends SubsystemBase {
   public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
-    // SmartDashboard.putNumber("velocity mode ticks speed", speed);
-    // SmartDashboard.putNumber("Velocity error", driveMotor.getClosedLoopError());
     velocityController.Slot = 0;
+
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
@@ -96,8 +104,15 @@ public class SwerveModule extends SubsystemBase {
     return feetPerSecond;
   }
 
+  public SwerveModuleState getSwerveState(){
+    return new SwerveModuleState(
+      Units.feetToMeters(getDriveEncoderVelocity()),
+      Rotation2d.fromDegrees(getTurnEncoder())
+    );
+  }
+
   /**gets turn encoder as degrees, -180 180*/ 
-  public double getTurnEncoder() {               
+  public double getTurnEncoder() {   //TODO: change from degrees to radians.            
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
     // gets the absoulte position of the encoder. getPosition() returns relative position.
     double angle = turnEncoder.getAbsolutePosition().getValue()*360;   
@@ -106,18 +121,29 @@ public class SwerveModule extends SubsystemBase {
     return angle;
   }
 
+  public void setPID(double p, double i, double d){
+Slot0Configs slot0Configs = new Slot0Configs();
+  
+    slot0Configs.kP = p;
+    slot0Configs.kI = i;
+    slot0Configs.kD = d;
+
+    driveMotor.getConfigurator().apply(slot0Configs);
+
+
+  }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
       Units.feetToMeters(getDriveEncoderPosition()), Rotation2d.fromDegrees(getTurnEncoder()));
   }
 
-
   public void setState(SwerveModuleState desiredState) {
     SwerveModuleState optimized = SwerveModuleState.optimize(
       desiredState, 
       new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
 
+    SmartDashboard.putNumber("setting velocity", Units.metersToFeet(optimized.speedMetersPerSecond));
     setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
     turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
     

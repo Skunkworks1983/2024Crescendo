@@ -17,12 +17,13 @@ public class OI extends SubsystemBase {
   Joystick buttonStick;
 
   JoystickButton switchMotors;
-  
+  JoystickButton targeting;  
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
+    targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
   }
 
 
@@ -32,19 +33,26 @@ public class OI extends SubsystemBase {
   }
 
   public double getLeftX() { // Used to control the x field relative speed of the robot in SwerveTeleop.
-    return leftJoystick.getX(); 
+    return -leftJoystick.getX(); 
   }
 
   public double getLeftY() { // Used to control the y field relative speed of the robot in SwerveTeleop.
-    return leftJoystick.getY();
+    //Positive joystick corosponds to negetive robot relative coördinates so leftJoystick.getY() must be negated.
+    return -leftJoystick.getY();
   }
 
   public double getRightX() { // Used to control the rotational speed of the robot in SwerveTeleop.
-    return rightJoystick.getX();
+    //Positive joystick corosponds to negetive robot reletive coördinates so rightJoystick.getX() must be negated.
+    return -rightJoystick.getX();
   }
 
   public double getRightY() {
+    //Positive joystick corosponds to negetive robot relative coördinates so rightJoystick.getY() must be negated.
     return rightJoystick.getY();
+  }
+
+  public boolean getTargetingButton() {
+    return targeting.getAsBoolean();
   }
 
   public static OI getInstance() {
