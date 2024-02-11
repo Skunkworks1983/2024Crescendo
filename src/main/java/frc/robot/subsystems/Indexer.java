@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 
@@ -15,12 +16,24 @@ import frc.robot.constants.Constants;
 public class Indexer extends SubsystemBase {
 
     CANSparkMax indexerMotor;
+    private DigitalInput shooterBeamBreak;
 
     /** Creates a new Indexer. */
     public Indexer() {
-        indexerMotor = new CANSparkMax(Constants.IDS.INDEXER_MOTOR, MotorType.kBrushless);
+      shooterBeamBreak = new DigitalInput(Constants.IndexerConstants.SHOOTER_BEAM_BREAK);
+        indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR, MotorType.kBrushless);
     }
-
+      public void setSpeedIndexer(double speedMetersPerSecond) {
+        indexerMotor.set((speedMetersPerSecond / (Math.PI * (Constants.IndexerConstants.INDEXER_WHEEL_DIAMETER)) * Constants.IndexerConstants.INDEXER_GEAR_RATIO));
+      }
+      public boolean getBeamBreakSensor() {
+        if(shooterBeamBreak.get() == true) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
