@@ -41,10 +41,12 @@ public class Constants {
     public static final int CLIMBER_MOTOR_1 = 0;
     public static final int CLIMBER_MOTOR_2 = 0;
 
-    //Shooter Motor IDS
+    //Shooter IDS
     //stub
-    public static final int SHOOTER_MOTOR = 0;
+    public static final int SHOOT_MOTOR = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
+    public static final int SHOOTER_INDEXER_MOTOR = 0;
+    public static final int NOTE_BREAK = 0;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -101,7 +103,14 @@ public class Constants {
     }
   }
 
-
+  public class Shooter {
+    public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
+    public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
+    public static final double WHEEL_DIAMETER = 0.1016; //meters
+    public static final double ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
+    public static final double SHOOTER_RESTING_POSITION = 27.8;
+    public static final double SHOOTER_MAX_POSITION = 119.5; //assuiming backwards on the robot is 0 and straight up is 90, double check messurements on real robot
+  }
 
   public class PIDControllers {
 
@@ -134,6 +143,15 @@ public class Constants {
       public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
+
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class ShootingPID {
+    
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
