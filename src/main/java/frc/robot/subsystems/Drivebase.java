@@ -204,11 +204,7 @@ public class Drivebase extends SubsystemBase {
     {
       maxVelocity = backLeft.getDriveEncoderVelocity();
     }
-
-    SmartDashboard.putNumber("speed ms", Math.sqrt(Math.pow(getRobotRelativeSpeeds().vxMetersPerSecond,2)+Math.pow(getRobotRelativeSpeeds().vyMetersPerSecond,2)));
-    SmartDashboard.putNumber("max speed back left encoder", maxVelocity);
-    
-  }
+ }
   
   public static Drivebase getInstance() {
     if (drivebase == null) {
@@ -263,7 +259,7 @@ public void configurePathPlanner() {
     ), 
     () -> {
       var alliance = DriverStation.getAlliance();
-      if (alliance.isPresent()) { 
+      if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
       }
       return false;

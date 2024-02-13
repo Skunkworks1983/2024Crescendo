@@ -16,8 +16,13 @@ public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
   OI oi; 
-  double setpointHeadingControl = 0; //this is updated to the robots current angle when using the targeting button or not in the turn joystick deadzone. Used for heading correction when not using the targeting button and in the turn joystick deadzone
-  Double desiredHeadingSetpoint = 0.0; //parts of the code set this variable, and then the variable is used to tell the drive command that turns to a certan angle where to turn to 
+
+  //this is updated to the robots current angle when using the targeting button or not in the turn joystick deadzone. Used for heading correction when not using the targeting button and in the turn joystick deadzone
+  double setpointHeadingControl = 0.0;
+  
+  //parts of the code set this variable, and then the variable is used to tell the drive command that turns to a certan angle where to turn to 
+  Double desiredHeadingSetpoint = 0.0;
+
   Timer timer;
   double timeAtLastInput;
   boolean hasUpdated=false;

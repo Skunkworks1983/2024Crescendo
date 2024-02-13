@@ -148,7 +148,7 @@ public class Constants {
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
   //in feet //14.2 f/s was the max speed we could get in SwerveTeleop. TODO: charactarisation to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 20;//14.2;
+  public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
   // max turn speed is 360 degrees per second
   public static final double OI_TURN_SPEED_RATIO = 360;
@@ -180,6 +180,6 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;//center to wheel
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;//distance from center to wheel
   }
 }
