@@ -5,14 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 
-//This is a stub command
-public class CollectNote extends Command {
-  /** Creates a new CollectNote. */
-  public CollectNote() {
+public class CollectNotes extends Command 
+{
+  private final Collector collector;
+  /** Creates a new CollectnNotes. */
+  public CollectNotes() 
+  {
+    this.collector = new Collector();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Collector.getInstance());
   }
 
   // Called when the command is initially scheduled.
@@ -21,7 +24,10 @@ public class CollectNote extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  {
+    collector.intakeNotes(Constants.Collector.NOTE_INTAKE_SPEED);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

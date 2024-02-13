@@ -19,7 +19,9 @@ import frc.robot.utils.SmartPIDController;
 public class Collector extends SubsystemBase 
 {
 
-  TalonFX pivotMotor;
+
+  CANSparkMax pivotMotor;
+  //TalonFX pivotMotor;
   CANSparkMax intakeMotor;
 
   private static SmartPIDController intakeMotorSpeedController;
@@ -29,7 +31,7 @@ public class Collector extends SubsystemBase
   public Collector() 
   {
     intakeMotor = new CANSparkMax(Constants.Collector.COLLECTOR_PIVOT_MOTOR, MotorType.kBrushless);
-    pivotMotor = new TalonFX(Constants.Collector.COLLECTOR_MOTOR, Constants.CANIVORE_NAME);
+    pivotMotor = new CANSparkMax(Constants.Collector.COLLECTOR_MOTOR, MotorType.kBrushless);
 
     intakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO / (Constants.Collector.INTAKE_ROLLER_DIAMETER * Math.PI));
   intakeMotorSpeedController = new SmartPIDController
@@ -42,15 +44,17 @@ public class Collector extends SubsystemBase
    );
   }
 
-  public void collectNotes(double setPoint)
+  public void intakeNotes(double setPoint)
   {
+    intakeMotor.set(((setPoint / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))// wheel rotion
+     * Constants.Collector.INTAKE_GEAR_RATIO));
     double currentSpeed = intakeMotor.getEncoder().getVelocity();
     intakeMotor.set(intakeMotorSpeedController.calculate(currentSpeed,setPoint));
   }
 
   public void setCollectorPos(double angle)
   {
-    pivotMotor.setControl(new PositionDutyCycle(angle/360.0 * Constants.Collector.PIVOT_GEAR_RATIO));
+    pivotMotor.set(angle/360.0 * Constants.Collector.PIVOT_GEAR_RATIO);
   }
 
   @Override

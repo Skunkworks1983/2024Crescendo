@@ -52,11 +52,12 @@ public class Constants {
   {
     //Collector Motor IDS
     //stub
-    public static final int COLLECTOR_MOTOR = 0;
-    public static final int COLLECTOR_PIVOT_MOTOR = 0;
+    public static final int COLLECTOR_MOTOR = 0;  //TODO:set this!
+    public static final int COLLECTOR_PIVOT_MOTOR = 0; //TODO:set this!
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; //meters
     public static final double PIVOT_GEAR_RATIO = 20;
+    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
   }
 
   public class DrivebaseInfo {
