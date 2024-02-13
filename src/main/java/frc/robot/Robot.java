@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.CameraTest;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
@@ -41,7 +40,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    //cancels swerve teleop command to make sure it does not interfere with auto
+    // cancels swerve teleop command to make sure it does not interfere with auto
     if (swerve != null) {
       swerve.cancel();
     }
@@ -65,7 +64,7 @@ public class Robot extends TimedRobot {
     }
     
     drivebase.setSwerveAsDefaultCommand();
-    swerve=new SwerveTeleop(drivebase, oi);
+    swerve = new SwerveTeleop(drivebase, oi);
     swerve.schedule();
   }
 

@@ -59,8 +59,8 @@ public class Constants {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
     
-    //aproxamation based on travel distance of trajectory. Value is in feet.
-    public static final double WHEEL_DIAMETER = .33333333*0.9691;    
+    // aproxamation based on travel distance of trajectory. Value is in feet.
+    public static final double WHEEL_DIAMETER = .33333333 * 0.9691;    
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
@@ -147,37 +147,46 @@ public class Constants {
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
-  public static final double OI_DRIVE_SPEED_RATIO = 15.0;
+
+  // Multiplying joystick output by this value in SwerveTeleop to get x and y feet per second.
+  public static final double OI_DRIVE_SPEED_RATIO = 15.0; 
+
+  // Multiplying joystick output by this value in SwerveTeleop to get degrees per second.
   public static final double OI_TURN_SPEED_RATIO = 360;
+
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "Canivore_1";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
 
-  // Field dimensions
+  // The position that the targeting buttion will point at
+  public static final double TARGETING_POSITION_X = 0; 
+  public static final double TARGETING_POSITION_Y = 0;
+
+  // Width and length of the field. Converting from feet to meters.
   public static final double FIELD_X_LENGTH = Units.feetToMeters(54.2708333);
   public static final double FIELD_Y_LENGTH = Units.feetToMeters(26.9375);
+
+  // Width and length of the robot with bumpers. Used for calculating start pose if pushed against wall.
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
-  public static final Pose2d BLUE_START_POS = new Pose2d(
-    FIELD_X_LENGTH - 2, 
-    FIELD_Y_LENGTH - 2, 
-    Rotation2d.fromDegrees(180));
 
-  // Photon Camera
-  public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 
-    Units.feetToMeters(1), 
-    0,
-    Units.feetToMeters(.5), 
-    new Rotation3d(0, Units.degreesToRadians(45), Units.degreesToRadians(0)));
-
-    
-  public static final double DISTANCE_UNCERTAINTY = .3;
+public class PhotonVision {
   public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+  public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 
+      Units.feetToMeters(1), 
+    0,
+      Units.feetToMeters(.5), 
+      new Rotation3d(0, Units.degreesToRadians(45), Units.degreesToRadians(0))
+  );
 
-  public static final double TARGETING_POSITION_X = 0; //the position that the targeting buttion will point at
-  public static final double TARGETING_POSITION_Y = 0;
+  // Multiplying by this constant to get X and Y uncertainty when adding vision measurment.
+  public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .3;
+
+  // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
+  public static final double ROTATIONAL_UNCERTAINTY = 9999999;
+}
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -185,7 +194,6 @@ public class Constants {
 
   //pathplanner PID constants
   public class PathPlannerInfo {
-
     public static final double PATHPLANNER_DRIVE_KP = 2;
     public static final double PATHPLANNER_DRIVE_KD=.0;
     public static final double PATHPLANNER_DRIVE_KI=.0;
