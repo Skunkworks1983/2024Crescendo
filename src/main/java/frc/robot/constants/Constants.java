@@ -169,8 +169,8 @@ public class Constants {
   //pathplanner PID constants
   public class PathPlannerInfo {
 
-    public static final double PATHPLANNER_DRIVE_KP = 8;
-    public static final double PATHPLANNER_DRIVE_KD = .0;
+    public static final double PATHPLANNER_DRIVE_KP = 7;
+    public static final double PATHPLANNER_DRIVE_KD = .05;
     public static final double PATHPLANNER_DRIVE_KI = .0;
     public static final double PATHPLANNER_DRIVE_KF = .0;
 
