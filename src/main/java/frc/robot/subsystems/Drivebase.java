@@ -39,6 +39,7 @@ public class Drivebase extends SubsystemBase {
   private final Field2d odometryFieldPos = new Field2d();
   ChassisSpeeds speeds;
   Pose2d pose;
+  double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
     Constants.PIDControllers.HeadingControlPID.KP, 
     Constants.PIDControllers.HeadingControlPID.KI, 
@@ -199,7 +200,7 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
-  }
+ }
   
   public static Drivebase getInstance() {
     if (drivebase == null) {
