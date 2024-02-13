@@ -25,11 +25,11 @@ public class SwerveTeleop extends Command {
 
   Timer timer;
   double timeAtLastInput;
-  boolean hasUpdated=false;
+
   //has updated ensures that desired heading is only set once, driver stops rotating.
   //if it is false and robot should maintain current heading, desiredHeadingSetpoint will set to current heading.
   //Once it is set to true, robot will rotate to desiredHeadingSetpoint.
-
+  boolean hasUpdated=false;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
     timer = new Timer();

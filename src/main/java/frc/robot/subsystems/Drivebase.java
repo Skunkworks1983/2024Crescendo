@@ -200,9 +200,6 @@ public class Drivebase extends SubsystemBase {
     );
 
     odometryFieldPos.setRobotPose(getRobotPose());
-    if(maxVelocity < backLeft.getDriveEncoderVelocity()) {
-      maxVelocity = backLeft.getDriveEncoderVelocity();
-    }
  }
   
   public static Drivebase getInstance() {

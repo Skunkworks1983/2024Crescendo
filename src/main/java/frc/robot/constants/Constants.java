@@ -147,7 +147,9 @@ public class Constants {
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
-  //in feet //14.2 f/s was the max speed we could get in SwerveTeleop. TODO: charactarisation to find true max speed.
+  //in feet 
+  //14.2 f/s was the max speed we could get in SwerveTeleop. 
+  //TODO: characterization to find true max speed.
   public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
   // max turn speed is 360 degrees per second
