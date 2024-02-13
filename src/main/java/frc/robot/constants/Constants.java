@@ -175,16 +175,17 @@ public class Constants {
 public class PhotonVision {
   public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
   public static final Transform3d ROBOT_TO_CAMERA = new Transform3d( 
-      Units.feetToMeters(1), 
+      Units.feetToMeters(1.0), 
     0,
       Units.feetToMeters(.5), 
-      new Rotation3d(0, Units.degreesToRadians(45), Units.degreesToRadians(0))
+      new Rotation3d(180, Units.degreesToRadians(40), Units.degreesToRadians(180))
   );
 
-  // Multiplying by this constant to get X and Y uncertainty when adding vision measurment.
+  // Multplying distance to target by this constant to get X and Y uncertainty when adding a vision measurment.
   public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .3;
 
   // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
+  // TODO: Experiment with rotation output of vision
   public static final double ROTATIONAL_UNCERTAINTY = 9999999;
 }
   

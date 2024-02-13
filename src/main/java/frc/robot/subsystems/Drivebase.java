@@ -51,8 +51,11 @@ public class Drivebase extends SubsystemBase {
   private static Drivebase drivebase;
   OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
+
+  // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
+
   PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
   Pose2d pose;
@@ -219,6 +222,7 @@ public class Drivebase extends SubsystemBase {
 
   /** Update odometry position. Call this function every loop in periodic. */
   public void updateOdometry() {
+
     // Update the mechanical odometry
     odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] {
@@ -232,12 +236,19 @@ public class Drivebase extends SubsystemBase {
     Optional<EstimatedRobotPose> updatedVisualPose = visualOdometry.update();
     PhotonPipelineResult result = camera.getLatestResult();
     SmartDashboard.putBoolean("Targets found", result.hasTargets());
-  
+    Transform3d distanceToTargetTransform;
+
     // Check if there are targets
     if (updatedVisualPose.isPresent() && result.hasTargets()) {
-
+      
+      // try/catch statement to ensure getBestCameraToTarget() won't crash code
+      try {
+        distanceToTargetTransform = result.getBestTarget().getBestCameraToTarget();
+      } catch (NullPointerException e) {
+        return;
+      }
+      
       // Calculate the uncertainty of the vision measurement based on distance from the best AprilTag target.
-      Transform3d distanceToTargetTransform = result.getBestTarget().getBestCameraToTarget();
       EstimatedRobotPose pose = updatedVisualPose.get();
       double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2) + Math.pow(distanceToTargetTransform.getY(), 2));
       SmartDashboard.putNumber("Distance to target", distanceToTarget);
@@ -250,6 +261,8 @@ public class Drivebase extends SubsystemBase {
           }
         )
       );
+
+      // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
       odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds, uncertainty);
     }
