@@ -145,8 +145,8 @@ public class Constants {
   // Field dimensions and positions
   public static final double FIELD_X_LENGTH = 26.291667; // feet
   public static final double FIELD_Y_LENGTH = 54.2708333; // feet
-  public static final double TARGETING_POSITION_X = 0; // the position that the targeting buttion
-                                                       // will point at
+  // the position that the targeting buttion will point at
+  public static final double TARGETING_POSITION_X = 0;
   public static final double TARGETING_POSITION_Y = 0;
 
   public static class OperatorConstants {
@@ -167,7 +167,7 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;// distance from center
-                                                                           // to wheel
-  }
+    // distance from center to wheel
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
+    }
 }

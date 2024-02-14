@@ -137,12 +137,13 @@ public class SwerveModule extends SubsystemBase {
     SwerveModuleState optimized =
         SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
 
-    double velocityScale =
-        Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
     // velocityScale helps prevent driving in the wrong direction when making sudden turns.
     // cos(0)=1, so if module is in the right direction, there is no speed decrease.
     // cos(90)=0, so if module is completely off, the module will not drive at all.
     // this value is squared to increase its effects.
+    double velocityScale =
+        Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
+
 
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
@@ -154,11 +155,6 @@ public class SwerveModule extends SubsystemBase {
     // calculate speed
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
-
-    SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
-    SmartDashboard.putNumber("setting turn speed",
-        MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
-            Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
 
     if (!atSetpoint) {
       // clamp and set speed

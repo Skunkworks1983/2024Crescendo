@@ -88,10 +88,6 @@ public class Drivebase extends SubsystemBase {
     resetOdometry(Constants.START_POSITION);
     headingController.enableContinuousInput(0, 360);
     SmartDashboard.putData("Field Pos", odometryFieldPos);
-
-    SmartDashboard.putNumber("testTurnP", 0);
-    SmartDashboard.putNumber("testTurnI", 0);
-    SmartDashboard.putNumber("testTurnD", 0);
   }
 
   /** run in teleop init to set swerve as default teleop command */
