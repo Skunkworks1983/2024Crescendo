@@ -118,6 +118,8 @@ public class Drivebase extends SubsystemBase {
     visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
+    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
@@ -137,6 +139,8 @@ public class Drivebase extends SubsystemBase {
   // returns angle going counterclockwise
   public double getGyroAngle() {
     double angle = gyro.getAngle();
+    SmartDashboard.putNumber("gyro", -angle);
+
     // Negative because gyro reads differently than wpilib
     return -angle;
   }
@@ -201,11 +205,13 @@ public class Drivebase extends SubsystemBase {
 
     Optional<EstimatedRobotPose> updatedVisualPose = visualOdometry.update();
     PhotonPipelineResult result = camera.getLatestResult();
-    SmartDashboard.putBoolean("Targets found", result.hasTargets());
+    boolean hasTargets = result.hasTargets();
     Transform3d distanceToTargetTransform;
+    SmartDashboard.putBoolean("Targets found", hasTargets);
+
 
     // Check if there are targets
-    if (updatedVisualPose.isPresent() && result.hasTargets()) {
+    if (updatedVisualPose.isPresent() && hasTargets) {
 
       // try/catch statement to ensure getBestCameraToTarget() won't crash code
       try {
@@ -231,6 +237,7 @@ public class Drivebase extends SubsystemBase {
           uncertainty);
     }
     integratedOdometryPrint.setRobotPose(getRobotPose());
+    SmartDashboard.putNumber("Odometry angle", getRobotPose().getRotation().getDegrees());
   }
 
   @Override
