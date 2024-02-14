@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 
-//This is a stub command
+// This is a stub command
 public class ExpelNote extends Command {
   /** Creates a new ExpelNote. */
   public ExpelNote() {

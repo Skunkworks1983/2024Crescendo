@@ -5,19 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Collector;
+import frc.robot.constants.Constants;
+import frc.robot.subsystems.Indexer;
 
-// This is a stub command
-public class CollectNote extends Command {
-  /** Creates a new CollectNote. */
-  public CollectNote() {
+public class RunIndexerBackwards extends Command {
+   private Indexer getIndexer;
+  /** Creates a new RunIndexerBackwards. */
+  public RunIndexerBackwards() {
+    getIndexer = Indexer.getInstance();
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Collector.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    getIndexer.setSpeedIndexer(Constants.IndexerConstants.REVERSE_INDEXER_SPEED);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
