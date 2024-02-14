@@ -25,10 +25,14 @@ public class Collector extends SubsystemBase
   CANSparkMax intakeMotor;
 
   private static SmartPIDController intakeMotorSpeedController;
+  private static SmartPIDController pivotMotorController;
   private static Collector collector;
 
+  private double pivotSetPoint;
+  private double speedSetPoint;
+
   /** Creates a new Collector. */
-  public Collector() 
+  private Collector() 
   {
     intakeMotor = new CANSparkMax(Constants.Collector.COLLECTOR_PIVOT_MOTOR, MotorType.kBrushless);
     pivotMotor = new CANSparkMax(Constants.Collector.COLLECTOR_MOTOR, MotorType.kBrushless);
@@ -36,30 +40,39 @@ public class Collector extends SubsystemBase
     intakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO / (Constants.Collector.INTAKE_ROLLER_DIAMETER * Math.PI));
   intakeMotorSpeedController = new SmartPIDController
    (
-    Constants.PIDControllers.CollectorPID.KP,
-     Constants.PIDControllers.CollectorPID.KI,
-     Constants.PIDControllers.CollectorPID.KD,
+    Constants.PIDControllers.CollectorIntakePID.KP,
+     Constants.PIDControllers.CollectorIntakePID.KI,
+     Constants.PIDControllers.CollectorIntakePID.KD,
     "intake motor",
+    false
+   );
+
+   pivotMotorController = new SmartPIDController
+   (
+    Constants.PIDControllers.CollectorPivotPID.KP,
+     Constants.PIDControllers.CollectorPivotPID.KI,
+     Constants.PIDControllers.CollectorPivotPID.KD,
+    "pivot motor",
     false
    );
   }
 
   public void intakeNotes(double setPoint)
   {
-    intakeMotor.set(((setPoint / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))// wheel rotion
-     * Constants.Collector.INTAKE_GEAR_RATIO));
-    double currentSpeed = intakeMotor.getEncoder().getVelocity();
-    intakeMotor.set(intakeMotorSpeedController.calculate(currentSpeed,setPoint));
+    speedSetPoint = ((setPoint / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))// wheel rotion
+    * Constants.Collector.INTAKE_GEAR_RATIO);
   }
 
   public void setCollectorPos(double angle)
   {
-    pivotMotor.set(angle/360.0 * Constants.Collector.PIVOT_GEAR_RATIO);
+    pivotSetPoint = angle;
   }
-
   @Override
   public void periodic() 
   {
+    
+   pivotMotor.set(pivotMotorController.calculate(pivotMotor.getEncoder().getPosition(), pivotSetPoint));
+   intakeMotor.set(intakeMotorSpeedController.calculate(intakeMotor.getEncoder().getVelocity(),speedSetPoint));
     // This method will be called once per scheduler run
   }
   
