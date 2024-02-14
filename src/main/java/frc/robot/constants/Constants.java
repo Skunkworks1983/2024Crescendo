@@ -40,7 +40,7 @@ public class Constants {
     //stub
     public static final int CLIMBER_MOTOR_1 = 0;
     public static final int CLIMBER_MOTOR_2 = 0;
-
+    
     //Shooter Motor IDS
     //stub
     public static final int SHOOTER_MOTOR = 0;
@@ -137,6 +137,16 @@ public class Constants {
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
+    // Left Climber Motor
+      public static final double LEFT_CLIMBER_KP = 0;
+      public static final double LEFT_CLIMBER_KI = 0;
+      public static final double LEFT_CLIMBER_KD = 0;
+      public static final double LEFT_CLIMBER_KF = 0;
+    // Right Climber Motor
+      public static final double RIGHT_CLIMBER_KP = 0;
+      public static final double RIGHT_CLIMBER_KI = 0;
+      public static final double RIGHT_CLIMBER_KD = 0;
+      public static final double RIGHT_CLIMBER_KF = 0;
   }
 
   
