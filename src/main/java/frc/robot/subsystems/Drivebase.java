@@ -61,60 +61,47 @@ public class Drivebase extends SubsystemBase {
   Pose2d pose;
   AprilTagFieldLayout aprilTagFieldLayout;
   SmartPIDController headingController = new SmartPIDController(
-    Constants.PIDControllers.HeadingControlPID.KP, 
-    Constants.PIDControllers.HeadingControlPID.KI, 
-    Constants.PIDControllers.HeadingControlPID.KD,
-    "Heading Controller",
-    Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE
-  );
+      Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
+      Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
+      Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
-  Translation2d leftFrontLocation = new Translation2d(
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
-  );
+  Translation2d leftFrontLocation =
+      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightFrontLocation = new Translation2d(
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
-  );
+  Translation2d rightFrontLocation =
+      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d leftBackLocation = new Translation2d(
-    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
-  );
+  Translation2d leftBackLocation =
+      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightBackLocation = new Translation2d(
-    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-    Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y)
-  );
+  Translation2d rightBackLocation =
+      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  SwerveModule frontLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
+  SwerveModule frontLeft =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
 
-  SwerveModule frontRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
+  SwerveModule frontRight =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
 
-  SwerveModule backLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
+  SwerveModule backLeft =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
 
-  SwerveModule backRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
+  SwerveModule backRight =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
-  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-    leftFrontLocation, 
-    rightFrontLocation, 
-    leftBackLocation, 
-    rightBackLocation
-  );
+  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
+      rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(
-      kinematics,
-      Rotation2d.fromDegrees(getGyroAngle()),
-      new SwerveModulePosition[] {
-        frontLeft.getPosition(),
-        frontRight.getPosition(),
-        backLeft.getPosition(),
-        backRight.getPosition()
-      },
-      new Pose2d(0, 0, Rotation2d.fromDegrees(0))
-    ); 
+  SwerveDrivePoseEstimator odometry =
+      new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
+          new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+              backLeft.getPosition(), backRight.getPosition()},
+          new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   PhotonPoseEstimator visualOdometry;
 
@@ -122,29 +109,24 @@ public class Drivebase extends SubsystemBase {
     gyro.reset();
 
     try {
-      aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(
-        AprilTagFields.k2024Crescendo.m_resourceFile
-      );
+      aprilTagFieldLayout =
+          AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
     } catch (IOException e) {
       System.out.println("Exception reading AprilTag Field JSON " + e.toString());
     }
 
-    visualOdometry = new PhotonPoseEstimator(
-      aprilTagFieldLayout, 
-      PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-      camera, 
-      Constants.PhotonVision.ROBOT_TO_CAMERA
-    );
-    
+    visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
+        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
+
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
     configurePathPlanner();
     headingController.enableContinuousInput(0, 360);
 
-    SmartDashboard.putNumber("testTurnP",0);
-    SmartDashboard.putNumber("testTurnI",0);
-    SmartDashboard.putNumber("testTurnD",0);
+    SmartDashboard.putNumber("testTurnP", 0);
+    SmartDashboard.putNumber("testTurnI", 0);
+    SmartDashboard.putNumber("testTurnD", 0);
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -159,30 +141,25 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
-  public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond, boolean fieldRelative) {
+  public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
+      boolean fieldRelative) {
     if (fieldRelative) {
-      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        Units.feetToMeters(xFeetPerSecond),
-        Units.feetToMeters(yFeetPerSecond),
-        Units.degreesToRadians(degreesPerSecond),
-        Rotation2d.fromDegrees(getGyroAngle())
-      ); 
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
+          Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
+          Rotation2d.fromDegrees(getGyroAngle()));
     } else {
-      speeds = new ChassisSpeeds(
-        Units.feetToMeters(xFeetPerSecond),
-        Units.feetToMeters(yFeetPerSecond),
-        Units.degreesToRadians(degreesPerSecond)
-      );
+      speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
+          Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-    
+
     // Caps the module speeds
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.MAX_MODULE_SPEED);
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the targeting buttion 
+  // Used for keeping robot heading in the right direction using PID and the targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(getGyroAngle());
@@ -199,7 +176,7 @@ public class Drivebase extends SubsystemBase {
     frontRight.setState(states[1]);
     backLeft.setState(states[2]);
     backRight.setState(states[3]);
-  } 
+  }
 
   /** Returns the estimated position of the odometry */
   public Pose2d getRobotPose() {
@@ -208,16 +185,10 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(
-      Rotation2d.fromDegrees(getGyroAngle()), 
-      new SwerveModulePosition[] {
-        frontLeft.getPosition(),
-        frontRight.getPosition(),
-        backLeft.getPosition(),
-        backRight.getPosition()
-      },
-      resetPose
-    );
+    odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
+        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition()},
+        resetPose);
   }
 
   /** Update odometry position. Call this function every loop in periodic. */
@@ -225,13 +196,8 @@ public class Drivebase extends SubsystemBase {
 
     // Update the mechanical odometry
     odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
-      new SwerveModulePosition[] {
-        frontLeft.getPosition(),
-        frontRight.getPosition(),
-        backLeft.getPosition(),
-        backRight.getPosition()
-      }
-    );
+        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition()});
 
     Optional<EstimatedRobotPose> updatedVisualPose = visualOdometry.update();
     PhotonPipelineResult result = camera.getLatestResult();
@@ -240,40 +206,38 @@ public class Drivebase extends SubsystemBase {
 
     // Check if there are targets
     if (updatedVisualPose.isPresent() && result.hasTargets()) {
-      
+
       // try/catch statement to ensure getBestCameraToTarget() won't crash code
       try {
         distanceToTargetTransform = result.getBestTarget().getBestCameraToTarget();
       } catch (NullPointerException e) {
         return;
       }
-      
-      // Calculate the uncertainty of the vision measurement based on distance from the best AprilTag target.
+
+      // Calculate the uncertainty of the vision measurement based on distance from the best
+      // AprilTag target.
       EstimatedRobotPose pose = updatedVisualPose.get();
-      double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2) + Math.pow(distanceToTargetTransform.getY(), 2));
+      double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
+          + Math.pow(distanceToTargetTransform.getY(), 2));
       SmartDashboard.putNumber("Distance to target", distanceToTarget);
-      Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(
-        new SimpleMatrix(
-          new double [] {
-            distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-            distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-            Constants.PhotonVision.ROTATIONAL_UNCERTAINTY
-          }
-        )
-      );
+      Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(
+          new double[] {distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
+              distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
+              Constants.PhotonVision.ROTATIONAL_UNCERTAINTY}));
 
       // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
-      odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds, uncertainty);
+      odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds,
+          uncertainty);
     }
-    integratedOdometryPrint.setRobotPose(getRobotPose()); 
+    integratedOdometryPrint.setRobotPose(getRobotPose());
   }
 
   @Override
   public void periodic() {
     updateOdometry();
   }
-  
+
   public static Drivebase getInstance() {
     if (drivebase == null) {
       drivebase = new Drivebase();
@@ -282,60 +246,42 @@ public class Drivebase extends SubsystemBase {
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-  
-    ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(
-      frontLeft.getSwerveState(),
-      frontRight.getSwerveState(),
-      backLeft.getSwerveState(),
-      backRight.getSwerveState()
-    );
+    ChassisSpeeds chassisSpeeds = kinematics.toChassisSpeeds(frontLeft.getSwerveState(),
+        frontRight.getSwerveState(), backLeft.getSwerveState(), backRight.getSwerveState());
 
     return chassisSpeeds;
-}
+  }
 
-public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
-  setDrive(
-    Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
-    Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
-    Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
-    //path planner uses robot reletive drive command.
-    false
-  );
-}
+  public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
+    setDrive(Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
+        Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
+        Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
+        // path planner uses robot reletive drive command.
+        false);
+  }
 
-public void configurePathPlanner() {
+  public void configurePathPlanner() {
+    AutoBuilder.configureHolonomic(this::getRobotPose, this::resetOdometry,
+        this::getRobotRelativeSpeeds, this::setDriveChassisSpeed,
+        new HolonomicPathFollowerConfig(
+            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP,
+                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KI,
+                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KD),
+            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_TURN_KP,
+                Constants.PathPlannerInfo.PATHPLANNER_TURN_KI,
+                Constants.PathPlannerInfo.PATHPLANNER_TURN_KD),
+            Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
+            Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS, new ReplanningConfig()),
+        () -> {
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        }, this);
 
-  AutoBuilder.configureHolonomic(
-    this::getRobotPose,
-    this::resetOdometry,
-    this::getRobotRelativeSpeeds, 
-    this::setDriveChassisSpeed,
-    new HolonomicPathFollowerConfig(
-      new PIDConstants(
-        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP, 
-        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KI, 
-        Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KD
-      ),
-      new PIDConstants(
-        Constants.PathPlannerInfo.PATHPLANNER_TURN_KP, 
-        Constants.PathPlannerInfo.PATHPLANNER_TURN_KI, 
-        Constants.PathPlannerInfo.PATHPLANNER_TURN_KD
-      ),
-      Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
-      Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS,
-      new ReplanningConfig()
-    ), 
-    () -> {
-      var alliance = DriverStation.getAlliance();
-      if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
-      }
-      return false;
-    }, 
-    this
-  );
+  }
 
-}
   public Command followPathCommand(String pathName) {
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
     return AutoBuilder.followPath(path);
