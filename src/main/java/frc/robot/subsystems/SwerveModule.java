@@ -13,7 +13,6 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
@@ -26,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.SwerveModuleConstants;
 import frc.robot.utils.SmartPIDController;
-import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 public class SwerveModule extends SubsystemBase {
@@ -35,9 +33,8 @@ public class SwerveModule extends SubsystemBase {
   CANSparkMax turnMotor;
   CANcoder turnEncoder;
   String modulePosition;
-  double lastSetpoint = 0;
 
-  SmartPIDControllerCANSparkMax turnController;
+  SmartPIDController turnController;
   SmartPIDControllerTalonFX driveController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
@@ -50,24 +47,18 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.restoreFactoryDefaults();
     this.modulePosition = swerveModuleConstants.modulePosition;
 
-    turnController = new SmartPIDControllerCANSparkMax(Constants.PIDControllers.TurnPID.KP,
+    turnController = new SmartPIDController(Constants.PIDControllers.TurnPID.KP,
         Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD,
-        Constants.PIDControllers.TurnPID.KF, modulePosition + " Turn",
-        Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE, turnMotor);
+        modulePosition + " Turn", Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE);
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
-    turnMotor.getPIDController().setPositionPIDWrappingMaxInput(180); // Pid controller will loop
-                                                                      // from -180 to 180
-                                                                      // continuously
-    turnMotor.getPIDController().setPositionPIDWrappingMinInput(-180);
-    turnMotor.getPIDController().setPositionPIDWrappingEnabled(true);
-    turnMotor.getPIDController().setOutputRange(Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
-        Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT);
-    // turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE); // sets the
-    // tolerance of the turning pid controller.
+    // Pid controller will loop from -180 to 180 continuously
+    turnController.enableContinuousInput(-180, 180);
+    // sets the tolerance of the turning pid controller.
+    turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
 
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
@@ -149,14 +140,20 @@ public class SwerveModule extends SubsystemBase {
     SmartDashboard.putNumber("setting velocity",
         Units.metersToFeet(optimized.speedMetersPerSecond));
     setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
-    // turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
-    turnMotor.getPIDController().setReference(
-        (optimized.angle.getRadians() / (2 * Math.PI)) * 21.428571, ControlType.kPosition);
-  }
+    turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
 
-  @Override
-  public void periodic() {
-    driveController.updatePID();
-    turnController.updatePID();
+    double speed = -turnController.calculate(getTurnEncoder()); // calculate speed
+    boolean atSetpoint = turnController.atSetpoint();
+
+    SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
+    SmartDashboard.putNumber("setting turn speed",
+        MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
+            Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
+
+    if (!atSetpoint) {
+      // clamp and set speed
+      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
+          Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
+    }
   }
 }

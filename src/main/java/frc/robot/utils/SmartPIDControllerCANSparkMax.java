@@ -21,7 +21,8 @@ public class SmartPIDControllerCANSparkMax {
     public double lastKfValue;
 
 
-    public SmartPIDControllerCANSparkMax(double kp, double ki, double kd, double kf, String name, boolean smart, CANSparkMax motor) {
+    public SmartPIDControllerCANSparkMax(double kp, double ki, double kd, double kf, String name,
+            boolean smart, CANSparkMax motor) {
 
         this.motor = motor;
         this.name = name;
@@ -43,27 +44,23 @@ public class SmartPIDControllerCANSparkMax {
         SmartDashboard.putNumber(name + " kf Value", kd);
     }
 
-    public void updatePID()
-    {
-        if(smart && Constants.PIDControllers.SMART_PID_ACTIVE && (
-                SmartDashboard.getNumber(name + " kp Value", lastKpValue) != lastKpValue ||
-                SmartDashboard.getNumber(name + " ki Value", lastKiValue) != lastKiValue ||
-                SmartDashboard.getNumber(name + " kd Value", lastKdValue) != lastKdValue ||
-                SmartDashboard.getNumber(name + " kf Value", lastKfValue) != lastKfValue
-            )
-        ) {
+    public void updatePID() {
+        if (smart && Constants.PIDControllers.SMART_PID_ACTIVE
+                && (SmartDashboard.getNumber(name + " kp Value", lastKpValue) != lastKpValue
+                        || SmartDashboard.getNumber(name + " ki Value", lastKiValue) != lastKiValue
+                        || SmartDashboard.getNumber(name + " kd Value", lastKdValue) != lastKdValue
+                        || SmartDashboard.getNumber(name + " kf Value",
+                                lastKfValue) != lastKfValue)) {
 
-        lastKpValue = SmartDashboard.getNumber(name + " kp Value", lastKpValue);
-        lastKiValue = SmartDashboard.getNumber(name + " ki Value", lastKiValue);
-        lastKdValue = SmartDashboard.getNumber(name + " kd Value", lastKdValue);
-        lastKfValue = SmartDashboard.getNumber(name + " kf Value", lastKfValue);
-        
-        motor.getPIDController().setP(lastKpValue);
-        motor.getPIDController().setI(lastKiValue);
-        motor.getPIDController().setD(lastKdValue);
-        motor.getPIDController().setFF(lastKfValue);
+            lastKpValue = SmartDashboard.getNumber(name + " kp Value", lastKpValue);
+            lastKiValue = SmartDashboard.getNumber(name + " ki Value", lastKiValue);
+            lastKdValue = SmartDashboard.getNumber(name + " kd Value", lastKdValue);
+            lastKfValue = SmartDashboard.getNumber(name + " kf Value", lastKfValue);
 
-        System.out.println(name + " setting kp to: " + lastKpValue);
+            motor.getPIDController().setP(lastKpValue);
+            motor.getPIDController().setI(lastKiValue);
+            motor.getPIDController().setD(lastKdValue);
+            motor.getPIDController().setFF(lastKfValue);
         }
     }
 }
