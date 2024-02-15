@@ -119,7 +119,7 @@ public class Drivebase extends SubsystemBase {
     visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
-    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
