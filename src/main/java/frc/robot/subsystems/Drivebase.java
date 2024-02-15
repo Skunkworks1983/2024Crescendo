@@ -60,6 +60,7 @@ public class Drivebase extends SubsystemBase {
   ChassisSpeeds speeds;
   Pose2d pose;
   AprilTagFieldLayout aprilTagFieldLayout;
+  double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",

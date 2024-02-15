@@ -93,9 +93,10 @@ public class Constants {
     public class TurnPID {
 
       // Turning Motor PID Constants
+      //currently fairly fast but noisy.
       public static final double KP = .005;
       public static final double KI = 0;
-      public static final double KD = 0;
+      public static final double KD = 0.0004;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
@@ -107,9 +108,9 @@ public class Constants {
 
       // Velocity Mode PID Constants
       public static final double KP = .25;
-      public static final double KI = 0;
-      public static final double KD = 0;
-      public static final double KF = 0;
+      public static final double KI = .003;
+      public static final double KD = 0.001;
+      public static final double KF = .11;
     }
 
     public class HeadingControlPID {
@@ -130,7 +131,9 @@ public class Constants {
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet per second.
-  public static final double OI_DRIVE_SPEED_RATIO = 15.0;
+  // 14.2 f/s was the max speed we could get in SwerveTeleop. 
+  // TODO: characterization to find true max speed.
+  public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per second.
   public static final double OI_TURN_SPEED_RATIO = 360;
@@ -175,8 +178,9 @@ public class Constants {
 
   // pathplanner PID constants
   public class PathPlannerInfo {
-    public static final double PATHPLANNER_DRIVE_KP = 2;
-    public static final double PATHPLANNER_DRIVE_KD = .0;
+
+    public static final double PATHPLANNER_DRIVE_KP = 7;
+    public static final double PATHPLANNER_DRIVE_KD = .05;
     public static final double PATHPLANNER_DRIVE_KI = .0;
     public static final double PATHPLANNER_DRIVE_KF = .0;
 
@@ -186,6 +190,6 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;// center to wheel
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413; // distance from center to wheel
   }
 }
