@@ -5,15 +5,16 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix6.hardware.*;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,7 +24,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.SwerveModuleConstants;
 import frc.robot.utils.SmartPIDController;
 
 public class SwerveModule extends SubsystemBase {
@@ -97,9 +97,7 @@ public class SwerveModule extends SubsystemBase {
 
   // returns drive encoder velocity in feet per second
   public double getDriveEncoderVelocity() {
-
     double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
-    SmartDashboard.putNumber("drive encoder velocity", feetPerSecond);
     return feetPerSecond;
   }
 
@@ -121,7 +119,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setPID(double p, double i, double d){
-Slot0Configs slot0Configs = new Slot0Configs();
+    Slot0Configs slot0Configs = new Slot0Configs();
   
     slot0Configs.kP = p;
     slot0Configs.kI = i;
@@ -138,20 +136,27 @@ Slot0Configs slot0Configs = new Slot0Configs();
   }
 
   public void setState(SwerveModuleState desiredState) {
+    double turnPositionRadians = Units.degreesToRadians(getTurnEncoder());
     SwerveModuleState optimized = SwerveModuleState.optimize(
       desiredState, 
-      new Rotation2d(Units.degreesToRadians(getTurnEncoder())));
+      new Rotation2d(turnPositionRadians));
+      
+    double velocityScale = Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)),2);
+      //velocityScale helps prevent driving in the wrong direction when making sudden turns.
+      //cos(0)=1, so if module is in the right direction, there is no speed decrease.
+      //cos(90)=0, so if module is completely off,  the module will not drive at all.
+      //this value is squared to increase its effects.
 
-    SmartDashboard.putNumber("setting velocity", Units.metersToFeet(optimized.speedMetersPerSecond));
-    setDriveMotorVelocity(Units.metersToFeet(optimized.speedMetersPerSecond));
-    turnController.setSetpoint(optimized.angle.getDegrees()); // set setpoint
+    double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
+    SmartDashboard.putNumber("setting velocity", scaledVelocity);
+    setDriveMotorVelocity(scaledVelocity);
+
+    // set setpoint
+    turnController.setSetpoint(optimized.angle.getDegrees());
     
-    double speed = -turnController.calculate(getTurnEncoder()); // calculate speed
+    // calculate speed
+    double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
-
-    SmartDashboard.putNumber("turn pid error", turnController.getPositionError());
-    SmartDashboard.putNumber("setting turn speed",
-        MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT, Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
 
     if (!atSetpoint) {
       // clamp and set speed
