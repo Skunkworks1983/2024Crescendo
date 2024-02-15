@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 
 /** Add your docs here. */
-public class SmartPIDController extends PIDController{
+public class SmartPIDController extends PIDController {
 
     public String name;
     public boolean smart;
@@ -28,7 +28,7 @@ public class SmartPIDController extends PIDController{
     @Override
     public double calculate(double measurement) {
 
-        if(smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
+        if (smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
             super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
             super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
@@ -38,11 +38,11 @@ public class SmartPIDController extends PIDController{
         }
         return super.calculate(measurement);
     }
-    
+
     @Override
     public double calculate(double measurement, double setpoint) {
 
-        if(smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
+        if (smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
             super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
             super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
