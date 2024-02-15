@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDController;
+import frc.robot.utils.SmartPIDControllerCANSparkMax;
 
 //This is a stub subsystem
 public class Collector extends SubsystemBase 
@@ -24,8 +25,8 @@ public class Collector extends SubsystemBase
   //TalonFX pivotMotor;
   CANSparkMax intakeMotor;
 
-  private static SmartPIDController intakeMotorSpeedController;
-  private static SmartPIDController pivotMotorController;
+  private static SmartPIDControllerCANSparkMax intakeMotorSpeedController;
+  private static SmartPIDControllerCANSparkMax pivotMotorController;
   private static Collector collector;
 
   private double pivotSetPoint;
@@ -38,22 +39,26 @@ public class Collector extends SubsystemBase
     pivotMotor = new CANSparkMax(Constants.Collector.COLLECTOR_MOTOR, MotorType.kBrushless);
 
     intakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO / (Constants.Collector.INTAKE_ROLLER_DIAMETER * Math.PI));
-  intakeMotorSpeedController = new SmartPIDController
+  intakeMotorSpeedController = new SmartPIDControllerCANSparkMax
    (
-    Constants.PIDControllers.CollectorIntakePID.KP,
+     Constants.PIDControllers.CollectorIntakePID.KP,
      Constants.PIDControllers.CollectorIntakePID.KI,
      Constants.PIDControllers.CollectorIntakePID.KD,
-    "intake motor",
-    false
-   );
+     Constants.PIDControllers.CollectorIntakePID.FF,
+    "intake motor speed controller",
+    Constants.PIDControllers.CollectorIntakePID.SMART_PID_ACTIVE,
+    intakeMotor
+    );
 
-   pivotMotorController = new SmartPIDController
+   pivotMotorController = new SmartPIDControllerCANSparkMax
    (
     Constants.PIDControllers.CollectorPivotPID.KP,
-     Constants.PIDControllers.CollectorPivotPID.KI,
-     Constants.PIDControllers.CollectorPivotPID.KD,
-    "pivot motor",
-    false
+    Constants.PIDControllers.CollectorPivotPID.KI,
+    Constants.PIDControllers.CollectorPivotPID.KD,
+    Constants.PIDControllers.CollectorPivotPID.FF,
+   "pivot motor controller",
+   Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE,
+   pivotMotor
    );
   }
 
@@ -71,8 +76,8 @@ public class Collector extends SubsystemBase
   public void periodic() 
   {
     
-   pivotMotor.set(pivotMotorController.calculate(pivotMotor.getEncoder().getPosition(), pivotSetPoint));
-   intakeMotor.set(intakeMotorSpeedController.calculate(intakeMotor.getEncoder().getVelocity(),speedSetPoint));
+   pivotMotor.getPIDController().setReference(pivotSetPoint, CANSparkMax.ControlType.kPosition);
+   intakeMotor.getPIDController().setReference(speedSetPoint, CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
   }
   
