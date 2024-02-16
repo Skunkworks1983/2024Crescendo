@@ -15,7 +15,7 @@ import frc.robot.subsystems.OI;
 public class SwerveTeleop extends Command {
   
   Drivebase drivebase;
-  OI oi; 
+  OI oi;
 
   //this is updated to the robots current angle when using the targeting button or not in the turn joystick deadzone. Used for heading correction when not using the targeting button and in the turn joystick deadzone
   double setpointHeadingControl = 0.0;
