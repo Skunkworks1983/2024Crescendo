@@ -54,6 +54,20 @@ public class Constants {
     public static final int TARGETING_BUTTION = 11;
   }
 
+  public class Collector
+  {
+    //Collector Motor IDS
+    //stub
+    public static final int COLLECTOR_MOTOR = 0;  //TODO:set this!
+    public static final int COLLECTOR_PIVOT_MOTOR = 0; //TODO:set this!
+    public static final int INTAKE_GEAR_RATIO = 25;
+    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; //meters
+    public static final double PIVOT_GEAR_RATIO = 20;
+    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
+    public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
+  }
+
   public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
@@ -121,6 +135,26 @@ public class Constants {
       public static final double KD = 0.04;
 
       public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class CollectorIntakePID
+    {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double FF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = true;
+    }
+
+    public class CollectorPivotPID
+    {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double FF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = true;
     }
   }
 
