@@ -92,15 +92,16 @@ public class Constants {
     public class TurnPID {
 
       // Turning Motor PID Constants
-      //currently fairly fast but noisy.
+      // currently fairly fast but noisy.
       public static final double KP = .005;
       public static final double KI = 0;
       public static final double KD = 0.0004;
+      public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class DrivePID {
@@ -110,6 +111,8 @@ public class Constants {
       public static final double KI = .003;
       public static final double KD = 0.001;
       public static final double KF = .11;
+
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class HeadingControlPID {
@@ -189,6 +192,8 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413; // distance from center to wheel
-  }
+    
+    // distance from center to wheel
+    public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
+    }
 }

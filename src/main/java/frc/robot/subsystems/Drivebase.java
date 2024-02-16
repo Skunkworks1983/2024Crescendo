@@ -119,6 +119,7 @@ public class Drivebase extends SubsystemBase {
     visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
+    // The robot should have the same heading as the heading specified here on startup.
     resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
@@ -269,6 +270,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void configurePathPlanner() {
+
     AutoBuilder.configureHolonomic(this::getRobotPose, this::resetOdometry,
         this::getRobotRelativeSpeeds, this::setDriveChassisSpeed,
         new HolonomicPathFollowerConfig(
