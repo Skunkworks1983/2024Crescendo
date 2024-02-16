@@ -51,10 +51,10 @@ public class Constants {
     public static final double TRANSLATION_Y = 1.89583; //meters
 
     // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 0.262451; //rotations, not actual values, get them again
-    public static final double FRONT_RIGHT_OFFSET = -0.229492; //rotations
-    public static final double BACK_LEFT_OFFSET = -0.348145; //rotations
-    public static final double BACK_RIGHT_OFFSET = 0.295654; //rotations
+    public static final double FRONT_LEFT_OFFSET = -0.310303; //rotations, not actual values, get them again
+    public static final double FRONT_RIGHT_OFFSET = 0.202148; //rotations
+    public static final double BACK_LEFT_OFFSET = 0.387451; //rotations
+    public static final double BACK_RIGHT_OFFSET = -0.310059; //rotations
   }
 
 
