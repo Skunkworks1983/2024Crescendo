@@ -47,8 +47,8 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 0.947916666; //feet
-    public static final double TRANSLATION_Y = 0.822916666; //feet
+    public static final double TRANSLATION_X = 1.6458; //meters //
+    public static final double TRANSLATION_Y = 1.89583; //meters
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 0.262451; //rotations, not actual values, get them again

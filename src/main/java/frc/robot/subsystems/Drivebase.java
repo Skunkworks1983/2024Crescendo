@@ -39,8 +39,8 @@ public class Drivebase extends SubsystemBase {
 
   // locations of the modules, x positive forward y positive left
   Translation2d leftFrontLocation = new Translation2d(
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-    Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y)
+    Constants.DrivebaseInfo.TRANSLATION_X,
+    Constants.DrivebaseInfo.TRANSLATION_Y
   );
 
   Translation2d rightFrontLocation = new Translation2d(
