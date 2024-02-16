@@ -16,7 +16,7 @@ public class ExpelNote extends Command {
   public ExpelNote() {
     this.collector = Collector.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Collector.getInstance());
+    addRequirements(this.collector);
   }
 
   // Called when the command is initially scheduled.

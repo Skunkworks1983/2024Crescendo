@@ -15,6 +15,7 @@ public class CollectNotes extends Command {
   public CollectNotes() {
     this.collector = Collector.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.collector);
   }
 
   // Called when the command is initially scheduled.
