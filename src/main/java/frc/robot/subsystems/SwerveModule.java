@@ -51,6 +51,7 @@ public class SwerveModule extends SubsystemBase {
         Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD,
         modulePosition + " Turn", Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE);
 
+    turnMotor.restoreFactoryDefaults();
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
