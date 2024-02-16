@@ -28,12 +28,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-      m_robotContainer = new RobotContainer();
-      NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
-      autoChooser = AutoBuilder.buildAutoChooser();
-      SmartDashboard.putData("Auto Chooser", autoChooser);
-      
-
+    m_robotContainer = new RobotContainer();
+    NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   @Override
