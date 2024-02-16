@@ -47,8 +47,8 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 1.6458; //meters //
-    public static final double TRANSLATION_Y = 1.89583; //meters
+    public static final double TRANSLATION_X = 0.25056378641016; //meters
+    public static final double TRANSLATION_Y = 0.28886149998984; //meters
 
     // Can coder offsets
     public static final double FRONT_LEFT_OFFSET = 0.262451; //rotations, not actual values, get them again
@@ -75,7 +75,7 @@ public class Constants {
     public class DrivePID {
 
       // Velocity Mode PID Constants
-      public static final double KP = .25; //.25
+      public static final double KP = .25;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double KF = 0;
