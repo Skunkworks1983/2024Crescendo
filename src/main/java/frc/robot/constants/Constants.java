@@ -57,18 +57,17 @@ public class Constants {
     public static final int TARGETING_BUTTION = 11;
   }
 
-  public class Collector
-  {
-    //Collector Motor IDS
-    //stub
-    public static final int COLLECTOR_MOTOR = 0;  //TODO:set this!
-    public static final int COLLECTOR_PIVOT_MOTOR = 0; //TODO:set this!
+  public class Collector {
+    // Collector Motor IDS
+    // stub
+    public static final int COLLECTOR_MOTOR = 0; // TODO:set this!
+    public static final int COLLECTOR_PIVOT_MOTOR = 0; // TODO:set this!
     public static final int INTAKE_GEAR_RATIO = 25;
-    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; //meters
+    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20;
-    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
+    public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
   }
 
   public class DrivebaseInfo {
@@ -103,12 +102,14 @@ public class Constants {
     public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
-    public static final double WHEEL_DIAMETER = 0.1016; //meters
-    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
-    //assuiming backwards on the robot is 0 and straight up is 90, double check messurements on real robot
-    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = (1.0/360) * SHOOT_PIVOT_GEAR_RATIO;
+    public static final double WHEEL_DIAMETER = 0.1016; // meters
+    public static final double SHOOTER_ROTATIONS_PER_METER =
+        SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
+    // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
+    // real robot
+    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
     public static final double SHOOTER_RESTING_POSITION = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES; 
+    public static final double SHOOTER_MAX_POSITION = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
   }
 
   public class PIDControllers {
@@ -116,7 +117,6 @@ public class Constants {
     public static final boolean SMART_PID_ACTIVE = true;
 
     public class TurnPID {
-
       // Turning Motor PID Constants
       // currently fairly fast but noisy.
       public static final double KP = .005;
@@ -131,7 +131,6 @@ public class Constants {
     }
 
     public class DrivePID {
-
       // Velocity Mode PID Constants
       public static final double KP = .25;
       public static final double KI = .003;
@@ -142,7 +141,6 @@ public class Constants {
     }
 
     public class HeadingControlPID {
-
       public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
@@ -151,7 +149,6 @@ public class Constants {
     }
 
     public class ShootingPID {
-    
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -161,7 +158,6 @@ public class Constants {
     }
 
     public class ShooterIndexorPID {
-    
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -171,7 +167,6 @@ public class Constants {
     }
 
     public class ShooterPivotPID {
-    
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -180,8 +175,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = false;
     }
 
-    public class CollectorIntakePID
-    {
+    public class CollectorIntakePID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -190,8 +184,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = true;
     }
 
-    public class CollectorPivotPID
-    {
+    public class CollectorPivotPID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -209,7 +202,7 @@ public class Constants {
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet per second.
-  // 14.2 f/s was the max speed we could get in SwerveTeleop. 
+  // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
   public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
@@ -268,8 +261,8 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    
+
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
-    }
+  }
 }
