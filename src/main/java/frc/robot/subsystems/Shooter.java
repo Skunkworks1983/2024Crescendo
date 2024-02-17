@@ -12,31 +12,33 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
-import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 public class Shooter extends SubsystemBase {
 
-  TalonFX pivotMotor;
-  CANSparkMax shootMotor;
-  CANSparkMax shooterIndexerMotor;
+  public TalonFX pivotMotor;
+  public CANSparkMax shootMotor;
+  public CANSparkMax shooterIndexerMotor;
   Timer timer;
   DigitalInput noteBreak;
-  private double shootSetPoint;
-  private double indexerSetPoint;
 
   private static Shooter shooter;
+
+  private final DigitalInput pivotMotorForwardLimit = new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  private final DigitalInput pivotMotorReverseLimit = new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
   SmartPIDControllerCANSparkMax shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDControllerTalonFX pivotController;
 
   final PositionVoltage positionController = new PositionVoltage(0);
+  final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   private Shooter() {
     timer = new Timer();
@@ -51,46 +53,53 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE, shootMotor);
 
     indexerController =
-        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexorPID.KP,
-            Constants.PIDControllers.ShooterIndexorPID.KI,
-            Constants.PIDControllers.ShooterIndexorPID.KD,
-            Constants.PIDControllers.ShooterIndexorPID.KF, "Shooter Indexer",
-            Constants.PIDControllers.ShooterIndexorPID.SMART_PID_ACTIVE, shooterIndexerMotor);
+        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
+            Constants.PIDControllers.ShooterIndexerPID.KI,
+            Constants.PIDControllers.ShooterIndexerPID.KD,
+            Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
+            Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
 
     pivotController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShooterPivotPID.KP,
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,
         Constants.PIDControllers.ShooterPivotPID.KF, "Shooter Pivot",
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
-
-    HardwareLimitSwitchConfigs limitSwitchConfigs = new HardwareLimitSwitchConfigs();
-    limitSwitchConfigs.ForwardLimitAutosetPositionValue = Constants.Shooter.SHOOTER_MAX_POSITION;
-    limitSwitchConfigs.ForwardLimitAutosetPositionEnable = true;
-    limitSwitchConfigs.ReverseLimitAutosetPositionValue =
-        Constants.Shooter.SHOOTER_RESTING_POSITION;
-    limitSwitchConfigs.ReverseLimitAutosetPositionEnable = true;
-
-    pivotMotor.getConfigurator().apply(limitSwitchConfigs);
   }
 
   @Override
   public void periodic() {
-    shootMotor.getPIDController().setReference(shootSetPoint, CANSparkMax.ControlType.kVelocity);
-    shooterIndexerMotor.getPIDController().setReference(indexerSetPoint,
-        CANSparkMax.ControlType.kVelocity);
+
+    if(pivotMotorForwardLimit.get()) {
+      pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
+    } else if(pivotMotorReverseLimit.get()) {
+      pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
+    }
+    
+    shootingController.updatePID();
+    indexerController.updatePID();
+    pivotController.updatePID();
   }
 
   public void setShooterAngle(Rotation2d desiredRotation) {
     positionController.Slot = 0;
     pivotMotor.setControl(positionController.withPosition(
-        desiredRotation.getDegrees() * Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
+        desiredRotation.getDegrees()/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
+        .withLimitForwardMotion(pivotMotorForwardLimit.get())
+        .withLimitReverseMotion(pivotMotorReverseLimit.get()));
+  }
+
+  public void SetShooterAngleVelocity(double radiansPerSecond) {
+    velocityController.Slot = 0;
+    pivotMotor.setControl(velocityController.withVelocity(Units.radiansToDegrees(radiansPerSecond)/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
+    .withLimitForwardMotion(pivotMotorForwardLimit.get())
+    .withLimitReverseMotion(pivotMotorReverseLimit.get()));
   }
 
   public void setShooterSpeed(double speedMetersPerSecond) {
-    shootSetPoint = (speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60;
+    shootMotor.getPIDController().setReference((speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60, CANSparkMax.ControlType.kVelocity);
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
-    indexerSetPoint = (speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60;
+    shooterIndexerMotor.getPIDController().setReference((speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60, CANSparkMax.ControlType.kVelocity);
   }
 
   public boolean getShooterIndexerLimitSwitch() {
@@ -100,6 +109,16 @@ public class Shooter extends SubsystemBase {
   public double getShooterPivotRotation() {
     return pivotMotor.getPosition().getValueAsDouble()
         * Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+  }
+
+  public boolean getLimitSwitchOutput(int limitID) {
+    if(limitID == Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH) {
+      return pivotMotorForwardLimit.get();
+    }
+    else if(limitID == Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH) {
+      return pivotMotorReverseLimit.get();
+    }
+    return false;
   }
 
   public static Shooter getInstance() {

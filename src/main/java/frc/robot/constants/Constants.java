@@ -1,6 +1,7 @@
 
 package frc.robot.constants;
 
+import java.security.PublicKey;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -43,12 +44,14 @@ public class Constants {
     public static final int CLIMBER_MOTOR_1 = 0;
     public static final int CLIMBER_MOTOR_2 = 0;
 
-    // Shooter IDS
-    // stub
+    // Shooter Motor IDS
     public static final int SHOOT_MOTOR = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
     public static final int SHOOTER_INDEXER_MOTOR = 0;
     public static final int NOTE_BREAK = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
+
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -108,8 +111,10 @@ public class Constants {
     // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
+    public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
   }
 
   public class PIDControllers {
@@ -157,7 +162,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = false;
     }
 
-    public class ShooterIndexorPID {
+    public class ShooterIndexerPID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
