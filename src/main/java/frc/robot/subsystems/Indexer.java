@@ -28,7 +28,7 @@ public class Indexer extends SubsystemBase {
     indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR, MotorType.kBrushless);
     indexerMotorController = new SmartPIDControllerCANSparkMax(
         Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KI,
-        Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KF,
+        Constants.IndexerConstants.INDEXER_MOTOR_KD, Constants.IndexerConstants.INDEXER_MOTOR_KF,
         "IndexerMotor", Constants.IndexerConstants.SET_INDEXER_SMART_PID, indexerMotor);
 
   }
@@ -43,19 +43,8 @@ public class Indexer extends SubsystemBase {
   }
 
   public boolean getBeamBreakSensor() {
-    if (shooterBeamBreak.get() == true) {
-      return true;
-    } else {
-      return false;
-    }
+    return shooterBeamBreak.get();  
   }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-
 
   public static Indexer getInstance() {
     if (indexer == null) {

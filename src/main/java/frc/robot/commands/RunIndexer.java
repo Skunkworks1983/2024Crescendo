@@ -9,11 +9,12 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Indexer;
 
 public class RunIndexer extends Command {
-  private Indexer getIndexer;
+  private Indexer indexer;
 
   /** Creates a new RunIndexer. */
   public RunIndexer() {
-    getIndexer = Indexer.getInstance();
+    indexer = Indexer.getInstance();
+    addRequirements(indexer);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -21,7 +22,7 @@ public class RunIndexer extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    getIndexer.setSpeedIndexer(Constants.IndexerConstants.INDEXER_SPEED);
+    indexer.setSpeedIndexer(Constants.IndexerConstants.INDEXER_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,12 +34,12 @@ public class RunIndexer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    getIndexer.setSpeedIndexer(0);
+    indexer.setSpeedIndexer(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getIndexer.getBeamBreakSensor();
+    return indexer.getBeamBreakSensor();
   }
 }
