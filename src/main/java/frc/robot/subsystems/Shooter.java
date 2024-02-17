@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
 
   TalonFX pivotMotor;
   CANSparkMax shootMotor;
-  CANSparkMax indexerMotor;
+  CANSparkMax shooterIndexerMotor;
   Timer timer;
   DigitalInput noteBreak;
   private double shootSetPoint;
@@ -42,7 +42,7 @@ public class Shooter extends SubsystemBase {
     timer = new Timer();
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
     shootMotor = new CANSparkMax(Constants.IDS.SHOOTER_PIVOT_MOTOR, MotorType.kBrushless);
-    indexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
+    shooterIndexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
     noteBreak = new DigitalInput(Constants.IDS.NOTE_BREAK);
 
     shootingController = new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShootingPID.KP,
@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
             Constants.PIDControllers.ShooterIndexorPID.KI,
             Constants.PIDControllers.ShooterIndexorPID.KD,
             Constants.PIDControllers.ShooterIndexorPID.KF, "Shooter Indexer",
-            Constants.PIDControllers.ShooterIndexorPID.SMART_PID_ACTIVE, indexerMotor);
+            Constants.PIDControllers.ShooterIndexorPID.SMART_PID_ACTIVE, shooterIndexerMotor);
 
     pivotController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShooterPivotPID.KP,
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,
@@ -75,7 +75,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     shootMotor.getPIDController().setReference(shootSetPoint, CANSparkMax.ControlType.kVelocity);
-    indexerMotor.getPIDController().setReference(indexerSetPoint,
+    shooterIndexerMotor.getPIDController().setReference(indexerSetPoint,
         CANSparkMax.ControlType.kVelocity);
   }
 
