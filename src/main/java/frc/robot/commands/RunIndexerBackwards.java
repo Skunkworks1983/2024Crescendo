@@ -9,11 +9,12 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Indexer;
 
 public class RunIndexerBackwards extends Command {
-   private Indexer getIndexer;
+  private Indexer getIndexer;
+
   /** Creates a new RunIndexerBackwards. */
   public RunIndexerBackwards() {
     getIndexer = Indexer.getInstance();
-    
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

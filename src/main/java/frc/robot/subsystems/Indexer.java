@@ -8,15 +8,18 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
+import frc.robot.utils.SmartPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
+import frc.robot.utils.SmartPIDControllerCANSparkMax;
 
 // This is a stub subsystem
 public class Indexer extends SubsystemBase {
   private static Indexer indexer;
   CANSparkMax indexerMotor;
+  private SmartPIDControllerCANSparkMax indexerMotorController;
   private DigitalInput shooterBeamBreak;
 
   /** Creates a new Indexer. */
@@ -26,6 +29,7 @@ public class Indexer extends SubsystemBase {
     indexerMotor.getPIDController().setP(Constants.IndexerConstants.INDEXER_MOTOR_KP);
     indexerMotor.getPIDController().setI(Constants.IndexerConstants.INDEXER_MOTOR_KI);
     indexerMotor.getPIDController().setD(Constants.IndexerConstants.INDEXER_MOTOR_KD);
+    
 
   }
 
