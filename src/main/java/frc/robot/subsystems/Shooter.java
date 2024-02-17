@@ -12,11 +12,14 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDController;
+import frc.robot.utils.SmartPIDControllerCANSparkMax;
+import frc.robot.utils.SmartPIDControllerTalonFX;
 
 //This is a stub subsystem
 public class Shooter extends SubsystemBase {
@@ -26,18 +29,16 @@ public class Shooter extends SubsystemBase {
   CANSparkMax indexerMotor;
   Timer timer;
   DigitalInput noteBreak;
+  private double shootSetPoint;
+  private double indexerSetPoint;
 
   private static Shooter shooter;
 
-  SmartPIDController shootingController = new SmartPIDController(
-    Constants.PIDControllers.ShootingPID.KP, 
-    Constants.PIDControllers.ShootingPID.KI, 
-    Constants.PIDControllers.ShootingPID.KD,
-    "Shooting",
-    Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE
-  );
+  SmartPIDControllerCANSparkMax shootingController;
+  SmartPIDControllerCANSparkMax indexerController;
+  SmartPIDControllerTalonFX pivotController; 
 
-    final PositionVoltage positionController = new PositionVoltage(0);
+  final PositionVoltage positionController = new PositionVoltage(0);
   
   private Shooter() {
     timer = new Timer();
@@ -45,6 +46,36 @@ public class Shooter extends SubsystemBase {
     shootMotor = new CANSparkMax(Constants.IDS.SHOOTER_PIVOT_MOTOR, MotorType.kBrushless);
     indexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
     noteBreak = new DigitalInput(Constants.IDS.NOTE_BREAK);
+
+    shootingController = new SmartPIDControllerCANSparkMax(
+      Constants.PIDControllers.ShootingPID.KP, 
+      Constants.PIDControllers.ShootingPID.KI, 
+      Constants.PIDControllers.ShootingPID.KD,
+      Constants.PIDControllers.ShootingPID.KF,
+      "Shooter Shoot",
+      Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE,
+      shootMotor
+    );
+
+    indexerController= new SmartPIDControllerCANSparkMax(
+      Constants.PIDControllers.ShooterIndexorPID.KP, 
+      Constants.PIDControllers.ShooterIndexorPID.KI, 
+      Constants.PIDControllers.ShooterIndexorPID.KD,
+      Constants.PIDControllers.ShooterIndexorPID.KF,
+      "Shooter Indexer", 
+      Constants.PIDControllers.ShooterIndexorPID.SMART_PID_ACTIVE,
+      indexerMotor
+    );
+    
+    pivotController = new SmartPIDControllerTalonFX(
+      Constants.PIDControllers.ShooterPivotPID.KP, 
+      Constants.PIDControllers.ShooterPivotPID.KI, 
+      Constants.PIDControllers.ShooterPivotPID.KD,
+      Constants.PIDControllers.ShooterPivotPID.KF,
+      "Shooter Pivot", 
+      Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, 
+      pivotMotor
+    );
 
     HardwareLimitSwitchConfigs limitSwitchConfigs = new HardwareLimitSwitchConfigs();
     limitSwitchConfigs.ForwardLimitAutosetPositionValue = Constants.Shooter.SHOOTER_MAX_POSITION;
@@ -57,7 +88,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    shootMotor.getPIDController().setReference(shootSetPoint, CANSparkMax.ControlType.kVelocity);
+    indexerMotor.getPIDController().setReference(indexerSetPoint, CANSparkMax.ControlType.kVelocity);
   }
 
   public void setShooterAngle(Rotation2d desiredRotation) {
@@ -66,21 +98,19 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterSpeed(double speedMetersPerSecond) {
-
-    shootMotor.set(
-      shootingController.calculate(
-        (shootMotor.getEncoder().getVelocity() * Constants.Shooter.ROTATIONS_PER_METER)/60, 
-        speedMetersPerSecond
-      )
-    );
+    shootSetPoint = (speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60;
   }
 
-  public void setShooterIndexerSpeed(double speed) {
-    indexerMotor.set(speed);
+  public void setShooterIndexerSpeed(double speedMetersPerSecond) {
+    indexerSetPoint = (speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60;
   }
 
   public boolean getShooterIndexerLimitSwitch() {
     return noteBreak.get();
+  }
+
+  public double getShooterPivotRotation() {
+    return pivotMotor.getPosition().getValueAsDouble() * Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
   }
 
   public static Shooter getInstance() {
