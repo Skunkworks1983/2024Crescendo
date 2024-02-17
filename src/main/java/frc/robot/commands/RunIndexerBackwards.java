@@ -30,7 +30,7 @@ public class RunIndexerBackwards extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexer.IndexerStop();
+    indexer.stop();
   }
 
   // Returns true when the command should end.

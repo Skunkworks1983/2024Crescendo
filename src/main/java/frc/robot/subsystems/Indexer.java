@@ -39,7 +39,7 @@ public class Indexer extends SubsystemBase {
     indexerMotor.getPIDController().setReference(speedRevolutionsPerSecond,
         CANSparkBase.ControlType.kVelocity);
   }
-  public void IndexerStop() {
+  public void stop() {
     indexerMotor.set(0);
     
   }
