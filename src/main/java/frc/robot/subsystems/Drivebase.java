@@ -51,6 +51,7 @@ public class Drivebase extends SubsystemBase {
   private static Drivebase drivebase;
   OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
+  
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -58,7 +59,10 @@ public class Drivebase extends SubsystemBase {
 
   PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
-  Pose2d pose;
+  
+  // Position used for targeting
+  Translation2d targetPose;
+
   AprilTagFieldLayout aprilTagFieldLayout;
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
@@ -267,6 +271,14 @@ public class Drivebase extends SubsystemBase {
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  public void setTargetPoint (Translation2d target) {
+    targetPose = target;
+  }
+
+  public Translation2d getTargetPoint () {
+    return targetPose;
   }
 
   public void configurePathPlanner() {

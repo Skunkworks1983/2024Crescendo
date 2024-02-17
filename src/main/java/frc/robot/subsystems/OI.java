@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.SetTargetingPos;
 import frc.robot.constants.Constants;
 
 public class OI extends SubsystemBase {
@@ -24,11 +25,11 @@ public class OI extends SubsystemBase {
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
     targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
+
+    
   }
 
-
   @Override
-
   public void periodic() {
   }
 

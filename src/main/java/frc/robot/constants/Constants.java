@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -206,6 +207,27 @@ public class Constants {
     // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
     // TODO: Experiment with rotational output of vision
     public static final double ROTATIONAL_UNCERTAINTY = 99999999;
+  }
+
+
+  public class Targeting {
+    public enum TargetingPoint {
+      SPEAKER(new Translation2d(0,0)),
+      NONE();
+
+      Translation2d target;
+      TargetingPoint(Translation2d target) {
+        this.target = target;
+      }
+
+      TargetingPoint() {
+
+      }
+
+      public Translation2d getTarget() {
+        return target;
+      }
+    }
   }
 
   public static class OperatorConstants {
