@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -12,7 +11,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -111,14 +109,13 @@ public class Shooter extends SubsystemBase {
         * Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
   }
 
-  public boolean getLimitSwitchOutput(int limitID) {
-    if(limitID == Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH) {
+  public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
+    if(forwardLimitSwitch) {
       return pivotMotorForwardLimit.get();
     }
-    else if(limitID == Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH) {
+    else {
       return pivotMotorReverseLimit.get();
     }
-    return false;
   }
 
   public static Shooter getInstance() {
