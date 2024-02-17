@@ -232,7 +232,9 @@ public class Constants {
     public static final double INDEXER_MOTOR_KP = 0;
     public static final double INDEXER_MOTOR_KI = 0;
     public static final double INDEXER_MOTOR_KD = 0;
+    public static final double INDEXER_MOTOR_KF = 0;
     public static final double INDEXER_SPEED = 1; 
     public static final double REVERSE_INDEXER_SPEED = -1; 
+    public static final boolean SET_INDEXER_SMART_PID = true;
   }
 }

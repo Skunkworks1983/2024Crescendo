@@ -26,11 +26,11 @@ public class Indexer extends SubsystemBase {
   public Indexer() {
     shooterBeamBreak = new DigitalInput(Constants.IndexerConstants.SHOOTER_BEAM_BREAK);
     indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR, MotorType.kBrushless);
-    indexerMotor.getPIDController().setP(Constants.IndexerConstants.INDEXER_MOTOR_KP);
-    indexerMotor.getPIDController().setI(Constants.IndexerConstants.INDEXER_MOTOR_KI);
-    indexerMotor.getPIDController().setD(Constants.IndexerConstants.INDEXER_MOTOR_KD);
-    
-
+    indexerMotorController = new SmartPIDControllerCANSparkMax(
+        Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KI,
+        Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KF,
+        "IndexerMotor", Constants.IndexerConstants.SET_INDEXER_SMART_PID, indexerMotor);
+        
   }
 
   public void setSpeedIndexer(double speedMetersPerSecond) {
