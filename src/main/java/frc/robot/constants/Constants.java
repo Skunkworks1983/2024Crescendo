@@ -105,11 +105,14 @@ public class Constants {
 
   public class Shooter {
     public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
+    public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double WHEEL_DIAMETER = 0.1016; //meters
     public static final double ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
-    public static final double SHOOTER_RESTING_POSITION = 27.8;
-    public static final double SHOOTER_MAX_POSITION = 119.5; //assuiming backwards on the robot is 0 and straight up is 90, double check messurements on real robot
+    //assuiming backwards on the robot is 0 and straight up is 90, double check messurements on real robot
+    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = (1.0/360) * SHOOT_PIVOT_GEAR_RATIO;
+    public static final double SHOOTER_RESTING_POSITION = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES; 
   }
 
   public class PIDControllers {

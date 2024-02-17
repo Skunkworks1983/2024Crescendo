@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.text.Position;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -33,6 +36,8 @@ public class Shooter extends SubsystemBase {
     "Shooting",
     Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE
   );
+
+    final PositionVoltage positionController = new PositionVoltage(0);
   
   private Shooter() {
     timer = new Timer();
@@ -55,8 +60,9 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setShooterRotation(Rotation2d desiredRotation) {
-    
+  public void setShooterAngle(Rotation2d desiredRotation) {
+    positionController.Slot = 0;
+    pivotMotor.setControl(positionController.withPosition(desiredRotation.getDegrees() * Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
   }
 
   public void setShooterSpeed(double speedMetersPerSecond) {
@@ -69,14 +75,11 @@ public class Shooter extends SubsystemBase {
     );
   }
 
-  public boolean setShooterIndexerSpeed(double speed) {
-    if(!noteBreak.get()) {
-      indexerMotor.set(speed);
-    }
-    else{
-      indexerMotor.set(0);
-    }
+  public void setShooterIndexerSpeed(double speed) {
+    indexerMotor.set(speed);
+  }
 
+  public boolean getShooterIndexerLimitSwitch() {
     return noteBreak.get();
   }
 
