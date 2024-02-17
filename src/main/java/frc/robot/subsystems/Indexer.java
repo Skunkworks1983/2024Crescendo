@@ -30,7 +30,6 @@ public class Indexer extends SubsystemBase {
         Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KI,
         Constants.IndexerConstants.INDEXER_MOTOR_KD, Constants.IndexerConstants.INDEXER_MOTOR_KF,
         "IndexerMotor", Constants.IndexerConstants.SET_INDEXER_SMART_PID, indexerMotor);
-
   }
 
   public void setSpeedIndexer(double speedMetersPerSecond) {
@@ -39,7 +38,10 @@ public class Indexer extends SubsystemBase {
             * Constants.IndexerConstants.INDEXER_GEAR_RATIO));
     indexerMotor.getPIDController().setReference(speedRevolutionsPerSecond,
         CANSparkBase.ControlType.kVelocity);
-
+  }
+  public void IndexerStop() {
+    indexerMotor.set(0);
+    
   }
 
   public boolean getBeamBreakSensor() {
@@ -51,5 +53,9 @@ public class Indexer extends SubsystemBase {
       indexer = new Indexer();
     }
     return indexer;
+  }
+  @Override
+  public void periodic() {
+    indexerMotorController.updatePID(); 
   }
 }

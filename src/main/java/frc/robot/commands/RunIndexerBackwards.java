@@ -15,8 +15,6 @@ public class RunIndexerBackwards extends Command {
   public RunIndexerBackwards() {
     indexer = Indexer.getInstance();
     addRequirements(indexer);
-
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +30,7 @@ public class RunIndexerBackwards extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexer.setSpeedIndexer(0);
+    indexer.IndexerStop();
   }
 
   // Returns true when the command should end.
