@@ -6,7 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -21,7 +23,10 @@ public class SwerveTeleop extends Command {
   double setpointHeadingControl = 0.0;
 
   //parts of the code set this variable, and then the variable is used to tell the drive command that turns to a certan angle where to turn to 
-  Double desiredHeadingSetpoint = 0.0;
+  double desiredHeadingSetpoint = 0.0;
+
+  //this var will be swaped to -1 if we are on the red Alliance
+  int isFlipped = 1;
 
   Timer timer;
   double timeAtLastInput;
@@ -42,6 +47,11 @@ public class SwerveTeleop extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      isFlipped = -1;
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -81,8 +91,8 @@ public class SwerveTeleop extends Command {
     if(!useHeadingControl)
     {
       drivebase.setDrive(
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftY() * isFlipped, Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX() * isFlipped, Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         angularVelocity,
         true
       );
@@ -90,8 +100,8 @@ public class SwerveTeleop extends Command {
     else {
       drivebase.setHeadingController(desiredHeadingSetpoint);
       drivebase.setDriveTurnPos(
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
-        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftY() * isFlipped, Constants.X_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
+        MathUtil.applyDeadband(oi.getLeftX() * isFlipped, Constants.Y_JOY_DEADBAND) * Constants.OI_DRIVE_SPEED_RATIO,
         true
       );
     }
