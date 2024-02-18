@@ -114,6 +114,15 @@ public class Constants {
     public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
+
+    //Strings for the commands that run in teleop, it allows the flywheel to figure out what command is being run
+    public static final String SHOOTER_PIVOT_AMP_COMMAND = "Amp";
+    public static final String SHOOTER_PIVOT_STOW_COMMAND = "Stow";
+    public static final String SHOOTER_PIVOT_SPEAKER_COMMAND = "Speaker";
+
+    //Set Flywheel speeds for Shooter
+    public static final double STOW_FLYWHEEL_SPEED = 0;
+    public static final double AMP_FLYWHEEL_SPEED = 0;
   }
 
   public class PIDControllers {

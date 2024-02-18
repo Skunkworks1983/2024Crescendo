@@ -25,6 +25,7 @@ public class Shooter extends SubsystemBase {
   public CANSparkMax shooterIndexerMotor;
   Timer timer;
   DigitalInput noteBreak;
+  public String pivotCommand = Constants.Shooter.SHOOTER_PIVOT_STOW_COMMAND;
 
   private static Shooter shooter;
 
@@ -77,19 +78,21 @@ public class Shooter extends SubsystemBase {
     pivotController.updatePID();
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation) {
+  public void setShooterAngle(Rotation2d desiredRotation, String pivotCommand) {
     positionController.Slot = 0;
     pivotMotor.setControl(positionController.withPosition(
         desiredRotation.getDegrees()/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
         .withLimitForwardMotion(pivotMotorForwardLimit.get())
         .withLimitReverseMotion(pivotMotorReverseLimit.get()));
+    this.pivotCommand = pivotCommand;
   }
 
-  public void SetShooterAngleVelocity(double radiansPerSecond) {
+  public void setShooterAngleVelocity(double radiansPerSecond, String pivotCommand) {
     velocityController.Slot = 0;
     pivotMotor.setControl(velocityController.withVelocity(Units.radiansToDegrees(radiansPerSecond)/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
     .withLimitForwardMotion(pivotMotorForwardLimit.get())
     .withLimitReverseMotion(pivotMotorReverseLimit.get()));
+    this.pivotCommand = pivotCommand;
   }
 
   public void setShooterSpeed(double speedMetersPerSecond) {
@@ -116,6 +119,10 @@ public class Shooter extends SubsystemBase {
     else {
       return pivotMotorReverseLimit.get();
     }
+  }
+
+  public String getPivotArmCommand() {
+    return pivotCommand;
   }
 
   public static Shooter getInstance() {
