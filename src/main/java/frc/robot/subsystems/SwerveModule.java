@@ -44,7 +44,6 @@ public class SwerveModule extends SubsystemBase {
     turnMotor = new CANSparkMax(swerveModuleConstants.turnMotorId, MotorType.kBrushless);
     turnMotor.restoreFactoryDefaults();
     turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
-    turnMotor.restoreFactoryDefaults();
     this.modulePosition = swerveModuleConstants.modulePosition;
 
     turnController = new SmartPIDController(Constants.PIDControllers.TurnPID.KP,
