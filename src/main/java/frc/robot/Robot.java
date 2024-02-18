@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.CollectNotes;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.commands.WaitDuration;
 import frc.robot.subsystems.Drivebase;
@@ -30,6 +32,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+    NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
+  //  NamedCommands.registerCommand("CollectNotes", new CollectNotes());
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }

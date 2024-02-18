@@ -201,7 +201,7 @@ public class Constants {
 
     // Multplying distance to target by this constant to get X and Y uncertainty when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .3;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .4;
 
     // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
     // TODO: Experiment with rotational output of vision

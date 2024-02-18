@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3961860455049235,
-        "y": 5.637461700988565
+        "x": 1.5231757689978491,
+        "y": 6.391971257224957
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.344749351152838,
-        "y": 5.647749039858983
+        "x": 2.644344352301938,
+        "y": 5.554165769909148
       },
       "isLocked": false,
-      "linkedName": "new pickup 3"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.52,
-        "y": 4.341257003316012
+        "x": 7.737592269077669,
+        "y": 7.467744197574909
       },
       "prevControl": {
-        "x": 1.7587369235891357,
-        "y": 4.752750558132695
+        "x": 6.737592269077675,
+        "y": 7.467744197574909
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 140.0,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "GetMiddleNotesPaths",
+  "previewStartingState": {
+    "rotation": 179.37040139158975,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }
