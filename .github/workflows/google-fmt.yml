@@ -18,6 +18,9 @@ jobs:
           git config user.email ""
           git fetch origin main
           readarray -t FILES_CHANGED < <(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA origin/main)
+          if [ -z "$FILES_CHANGED" ];then
+            exit
+          fi
           readarray -t FMT_FAILS < <(git diff --name-only "${FILES_CHANGED[@]}")
 
           git diff --name-only "${FMT_FAILS[@]}" | while read file; do
