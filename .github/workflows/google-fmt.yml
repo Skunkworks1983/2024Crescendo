@@ -1,0 +1,30 @@
+name: Format
+
+on: [ push, pull_request ]
+
+jobs:
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
+          skip-commit: true
+      - name: Print diffs
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email ""
+          git fetch origin main
+          readarray -t FILES_CHANGED < <(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA origin/main)
+          readarray -t FMT_FAILS < <(git diff --name-only "${FILES_CHANGED[@]}")
+
+          git diff --name-only "${FMT_FAILS[@]}" | while read file; do
+          echo "$file failed formatting check:"
+            git diff "$file"
+          done
+
+          if [ "$FMT_FAILS" ];then
+            exit 1
+          fi
