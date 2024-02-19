@@ -156,8 +156,10 @@ public class SwerveModule extends SubsystemBase {
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
-  }
 
+    updateTurnSpeedBasedOnSetpoint();
+  }
+;
 
   void updateTurnSpeedBasedOnSetpoint(){
     // calculate speed
