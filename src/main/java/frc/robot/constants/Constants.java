@@ -2,6 +2,7 @@
 package frc.robot.constants;
 
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -211,7 +212,7 @@ public class Constants {
   public class Targeting {
     public enum TargetingPoint {
 
-      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(0))), 
+      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(20))), 
       NONE();
 
       Translation2d target;
@@ -227,7 +228,11 @@ public class Constants {
 
       /** Returns the Translation2d value of the target. */
       public Optional<Translation2d> get() {
-        return Optional.of(target);
+        if (target == null) {
+          return Optional.empty();
+        } else {
+          return Optional.of(target);
+        }
       }
     }
   }

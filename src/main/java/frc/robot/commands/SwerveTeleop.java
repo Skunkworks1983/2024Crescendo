@@ -25,7 +25,7 @@ public class SwerveTeleop extends Command {
   // Tells the heading contoller what heading to turn to.
   double headingControllerSetpoint = 0.0;
 
-  private final Timer timer = new Timer();
+  Timer timer = new Timer();
   double lastSeconds;
 
   // Ensures the the heading contoller is only set once.
@@ -35,13 +35,12 @@ public class SwerveTeleop extends Command {
     this.drivebase = drivebase;
     this.oi = oi;
     addRequirements(drivebase);
+    lastSeconds = timer.getFPGATimestamp();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.restart();
-    lastSeconds = timer.get();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +49,6 @@ public class SwerveTeleop extends Command {
     boolean useHeadingControl = false;
     boolean isTargeting = drivebase.getTargetPoint().isPresent();
     boolean outsideDeadband = Math.abs(oi.getRightX()) > Constants.ROT_JOY_DEADBAND;
-    double seconds = timer.get();
 
     // If the targeting button is being pressed, than override all other heading controls and use
     // targeting.
@@ -62,7 +60,7 @@ public class SwerveTeleop extends Command {
           Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
       currentHeading = drivebase.getGyroAngle();
-      lastSeconds = seconds;
+      lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;
       hasUpdated = false;
 
@@ -70,14 +68,14 @@ public class SwerveTeleop extends Command {
     } else if (outsideDeadband) {
 
       currentHeading = drivebase.getGyroAngle();
-      lastSeconds = seconds;
+      lastSeconds = timer.getFPGATimestamp();
       hasUpdated = false;
 
     // Otherwise, use the heading controller to maintain heading.
     } else {
 
       // Waits a second to allow extra turn momentum to dissipate.
-      if (seconds - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL && !hasUpdated) {
+      if (timer.getFPGATimestamp() - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL && !hasUpdated) {
         currentHeading = drivebase.getGyroAngle();
         headingControllerSetpoint = currentHeading;
 

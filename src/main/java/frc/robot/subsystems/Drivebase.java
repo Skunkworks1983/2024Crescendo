@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
-
+import javax.swing.text.html.Option;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -135,6 +135,8 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnP", 0);
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
+
+    targetPoint = Optional.empty();
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -274,8 +276,8 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Sets the current target point used for targeting. */
-  public void setTargetPoint(Constants.Targeting.TargetingPoint targetPoint) {
-    this.targetPoint = targetPoint.get();
+  public void setTargetPoint(Constants.Targeting.TargetingPoint target) {
+    targetPoint = target.get();
   }
 
   /** Returns the current targeting point. */
