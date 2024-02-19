@@ -219,7 +219,8 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    // center to wheel
+
+    // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
   }
 
