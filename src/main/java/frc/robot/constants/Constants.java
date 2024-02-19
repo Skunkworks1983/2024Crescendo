@@ -2,7 +2,6 @@
 package frc.robot.constants;
 
 import java.util.Optional;
-import javax.swing.text.html.Option;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -55,7 +54,8 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
-    public static final int SPEAKER_TARGETING_BUTTON = 11;
+    public static final int SPEAKER_TARGETING_BUTTON = 2;
+    public static final int AMP_TARGETING_BUTTON = 3;
   }
 
   public class Collector {
@@ -211,9 +211,8 @@ public class Constants {
 
   public class Targeting {
     public enum TargetingPoint {
-
-      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(20))), 
-      NONE();
+      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
+          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(26.9375))), NONE();
 
       Translation2d target;
 
@@ -226,7 +225,10 @@ public class Constants {
         target = null;
       }
 
-      /** Returns the Translation2d value of the target. */
+      /**
+       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * return Optional.empty().
+       */
       public Optional<Translation2d> get() {
         if (target == null) {
           return Optional.empty();

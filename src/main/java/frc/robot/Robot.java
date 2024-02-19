@@ -23,11 +23,13 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private SendableChooser<Command> autoChooser;
 
-  Drivebase drivebase = Drivebase.getInstance();
-  OI oi = OI.getInstance();
+  OI oi;
+  Drivebase drivebase;
 
   @Override
   public void robotInit() {
+    oi = OI.getInstance();
+    drivebase = Drivebase.getInstance();
     m_robotContainer = new RobotContainer();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -55,7 +57,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-   Command currentAutonomousCommand = autoChooser.getSelected();
+    Command currentAutonomousCommand = autoChooser.getSelected();
     if (currentAutonomousCommand != null) {
       currentAutonomousCommand.schedule();
     }
@@ -74,8 +76,8 @@ public class Robot extends TimedRobot {
     }
 
     drivebase.setSwerveAsDefaultCommand();
-    swerve = new SwerveTeleop(drivebase, oi);
-    swerve.schedule();
+    // swerve = new SwerveTeleop(drivebase, oi);
+    // swerve.schedule();
   }
 
   @Override

@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
-import javax.swing.text.html.Option;
+import javax.management.ConstructorParameters;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -49,9 +49,8 @@ import frc.robot.utils.SmartPIDController;
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
-  
+
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -59,8 +58,8 @@ public class Drivebase extends SubsystemBase {
 
   PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
-  
-  // Position used for targeting
+
+  // Position used for targeting.
   Optional<Translation2d> targetPoint;
 
   AprilTagFieldLayout aprilTagFieldLayout;
@@ -136,12 +135,13 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
 
+    // Setting the targetingPoint to Optional.empty() (there is no target until button is pressed).
     targetPoint = Optional.empty();
   }
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new SwerveTeleop(drivebase, oi));
+    setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
   // returns angle going counterclockwise
@@ -275,12 +275,18 @@ public class Drivebase extends SubsystemBase {
         false);
   }
 
-  /** Sets the current target point used for targeting. */
+  /**
+   * Sets the current target point used for targeting.
+   * 
+   * @param target The target to point at (TargetingPoint enum value)
+   */
   public void setTargetPoint(Constants.Targeting.TargetingPoint target) {
     targetPoint = target.get();
   }
 
-  /** Returns the current targeting point. */
+  /**
+   * @returns The Optional Translation2d point used for targeting.
+   */
   public Optional<Translation2d> getTargetPoint() {
     return targetPoint;
   }

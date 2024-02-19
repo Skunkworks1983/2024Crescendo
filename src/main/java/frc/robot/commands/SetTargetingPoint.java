@@ -12,14 +12,12 @@ import frc.robot.subsystems.OI;
 public class SetTargetingPoint extends Command {
 
   Drivebase drivebase;
-  OI oi;
   Constants.Targeting.TargetingPoint targetPoint;
 
   /** Creates a new SetTargetingPoint. */
   public SetTargetingPoint(Constants.Targeting.TargetingPoint targetPoint) {
     this.targetPoint = targetPoint;
     drivebase = Drivebase.getInstance();
-    oi = OI.getInstance();
   }
 
   // Called when the command is initially scheduled.
