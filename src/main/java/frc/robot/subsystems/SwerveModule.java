@@ -159,7 +159,6 @@ public class SwerveModule extends SubsystemBase {
 
     updateTurnSpeedBasedOnSetpoint();
   }
-;
 
   void updateTurnSpeedBasedOnSetpoint(){
     // calculate speed
