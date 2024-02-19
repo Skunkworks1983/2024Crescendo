@@ -71,6 +71,11 @@ public class SwerveModule extends SubsystemBase {
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
   }
 
+  @Override
+  public void periodic() {
+    updateTurnSpeedBasedOnSetpoint();
+  }
+
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
@@ -151,10 +156,19 @@ public class SwerveModule extends SubsystemBase {
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
+  }
 
+
+  void updateTurnSpeedBasedOnSetpoint(){
     // calculate speed
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
+
+    if (!atSetpoint) {
+      // clamp and set speed
+      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
+          Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
+    }
 
     if (!atSetpoint) {
       // clamp and set speed
