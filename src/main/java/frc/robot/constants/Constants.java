@@ -230,7 +230,7 @@ public class Constants {
     public static final int INDEXER_MOTOR = 0;
     public static final int SHOOTER_BEAM_BREAK = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
-    public static final double INDEXER_GEAR_RATIO = 0;
+    public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;
     public static final double INDEXER_MOTOR_KI = 0;
     public static final double INDEXER_MOTOR_KD = 0;
