@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -71,6 +70,11 @@ public class SwerveModule extends SubsystemBase {
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
   }
 
+  @Override
+  public void periodic() {
+    updateTurnSpeedBasedOnSetpoint();
+  }
+
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
@@ -95,8 +99,7 @@ public class SwerveModule extends SubsystemBase {
   // returns drive encoder velocity in feet per second
   public double getDriveEncoderVelocity() {
 
-    double feetPerSecond =
-        driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
+    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     return feetPerSecond;
   }
 
@@ -108,7 +111,8 @@ public class SwerveModule extends SubsystemBase {
   /** gets turn encoder as degrees, -180 180 */
   public double getTurnEncoder() { // TODO: change from degrees to radians.
     // multiplying absolute postion by 360 to convert from +- .5 to +- 180
-    // gets the absoulte position of the encoder. getPosition() returns relative position.
+    // gets the absoulte position of the encoder. getPosition() returns relative
+    // position.
     double angle = turnEncoder.getAbsolutePosition().getValue() * 360;
     SmartDashboard.putNumber("turn encoder", angle);
 
@@ -124,7 +128,6 @@ public class SwerveModule extends SubsystemBase {
 
     driveMotor.getConfigurator().apply(slot0Configs);
 
-
   }
 
   public SwerveModulePosition getPosition() {
@@ -134,16 +137,14 @@ public class SwerveModule extends SubsystemBase {
 
   public void setState(SwerveModuleState desiredState) {
     double turnPositionRadians = Units.degreesToRadians(getTurnEncoder());
-    SwerveModuleState optimized =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
+    SwerveModuleState optimized = SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
 
-    // velocityScale helps prevent driving in the wrong direction when making sudden turns.
+    // velocityScale helps prevent driving in the wrong direction when making sudden
+    // turns.
     // cos(0)=1, so if module is in the right direction, there is no speed decrease.
     // cos(90)=0, so if module is completely off, the module will not drive at all.
     // this value is squared to increase its effects.
-    double velocityScale =
-        Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
-
+    double velocityScale = Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
@@ -151,10 +152,18 @@ public class SwerveModule extends SubsystemBase {
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
+  }
 
+  void updateTurnSpeedBasedOnSetpoint() {
     // calculate speed
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
+
+    if (!atSetpoint) {
+      // clamp and set speed
+      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
+          Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
+    }
 
     if (!atSetpoint) {
       // clamp and set speed
