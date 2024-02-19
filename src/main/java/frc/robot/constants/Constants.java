@@ -34,10 +34,6 @@ public class Constants {
     public static final int COLLECTOR_MOTOR = 0;
     public static final int COLLECTOR_PIVOT_MOTOR = 0;
 
-    // Indexer Motor IDS
-    // stub
-    public static final int INDEXER_MOTOR = 0;
-
     // Climber Motor IDS
     // stub
     public static final int CLIMBER_MOTOR_1 = 0;
@@ -268,5 +264,19 @@ public class Constants {
 
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
+  }
+
+  public class IndexerConstants {
+    public static final int INDEXER_MOTOR = 0;
+    public static final int SHOOTER_BEAM_BREAK = 0;
+    public static final int INDEXER_WHEEL_DIAMETER = 0;
+    public static final double INDEXER_GEAR_RATIO = 16;
+    public static final double INDEXER_MOTOR_KP = 0;
+    public static final double INDEXER_MOTOR_KI = 0;
+    public static final double INDEXER_MOTOR_KD = 0;
+    public static final double INDEXER_MOTOR_KF = 0;
+    public static final double INDEXER_SPEED = 1;
+    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final boolean SET_INDEXER_SMART_PID = true;
   }
 }

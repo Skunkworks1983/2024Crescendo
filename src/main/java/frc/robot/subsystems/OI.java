@@ -15,9 +15,9 @@ public class OI extends SubsystemBase {
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
-
   JoystickButton switchMotors;
-  JoystickButton targeting;  
+  JoystickButton targeting;
+  
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
