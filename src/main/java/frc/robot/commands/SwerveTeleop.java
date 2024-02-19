@@ -28,7 +28,7 @@ public class SwerveTeleop extends Command {
   double desiredHeadingSetpoint = 0.0;
 
   // this var will be swaped to -1 if we are on the red Alliance
-  int isFlipped = 1;
+  int fieldOrientationMultiplier = 1;
 
   Timer timer;
   double timeAtLastInput;
@@ -52,7 +52,7 @@ public class SwerveTeleop extends Command {
   public void initialize() {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-      isFlipped = -1;
+      fieldOrientationMultiplier = -1;
     }
 
   }
@@ -95,17 +95,17 @@ public class SwerveTeleop extends Command {
 
     if (!useHeadingControl) {
       drivebase.setDrive(
-          MathUtil.applyDeadband(oi.getLeftY() * isFlipped, Constants.X_JOY_DEADBAND)
+          MathUtil.applyDeadband(oi.getLeftY() * fieldOrientationMultiplier, Constants.X_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,
-          MathUtil.applyDeadband(oi.getLeftX() * isFlipped, Constants.Y_JOY_DEADBAND)
+          MathUtil.applyDeadband(oi.getLeftX() * fieldOrientationMultiplier, Constants.Y_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,
           angularVelocity, true);
     } else {
       drivebase.setHeadingController(desiredHeadingSetpoint);
       drivebase.setDriveTurnPos(
-          MathUtil.applyDeadband(oi.getLeftY() * isFlipped, Constants.X_JOY_DEADBAND)
+          MathUtil.applyDeadband(oi.getLeftY() * fieldOrientationMultiplier, Constants.X_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,
-          MathUtil.applyDeadband(oi.getLeftX() * isFlipped, Constants.Y_JOY_DEADBAND)
+          MathUtil.applyDeadband(oi.getLeftX() * fieldOrientationMultiplier, Constants.Y_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,
           true);
     }
