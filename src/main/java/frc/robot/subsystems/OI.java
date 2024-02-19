@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.SetTargetingPos;
+import frc.robot.commands.SetTargetingPoint;
 import frc.robot.constants.Constants;
 
 public class OI extends SubsystemBase {
@@ -16,17 +16,14 @@ public class OI extends SubsystemBase {
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
-
-  JoystickButton switchMotors;
-  JoystickButton targeting;  
+  JoystickButton targetingSpeaker;  
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
-
-    
+    targetingSpeaker = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
+    targetingSpeaker.onTrue(new SetTargetingPoint(Constants.Targeting.TargetingPoint.SPEAKER));
   }
 
   @Override
@@ -50,10 +47,6 @@ public class OI extends SubsystemBase {
   public double getRightY() {
     //Positive joystick corosponds to negetive robot relative coördinates so rightJoystick.getY() must be negated.
     return rightJoystick.getY();
-  }
-
-  public boolean getTargetingButton() {
-    return targeting.getAsBoolean();
   }
 
   public static OI getInstance() {

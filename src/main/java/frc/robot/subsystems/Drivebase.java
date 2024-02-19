@@ -61,7 +61,7 @@ public class Drivebase extends SubsystemBase {
   ChassisSpeeds speeds;
   
   // Position used for targeting
-  Translation2d targetPose;
+  Optional<Translation2d> targetPose;
 
   AprilTagFieldLayout aprilTagFieldLayout;
   double maxVelocity = 0;
@@ -273,11 +273,11 @@ public class Drivebase extends SubsystemBase {
         false);
   }
 
-  public void setTargetPoint (Translation2d target) {
+  public void setTargetPoint (Optional<Translation2d> target) {
     targetPose = target;
   }
 
-  public Translation2d getTargetPoint () {
+  public Optional<Translation2d> getTargetPoint () {
     return targetPose;
   }
 

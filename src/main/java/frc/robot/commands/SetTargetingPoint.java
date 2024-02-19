@@ -9,13 +9,13 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PIDControllers.DrivePID;
 import frc.robot.subsystems.Drivebase;
 
-public class SetTargetingPos extends Command {
+public class SetTargetingPoint extends Command {
 
   Drivebase drivebase = Drivebase.getInstance();
   Constants.Targeting.TargetingPoint target;
 
   /** Creates a new SetTargetingPos. */
-  public SetTargetingPos(Constants.Targeting.TargetingPoint target) {
+  public SetTargetingPoint(Constants.Targeting.TargetingPoint target) {
     this.target = target;
   }
 
@@ -32,7 +32,7 @@ public class SetTargetingPos extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivebase.setTargetPoint(Constants.Targeting.TargetingPoint.NONE);
+    drivebase.setTargetPoint(Constants.Targeting.TargetingPoint.NONE.getTarget());
   }
 
   // Returns true when the command should end.

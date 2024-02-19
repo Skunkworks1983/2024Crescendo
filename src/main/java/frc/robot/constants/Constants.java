@@ -1,6 +1,7 @@
 
 package frc.robot.constants;
 
+import java.util.Optional;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -56,18 +57,17 @@ public class Constants {
     public static final int TARGETING_BUTTION = 11;
   }
 
-  public class Collector
-  {
-    //Collector Motor IDS
-    //stub
-    public static final int COLLECTOR_MOTOR = 0;  //TODO:set this!
-    public static final int COLLECTOR_PIVOT_MOTOR = 0; //TODO:set this!
+  public class Collector {
+    // Collector Motor IDS
+    // stub
+    public static final int COLLECTOR_MOTOR = 0; // TODO:set this!
+    public static final int COLLECTOR_PIVOT_MOTOR = 0; // TODO:set this!
     public static final int INTAKE_GEAR_RATIO = 25;
-    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; //meters
+    public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20;
-    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
+    public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
   }
 
   public class DrivebaseInfo {
@@ -139,8 +139,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = false;
     }
 
-    public class CollectorIntakePID
-    {
+    public class CollectorIntakePID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -149,8 +148,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = true;
     }
 
-    public class CollectorPivotPID
-    {
+    public class CollectorPivotPID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -168,7 +166,7 @@ public class Constants {
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet per second.
-  // 14.2 f/s was the max speed we could get in SwerveTeleop. 
+  // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
   public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
@@ -212,26 +210,28 @@ public class Constants {
 
   public class Targeting {
     public enum TargetingPoint {
-      SPEAKER(new Translation2d(0,0)),
+
+      // TODO: Update with valid translations
+      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(0))), 
+      AMP(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(0))), 
       NONE();
 
       Translation2d target;
+
       TargetingPoint(Translation2d target) {
         this.target = target;
       }
 
+      /** Overload of TargetingPoint constructor used for NONE */
       TargetingPoint() {
-
+        target = null;
       }
 
-      public Translation2d getTarget() {
-        return target;
+      /** Returns the Translation2d value of the target. */
+      public Optional<Translation2d> getTarget() {
+        return Optional.of(target);
       }
     }
-  }
-
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
   }
 
   // pathplanner PID constants
@@ -248,8 +248,8 @@ public class Constants {
     public static final double PATHPLANNER_TURN_KF = .0;
 
     public static final double PATHPLANNER_MAX_METERS_PER_SECOND = 5;
-    
+
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
-    }
+  }
 }
