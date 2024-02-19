@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5607834674386933,
-        "y": 6.707344943517094
+        "x": 2.26,
+        "y": 5.48
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2534625931668275,
-        "y": 6.652690408570471
+        "x": 2.222950400099274,
+        "y": 5.055088379896862
       },
       "isLocked": false,
-      "linkedName": "new pickup 2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3961860455049235,
-        "y": 5.637461700988565
+        "x": 2.3691719648070344,
+        "y": 4.083759414338168
       },
       "prevControl": {
-        "x": 2.3759038987272283,
-        "y": 5.622006315102678
+        "x": 2.191617207661897,
+        "y": 4.61642368577358
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "new pickup 3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -38,12 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "6PieceAutoWithOutCommandsPos1",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

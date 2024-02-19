@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.52,
-      "y": 6.39
+      "x": 1.48,
+      "y": 1.94
     },
-    "rotation": 179.86081790029442
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote1Pos1"
+            "pathName": "StartPointToNote5"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote2Pos1"
+            "pathName": "Note5ToMidPoint"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote3Pos1"
+            "pathName": "MidPointToNote4"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote4Pos1"
+            "pathName": "Note4ToMidPoint"
           }
         },
         {
@@ -62,12 +62,24 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote5Pos1"
+            "pathName": "MidPointToNote3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitOneSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note3ToMidPoint"
           }
         }
       ]
     }
   },
-  "folder": "StaringPos1",
+  "folder": "StaringPos3",
   "choreoAuto": false
 }

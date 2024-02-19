@@ -3,13 +3,21 @@
   "robotLength": 0.8128,
   "holonomicMode": true,
   "pathFolders": [
+    "4PieceMidAutoPos3",
+    "5PieceAutoAmpPos1",
     "5PieceAutoWithoutCommands",
-    "6PieceAutoWithOutCommands",
-    "GetMiddleNotesPaths"
+    "6PieceAutoWithOutCommandsPos1",
+    "DriveOuts",
+    "GetMiddleNotesPathsPos1",
+    "GetMiddleNotesPos3"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 3.6,
-  "defaultMaxAccel": 7.0,
+  "autoFolders": [
+    "StaringPos3",
+    "StaringPos1",
+    "StartingPos2"
+  ],
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 6.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

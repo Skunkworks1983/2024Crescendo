@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5607834674386933,
-        "y": 6.707344943517094
+        "x": 1.48,
+        "y": 1.94
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2534625931668275,
-        "y": 6.652690408570471
+        "x": 0.4799999999999991,
+        "y": 1.9399999999999997
       },
       "isLocked": false,
-      "linkedName": "new pickup 2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3961860455049235,
-        "y": 5.637461700988565
+        "x": 7.666681917214767,
+        "y": 0.8363558342023517
       },
       "prevControl": {
-        "x": 2.3759038987272283,
-        "y": 5.622006315102678
+        "x": 6.639320856281466,
+        "y": 1.1959322055290067
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "new pickup 3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -38,12 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 180.0,
-    "rotateFast": true
+    "velocity": 0,
+    "rotation": 178.02506598911773,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "4PieceMidAutoPos3",
+  "previewStartingState": {
+    "rotation": -176.51274943777545,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.52,
-        "y": 4.34
+        "x": 4.08,
+        "y": 6.08
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7389631054469707,
-        "y": 4.859358141017587
+        "x": 5.08,
+        "y": 6.08
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.6538328547395014,
-        "y": 5.535530663936646
+        "x": 3.467343580649895,
+        "y": 6.512525695858845
       },
       "prevControl": {
-        "x": 3.270106198178002,
-        "y": 5.299391182975722
+        "x": 4.197381300833486,
+        "y": 6.520637226083108
       },
       "nextControl": {
-        "x": 3.9253871891967704,
-        "y": 5.702641023602658
+        "x": 2.31156238709993,
+        "y": 6.499683682597179
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.45026922114913,
-        "y": 6.444193244620586
+        "x": 2.26,
+        "y": 5.48
       },
       "prevControl": {
-        "x": 4.629176064948241,
-        "y": 5.941892906187166
-      },
-      "nextControl": {
-        "x": 6.271362377350019,
-        "y": 6.9464935830540036
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.654037089244662,
-        "y": 5.754863010998287
-      },
-      "prevControl": {
-        "x": 6.654037089244662,
-        "y": 5.754863010998287
+        "x": 2.324404400361596,
+        "y": 6.332737510195518
       },
       "nextControl": null,
       "isLocked": false,
@@ -71,11 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 179.1930705448976,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "5PieceAutoAmpPos1",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

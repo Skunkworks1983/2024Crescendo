@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2083958713371972,
+      "y": 2.070981596508648
+    },
+    "rotation": 116.96853912635675
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote5Pos3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitOneSecond"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StaringPos3",
+  "choreoAuto": false
+}

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5607834674386933,
-        "y": 6.707344943517094
+        "x": 1.5231757689978491,
+        "y": 6.391971257224957
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2534625931668275,
-        "y": 6.652690408570471
+        "x": 2.644344352301938,
+        "y": 5.554165769909148
       },
       "isLocked": false,
-      "linkedName": "new pickup 2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3961860455049235,
-        "y": 5.637461700988565
+        "x": 7.737592269077669,
+        "y": 7.467744197574909
       },
       "prevControl": {
-        "x": 2.3759038987272283,
-        "y": 5.622006315102678
+        "x": 6.737592269077675,
+        "y": 7.467744197574909
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "new pickup 3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -38,12 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "GetMiddleNotesPathsPos1",
+  "previewStartingState": {
+    "rotation": 179.37040139158975,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }
