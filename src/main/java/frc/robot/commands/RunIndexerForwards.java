@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Indexer;
 
-public class RunIndexer extends Command {
+public class RunIndexerForwards extends Command {
   private Indexer indexer;
 
   /** Creates a new RunIndexer. */
-  public RunIndexer() {
+  public RunIndexerForwards() {
     indexer = Indexer.getInstance();
     addRequirements(indexer);
   }

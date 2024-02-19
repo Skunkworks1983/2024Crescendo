@@ -10,7 +10,7 @@ import frc.robot.subsystems.Collector;
 
 public class ExpelNote extends Command {
   private Collector collector;
- 
+
   /** Creates a new ExpelNote. */
   public ExpelNote() {
     this.collector = Collector.getInstance();

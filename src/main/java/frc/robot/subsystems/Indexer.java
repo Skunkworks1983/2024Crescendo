@@ -40,8 +40,7 @@ public class Indexer extends SubsystemBase {
         CANSparkBase.ControlType.kVelocity);
   }
   public void stop() {
-    indexerMotor.set(0);
-    
+    indexerMotor.getPIDController().setReference(0, CANSparkBase.ControlType.kVelocity);
   }
 
   public boolean getBeamBreakSensor() {
@@ -59,3 +58,4 @@ public class Indexer extends SubsystemBase {
     indexerMotorController.updatePID(); 
   }
 }
+  
