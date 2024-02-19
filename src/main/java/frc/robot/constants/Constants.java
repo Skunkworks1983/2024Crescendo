@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.Shooter.PivotCommand;
 
 public class Constants {
 
@@ -44,7 +45,8 @@ public class Constants {
     public static final int CLIMBER_MOTOR_2 = 0;
 
     // Shooter Motor IDS
-    public static final int SHOOT_MOTOR = 0;
+    public static final int SHOOT_MOTOR1 = 0;
+    public static final int SHOOT_MOTOR2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
     public static final int SHOOTER_INDEXER_MOTOR = 0;
     public static final int NOTE_BREAK = 0;
@@ -104,9 +106,13 @@ public class Constants {
     public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
-    public static final double WHEEL_DIAMETER = 0.1016; // meters
+    public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
+    public static final double FLYWHEEL_DIAMETER = 0.1016; // meters
+    public static final double ROLLER_DIAMETEER = 0.03175;
     public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
+    public static final double INDEXER_ROTATIONS_PER_METER = 
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
     // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
@@ -114,11 +120,6 @@ public class Constants {
     public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
-
-    //Strings for the commands that run in teleop, it allows the flywheel to figure out what command is being run
-    public static final String SHOOTER_PIVOT_AMP_COMMAND = "Amp";
-    public static final String SHOOTER_PIVOT_STOW_COMMAND = "Stow";
-    public static final String SHOOTER_PIVOT_SPEAKER_COMMAND = "Speaker";
 
     //Set Flywheel speeds for Shooter
     public static final double STOW_FLYWHEEL_SPEED = 0;

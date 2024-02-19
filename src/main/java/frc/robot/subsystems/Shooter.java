@@ -14,6 +14,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.shooter.shooterToAmp;
+import frc.robot.commands.shooter.shooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
@@ -21,11 +23,19 @@ import frc.robot.utils.SmartPIDControllerTalonFX;
 public class Shooter extends SubsystemBase {
 
   public TalonFX pivotMotor;
-  public CANSparkMax shootMotor;
+  public CANSparkMax shootMotor1;
+  public CANSparkMax shootMotor2;
   public CANSparkMax shooterIndexerMotor;
   Timer timer;
   DigitalInput noteBreak;
-  public String pivotCommand = Constants.Shooter.SHOOTER_PIVOT_STOW_COMMAND;
+  public enum PivotCommand {
+    shooterToStow, //Default
+    shooterToAmp,
+    shooterToSpeaker
+  };
+  public PivotCommand pivotCommand = PivotCommand.shooterToStow;
+  //Rotations per minute
+  public double flywheelSetpoint = 0.0;
 
   private static Shooter shooter;
 
@@ -42,14 +52,17 @@ public class Shooter extends SubsystemBase {
   private Shooter() {
     timer = new Timer();
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
-    shootMotor = new CANSparkMax(Constants.IDS.SHOOTER_PIVOT_MOTOR, MotorType.kBrushless);
+    shootMotor1 = new CANSparkMax(Constants.IDS.SHOOT_MOTOR1, MotorType.kBrushless);
+    shootMotor2 = new CANSparkMax(Constants.IDS.SHOOT_MOTOR2, MotorType.kBrushless);
+    shootMotor2.setInverted(true);
+    shootMotor2.follow(shootMotor1);
     shooterIndexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
     noteBreak = new DigitalInput(Constants.IDS.NOTE_BREAK);
 
     shootingController = new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,
         Constants.PIDControllers.ShootingPID.KF, "Shooter Shoot",
-        Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE, shootMotor);
+        Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE, shootMotor1);
 
     indexerController =
         new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
@@ -78,7 +91,7 @@ public class Shooter extends SubsystemBase {
     pivotController.updatePID();
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation, String pivotCommand) {
+  public void setShooterAngle(Rotation2d desiredRotation, PivotCommand pivotCommand) {
     positionController.Slot = 0;
     pivotMotor.setControl(positionController.withPosition(
         desiredRotation.getDegrees()/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
@@ -87,7 +100,7 @@ public class Shooter extends SubsystemBase {
     this.pivotCommand = pivotCommand;
   }
 
-  public void setShooterAngleVelocity(double radiansPerSecond, String pivotCommand) {
+  public void setShooterAngleVelocity(double radiansPerSecond, PivotCommand pivotCommand) {
     velocityController.Slot = 0;
     pivotMotor.setControl(velocityController.withVelocity(Units.radiansToDegrees(radiansPerSecond)/Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
     .withLimitForwardMotion(pivotMotorForwardLimit.get())
@@ -96,7 +109,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterSpeed(double speedMetersPerSecond) {
-    shootMotor.getPIDController().setReference((speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60, CANSparkMax.ControlType.kVelocity);
+    flywheelSetpoint = speedMetersPerSecond;
+    shootMotor1.getPIDController().setReference((speedMetersPerSecond / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER) * 60, CANSparkMax.ControlType.kVelocity);
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -105,6 +119,10 @@ public class Shooter extends SubsystemBase {
 
   public boolean getShooterIndexerLimitSwitch() {
     return noteBreak.get();
+  }
+
+  public double getFlywheelError() {
+    return (shootMotor1.getEncoder().getVelocity() / 60) * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER - flywheelSetpoint;
   }
 
   public double getShooterPivotRotation() {
@@ -121,7 +139,7 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public String getPivotArmCommand() {
+  public PivotCommand getPivotArmCommand() {
     return pivotCommand;
   }
 

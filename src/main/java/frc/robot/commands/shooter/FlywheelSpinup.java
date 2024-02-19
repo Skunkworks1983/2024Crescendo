@@ -7,6 +7,7 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.PivotCommand;
 
 public class FlywheelSpinup extends Command {
 
@@ -25,15 +26,15 @@ public class FlywheelSpinup extends Command {
   @Override
   public void execute() {
 
-    String pivotArmCommand = shooter.getPivotArmCommand();
+    PivotCommand pivotArmCommand = shooter.getPivotArmCommand();
 
-    if(pivotArmCommand == Constants.Shooter.SHOOTER_PIVOT_STOW_COMMAND) {
+    if(pivotArmCommand == PivotCommand.shooterToStow) {
       shooter.setShooterSpeed(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
-    else if(pivotArmCommand == Constants.Shooter.SHOOTER_PIVOT_AMP_COMMAND) {
+    else if(pivotArmCommand == PivotCommand.shooterToAmp) {
       shooter.setShooterSpeed(Constants.Shooter.AMP_FLYWHEEL_SPEED);
     }
-    else if(pivotArmCommand == Constants.Shooter.SHOOTER_PIVOT_SPEAKER_COMMAND) {
+    else if(pivotArmCommand == PivotCommand.shooterToSpeaker) {
       //TODO, get math and stuff and set flywheel speed based on this
     }
   }

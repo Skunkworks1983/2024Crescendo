@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.PivotCommand;
 
 public class shooterToAmp extends Command {
   
@@ -23,7 +24,7 @@ public class shooterToAmp extends Command {
   public void initialize() {
     Rotation2d shooterAngle = new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) );
     
-    shooter.setShooterAngle(shooterAngle, Constants.Shooter.SHOOTER_PIVOT_AMP_COMMAND);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +32,7 @@ public class shooterToAmp extends Command {
   public void execute() {
 
     if(shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(0.087, Constants.Shooter.SHOOTER_PIVOT_AMP_COMMAND);
+      shooter.setShooterAngleVelocity(0.087, PivotCommand.shooterToAmp);
     }
   }
 
@@ -39,7 +40,7 @@ public class shooterToAmp extends Command {
   @Override
   public void end(boolean interrupted) {
     Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, Constants.Shooter.SHOOTER_PIVOT_AMP_COMMAND);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
   }
 
   // Returns true when the command should end.
