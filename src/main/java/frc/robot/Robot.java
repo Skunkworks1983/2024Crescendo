@@ -20,7 +20,7 @@ import frc.robot.subsystems.OI;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
-  private RobotContainer m_robotContainer;
+  // private RobotContainer m_robotContainer;
   private SendableChooser<Command> autoChooser;
 
   Drivebase drivebase = Drivebase.getInstance();
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    // m_robotContainer = new RobotContainer();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);

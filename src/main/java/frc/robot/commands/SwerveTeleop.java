@@ -18,44 +18,39 @@ public class SwerveTeleop extends Command {
   Drivebase drivebase;
   OI oi;
 
-  // Used as the setpoint for heading correction when joystick and targeting button are not being used. 
-  double headingControlSetpoint = 0.0;
+  // Used as the setpoint for heading correction when joystick and targeting button are not being
+  // used.
+  double currentHeading = 0.0;
 
   // Tells the heading contoller what heading to turn to.
-  Double desiredHeadingSetpoint = 0.0;
-  
-  Timer timer = new Timer();
-  double timeAtLastInput;
+  double headingControllerSetpoint = 0.0;
 
-  // has updated ensures that desired heading is only set once, driver stops rotating.
-  // if it is false and robot should maintain current heading, desiredHeadingSetpoint will set to
-  // current heading.
-  // Once it is set to true, robot will rotate to desiredHeadingSetpoint.
+  private final Timer timer = new Timer();
+  double lastSeconds;
+
+  // Ensures the the heading contoller is only set once.
   boolean hasUpdated = false;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
-    timeAtLastInput = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
     addRequirements(drivebase);
   }
 
-  void targetPoint() {
-    
-  }
-
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.restart();
+    lastSeconds = timer.get();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double angularVelocity = 0;
     boolean useHeadingControl = false;
     boolean isTargeting = drivebase.getTargetPoint().isPresent();
     boolean outsideDeadband = Math.abs(oi.getRightX()) > Constants.ROT_JOY_DEADBAND;
+    double seconds = timer.get();
 
     // If the targeting button is being pressed, than override all other heading controls and use
     // targeting.
@@ -63,29 +58,28 @@ public class SwerveTeleop extends Command {
       Translation2d targetPoint = drivebase.getTargetPoint().get();
 
       // Uses odometry position and the specified targeting point to calculate desired heading.
-      desiredHeadingSetpoint = Units.radiansToDegrees(
-          Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+      headingControllerSetpoint =
+          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      headingControlSetpoint = drivebase.getGyroAngle();
-      timeAtLastInput = timer.getFPGATimestamp();
-
-      hasUpdated = false;
+      currentHeading = drivebase.getGyroAngle();
+      lastSeconds = seconds;
       useHeadingControl = true;
+      hasUpdated = false;
 
     // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
-      headingControlSetpoint = drivebase.getGyroAngle();
-      timeAtLastInput = timer.getFPGATimestamp();
+
+      currentHeading = drivebase.getGyroAngle();
+      lastSeconds = seconds;
       hasUpdated = false;
 
     // Otherwise, use the heading controller to maintain heading.
     } else {
 
       // Waits a second to allow extra turn momentum to dissipate.
-      if (timer.getFPGATimestamp() - timeAtLastInput > Constants.TIME_UNTIL_HEADING_CONTROL
-          && !hasUpdated) {
-        headingControlSetpoint = drivebase.getGyroAngle();
-        desiredHeadingSetpoint = headingControlSetpoint;
+      if (seconds - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL && !hasUpdated) {
+        currentHeading = drivebase.getGyroAngle();
+        headingControllerSetpoint = currentHeading;
 
         // Ensures that the setpoint is only set once when maintaining heading.
         hasUpdated = true;
@@ -95,6 +89,7 @@ public class SwerveTeleop extends Command {
       useHeadingControl = hasUpdated;
     }
 
+
     // If not using the heading controller, run regular swerve without heading control.
     if (!useHeadingControl) {
       drivebase.setDrive(
@@ -103,12 +98,12 @@ public class SwerveTeleop extends Command {
           MathUtil.applyDeadband(oi.getLeftY(), Constants.Y_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,
           MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
-              * Constants.OI_TURN_SPEED_RATIO, 
+              * Constants.OI_TURN_SPEED_RATIO,
           true);
 
-    // Otherwise, set the heading controller to the desired setpoint.
+      // Otherwise, set the heading controller to the desired setpoint.
     } else {
-      drivebase.setHeadingController(desiredHeadingSetpoint);
+      drivebase.setHeadingController(headingControllerSetpoint);
       drivebase.setDriveTurnPos(
           MathUtil.applyDeadband(oi.getLeftX(), Constants.X_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO,

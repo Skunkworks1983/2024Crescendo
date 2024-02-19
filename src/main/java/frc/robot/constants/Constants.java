@@ -54,7 +54,7 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
-    public static final int TARGETING_BUTTION = 11;
+    public static final int SPEAKER_TARGETING_BUTTON = 11;
   }
 
   public class Collector {
@@ -211,9 +211,7 @@ public class Constants {
   public class Targeting {
     public enum TargetingPoint {
 
-      // TODO: Update with valid translations
       SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(0))), 
-      AMP(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(0))), 
       NONE();
 
       Translation2d target;
@@ -228,7 +226,7 @@ public class Constants {
       }
 
       /** Returns the Translation2d value of the target. */
-      public Optional<Translation2d> getTarget() {
+      public Optional<Translation2d> get() {
         return Optional.of(target);
       }
     }
