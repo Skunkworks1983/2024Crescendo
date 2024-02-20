@@ -109,8 +109,10 @@ public class Constants {
     // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
+        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
+        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
   }
@@ -249,7 +251,7 @@ public class Constants {
   public class Targeting {
     public enum FieldTarget {
       SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
-          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(26.9375))), NONE();
+          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(999999999))), NONE();
 
       Translation2d target;
 

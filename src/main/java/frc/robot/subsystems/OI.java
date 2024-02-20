@@ -19,7 +19,7 @@ public class OI extends SubsystemBase {
   Joystick buttonStick;
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
-  JoystickButton switchMotors;  
+  JoystickButton switchMotors;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -29,7 +29,7 @@ public class OI extends SubsystemBase {
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
     targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
-    
+
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
   }

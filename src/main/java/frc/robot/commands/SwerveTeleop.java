@@ -50,6 +50,8 @@ public class SwerveTeleop extends Command {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
       fieldOrientationMultiplier = -1;
+    } else {
+      fieldOrientationMultiplier = 1;
     }
 
   }

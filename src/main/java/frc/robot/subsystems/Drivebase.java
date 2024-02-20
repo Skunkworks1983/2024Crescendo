@@ -28,7 +28,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -38,7 +37,6 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -289,9 +287,10 @@ public class Drivebase extends SubsystemBase {
 
     // Relying on short circuting here to check if optional value is Alliance.Red.
     if (fieldTargetOptional.isPresent() && alliance.isPresent() && alliance.get() == Alliance.Red) {
-      this.fieldTarget =
-          Optional.of(new Translation2d(Constants.FIELD_X_LENGTH / 2
-              + (Constants.FIELD_X_LENGTH / 2 - fieldTargetOptional.get().getX()), fieldTargetOptional.get().getY()));
+      this.fieldTarget = Optional.of(new Translation2d(
+          Constants.FIELD_X_LENGTH / 2
+              + (Constants.FIELD_X_LENGTH / 2 - fieldTargetOptional.get().getX()),
+          fieldTargetOptional.get().getY()));
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
