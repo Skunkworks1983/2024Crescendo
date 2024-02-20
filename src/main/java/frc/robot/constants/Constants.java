@@ -36,19 +36,19 @@ public class Constants {
     public static final int COLLECTOR_MOTOR = 0;
     public static final int COLLECTOR_PIVOT_MOTOR = 0;
 
-    // Indexer Motor IDS
-    // stub
-    public static final int INDEXER_MOTOR = 0;
-
     // Climber Motor IDS
     // stub
     public static final int CLIMBER_MOTOR_1 = 0;
     public static final int CLIMBER_MOTOR_2 = 0;
 
     // Shooter Motor IDS
-    // stub
-    public static final int SHOOTER_MOTOR = 0;
+    public static final int SHOOT_MOTOR = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
+    public static final int SHOOTER_INDEXER_MOTOR = 0;
+    public static final int NOTE_BREAK = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
+
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -99,14 +99,27 @@ public class Constants {
     }
   }
 
-
+  public class Shooter {
+    public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
+    public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
+    public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
+    public static final double WHEEL_DIAMETER = 0.1016; // meters
+    public static final double SHOOTER_ROTATIONS_PER_METER =
+        SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
+    // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
+    // real robot
+    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
+    public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
+  }
 
   public class PIDControllers {
 
     public static final boolean SMART_PID_ACTIVE = true;
 
     public class TurnPID {
-
       // Turning Motor PID Constants
       // currently fairly fast but noisy.
       public static final double KP = .005;
@@ -121,7 +134,6 @@ public class Constants {
     }
 
     public class DrivePID {
-
       // Velocity Mode PID Constants
       public static final double KP = .25;
       public static final double KI = .003;
@@ -132,10 +144,36 @@ public class Constants {
     }
 
     public class HeadingControlPID {
-
       public static final double KP = 9;
       public static final double KI = 0;
       public static final double KD = 0.04;
+
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class ShootingPID {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double KF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class ShooterIndexerPID {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double KF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class ShooterPivotPID {
+      public static final double KP = 0;
+      public static final double KI = 0;
+      public static final double KD = 0;
+      public static final double KF = 0;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -255,5 +293,19 @@ public class Constants {
 
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
+  }
+
+  public class IndexerConstants {
+    public static final int INDEXER_MOTOR = 0;
+    public static final int SHOOTER_BEAM_BREAK = 0;
+    public static final int INDEXER_WHEEL_DIAMETER = 0;
+    public static final double INDEXER_GEAR_RATIO = 16;
+    public static final double INDEXER_MOTOR_KP = 0;
+    public static final double INDEXER_MOTOR_KI = 0;
+    public static final double INDEXER_MOTOR_KD = 0;
+    public static final double INDEXER_MOTOR_KF = 0;
+    public static final double INDEXER_SPEED = 1;
+    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final boolean SET_INDEXER_SMART_PID = true;
   }
 }

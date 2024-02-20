@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
@@ -34,6 +35,7 @@ public class SwerveTeleop extends Command {
 
   Timer timer = new Timer();
   double lastSeconds;
+  int fieldOrientationMultiplier;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
     lastSeconds = timer.getFPGATimestamp();
@@ -44,7 +46,13 @@ public class SwerveTeleop extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      fieldOrientationMultiplier = -1;
+    }
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -96,9 +104,9 @@ public class SwerveTeleop extends Command {
     if (!useHeadingControl) {
       drivebase.setDrive(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
               * Constants.OI_TURN_SPEED_RATIO,
           true);
@@ -108,9 +116,9 @@ public class SwerveTeleop extends Command {
       drivebase.setHeadingController(headingControllerSetpoint);
       drivebase.setDriveTurnPos(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           true);
     }
   }
