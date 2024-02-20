@@ -214,10 +214,10 @@ public class Constants {
   }
 
   public class SpeakerTargetingMath {
-    public static final double SPEAKER_X_POSITION = 0;
-    public static final double SPEAKER_Y_POSITION = 0;
-    public static final double SPEAKER_Z_POSITION = 0;
-    public static final double AVG_SHOOTER_Z_POS = 27.626;
+    public static final double SPEAKER_X_POSITION = 0.2794;
+    public static final double SPEAKER_Y_POSITION = 5.6451498984;
+    public static final double SPEAKER_Z_POSITION = 2.032;
+    public static final double AVG_SHOOTER_Z_POS = 0.7017004;
     public static final double Z_FINAL_VELOCITY = 0;
   }
 
