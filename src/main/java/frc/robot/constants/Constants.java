@@ -245,7 +245,7 @@ public class Constants {
 
     // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
     // TODO: Experiment with rotational output of vision
-    public static final double ROTATIONAL_UNCERTAINTY = 99999999;
+    public static final double ROTATIONAL_UNCERTAINTY = .3;
   }
 
   public class Targeting {

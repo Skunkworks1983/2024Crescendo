@@ -146,7 +146,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   // returns angle going counterclockwise
-  public double getGyroAngle() {
+  private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -154,12 +154,16 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
+  public double getRobotHeading() {
+    return odometry.getEstimatedPosition().getRotation().getDegrees();
+  }
+
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+          Rotation2d.fromDegrees(getRobotHeading()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -175,7 +179,7 @@ public class Drivebase extends SubsystemBase {
   // Used for keeping robot heading in the right direction using PID and the targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
+    degreesPerSecond = headingController.calculate(getRobotHeading());
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
