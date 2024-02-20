@@ -11,42 +11,37 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.PivotCommand;
 
-public class shooterToAmp extends Command {
-  
+public class ShooterToAmp extends Command {
+
   public Shooter shooter = Shooter.getInstance();
 
-  public shooterToAmp() {
-    
-  }
+  public ShooterToAmp() {}
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Rotation2d shooterAngle = new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) );
-    
+    Rotation2d shooterAngle =
+        new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES));
+
     shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if(shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
+    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
       shooter.setShooterAngleVelocity(0.087, PivotCommand.shooterToAmp);
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Rotation2d shooterAngle = new Rotation2d();
     shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
+
     return shooter.getLimitSwitchOutput(true);
   }
 }

@@ -5,49 +5,43 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.PivotCommand;
 import frc.robot.utils.ShootingTargetHelper;
 
-public class FlywheelSpinup extends Command {
+public class ShooterToSpeaker extends Command {
 
+  Translation3d noteInitialVelocity;
   public Shooter shooter = Shooter.getInstance();
   public ShootingTargetHelper shootingTargetHelper;
 
-  public FlywheelSpinup() {
+  public ShooterToSpeaker() {
     shootingTargetHelper = new ShootingTargetHelper();
   }
-
 
   @Override
   public void initialize() {}
 
-
   @Override
   public void execute() {
 
-    PivotCommand pivotArmCommand = shooter.getPivotArmCommand();
 
-    if (pivotArmCommand == PivotCommand.shooterToStow) {
-      shooter.setShooterSpeed(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-    } else if (pivotArmCommand == PivotCommand.shooterToAmp) {
-      shooter.setShooterSpeed(Constants.Shooter.AMP_FLYWHEEL_SPEED);
-    } else if (pivotArmCommand == PivotCommand.shooterToSpeaker) {
-      shooter.setShooterSpeed(shootingTargetHelper
-          .flywheelSpeed(new Pose3d(Constants.SpeakerTargetingMath.SPEAKER_X_POSITION,
-              Constants.SpeakerTargetingMath.SPEAKER_Y_POSITION,
-              Constants.SpeakerTargetingMath.SPEAKER_Z_POSITION, new Rotation3d())));
-    }
+
+    shooter.setShooterAngle(
+        new Rotation2d(shootingTargetHelper
+            .shooterAngle(new Pose3d(Constants.SpeakerTargetingMath.SPEAKER_X_POSITION,
+                Constants.SpeakerTargetingMath.SPEAKER_Y_POSITION,
+                Constants.SpeakerTargetingMath.SPEAKER_Z_POSITION, new Rotation3d()))),
+        PivotCommand.shooterToSpeaker);
   }
-
 
   @Override
-  public void end(boolean interrupted) {
-    shooter.setShooterSpeed(0);
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {
