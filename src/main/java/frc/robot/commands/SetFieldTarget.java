@@ -5,25 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.OI;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 
-public class SetTargetingPoint extends Command {
+public class SetFieldTarget extends Command {
 
   Drivebase drivebase;
-  Constants.Targeting.TargetingPoint targetPoint;
+  FieldTarget fieldTarget;
 
   /** Creates a new SetTargetingPoint. */
-  public SetTargetingPoint(Constants.Targeting.TargetingPoint targetPoint) {
-    this.targetPoint = targetPoint;
+  public SetFieldTarget(FieldTarget fieldTarget) {
+    this.fieldTarget = fieldTarget;
     drivebase = Drivebase.getInstance();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.setTargetPoint(targetPoint);
+    drivebase.setFieldTarget(fieldTarget);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +32,7 @@ public class SetTargetingPoint extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivebase.setTargetPoint(Constants.Targeting.TargetingPoint.NONE);
+    drivebase.setFieldTarget(FieldTarget.NONE);
   }
 
   // Returns true when the command should end.

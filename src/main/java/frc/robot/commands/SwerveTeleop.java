@@ -18,24 +18,28 @@ public class SwerveTeleop extends Command {
   Drivebase drivebase;
   OI oi;
 
-  // Used as the setpoint for heading correction when joystick and targeting button are not being
-  // used.
+  // This is updated to the robot's current heading when using the targeting button or when outside
+  // the turn joystick deadzone. Used for heading correction when not using the targeting button and
+  // when inside the turn joystick deadzone.
   double currentHeading = 0.0;
 
-  // Tells the heading contoller what heading to turn to.
+  // Parts of the code set this variable, and then the variable is used to tell the drive command
+  // that turns to a certan angle where to turn to.
   double headingControllerSetpoint = 0.0;
+
+  // hasUpdated ensures that desired heading is only set once, when the driver stops rotating. If it
+  // is false and the robot should maintain current heading, desiredHeadingSetpoint will set to
+  // current heading. Once it is set to true, the robot will rotate to desiredHeadingSetpoint.
+  boolean hasUpdated = false;
 
   Timer timer = new Timer();
   double lastSeconds;
 
-  // Ensures the the heading contoller is only set once.
-  boolean hasUpdated = false;
-
   public SwerveTeleop(Drivebase drivebase, OI oi) {
+    lastSeconds = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
     addRequirements(drivebase);
-    lastSeconds = timer.getFPGATimestamp();
   }
 
   // Called when the command is initially scheduled.
@@ -46,13 +50,13 @@ public class SwerveTeleop extends Command {
   @Override
   public void execute() {
     boolean useHeadingControl = false;
-    boolean isTargeting = drivebase.getTargetPoint().isPresent();
+    boolean isTargeting = drivebase.getFieldTarget().isPresent();
     boolean outsideDeadband = Math.abs(oi.getRightX()) > Constants.ROT_JOY_DEADBAND;
 
     // If the targeting button is being pressed, than override all other heading controls and use
     // targeting.
     if (isTargeting) {
-      Translation2d targetPoint = drivebase.getTargetPoint().get();
+      Translation2d targetPoint = drivebase.getFieldTarget().get();
 
       // Uses odometry position and the specified targeting point to calculate desired heading.
       headingControllerSetpoint =

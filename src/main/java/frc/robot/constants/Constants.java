@@ -208,20 +208,19 @@ public class Constants {
     public static final double ROTATIONAL_UNCERTAINTY = 99999999;
   }
 
-
   public class Targeting {
-    public enum TargetingPoint {
+    public enum FieldTarget {
       SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
           new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(26.9375))), NONE();
 
       Translation2d target;
 
-      TargetingPoint(Translation2d target) {
+      FieldTarget(Translation2d target) {
         this.target = target;
       }
 
       /** Overload of TargetingPoint constructor used for NONE */
-      TargetingPoint() {
+      FieldTarget() {
         target = null;
       }
 
