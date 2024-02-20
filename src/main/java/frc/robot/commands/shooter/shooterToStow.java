@@ -22,21 +22,21 @@ public class ShooterToStow extends Command {
     Rotation2d shooterAngle =
         new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES));
 
-    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToStow);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_STOW);
   }
 
   @Override
   public void execute() {
 
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(-0.087, PivotCommand.shooterToStow);
+      shooter.setShooterAngleVelocity(-0.087, PivotCommand.SHOOTER_TO_STOW);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToStow);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_STOW);
   }
 
   @Override

@@ -22,21 +22,21 @@ public class ShooterToAmp extends Command {
     Rotation2d shooterAngle =
         new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES));
 
-    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_AMP);
   }
 
   @Override
   public void execute() {
 
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(0.087, PivotCommand.shooterToAmp);
+      shooter.setShooterAngleVelocity(0.087, PivotCommand.SHOOTER_TO_AMP);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, PivotCommand.shooterToAmp);
+    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_AMP);
   }
 
   @Override
