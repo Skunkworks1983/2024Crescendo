@@ -30,28 +30,11 @@ public class Constants {
 
   // Motor, Encoder, & Joystick IDS
   public class IDS {
-
-    // Drive Motor IDS
-    public static final int RIGHT_FRONT_DRIVE = 14;
-    public static final int RIGHT_BACK_DRIVE = 1;
-    public static final int LEFT_FRONT_DRIVE = 15;
-    public static final int LEFT_BACK_DRIVE = 0;
     // Collector Motor IDS
     // stub
     public static final int COLLECTOR_MOTOR = 0;
     public static final int COLLECTOR_PIVOT_MOTOR = 0;
 
-    // Turn Motor IDS
-    public static final int RIGHT_FRONT_TURN = 10;
-    public static final int RIGHT_BACK_TURN = 5;
-    public static final int LEFT_FRONT_TURN = 11;
-    public static final int LEFT_BACK_TURN = 4;
-
-      // Turning Encoders
-    public static final int RIGHT_FRONT_CAN_CODER = 17;
-    public static final int RIGHT_BACK_CAN_CODER = 18;
-    public static final int LEFT_FRONT_CAN_CODER = 16;
-    public static final int LEFT_BACK_CAN_CODER = 19;
     // Climber Motor IDS
     // stub
     public static final int CLIMBER_MOTOR_1 = 0;
@@ -102,16 +85,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(3, 9, 4, 0.77856445312, "Front Left");
+          new SwerveModuleConstants(15, 11, 16, -0.310303, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(7, 11, 8, 0.12280273437, "Front Right");
+          new SwerveModuleConstants(14, 10, 17, 0.202148, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(1, 12, 2, 0.62231445312, "Back Left");
+          new SwerveModuleConstants(0, 4, 19, 0.387451, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(5, 10, 6, 0.28784179687, "Back Right");
+          new SwerveModuleConstants(1, 5, 18, -0.310059, "Back Right");
     }
   }
 
@@ -132,15 +115,16 @@ public class Constants {
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
   }
-    public static final double TRANSLATION_X = 0.947916666; //feet
-    public static final double TRANSLATION_Y = 0.822916666; //feet
 
-    // Can coder offsets
-    public static final double FRONT_LEFT_OFFSET = 0.262451; //rotations, not actual values, get them again
-    public static final double FRONT_RIGHT_OFFSET = -0.229492; //rotations
-    public static final double BACK_LEFT_OFFSET = -0.348145; //rotations
-    public static final double BACK_RIGHT_OFFSET = 0.295654; //rotations
-  }
+  public static final double TRANSLATION_X = 0.947916666; // feet
+  public static final double TRANSLATION_Y = 0.822916666; // feet
+
+  // Can coder offsets
+  public static final double FRONT_LEFT_OFFSET = 0.262451; // rotations, not actual values, get them
+                                                           // again
+  public static final double FRONT_RIGHT_OFFSET = -0.229492; // rotations
+  public static final double BACK_LEFT_OFFSET = -0.348145; // rotations
+  public static final double BACK_RIGHT_OFFSET = 0.295654; // rotations
 
 
 
@@ -150,7 +134,7 @@ public class Constants {
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .002; //.005
+      public static final double KP = .002; // .005
       public static final double KI = 0;
       public static final double KD = 0.0004;
       public static final double KF = 0;

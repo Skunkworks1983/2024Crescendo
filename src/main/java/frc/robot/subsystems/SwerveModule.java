@@ -5,20 +5,14 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -45,21 +39,15 @@ public class SwerveModule extends SubsystemBase {
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
+
     driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new CANSparkMax(swerveModuleConstants.turnMotorId, MotorType.kBrushless);
-    turnMotor.restoreFactoryDefaults();
+    turnMotor = new TalonFX(swerveModuleConstants.turnMotorId, canivoreName);
     turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
     this.modulePosition = swerveModuleConstants.modulePosition;
 
     turnController = new SmartPIDController(Constants.PIDControllers.TurnPID.KP,
         Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD,
         modulePosition + " Turn", Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE);
-
-    turnMotor.restoreFactoryDefaults();
-  public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId, double turnEncoderOffset, String canivoreName) {
-    driveMotor = new TalonFX(driveMotorId, canivoreName);
-    turnMotor = new TalonFX(turnMotorId, canivoreName);
-    turnEncoder = new CANcoder(turnEncoderId, canivoreName);
 
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
@@ -70,21 +58,13 @@ public class SwerveModule extends SubsystemBase {
     // sets the tolerance of the turning pid controller.
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
 
-    //reseting the configuration to default
+    // reseting the configuration to default
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     driveMotor.getConfigurator().apply(talonConfig);
     turnMotor.getConfigurator().apply(talonConfig);
     velocityController.Slot = 0;
-    Slot0Configs slot0Configs = new Slot0Configs();
-  
-    slot0Configs.kP = Constants.PIDControllers.DrivePID.KP;
-    slot0Configs.kI = Constants.PIDControllers.DrivePID.KI;
-    slot0Configs.kD = Constants.PIDControllers.DrivePID.KD;
-    slot0Configs.kV = Constants.PIDControllers.DrivePID.KF;
-
     TalonFXConfiguration driveConfigs = new TalonFXConfiguration();
-    driveConfigs.Slot0 = slot0Configs;
     driveConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     driveMotor.getConfigurator().apply(driveConfigs);
@@ -124,7 +104,8 @@ public class SwerveModule extends SubsystemBase {
   // returns drive encoder velocity in feet per second
   public double getDriveEncoderVelocity() {
 
-    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
+    double feetPerSecond =
+        driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     return feetPerSecond;
   }
 
@@ -162,14 +143,16 @@ public class SwerveModule extends SubsystemBase {
 
   public void setState(SwerveModuleState desiredState) {
     double turnPositionRadians = Units.degreesToRadians(getTurnEncoder());
-    SwerveModuleState optimized = SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
+    SwerveModuleState optimized =
+        SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
 
     // velocityScale helps prevent driving in the wrong direction when making sudden
     // turns.
     // cos(0)=1, so if module is in the right direction, there is no speed decrease.
     // cos(90)=0, so if module is completely off, the module will not drive at all.
     // this value is squared to increase its effects.
-    double velocityScale = Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
+    double velocityScale =
+        Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
@@ -183,12 +166,6 @@ public class SwerveModule extends SubsystemBase {
     // calculate speed
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
-
-    if (!atSetpoint) {
-      // clamp and set speed
-      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
-          Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
-    }
 
     if (!atSetpoint) {
       // clamp and set speed
