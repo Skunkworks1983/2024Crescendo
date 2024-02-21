@@ -10,6 +10,9 @@ import frc.robot.subsystems.Climber;
 
 //This is a stub command
 public class ExtendClimber extends Command {
+  private boolean ClimberOne;
+  private boolean ClimberTwo;
+  
   private Climber climber;
   /** Creates a new ExtendClimber. */
   public ExtendClimber() {
@@ -39,6 +42,10 @@ public class ExtendClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    private boolean ClimberOne = climber.getClimber1Postition - ClimberConstants.CLIMBER1_POSITION_MAX;
+    private boolean ClimberTwo = climber.getClimber2Postition - ClimberConstants.CLIMBER2_POSITION_MAX;
+    if(Math.abs(climber.getClimber1Postition() - ClimberConstants.CLIMBER1_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE){
+      return false;
+    }
   }
 }

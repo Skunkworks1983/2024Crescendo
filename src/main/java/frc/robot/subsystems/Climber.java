@@ -50,14 +50,12 @@ public class Climber extends SubsystemBase {
     }
     motor.setControl(postitionVoltage.withPosition(setPointMeters));
   }
-public double getClimberPostition(boolean isLeftMotor){
-  if(isLeftMotor){
+  public double getClimber1Postition(){
     return climbMotor1.getPosition().getValueAsDouble();
   }
-  else{
+  public double getClimber2Position(){
     return climbMotor2.getPosition().getValueAsDouble();
   }
-}
    
   @Override
   public void periodic() {

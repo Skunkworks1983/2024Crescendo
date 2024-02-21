@@ -279,16 +279,16 @@ public class Constants {
         public static final double CLIMBER_KI = 0;
         public static final double CLIMBER_KD = 0;
         public static final double CLIMBER_KF = 0;
+        
         public static final double CLIMBER1_POSITION_MAX = 0;
         public static final double CLIMBER1_POSITION_MIN = 0; 
 
-      // Right Climber Motor
-    /*  public static final double RIGHT_CLIMBER_KP = 0;
-        public static final double RIGHT_CLIMBER_KI = 0;
-        public static final double RIGHT_CLIMBER_KD = 0;
-        public static final double RIGHT_CLIMBER_KF = 0;
-    */  public static final double CLIMBER2_POSITION_MAX = 0;
+        public static final double CLIMBER2_POSITION_MAX = 0;
         public static final double CLIMBER2_POSITION_MIN = 0;
+
         public static final boolean CLIMBER_PID_ACTIVE = true;
+
+        public static final double CLIMBER_TOLERANCE = .01;
+        
   }
 }

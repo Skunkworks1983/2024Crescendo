@@ -24,8 +24,6 @@ public class ClimberRobotUp extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    climber.getClimberPostition(true);
-    climber.getClimberPostition(false);
     climber.setClimberPosition(true, ClimberConstants.CLIMBER1_POSITION_MIN);
     climber.setClimberPosition(false, ClimberConstants.CLIMBER2_POSITION_MIN);
     }
@@ -37,7 +35,10 @@ public class ClimberRobotUp extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if(Math.abs(climber.getClimber1Postition() - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE){
+        
         return false;
+        }
     }
 
 }
