@@ -253,7 +253,7 @@ public class Drivebase extends SubsystemBase {
       Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(
           new double[] {distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
               distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-              Constants.PhotonVision.ROTATIONAL_UNCERTAINTY}));
+              distanceToTarget * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
 
       // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
@@ -261,7 +261,6 @@ public class Drivebase extends SubsystemBase {
           uncertainty);
     }
     integratedOdometryPrint.setRobotPose(getRobotPose());
-    SmartDashboard.putNumber("Odometry angle", getRobotPose().getRotation().getDegrees());
   }
 
   @Override
