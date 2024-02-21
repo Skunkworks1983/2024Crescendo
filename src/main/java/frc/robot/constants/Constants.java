@@ -105,13 +105,17 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = 0.1016; // meters
     public static final double ROLLER_DIAMETER = 0.03175;
-    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO/(FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO/(ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER =
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER =
+        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
+        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
+        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
 
@@ -293,4 +297,7 @@ public class Constants {
     public static final double REVERSE_INDEXER_SPEED = -1;
     public static final boolean SET_INDEXER_SMART_PID = true;
   }
+
+  // idk why eli wanted this as a constant
+  public static final double MINUTES_TO_SECONDS = 60;
 }
