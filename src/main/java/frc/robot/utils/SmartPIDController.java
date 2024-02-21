@@ -1,0 +1,55 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.utils;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.constants.Constants;
+
+/** Add your docs here. */
+public class SmartPIDController extends PIDController {
+
+    public String name;
+    public boolean smart;
+
+    public SmartPIDController(double kp, double ki, double kd, String name, boolean smart) {
+        super(kp, ki, kd);
+
+        this.name = name;
+        this.smart = smart;
+
+        SmartDashboard.putNumber(name + " kp Value", kp);
+        SmartDashboard.putNumber(name + " ki Value", ki);
+        SmartDashboard.putNumber(name + " kd Value", kd);
+    }
+
+    @Override
+    public double calculate(double measurement) {
+
+        if (smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
+            super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
+            super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
+            super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
+
+            SmartDashboard.putNumber(name + " Error", getPositionError());
+            SmartDashboard.putNumber(name + " Setpoint", getSetpoint());
+        }
+        return super.calculate(measurement);
+    }
+
+    @Override
+    public double calculate(double measurement, double setpoint) {
+
+        if (smart && Constants.PIDControllers.SMART_PID_ACTIVE) {
+            super.setP(SmartDashboard.getNumber(name + " kp Value", super.getP()));
+            super.setI(SmartDashboard.getNumber(name + " ki Value", super.getI()));
+            super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
+
+            SmartDashboard.putNumber(name + " Error", getPositionError());
+            SmartDashboard.putNumber(name + " Setpoint", getSetpoint());
+        }
+        return super.calculate(measurement, setpoint);
+    }
+}
