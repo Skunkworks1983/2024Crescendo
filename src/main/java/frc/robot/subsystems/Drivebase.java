@@ -145,17 +145,28 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  // returns angle going counterclockwise
+  /**
+   * Used to get the angle reported by the gyro. This method is private, and should only be called
+   * when creating/updating the SwervePoseEstimator. Otherwise, call getRobotHeading instead.
+   */
   private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
-    // Negative because gyro reads differently than wpilib
+    // Negative because gyro reads differently than wpilib.
     return -angle;
   }
 
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
+   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
   public double getRobotHeading() {
-    return odometry.getEstimatedPosition().getRotation().getDegrees();
+    return getRobotPose().getRotation().getDegrees();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
