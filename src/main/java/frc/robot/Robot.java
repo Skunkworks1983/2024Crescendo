@@ -22,15 +22,15 @@ import frc.robot.subsystems.OI;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
-  private RobotContainer m_robotContainer;
   private SendableChooser<Command> autoChooser;
 
-  Drivebase drivebase = Drivebase.getInstance();
-  OI oi = OI.getInstance();
+  OI oi;
+  Drivebase drivebase;
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    oi = OI.getInstance();
+    drivebase = Drivebase.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
     //NamedCommands.registerCommand("CollectNotes", new CollectNotes());
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-   Command currentAutonomousCommand = autoChooser.getSelected();
+    Command currentAutonomousCommand = autoChooser.getSelected();
     if (currentAutonomousCommand != null) {
       currentAutonomousCommand.schedule();
     }
@@ -78,8 +78,6 @@ public class Robot extends TimedRobot {
     }
 
     drivebase.setSwerveAsDefaultCommand();
-    swerve = new SwerveTeleop(drivebase, oi);
-    swerve.schedule();
   }
 
   @Override

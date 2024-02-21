@@ -1,10 +1,12 @@
 
 package frc.robot.constants;
 
+import java.util.Optional;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -34,10 +36,6 @@ public class Constants {
     public static final int COLLECTOR_MOTOR = 0;
     public static final int COLLECTOR_PIVOT_MOTOR = 0;
 
-    // Indexer Motor IDS
-    // stub
-    public static final int INDEXER_MOTOR = 0;
-
     // Climber Motor IDS
     // stub
     public static final int CLIMBER_MOTOR_1 = 0;
@@ -56,7 +54,8 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
-    public static final int TARGETING_BUTTION = 11;
+    public static final int SPEAKER_TARGETING_BUTTON = 2;
+    public static final int AMP_TARGETING_BUTTON = 3;
   }
 
   public class Collector {
@@ -110,8 +109,10 @@ public class Constants {
     // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
+        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
+        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
   }
@@ -247,8 +248,34 @@ public class Constants {
     public static final double ROTATIONAL_UNCERTAINTY = 99999999;
   }
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public class Targeting {
+    public enum FieldTarget {
+      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
+          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(999999999))), NONE();
+
+      Translation2d target;
+
+      FieldTarget(Translation2d target) {
+        this.target = target;
+      }
+
+      /** Overload of TargetingPoint constructor used for NONE */
+      FieldTarget() {
+        target = null;
+      }
+
+      /**
+       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * return Optional.empty().
+       */
+      public Optional<Translation2d> get() {
+        if (target == null) {
+          return Optional.empty();
+        } else {
+          return Optional.of(target);
+        }
+      }
+    }
   }
 
   // pathplanner PID constants
@@ -268,5 +295,19 @@ public class Constants {
 
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
+  }
+
+  public class IndexerConstants {
+    public static final int INDEXER_MOTOR = 0;
+    public static final int SHOOTER_BEAM_BREAK = 0;
+    public static final int INDEXER_WHEEL_DIAMETER = 0;
+    public static final double INDEXER_GEAR_RATIO = 16;
+    public static final double INDEXER_MOTOR_KP = 0;
+    public static final double INDEXER_MOTOR_KI = 0;
+    public static final double INDEXER_MOTOR_KD = 0;
+    public static final double INDEXER_MOTOR_KF = 0;
+    public static final double INDEXER_SPEED = 1;
+    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final boolean SET_INDEXER_SMART_PID = true;
   }
 }

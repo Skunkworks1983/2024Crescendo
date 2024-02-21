@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
-
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -38,19 +37,21 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.utils.SmartPIDController;
 
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
+
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -58,7 +59,10 @@ public class Drivebase extends SubsystemBase {
 
   PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
-  Pose2d pose;
+
+  // Position used for targeting.
+  Optional<Translation2d> fieldTarget;
+
   AprilTagFieldLayout aprilTagFieldLayout;
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
@@ -131,11 +135,14 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnP", 0);
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
+
+    // Setting the targetingPoint to Optional.empty() (there is no target until button is pressed).
+    fieldTarget = Optional.empty();
   }
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new SwerveTeleop(drivebase, oi));
+    setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
   // returns angle going counterclockwise
@@ -267,6 +274,34 @@ public class Drivebase extends SubsystemBase {
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  /**
+   * Sets the current target point used for targeting.
+   * 
+   * @param target The target to point at (FieldTarget enum value)
+   */
+  public void setFieldTarget(FieldTarget fieldTarget) {
+    Optional<Translation2d> fieldTargetOptional = fieldTarget.get();
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+
+    // Relying on short circuting here to check if optional value is Alliance.Red.
+    if (fieldTargetOptional.isPresent() && alliance.isPresent() && alliance.get() == Alliance.Red) {
+      this.fieldTarget = Optional.of(new Translation2d(
+          Constants.FIELD_X_LENGTH / 2
+              + (Constants.FIELD_X_LENGTH / 2 - fieldTargetOptional.get().getX()),
+          fieldTargetOptional.get().getY()));
+    } else {
+      this.fieldTarget = fieldTargetOptional;
+    }
+
+  }
+
+  /**
+   * @returns The Optional Translation2d point used for targeting.
+   */
+  public Optional<Translation2d> getFieldTarget() {
+    return fieldTarget;
   }
 
   public void configurePathPlanner() {
