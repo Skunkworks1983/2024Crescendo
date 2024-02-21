@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.34,
-      "y": 6.481023488364349
+      "x": 1.4187317942065913,
+      "y": 6.914191131181245
     },
     "rotation": 180.0
   },
@@ -12,62 +12,86 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "StartToMiddle1"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote1"
+            "pathName": "BackToMidPoint1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote2"
+            "pathName": "MiddleNote2 6P"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote3"
+            "pathName": "BackToMidPoint2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pathToNote4"
+            "pathName": "MidPointToNote2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note2ToNote1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note1ToAmp"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "StartingPos1",
   "choreoAuto": false
 }

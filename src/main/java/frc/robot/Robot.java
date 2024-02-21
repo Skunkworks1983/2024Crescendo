@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
-  //  NamedCommands.registerCommand("CollectNotes", new CollectNotes());
+    //NamedCommands.registerCommand("CollectNotes", new CollectNotes());
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }

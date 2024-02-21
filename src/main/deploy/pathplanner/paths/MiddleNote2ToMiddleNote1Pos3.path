@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4813981790813457,
-        "y": 1.9426579311173895
+        "x": 7.69,
+        "y": 5.76
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4813981790813466,
-        "y": 1.9426579311173895
+        "x": 7.68936234469138,
+        "y": 6.3503731931432
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.442486981666077,
-        "y": 0.6788858361431748
+        "x": 7.69,
+        "y": 7.380412385734258
       },
       "prevControl": {
-        "x": 5.442486981666077,
-        "y": 0.6788858361431748
+        "x": 7.665407944863682,
+        "y": 7.09295958780187
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -178.63779853978355,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "DriveOuts",
+  "folder": "GetMiddleNotesPos3",
   "previewStartingState": {
-    "rotation": 106.74575053832008,
+    "rotation": -176.634392692231,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0662844379123877,
-        "y": 3.885315862234778
+        "x": 1.9409516681628791,
+        "y": 3.7808718874435203
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.507611290031741,
-        "y": 2.3604338302824193
+        "x": 3.0689465959084594,
+        "y": 3.081097256342096
       },
       "prevControl": {
-        "x": 2.542205086613546,
-        "y": 3.15378744299242
+        "x": 1.8319378204543888,
+        "y": 3.2578127956926783
       },
       "nextControl": {
-        "x": 4.562495435423439,
-        "y": 1.4935488395149827
+        "x": 3.800054419447261,
+        "y": 2.9766532815508384
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.28582101947919,
-        "y": 0.6057750537892926
+        "x": 4.938493744671968,
+        "y": 4.010648631984287
       },
       "prevControl": {
-        "x": 5.586046388377764,
-        "y": 1.1488837227038329
+        "x": 4.1029419463419075,
+        "y": 3.258652013487233
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 1.101706115206373,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "DriveOuts",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 152.1524217402118,
     "velocity": 0
   },
   "useDefaultConstraints": true

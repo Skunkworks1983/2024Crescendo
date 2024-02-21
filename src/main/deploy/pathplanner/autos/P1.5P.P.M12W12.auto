@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4187317942065913,
-      "y": 6.914191131181245
+      "x": 1.439620589164843,
+      "y": 6.736636374036107
     },
-    "rotation": 180.0
+    "rotation": -157.0112831979194
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "StartToMiddle1"
+            "pathName": "MiddleNote1 6P"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -56,42 +56,30 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MidPointToNote2"
+            "pathName": "Note1FromMP"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Note2ToNote1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitOneSecond"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note1ToAmp"
+            "pathName": "Note1ToNote2"
           }
         }
       ]
     }
   },
-  "folder": "StaringPos1",
+  "folder": "StartingPos1",
   "choreoAuto": false
 }

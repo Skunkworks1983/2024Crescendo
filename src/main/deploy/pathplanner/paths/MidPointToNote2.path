@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.08,
-        "y": 6.08
+        "x": 3.706054842135131,
+        "y": 6.496415232016215
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.467343580649895,
-        "y": 6.512525695858845
+        "x": 3.2778345454909745,
+        "y": 6.329304872350202
       },
       "prevControl": {
-        "x": 4.197381300833486,
-        "y": 6.520637226083108
+        "x": 3.679306061332928,
+        "y": 6.404944433305933
       },
       "nextControl": {
-        "x": 2.31156238709993,
-        "y": 6.499683682597179
+        "x": 2.5571711194312976,
+        "y": 6.193527705121568
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 5.48
       },
       "prevControl": {
-        "x": 2.324404400361596,
-        "y": 6.332737510195518
+        "x": 2.567615516910424,
+        "y": 6.130861320246813
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +61,7 @@
   "reversed": false,
   "folder": "5PieceAutoAmpPos1",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -179.85863945824352,
     "velocity": 0
   },
   "useDefaultConstraints": true

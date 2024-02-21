@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44,
-      "y": 6.74
+      "x": 1.439620589164843,
+      "y": 6.736636374036107
     },
-    "rotation": 180.0
+    "rotation": -130.4260787400992
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -56,7 +56,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -68,7 +68,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -80,7 +80,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitOneSecond"
+            "name": "WaitHalfSecond"
           }
         },
         {
@@ -92,6 +92,6 @@
       ]
     }
   },
-  "folder": "StaringPos1",
+  "folder": "StartingPos1",
   "choreoAuto": false
 }

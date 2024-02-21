@@ -12,8 +12,8 @@
     "GetMiddleNotesPos3"
   ],
   "autoFolders": [
-    "StaringPos3",
-    "StaringPos1",
+    "StartingPos1",
+    "StartingPos3",
     "StartingPos2"
   ],
   "defaultMaxVel": 3.6,

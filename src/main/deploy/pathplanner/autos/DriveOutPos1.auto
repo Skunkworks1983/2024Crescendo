@@ -5,7 +5,7 @@
       "x": 1.39784299924834,
       "y": 6.6321923992448495
     },
-    "rotation": 0
+    "rotation": -129.28940686250033
   },
   "command": {
     "type": "sequential",
@@ -20,6 +20,6 @@
       ]
     }
   },
-  "folder": "StaringPos1",
+  "folder": "StartingPos1",
   "choreoAuto": false
 }

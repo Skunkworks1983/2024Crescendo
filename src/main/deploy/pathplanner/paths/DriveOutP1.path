@@ -55,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -4.830419958289862,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "DriveOuts",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -136.24536426676838,
     "velocity": 0
   },
   "useDefaultConstraints": true
