@@ -57,13 +57,11 @@ public class Drivebase extends SubsystemBase {
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
 
-  PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
 
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
 
-  AprilTagFieldLayout aprilTagFieldLayout;
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -108,20 +106,9 @@ public class Drivebase extends SubsystemBase {
               backLeft.getPosition(), backRight.getPosition()},
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
-  PhotonPoseEstimator visualOdometry;
 
   private Drivebase() {
     gyro.reset();
-
-    try {
-      aprilTagFieldLayout =
-          AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
-    } catch (IOException e) {
-      System.out.println("Exception reading AprilTag Field JSON " + e.toString());
-    }
-
-    visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
-        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
     // The robot should have the same heading as the heading specified here on startup.
     resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
@@ -227,33 +214,7 @@ public class Drivebase extends SubsystemBase {
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()});
 
-    Optional<EstimatedRobotPose> updatedVisualPose = visualOdometry.update();
-    PhotonPipelineResult result = camera.getLatestResult();
-    boolean hasTargets = result.hasTargets();
-    Transform3d distanceToTargetTransform;
-    SmartDashboard.putBoolean("Targets found", hasTargets);
-
-
-    // Check if there are targets
-    if (updatedVisualPose.isPresent() && hasTargets) {
-
-      // try/catch statement to ensure getBestCameraToTarget() won't crash code
-      try {
-        distanceToTargetTransform = result.getBestTarget().getBestCameraToTarget();
-      } catch (NullPointerException e) {
-        return;
-      }
-
-      // Calculate the uncertainty of the vision measurement based on distance from the best
-      // AprilTag target.
-      EstimatedRobotPose pose = updatedVisualPose.get();
-      double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
-          + Math.pow(distanceToTargetTransform.getY(), 2));
-      SmartDashboard.putNumber("Distance to target", distanceToTarget);
-      Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(
-          new double[] {distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-              distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-              distanceToTarget * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
+    
 
       // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
