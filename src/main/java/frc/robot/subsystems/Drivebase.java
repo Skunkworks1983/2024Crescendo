@@ -145,13 +145,28 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  // returns angle going counterclockwise
-  public double getGyroAngle() {
+  /**
+   * Used to get the angle reported by the gyro. This method is private, and should only be called
+   * when creating/updating the SwervePoseEstimator. Otherwise, call getRobotHeading instead.
+   */
+  private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
-    // Negative because gyro reads differently than wpilib
+    // Negative because gyro reads differently than wpilib.
     return -angle;
+  }
+
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
+   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
+  public double getRobotHeading() {
+    return getRobotPose().getRotation().getDegrees();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -159,7 +174,7 @@ public class Drivebase extends SubsystemBase {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+          Rotation2d.fromDegrees(getRobotHeading()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -175,7 +190,7 @@ public class Drivebase extends SubsystemBase {
   // Used for keeping robot heading in the right direction using PID and the targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
+    degreesPerSecond = headingController.calculate(getRobotHeading());
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -238,7 +253,7 @@ public class Drivebase extends SubsystemBase {
       Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(
           new double[] {distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
               distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-              Constants.PhotonVision.ROTATIONAL_UNCERTAINTY}));
+              distanceToTarget * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
 
       // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
@@ -246,7 +261,6 @@ public class Drivebase extends SubsystemBase {
           uncertainty);
     }
     integratedOdometryPrint.setRobotPose(getRobotPose());
-    SmartDashboard.putNumber("Odometry angle", getRobotPose().getRotation().getDegrees());
   }
 
   @Override

@@ -39,6 +39,9 @@ public class OI extends SubsystemBase {
 
   // Used to control the x field relative speed of the robot in SwerveTeleop.
   public double getLeftX() {
+
+    // Positive joystick corrosponds to negaive robot relative coordinates, so leftJoystick.getX()
+    // must be negated.
     return -leftJoystick.getX();
   }
 
@@ -60,9 +63,7 @@ public class OI extends SubsystemBase {
 
   public double getRightY() {
 
-    // Positive joystick corrosponds to negaive robot relative coordinates, so rightJoystick.getY()
-    // must be negated.
-    return rightJoystick.getY();
+    return -rightJoystick.getY();
   }
 
   public static OI getInstance() {
