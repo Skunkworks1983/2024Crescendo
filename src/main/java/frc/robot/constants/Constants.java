@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -115,6 +116,9 @@ public class Constants {
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
+
+    //z is the distance from the ground to the pivot.
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(0,Units.inchesToMeters(11.976378),Units.inchesToMeters(24.586839));
   }
 
   public class PIDControllers {
@@ -246,6 +250,14 @@ public class Constants {
     // Multiplying distance to target by this constant to get rotational uncertainty when adding a
     // vision measurement.
     public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
+  }
+
+  public class Targeting3D {
+    public static final Translation3d SPEAKERPOSITION = new Translation3d(
+      Units.feetToMeters(0), 
+      Units.feetToMeters(18.520833), 
+      Units.feetToMeters(7)
+    );
   }
 
   public class Targeting {
