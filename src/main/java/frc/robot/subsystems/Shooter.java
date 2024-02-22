@@ -182,6 +182,10 @@ public class Shooter extends SubsystemBase {
     return pivotPosition;
   }
 
+  public boolean canLoadPiece() {
+    return getLimitSwitchOutput(false) && (getPivotArmCommand() == PivotPosition.SHOOTER_TO_STOW);
+  }
+
   public static Shooter getInstance() {
     if (shooter == null) {
       shooter = new Shooter();
