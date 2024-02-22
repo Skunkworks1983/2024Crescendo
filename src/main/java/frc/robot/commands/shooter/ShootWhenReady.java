@@ -28,7 +28,7 @@ public class ShootWhenReady extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShooterIndexerSpeed(0);
+    shooter.setShootMotorCoastMode();
   }
 
   @Override

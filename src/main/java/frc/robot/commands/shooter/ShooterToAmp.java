@@ -5,7 +5,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
@@ -22,7 +21,7 @@ public class ShooterToAmp extends Command {
   @Override
   public void initialize() {
     Rotation2d shooterAngle =
-        new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES));
+        Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
 
     shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_AMP);
   }
@@ -30,15 +29,14 @@ public class ShooterToAmp extends Command {
   @Override
   public void execute() {
 
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(0.087, PivotPosition.SHOOTER_TO_AMP);
+    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES.getDegrees()) {
+      shooter.setShooterAngleVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED, PivotPosition.SHOOTER_TO_AMP);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_AMP);
+    //at the end of this command, we will always be going to stow unless another command like target to speaker is running. Oi wull be controling this, so this command does exactly what it says
   }
 
   @Override

@@ -4,8 +4,6 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
@@ -39,7 +37,7 @@ public class FlywheelSpinup extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShootMotorVelocity0();
+    shooter.setShootMotorCoastMode();
   }
 
   @Override

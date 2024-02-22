@@ -104,21 +104,22 @@ public class Constants {
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
-    public static final double FLYWHEEL_DIAMETER = 0.1016; // meters
-    public static final double ROLLER_DIAMETER = 0.03175;
+    public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
     public static final double SHOOTER_ROTATIONS_PER_METER =
         SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
     public static final double INDEXER_ROTATIONS_PER_METER =
         INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
-    // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
+    // assuming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
     public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
         27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_ROTATIONS =
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
-    public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; //5 degrees per second
 
     // Set Flywheel speeds for Shooter
     public static final double STOW_FLYWHEEL_SPEED = 0;

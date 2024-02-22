@@ -9,8 +9,10 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -87,6 +89,8 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,
         Constants.PIDControllers.ShooterPivotPID.KF, "Shooter Pivot",
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
+
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
   }
 
   @Override
@@ -128,17 +132,23 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.getPIDController()
         .setReference((speedMetersPerSecond * Constants.Shooter.INDEXER_ROTATIONS_PER_METER)
             * Constants.SECONDS_TO_MINUTES, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void setPivotMotorVelocity0 () {
-    pivotMotor.setControl(new DutyCycleOut(0));
+  public void setPivotMotorCoastMode () {
+    pivotMotor.setControl(new VoltageOut(0));
   }
 
-  public void setShootMotorVelocity0 () {
-    shootMotor1.setControl(new DutyCycleOut(0));
+  public void setShootMotorCoastMode () {
+    shootMotor1.setControl(new VoltageOut(0));
+  }
+
+  public void setIndexerMotorCoastMode () {
+    shooterIndexerMotor.setIdleMode(IdleMode.kCoast);
+    shooterIndexerMotor.set(0);
   }
 
   public boolean getShooterIndexerBeambreak1() {

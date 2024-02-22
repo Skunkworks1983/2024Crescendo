@@ -5,7 +5,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
@@ -21,8 +20,7 @@ public class ShooterToStow extends Command {
 
   @Override
   public void initialize() {
-    Rotation2d shooterAngle =
-        new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES));
+    Rotation2d shooterAngle = Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES;
 
     shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_STOW);
   }
@@ -30,15 +28,13 @@ public class ShooterToStow extends Command {
   @Override
   public void execute() {
 
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(-0.087, PivotPosition.SHOOTER_TO_STOW);
+    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES.getDegrees()) {
+      shooter.setShooterAngleVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED, PivotPosition.SHOOTER_TO_STOW);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_STOW);
   }
 
   @Override
