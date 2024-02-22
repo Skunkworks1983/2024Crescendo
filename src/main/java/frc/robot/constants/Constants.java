@@ -234,10 +234,14 @@ public class Constants {
 
 
   public class PhotonVision {
-    public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA =
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera (1)";
+    public static final Transform3d ROBOT_TO_CAMERA_1 =
         new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
             new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final Transform3d ROBOT_TO_CAMERA_2 =
+        new Transform3d(Units.feetToMeters(1.0), 0, Units.feetToMeters(.5),
+            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(0)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty when adding a
     // vision measurment.

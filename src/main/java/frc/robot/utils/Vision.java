@@ -9,10 +9,7 @@ import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -21,19 +18,13 @@ import frc.robot.constants.Constants;
 
 /** Add your docs here. */
 public class Vision {
-    AprilTagFieldLayout aprilTagFieldLayout;
     Camera[] visionUnits;
 
     public Vision(Camera[] cameras) {
         visionUnits = cameras;
+        
     }
 
-    
-
-    /** Class that holds vision measurement data, such as EstimatedRobotPose and uncertainty standard devs. */
-    
-
-    /** Update odometry position. Call this function every loop in periodic. */
     public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
         ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement> ();
 

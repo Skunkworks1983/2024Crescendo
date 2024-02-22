@@ -118,7 +118,8 @@ public class Drivebase extends SubsystemBase {
     fieldTarget = Optional.empty();
 
     vision = new Vision(new Camera[] {
-      new Camera(PhotonVision.PHOTON_CAMERA_NAME, PhotonVision.ROBOT_TO_CAMERA)});
+      new Camera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
+      new Camera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -213,7 +214,7 @@ public class Drivebase extends SubsystemBase {
       odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
           measurement.pose.timestampSeconds, measurement.stdDevs);
     }
-
+    
     integratedOdometryPrint.setRobotPose(getRobotPose());
   }
 
