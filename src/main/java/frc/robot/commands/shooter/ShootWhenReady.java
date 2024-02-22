@@ -10,16 +10,18 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootWhenReady extends Command {
 
-  public Shooter shooter = Shooter.getInstance();
+  public Shooter shooter;
 
-  public ShootWhenReady() {}
+  public ShootWhenReady() {
+    shooter = Shooter.getInstance();
+  }
 
   @Override
   public void initialize() {}
 
   @Override
   public void execute() {
-    if (shooter.getFlywheelError() <= Constants.Shooter.MAX_FLYWHEEL_ERROR) {
+    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
   }

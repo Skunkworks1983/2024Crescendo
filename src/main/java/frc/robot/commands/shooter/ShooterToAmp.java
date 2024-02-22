@@ -9,34 +9,36 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.PivotCommand;
+import frc.robot.subsystems.Shooter.PivotPosition;
 
 public class ShooterToAmp extends Command {
 
-  public Shooter shooter = Shooter.getInstance();
+  public Shooter shooter;
 
-  public ShooterToAmp() {}
+  public ShooterToAmp() {
+    shooter = Shooter.getInstance();
+  }
 
   @Override
   public void initialize() {
     Rotation2d shooterAngle =
         new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES));
 
-    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_AMP);
+    shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_AMP);
   }
 
   @Override
   public void execute() {
 
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES) {
-      shooter.setShooterAngleVelocity(0.087, PivotCommand.SHOOTER_TO_AMP);
+      shooter.setShooterAngleVelocity(0.087, PivotPosition.SHOOTER_TO_AMP);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     Rotation2d shooterAngle = new Rotation2d();
-    shooter.setShooterAngle(shooterAngle, PivotCommand.SHOOTER_TO_AMP);
+    shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_AMP);
   }
 
   @Override

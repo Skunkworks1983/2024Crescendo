@@ -10,9 +10,11 @@ import frc.robot.subsystems.Shooter;
 
 public class LoadPieceShooter extends Command {
 
-  public Shooter shooter = Shooter.getInstance();
+  public Shooter shooter;
 
-  public LoadPieceShooter() {}
+  public LoadPieceShooter() {
+    shooter = Shooter.getInstance();
+  }
 
   @Override
   public void initialize() {
@@ -21,7 +23,9 @@ public class LoadPieceShooter extends Command {
 
   @Override
   public void execute() {
-
+    if (shooter.getShooterIndexerBeambreak1()) {
+      shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
+    }
   }
 
   @Override
@@ -31,6 +35,6 @@ public class LoadPieceShooter extends Command {
 
   @Override
   public boolean isFinished() {
-    return shooter.getShooterIndexerBeambreak();
+    return shooter.getShooterIndexerBeambreak2();
   }
 }

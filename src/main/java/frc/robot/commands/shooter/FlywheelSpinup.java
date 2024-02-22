@@ -9,13 +9,14 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.PivotCommand;
+import frc.robot.subsystems.Shooter.PivotPosition;
 
 public class FlywheelSpinup extends Command {
 
-  public Shooter shooter = Shooter.getInstance();
+  public Shooter shooter;
 
   public FlywheelSpinup() {
+    shooter = Shooter.getInstance();
   }
 
 
@@ -26,11 +27,11 @@ public class FlywheelSpinup extends Command {
   @Override
   public void execute() {
 
-    PivotCommand pivotArmCommand = shooter.getPivotArmCommand();
+    PivotPosition pivotPosition = shooter.getPivotArmCommand();
 
-    if (pivotArmCommand == PivotCommand.SHOOTER_TO_STOW) {
+    if (pivotPosition == PivotPosition.SHOOTER_TO_STOW) {
       shooter.setShooterSpeed(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-    } else if (pivotArmCommand == PivotCommand.SHOOTER_TO_STOW) {
+    } else if (pivotPosition == PivotPosition.SHOOTER_TO_STOW) {
       shooter.setShooterSpeed(Constants.Shooter.AMP_FLYWHEEL_SPEED);
     }
   }
@@ -38,7 +39,7 @@ public class FlywheelSpinup extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShooterSpeed(0);
+    shooter.setShootMotorVelocity0();
   }
 
   @Override

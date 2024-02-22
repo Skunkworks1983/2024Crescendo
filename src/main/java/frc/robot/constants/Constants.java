@@ -44,7 +44,8 @@ public class Constants {
     public static final int SHOOT_MOTOR2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
     public static final int SHOOTER_INDEXER_MOTOR = 0;
-    public static final int NOTE_BREAK = 0;
+    public static final int NOTE_BREAK1 = 0;
+    public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
 
@@ -125,6 +126,7 @@ public class Constants {
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 0;
+    public static final double BEAMBREAK1_INDEXER_SPEED = 0;
     public static final double SHOOTING_INDEXER_SPEED = 0;
 
     // maximum error for flywheel spinup to consider shooting
@@ -298,6 +300,5 @@ public class Constants {
     public static final boolean SET_INDEXER_SMART_PID = true;
   }
 
-  // idk why eli wanted this as a constant
-  public static final double MINUTES_TO_SECONDS = 60;
+  public static final double SECONDS_TO_MINUTES = 1.0/60.0;
 }
