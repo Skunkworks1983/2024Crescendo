@@ -29,14 +29,14 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Vision;
-import frc.robot.Vision.VisionMeasurement;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
+import frc.robot.utils.Camera;
 import frc.robot.utils.SmartPIDController;
+import frc.robot.utils.Vision;
+import frc.robot.utils.VisionMeasurement;
 import frc.robot.constants.Constants.PhotonVision;
-import frc.robot.Vision.Camera;
 
 public class Drivebase extends SubsystemBase {
 
@@ -96,8 +96,7 @@ public class Drivebase extends SubsystemBase {
               backLeft.getPosition(), backRight.getPosition()},
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
-  Vision vision = new Vision(new Camera[] {
-      new Camera(PhotonVision.PHOTON_CAMERA_NAME, PhotonVision.ROBOT_TO_CAMERA)});
+  Vision vision;
 
   private Drivebase() {
     gyro.reset();
@@ -117,6 +116,9 @@ public class Drivebase extends SubsystemBase {
 
     // Setting the targetingPoint to Optional.empty() (there is no target until button is pressed).
     fieldTarget = Optional.empty();
+
+    vision = new Vision(new Camera[] {
+      new Camera(PhotonVision.PHOTON_CAMERA_NAME, PhotonVision.ROBOT_TO_CAMERA)});
   }
 
   /** run in teleop init to set swerve as default teleop command */

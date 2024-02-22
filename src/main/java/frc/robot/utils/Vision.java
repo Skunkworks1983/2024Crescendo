@@ -2,17 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -27,40 +22,22 @@ import frc.robot.constants.Constants;
 /** Add your docs here. */
 public class Vision {
     AprilTagFieldLayout aprilTagFieldLayout;
-    Vision.Camera[] visionUnits;
+    Camera[] visionUnits;
 
-    public Vision(Vision.Camera[] cameras) {
+    public Vision(Camera[] cameras) {
         visionUnits = cameras;
     }
 
-    public static class Camera {
-        PhotonCamera camera;
-        PhotonPoseEstimator poseEstimator;
-
-        public Camera(String cameraName, Transform3d transform3d) {
-            camera = new PhotonCamera(cameraName);
-            poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera,
-                transform3d);
-        }
-    }
+    
 
     /** Class that holds vision measurement data, such as EstimatedRobotPose and uncertainty standard devs. */
-    public class VisionMeasurement {
-        public EstimatedRobotPose pose;
-        public Matrix<N3, N1> stdDevs;
-        
-        public VisionMeasurement(EstimatedRobotPose pose, Matrix<N3, N1> stdDevs) {
-            this.pose = pose;
-            this.stdDevs = stdDevs;
-        }
-    }
+    
 
     /** Update odometry position. Call this function every loop in periodic. */
-    public ArrayList<Vision.VisionMeasurement> getLatestVisionMeasurements() {
-        ArrayList<Vision.VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement> ();
+    public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
+        ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement> ();
 
-        for (Vision.Camera visionUnit : visionUnits) {
+        for (Camera visionUnit : visionUnits) {
 
             Optional<EstimatedRobotPose> updatedVisualPose = visionUnit.poseEstimator.update();
             PhotonPipelineResult result = visionUnit.camera.getLatestResult();
