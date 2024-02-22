@@ -23,6 +23,7 @@ public class Shooter extends SubsystemBase {
   public TalonFX pivotMotor;
   public CANSparkMax shootMotor;
   public CANSparkMax shooterIndexerMotor;
+  private DigitalInput shooterBeamBrake;
   Timer timer;
   DigitalInput noteBreak;
 
@@ -41,6 +42,7 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   private Shooter() {
+    shooterBeamBrake = new DigitalInput(Constants.Shooter.SHOOTER_BEAM_BRAKE);
     timer = new Timer();
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
     shootMotor = new CANSparkMax(Constants.IDS.SHOOTER_PIVOT_MOTOR, MotorType.kBrushless);
@@ -112,6 +114,9 @@ public class Shooter extends SubsystemBase {
 
   public boolean getShooterIndexerLimitSwitch() {
     return noteBreak.get();
+  }
+  public boolean getShooterBeamBrake() {
+    return shooterBeamBrake.get();
   }
 
   public double getShooterPivotRotation() {

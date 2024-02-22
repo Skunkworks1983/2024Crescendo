@@ -115,6 +115,8 @@ public class Constants {
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
+    public static final double SHOOTER_INDEXER_SPEED_TO_BEAM_BRAKE = 0;
+    public static final int SHOOTER_BEAM_BRAKE = 0;
   }
 
   public class PIDControllers {
@@ -299,7 +301,7 @@ public class Constants {
 
   public class IndexerConstants {
     public static final int INDEXER_MOTOR = 0;
-    public static final int SHOOTER_BEAM_BREAK = 0;
+    public static final int INDEXER_BEAM_BRAKE = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;
