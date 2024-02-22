@@ -160,7 +160,7 @@ public class Shooter extends SubsystemBase {
     return noteBreak2.get();
   }
 
-  // error in Rot per seconds
+  // error in meters per seconds
   public double getFlywheelError() {
     return shootMotor1.getClosedLoopError().getValue()
         / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
