@@ -21,14 +21,15 @@ public class ShootWhenReady extends Command {
 
   @Override
   public void execute() {
-    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR) {
+    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR
+        && shooter.isFlywheelSpiningWithSetpoint) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShootMotorCoastMode();
+    shooter.setIndexerMotorCoastMode();
   }
 
   @Override

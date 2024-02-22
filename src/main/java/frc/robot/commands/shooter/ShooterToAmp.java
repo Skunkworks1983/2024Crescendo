@@ -47,9 +47,7 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    // at the end of this command, we will always be going to stow unless another command like
-    // target to speaker is running. Oi wull be controling this, so this command does exactly what
-    // it says
+    shooter.setShooterAngleVelocity(0, PivotPosition.SHOOTER_TO_AMP);
   }
 
   @Override

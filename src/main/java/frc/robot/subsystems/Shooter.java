@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
   Timer timer;
   DigitalInput noteBreak1;
   DigitalInput noteBreak2;
-
+  public boolean isFlywheelSpiningWithSetpoint;
 
   public enum PivotPosition {
     SHOOTER_TO_STOW, // Default
@@ -89,6 +89,7 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
 
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
+    isFlywheelSpiningWithSetpoint = false;
   }
 
   @Override
@@ -128,6 +129,10 @@ public class Shooter extends SubsystemBase {
     flywheelSetpointMPS = speedMetersPerSecond;
     shootMotor1.setControl(velocityVoltage
         .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
+    isFlywheelSpiningWithSetpoint = true;
+    if (speedMetersPerSecond == 0) {
+      isFlywheelSpiningWithSetpoint = false;
+    }
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -137,12 +142,9 @@ public class Shooter extends SubsystemBase {
             * Constants.SECONDS_TO_MINUTES, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void setPivotMotorCoastMode() {
-    pivotMotor.setControl(new VoltageOut(0));
-  }
-
   public void setShootMotorCoastMode() {
     shootMotor1.setControl(new VoltageOut(0));
+    isFlywheelSpiningWithSetpoint = false;
   }
 
   public void setIndexerMotorCoastMode() {
@@ -160,7 +162,8 @@ public class Shooter extends SubsystemBase {
 
   // error in Rot per seconds
   public double getFlywheelError() {
-    return shootMotor1.getClosedLoopError().getValue();
+    return shootMotor1.getClosedLoopError().getValue()
+        / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public double getShooterPivotRotation() {

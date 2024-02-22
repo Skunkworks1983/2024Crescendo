@@ -36,7 +36,9 @@ public class ShooterToStow extends Command {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.setShooterAngleVelocity(0, PivotPosition.SHOOTER_TO_STOW);
+  }
 
   @Override
   public boolean isFinished() {
