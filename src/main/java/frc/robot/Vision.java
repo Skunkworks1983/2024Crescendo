@@ -26,37 +26,75 @@ import frc.robot.constants.Constants;
 
 /** Add your docs here. */
 public class Vision {
-    ArrayList<EstimatedRobotPose> visionMeasurements;
-    ArrayList<PhotonCamera> cameras;
-    ArrayList<PhotonPoseEstimator> visualOdometries;
     AprilTagFieldLayout aprilTagFieldLayout;
+    Vision.Camera[] visionUnits;
 
-    public Vision (Vision.Camera [] cameras) {
+    public Vision(Vision.Camera[] cameras) {
+        visionUnits = cameras;
     }
-    
-    public class Camera {
+
+    public static class Camera {
+        PhotonCamera camera;
+        PhotonPoseEstimator poseEstimator;
+
         public Camera(String cameraName, Transform3d transform3d) {
-            PhotonCamera camera = new PhotonCamera(cameraName);
-            PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cameras.get(cameras.size() - 1),
+            camera = new PhotonCamera(cameraName);
+            poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera,
                 transform3d);
         }
     }
 
-    public void getLatestVisionMeasurements() {
-        PhotonPipelineResult result;
-        boolean hasTargets;
-
-        for(PhotonCamera i : cameras) {
-            result = i.getLatestResult();
-            hasTargets = result.hasTargets();
-        }
+    /** Class that holds vision measurement data, such as EstimatedRobotPose and uncertainty standard devs. */
+    public class VisionMeasurement {
+        public EstimatedRobotPose pose;
+        public Matrix<N3, N1> stdDevs;
         
-        for (PhotonPoseEstimator i : visualOdometries) {
-            Optional<EstimatedRobotPose> updatedPose = i.update();
-            if (updatedPose.isPresent() && hasTargets) {
-
-            }
+        public VisionMeasurement(EstimatedRobotPose pose, Matrix<N3, N1> stdDevs) {
+            this.pose = pose;
+            this.stdDevs = stdDevs;
         }
+    }
+
+    /** Update odometry position. Call this function every loop in periodic. */
+    public ArrayList<Vision.VisionMeasurement> getLatestVisionMeasurements() {
+        ArrayList<Vision.VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement> ();
+
+        for (Vision.Camera visionUnit : visionUnits) {
+
+            Optional<EstimatedRobotPose> updatedVisualPose = visionUnit.poseEstimator.update();
+            PhotonPipelineResult result = visionUnit.camera.getLatestResult();
+            boolean hasTargets = result.hasTargets();
+            Transform3d distanceToTargetTransform;
+
+            // Check if there are targets
+            if (updatedVisualPose.isPresent() && hasTargets) {
+
+                // try/catch statement to ensure getBestCameraToTarget() won't crash code
+                try {
+                    distanceToTargetTransform = result.getBestTarget().getBestCameraToTarget();
+                } catch (NullPointerException e) {
+                    return visionMeasurements;
+                }
+
+                // Calculate the uncertainty of the vision measurement based on distance from the
+                // best
+                // AprilTag target.
+                EstimatedRobotPose pose = updatedVisualPose.get();
+                double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
+                        + Math.pow(distanceToTargetTransform.getY(), 2));
+                SmartDashboard.putNumber("Distance to target", distanceToTarget);
+                Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
+                        distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
+                        distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
+                        distanceToTarget
+                                * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
+                
+                visionMeasurements.add(new VisionMeasurement(pose, uncertainty));
+            }
+
+            
+        }
+        return visionMeasurements;
     }
 }

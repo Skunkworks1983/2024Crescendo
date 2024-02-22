@@ -4,14 +4,7 @@
 
 package frc.robot.subsystems;
 
-import java.io.IOException;
 import java.util.Optional;
-import org.ejml.simple.SimpleMatrix;
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.targeting.PhotonPipelineResult;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -20,20 +13,14 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
@@ -43,17 +30,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Vision;
-import frc.robot.Vision.CreateVision;
+import frc.robot.Vision.VisionMeasurement;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.utils.SmartPIDController;
+import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.Vision.Camera;
 
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
-
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -108,6 +96,8 @@ public class Drivebase extends SubsystemBase {
               backLeft.getPosition(), backRight.getPosition()},
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
+  Vision vision = new Vision(new Camera[] {
+      new Camera(PhotonVision.PHOTON_CAMERA_NAME, PhotonVision.ROBOT_TO_CAMERA)});
 
   private Drivebase() {
     gyro.reset();
@@ -216,12 +206,12 @@ public class Drivebase extends SubsystemBase {
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()});
 
-    
-      // Add vision measurement/update FieldLayout prints
-      visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
-      odometry.addVisionMeasurement(pose.estimatedPose.toPose2d(), pose.timestampSeconds,
-          uncertainty);
+    // Iterate though list of VisionMeasurements, call add
+    for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
+      odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
+          measurement.pose.timestampSeconds, measurement.stdDevs);
     }
+
     integratedOdometryPrint.setRobotPose(getRobotPose());
   }
 
