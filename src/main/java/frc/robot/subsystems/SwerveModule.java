@@ -54,8 +54,10 @@ public class SwerveModule extends SubsystemBase {
     canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turnEncoder.getConfigurator().apply(canCoderConfig);
+
     // Pid controller will loop from -180 to 180 continuously
     turnController.enableContinuousInput(-180, 180);
+
     // sets the tolerance of the turning pid controller.
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
 
@@ -99,7 +101,8 @@ public class SwerveModule extends SubsystemBase {
   // returns drive encoder velocity in feet per second
   public double getDriveEncoderVelocity() {
 
-    double feetPerSecond = driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
+    double feetPerSecond =
+        driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     return feetPerSecond;
   }
 
@@ -137,14 +140,16 @@ public class SwerveModule extends SubsystemBase {
 
   public void setState(SwerveModuleState desiredState) {
     double turnPositionRadians = Units.degreesToRadians(getTurnEncoder());
-    SwerveModuleState optimized = SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
+    SwerveModuleState optimized =
+        SwerveModuleState.optimize(desiredState, new Rotation2d(turnPositionRadians));
 
     // velocityScale helps prevent driving in the wrong direction when making sudden
     // turns.
     // cos(0)=1, so if module is in the right direction, there is no speed decrease.
     // cos(90)=0, so if module is completely off, the module will not drive at all.
     // this value is squared to increase its effects.
-    double velocityScale = Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
+    double velocityScale =
+        Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);

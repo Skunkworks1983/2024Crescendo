@@ -1,10 +1,12 @@
 
 package frc.robot.constants;
 
+import java.util.Optional;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -54,7 +56,8 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
-    public static final int TARGETING_BUTTION = 11;
+    public static final int SPEAKER_TARGETING_BUTTON = 2;
+    public static final int AMP_TARGETING_BUTTON = 3;
   }
 
   public class Collector {
@@ -259,15 +262,41 @@ public class Constants {
 
     // Multplying distance to target by this constant to get X and Y uncertainty when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .3;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
 
-    // Very high rotational uncertainty. Don't trust the vision measurement, instead trust the gyro.
-    // TODO: Experiment with rotational output of vision
-    public static final double ROTATIONAL_UNCERTAINTY = 99999999;
+    // Multiplying distance to target by this constant to get rotational uncertainty when adding a
+    // vision measurement.
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
   }
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+  public class Targeting {
+    public enum FieldTarget {
+      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
+          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(999999999))), NONE();
+
+      Translation2d target;
+
+      FieldTarget(Translation2d target) {
+        this.target = target;
+      }
+
+      /** Overload of TargetingPoint constructor used for NONE */
+      FieldTarget() {
+        target = null;
+      }
+
+      /**
+       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * return Optional.empty().
+       */
+      public Optional<Translation2d> get() {
+        if (target == null) {
+          return Optional.empty();
+        } else {
+          return Optional.of(target);
+        }
+      }
+    }
   }
 
   // pathplanner PID constants
