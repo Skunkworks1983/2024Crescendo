@@ -68,15 +68,10 @@ public class Collector extends SubsystemBase {
     return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS - pivotMotor.getEncoder().getPosition()) < 
     Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
-  public void setCollectorPos(double angle)
-  {
-
   public void setCollectorPos(double angle) {
     pivotSetPoint = angle;
   }
 
-  public static Collector getInstance() 
-  {
   public void periodic() {
 
     pivotMotor.getPIDController().setReference(pivotSetPoint, CANSparkMax.ControlType.kPosition);
