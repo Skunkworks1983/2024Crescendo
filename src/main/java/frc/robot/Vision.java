@@ -29,39 +29,34 @@ public class Vision {
     ArrayList<EstimatedRobotPose> visionMeasurements;
     ArrayList<PhotonCamera> cameras;
     ArrayList<PhotonPoseEstimator> visualOdometries;
-
-    PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
-    PhotonPoseEstimator visualOdometry_1;
     AprilTagFieldLayout aprilTagFieldLayout;
 
-    public Vision(String [] cameraNames, Transform3d cameraTransforms) {
-        for(String i : cameraNames) {
-            cameras.add(new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME));
+    public Vision (Vision.Camera [] cameras) {
+    }
+    
+    public class Camera {
+        public Camera(String cameraName, Transform3d transform3d) {
+            PhotonCamera camera = new PhotonCamera(cameraName);
+            PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cameras.get(cameras.size() - 1),
+                transform3d);
         }
-
-        for (String i : cameraTransforms) {
-            visionOdometries.add()
-        }
-
-        visualOdometry_1 = new PhotonPoseEstimator(aprilTagFieldLayout,
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera,
-                Constants.PhotonVision.ROBOT_TO_CAMERA);
-
     }
 
     public void getLatestVisionMeasurements() {
+        PhotonPipelineResult result;
+        boolean hasTargets;
 
-
-        PhotonPipelineResult result = camera.getLatestResult();
-        boolean hasTargets = result.hasTargets();
-
-        // Check if there are targets.
-        if (updatedVisualPose.isPresent() && hasTargets) {
-            visionMeasurements.add(updatedVisualPose.get());
+        for(PhotonCamera i : cameras) {
+            result = i.getLatestResult();
+            hasTargets = result.hasTargets();
         }
-
-
         
-        
+        for (PhotonPoseEstimator i : visualOdometries) {
+            Optional<EstimatedRobotPose> updatedPose = i.update();
+            if (updatedPose.isPresent() && hasTargets) {
+
+            }
+        }
     }
 }
