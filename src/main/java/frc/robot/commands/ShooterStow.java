@@ -20,7 +20,7 @@ public class ShooterStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterAngle(Rotation2d.fromDegrees(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES));
+    shooter.setShooterAngle(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES, shooter.pivotPosition.SHOOTER_TO_STOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
