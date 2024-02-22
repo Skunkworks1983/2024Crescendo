@@ -16,7 +16,7 @@
     "StartingPos3",
     "StartingPos2"
   ],
-  "defaultMaxVel": 2.0,
+  "defaultMaxVel": 3.6,
   "defaultMaxAccel": 7.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
