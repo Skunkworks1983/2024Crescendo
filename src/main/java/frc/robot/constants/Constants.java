@@ -66,6 +66,7 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
     public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
+    public static final double COLLECTOR_POS_TOLERANCE = 0; //TODO:set this!  
   }
 
   public class DrivebaseInfo {
