@@ -28,14 +28,15 @@ public class ShooterToStow extends Command {
   @Override
   public void execute() {
 
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES.getDegrees()) {
-      shooter.setShooterAngleVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED, PivotPosition.SHOOTER_TO_STOW);
+    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES
+        .getDegrees()) {
+      shooter.setShooterAngleVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED,
+          PivotPosition.SHOOTER_TO_STOW);
     }
   }
 
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

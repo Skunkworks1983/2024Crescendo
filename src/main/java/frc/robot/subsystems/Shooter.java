@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -20,7 +19,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.Shooter.PivotPosition;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
@@ -138,15 +136,15 @@ public class Shooter extends SubsystemBase {
             * Constants.SECONDS_TO_MINUTES, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void setPivotMotorCoastMode () {
+  public void setPivotMotorCoastMode() {
     pivotMotor.setControl(new VoltageOut(0));
   }
 
-  public void setShootMotorCoastMode () {
+  public void setShootMotorCoastMode() {
     shootMotor1.setControl(new VoltageOut(0));
   }
 
-  public void setIndexerMotorCoastMode () {
+  public void setIndexerMotorCoastMode() {
     shooterIndexerMotor.setIdleMode(IdleMode.kCoast);
     shooterIndexerMotor.set(0);
   }
@@ -159,7 +157,7 @@ public class Shooter extends SubsystemBase {
     return noteBreak2.get();
   }
 
-  //error in Rot per seconds
+  // error in Rot per seconds
   public double getFlywheelError() {
     return shootMotor1.getClosedLoopError().getValue();
   }

@@ -117,9 +117,11 @@ public class Constants {
         27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_ROTATIONS =
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
-    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; //5 degrees per second
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     // Set Flywheel speeds for Shooter
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -301,5 +303,5 @@ public class Constants {
     public static final boolean SET_INDEXER_SMART_PID = true;
   }
 
-  public static final double SECONDS_TO_MINUTES = 1.0/60.0;
+  public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;
 }
