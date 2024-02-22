@@ -5,23 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants;
-import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Drivebase;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 
-public class ExpelNote extends Command {
-  private Collector collector;
+public class SetFieldTarget extends Command {
 
-  /** Creates a new ExpelNote. */
-  public ExpelNote() {
-    this.collector = Collector.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.collector);
+  Drivebase drivebase;
+  FieldTarget fieldTarget;
+
+  /** Creates a new SetTargetingPoint. */
+  public SetFieldTarget(FieldTarget fieldTarget) {
+    this.fieldTarget = fieldTarget;
+    drivebase = Drivebase.getInstance();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.intakeNotes(-Constants.Collector.NOTE_INTAKE_SPEED);
+    drivebase.setFieldTarget(fieldTarget);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +32,7 @@ public class ExpelNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.intakeNotes(0);
+    drivebase.setFieldTarget(FieldTarget.NONE);
   }
 
   // Returns true when the command should end.

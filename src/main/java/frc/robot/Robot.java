@@ -4,24 +4,33 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.SwerveTeleop;
+import frc.robot.commands.WaitDuration;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
-  private RobotContainer m_robotContainer;
+  private SendableChooser<Command> autoChooser;
 
-  Drivebase drivebase = Drivebase.getInstance();
-  OI oi = OI.getInstance();
+  OI oi;
+  Drivebase drivebase;
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    oi = OI.getInstance();
+    drivebase = Drivebase.getInstance();
+    NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   @Override
@@ -40,14 +49,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    //cancels swerve teleop command to make sure it does not interfere with auto
+    // cancels swerve teleop command to make sure it does not interfere with auto
     if (swerve != null) {
       swerve.cancel();
     }
 
-    m_autonomousCommand = drivebase.followAutoTrajectory("5PieceAuto");
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    Command currentAutonomousCommand = autoChooser.getSelected();
+    if (currentAutonomousCommand != null) {
+      currentAutonomousCommand.schedule();
     }
   }
 
@@ -62,10 +71,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
+
     drivebase.setSwerveAsDefaultCommand();
-    swerve=new SwerveTeleop(drivebase, oi);
-    swerve.schedule();
   }
 
   @Override
