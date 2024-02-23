@@ -33,9 +33,7 @@ public class Shooter extends SubsystemBase {
   DigitalInput noteBreak2;
   public boolean isFlywheelSpiningWithSetpoint;
 
-  public double flywheelSpeedSetpoint;
-
-  // Rotations per minute
+  // Meters per second
   public double flywheelSetpointMPS = 0.0;
 
   private static Shooter shooter;
@@ -108,7 +106,7 @@ public class Shooter extends SubsystemBase {
     positionVoltage.Slot = 0;
     pivotMotor.setControl(positionVoltage.withPosition(
         desiredRotation.getDegrees() / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    flywheelSpeedSetpoint = flywheelSpeed;
+    flywheelSetpointMPS = flywheelSpeed;
   }
 
   public void setPivotMotorVelocity(double radiansPerSecond, double flywheelSpeed) {
@@ -116,11 +114,10 @@ public class Shooter extends SubsystemBase {
     pivotMotor.setControl(velocityVoltage
         .withVelocity(Units.radiansToDegrees(radiansPerSecond)
             / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    flywheelSpeedSetpoint = flywheelSpeed;
+    flywheelSetpointMPS = flywheelSpeed;
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
-    flywheelSetpointMPS = speedMetersPerSecond;
     shootMotor1.setControl(velocityVoltage
         .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
     isFlywheelSpiningWithSetpoint = true;
@@ -175,7 +172,7 @@ public class Shooter extends SubsystemBase {
 
   // gets the last run command on the pivot motor
   public double getFlywheelSetpointFromArm() {
-    return flywheelSpeedSetpoint;
+    return flywheelSetpointMPS;
   }
 
   public boolean canLoadPiece() {
