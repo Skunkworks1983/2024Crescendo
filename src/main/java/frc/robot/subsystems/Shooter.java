@@ -173,7 +173,7 @@ public class Shooter extends SubsystemBase {
   }
 
   // gets the last run command on the pivot motor
-  public double getFlywheelSetpointFromArm() {
+  public double getFlywheelSetpoint() {
     return flywheelSetpointMPS;
   }
 
