@@ -26,7 +26,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation3d target = Constants.Targeting3D.SPEAKERPOSITION;
+    Translation3d target = Constants.Targeting.FieldTarget.SPEAKER.get().get();
 
     // from center of robot to target -- not shooter pivot.
     Translation2d diffrenceInPosition = new Translation2d(
@@ -36,7 +36,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     Rotation2d shooterRotation = new Rotation2d(
         Math.atan2(
             target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
-            diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getY()));
+            diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
     Shooter.getInstance().setShooterAngle(shooterRotation, Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }

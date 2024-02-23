@@ -123,8 +123,9 @@ public class Constants {
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(0,
-        Units.inchesToMeters(11.976378), Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0,
+        Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -274,22 +275,15 @@ public class Constants {
     public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
   }
 
-  public class Targeting3D {
-    public static final Translation3d SPEAKERPOSITION = new Translation3d(
-        Units.feetToMeters(0),
-        Units.feetToMeters(18.520833),
-        Units.feetToMeters(7));
-  }
-
   public class Targeting {
     public enum FieldTarget {
-      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
-          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(999999999))),
+      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
       NONE();
 
-      Translation2d target;
+      Translation3d target;
 
-      FieldTarget(Translation2d target) {
+      FieldTarget(Translation3d target) {
         this.target = target;
       }
 
@@ -303,7 +297,7 @@ public class Constants {
        * NONE, this will
        * return Optional.empty().
        */
-      public Optional<Translation2d> get() {
+      public Optional<Translation3d> get() {
         if (target == null) {
           return Optional.empty();
         } else {
