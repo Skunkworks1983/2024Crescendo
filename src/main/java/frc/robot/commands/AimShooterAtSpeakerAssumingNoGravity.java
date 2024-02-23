@@ -42,7 +42,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
         )
       );
 
-    Shooter.getInstance().setShooterAngle(shooterRotation,null);
+    Shooter.getInstance().setShooterAngle(shooterRotation,Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
