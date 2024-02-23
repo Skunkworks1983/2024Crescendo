@@ -34,12 +34,8 @@ public class Shooter extends SubsystemBase {
   DigitalInput noteBreak2;
   public boolean isFlywheelSpiningWithSetpoint;
 
-  public enum PivotPosition {
-    SHOOTER_TO_STOW, // Default
-    SHOOTER_TO_AMP, SHOOTER_TO_SPEAKER
-  };
+  public double flywheelSpeedSetpoint;
 
-  public PivotPosition pivotPosition = PivotPosition.SHOOTER_TO_STOW;
   // Rotations per minute
   public double flywheelSetpointMPS = 0.0;
 
@@ -110,24 +106,22 @@ public class Shooter extends SubsystemBase {
     pivotController.updatePID();
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation, PivotPosition pivotCommand) {
+  public void setShooterAngle(Rotation2d desiredRotation, double flywheelSpeed) {
     positionVoltage.Slot = 0;
     pivotMotor.setControl(positionVoltage.withPosition(
         desiredRotation.getDegrees() / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    this.pivotPosition = pivotCommand;
+    flywheelSpeedSetpoint = flywheelSpeed;
   }
 
-  public void setShooterAngleVelocity(double radiansPerSecond, PivotPosition pivotCommand) {
+  public void setPivotMotorVelocity(double radiansPerSecond, double flywheelSpeed) {
     velocityVoltage.Slot = 0;
     pivotMotor.setControl(velocityVoltage
         .withVelocity(Units.radiansToDegrees(radiansPerSecond)
-            / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
-        .withLimitForwardMotion(pivotMotorForwardLimit.get())
-        .withLimitReverseMotion(pivotMotorReverseLimit.get()));
-    this.pivotPosition = pivotCommand;
+            / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
+    flywheelSpeedSetpoint = flywheelSpeed;
   }
 
-  public void setShooterSpeed(double speedMetersPerSecond) {
+  public void setFlywheelSpeed(double speedMetersPerSecond) {
     flywheelSetpointMPS = speedMetersPerSecond;
     shootMotor1.setControl(velocityVoltage
         .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
@@ -144,7 +138,7 @@ public class Shooter extends SubsystemBase {
             * Constants.SECONDS_TO_MINUTES, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void setShootMotorCoastMode() {
+  public void setFlywheelMotorCoastMode() {
     shootMotor1.setControl(new VoltageOut(0));
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -182,12 +176,12 @@ public class Shooter extends SubsystemBase {
   }
 
   // gets the last run command on the pivot motor
-  public PivotPosition getPivotArmCommand() {
-    return pivotPosition;
+  public double getFlywheelSetpointFromArm() {
+    return flywheelSpeedSetpoint;
   }
 
   public boolean canLoadPiece() {
-    return getLimitSwitchOutput(false) && (getPivotArmCommand() == PivotPosition.SHOOTER_TO_STOW);
+    return getLimitSwitchOutput(false);
   }
 
   public static Shooter getInstance() {
