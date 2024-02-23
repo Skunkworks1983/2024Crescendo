@@ -102,19 +102,17 @@ public class Shooter extends SubsystemBase {
     pivotController.updatePID();
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation, double flywheelSpeed) {
+  public void setShooterAngle(Rotation2d desiredRotation) {
     positionVoltage.Slot = 0;
     pivotMotor.setControl(positionVoltage.withPosition(
         desiredRotation.getDegrees() / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    flywheelSetpointMPS = flywheelSpeed;
   }
 
-  public void setPivotMotorVelocity(double radiansPerSecond, double flywheelSpeed) {
+  public void setPivotMotorVelocity(double radiansPerSecond) {
     velocityVoltage.Slot = 0;
     pivotMotor.setControl(velocityVoltage
         .withVelocity(Units.radiansToDegrees(radiansPerSecond)
             / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    flywheelSetpointMPS = flywheelSpeed;
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -124,6 +122,10 @@ public class Shooter extends SubsystemBase {
     if (speedMetersPerSecond == 0) {
       isFlywheelSpiningWithSetpoint = false;
     }
+  }
+
+  public void setFlywheelSetpoint(double flywheelSpeed) {
+    flywheelSetpointMPS = flywheelSpeed;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {

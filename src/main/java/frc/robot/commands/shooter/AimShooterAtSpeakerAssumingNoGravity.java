@@ -41,7 +41,8 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
             target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
             diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
-    shooter.setShooterAngle(shooterRotation, Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
+    shooter.setShooterAngle(shooterRotation);
+    shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
