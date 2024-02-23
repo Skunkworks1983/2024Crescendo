@@ -38,16 +38,20 @@ public class ShootingTargetHelper {
     }
 
     public double calculateShooterAngle(Translation3d targetLocation) {
- 
+
         Translation3d NoteInitialVelocity = calculateNoteInitialVelocity(targetLocation);
 
-        // 
-        return Math.asin(NoteInitialVelocity.getZ()
-                / (Math.hypot(NoteInitialVelocity.getX(), NoteInitialVelocity.getY())));
+        // gets the angle using a arctan equation, pluging in the vertical velocity and horizontal
+        // velocity
+        return Math.atan2(NoteInitialVelocity.getZ(),
+                (Math.hypot(NoteInitialVelocity.getX(), NoteInitialVelocity.getY())));
     }
 
     public double calculateFlywheelSpeed(Translation3d targetLocation) {
+
         Translation3d NoteInitialVelocity = calculateNoteInitialVelocity(targetLocation);
+
+        // hypotonuse of the 2 velocities
         return Math.sqrt(Math.pow(NoteInitialVelocity.getZ(), 2)
                 + Math.pow(Math.hypot(NoteInitialVelocity.getX(), NoteInitialVelocity.getY()), 2));
     }
