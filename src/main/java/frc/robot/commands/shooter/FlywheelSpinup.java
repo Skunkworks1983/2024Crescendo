@@ -5,9 +5,7 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.PivotPosition;
 
 public class FlywheelSpinup extends Command {
 
@@ -24,20 +22,13 @@ public class FlywheelSpinup extends Command {
 
   @Override
   public void execute() {
-
-    PivotPosition pivotPosition = shooter.getPivotArmCommand();
-
-    if (pivotPosition == PivotPosition.SHOOTER_TO_STOW) {
-      shooter.setShooterSpeed(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-    } else if (pivotPosition == PivotPosition.SHOOTER_TO_STOW) {
-      shooter.setShooterSpeed(Constants.Shooter.AMP_FLYWHEEL_SPEED);
-    }
+    shooter.setFlywheelSpeed(shooter.flywheelSpeedSetpoint);
   }
 
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShootMotorCoastMode();
+    shooter.setFlywheelMotorCoastMode();
   }
 
   @Override
