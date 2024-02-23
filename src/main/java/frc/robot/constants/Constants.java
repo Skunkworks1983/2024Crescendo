@@ -127,7 +127,7 @@ public class Constants {
         0,
         Units.inchesToMeters(24.586839));
 
-    // Set Flywheel speeds for Shooter
+    // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
     public static final double AMP_FLYWHEEL_SPEED = 0;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;

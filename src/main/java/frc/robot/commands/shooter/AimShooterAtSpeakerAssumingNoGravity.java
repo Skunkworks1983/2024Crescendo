@@ -13,8 +13,11 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
+  Shooter shooter;
+
   /** Creates a new AimShooterAtSpeakerAssumingNoGravity. */
   public AimShooterAtSpeakerAssumingNoGravity() {
+    shooter = Shooter.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,7 +41,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
             target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
             diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
-    Shooter.getInstance().setShooterAngle(shooterRotation, Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
+    shooter.setShooterAngle(shooterRotation, Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
