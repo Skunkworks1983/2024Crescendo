@@ -17,13 +17,20 @@ public class ShootingTargetHelper {
 
     }
 
+    // Takes in a location to target to, and returns the initial velocity of the note
     public Translation3d calculateNoteInitialVelocity(Translation3d targetLocation) {
+
+        // calculates the notes initial z position using conservation of energy
         double noteInitialVelocityZ =
                 Math.sqrt(Math.pow(Constants.SpeakerTargetingMath.Z_FINAL_VELOCITY, 2)
                         + 2 * (Constants.SpeakerTargetingMath.GRAVITY) * (targetLocation.getZ()
                                 - Constants.SpeakerTargetingMath.AVG_SHOOTER_Z_POS));
+
+        // calculates time to final position using the z starting velocity and z final velocity
         double t = (noteInitialVelocityZ - Constants.SpeakerTargetingMath.Z_FINAL_VELOCITY)
                 / (Constants.SpeakerTargetingMath.GRAVITY);
+
+        // calculates Initial Velocity for X and Y using the time
         double noteInitialVelocityY = (targetLocation.getY() - drivebase.getRobotPose().getY()) / t;
         double noteInitialVelocityX = (targetLocation.getX() - drivebase.getRobotPose().getX()) / t;
 
@@ -31,8 +38,10 @@ public class ShootingTargetHelper {
     }
 
     public double calculateShooterAngle(Translation3d targetLocation) {
-
+ 
         Translation3d NoteInitialVelocity = calculateNoteInitialVelocity(targetLocation);
+
+        // 
         return Math.asin(NoteInitialVelocity.getZ()
                 / (Math.hypot(NoteInitialVelocity.getX(), NoteInitialVelocity.getY())));
     }

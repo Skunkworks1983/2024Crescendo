@@ -120,7 +120,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
-    flywheelSetpointMPS = speedMetersPerSecond;
     shootMotor1.setControl(velocityVoltage
         .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
     isFlywheelSpiningWithSetpoint = true;

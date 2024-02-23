@@ -14,10 +14,11 @@ import frc.robot.utils.ShootingTargetHelper;
 public class ShooterToSpeaker extends Command {
 
   Translation3d noteInitialVelocity;
-  public Shooter shooter = Shooter.getInstance();
+  public Shooter shooter;
   public ShootingTargetHelper shootingTargetHelper;
 
   public ShooterToSpeaker() {
+    shooter = Shooter.getInstance();
     shootingTargetHelper = new ShootingTargetHelper();
   }
 
@@ -26,10 +27,7 @@ public class ShooterToSpeaker extends Command {
 
   @Override
   public void execute() {
-    Translation3d speakerTarget =
-        new Translation3d(Constants.SpeakerTargetingMath.SPEAKER_POSITION.getX(),
-            Constants.SpeakerTargetingMath.SPEAKER_POSITION.getY(),
-            Constants.SpeakerTargetingMath.SPEAKER_POSITION.getZ());
+    Translation3d speakerTarget = Constants.SpeakerTargetingMath.SPEAKER_POSITION;
 
     shooter.setShooterAngle(
         new Rotation2d(shootingTargetHelper.calculateShooterAngle(speakerTarget)),
