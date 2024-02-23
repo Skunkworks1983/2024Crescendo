@@ -43,10 +43,12 @@ public class Constants {
     public static final int CLIMBER_MOTOR_2 = 0;
 
     // Shooter Motor IDS
-    public static final int SHOOT_MOTOR = 0;
+    public static final int SHOOT_MOTOR1 = 0;
+    public static final int SHOOT_MOTOR2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR = 0;
     public static final int SHOOTER_INDEXER_MOTOR = 0;
-    public static final int NOTE_BREAK = 0;
+    public static final int NOTE_BREAK1 = 0;
+    public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
 
@@ -101,24 +103,44 @@ public class Constants {
   }
 
   public class Shooter {
-    public static final double SHOOT_MOTOR_GEAR_RATIO = 6.75;
+    public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
+    public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
-    public static final double WHEEL_DIAMETER = 0.1016; // meters
+    public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
+    public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
     public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_SHOOT_MOTOR_REV;
-    // assuiming backwards on the robot is 0 and straight up is 90, double check messurements on
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER =
+        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    // assuming backwards on the robot is 0 and straight up is 90, double check messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
     public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
         27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_ROTATIONS =
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
-    public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
-
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
     //z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(0,Units.inchesToMeters(11.976378),Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = 
+    new Translation3d(0,Units.inchesToMeters(11.976378),Units.inchesToMeters(24.586839));
+
+    // Set Flywheel speeds for Shooter
+    public static final double STOW_FLYWHEEL_SPEED = 0;
+    public static final double AMP_FLYWHEEL_SPEED = 0;
+
+    // Indexer speeds for the robot:
+    public static final double LOADING_INDEXER_SPEED = 0;
+    public static final double BEAMBREAK1_INDEXER_SPEED = 0;
+    public static final double SHOOTING_INDEXER_SPEED = 0;
+
+    // maximum error for flywheel spinup to consider shooting
+    public static final double MAX_FLYWHEEL_ERROR = 0;
   }
 
   public class PIDControllers {
@@ -202,7 +224,6 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = true;
     }
   }
-
 
   // Speed & Deadband
   public static final double X_JOY_DEADBAND = .1;
@@ -322,4 +343,6 @@ public class Constants {
     public static final double REVERSE_INDEXER_SPEED = -1;
     public static final boolean SET_INDEXER_SMART_PID = true;
   }
+
+  public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;
 }
