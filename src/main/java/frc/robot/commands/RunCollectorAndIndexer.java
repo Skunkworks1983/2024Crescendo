@@ -24,7 +24,7 @@ public class RunCollectorAndIndexer extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.runCollector(Constants.Collector.NOTE_INTAKE_SPEED);
+    collector.intakeNotes(Constants.Collector.NOTE_INTAKE_SPEED);
     indexer.setSpeedIndexer(Constants.IndexerConstants.INDEXER_SPEED);
 
   }
@@ -36,7 +36,7 @@ public class RunCollectorAndIndexer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.runCollector(0);
+    collector.intakeNotes(0);
     indexer.setSpeedIndexer(0);
   }
 

@@ -167,9 +167,6 @@ public class Shooter extends SubsystemBase {
     return shootMotor1.getClosedLoopError().getValue()
         / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
-  public boolean getShooterBeamBrake() {
-    return shooterBeamBrake.get();
-  }
 
   public double getShooterPivotRotation() {
     return pivotMotor.getPosition().getValueAsDouble()
