@@ -42,7 +42,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
         )
       );
 
-    Shooter.getInstance().setShooterAngle(shooterRotation);
+    Shooter.getInstance().setShooterAngle(shooterRotation,null);
   }
 
   // Called once the command ends or is interrupted.
