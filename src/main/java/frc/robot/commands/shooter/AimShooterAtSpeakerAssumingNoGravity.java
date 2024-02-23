@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,34 +20,31 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Translation3d target = Constants.Targeting3D.SPEAKERPOSITION;
 
-    //from center of robot to target -- not shooter pivot.
-    Translation2d diffrenceInPosition =
-      new Translation2d(
+    // from center of robot to target -- not shooter pivot.
+    Translation2d diffrenceInPosition = new Translation2d(
         target.getX() - Drivebase.getInstance().getRobotPose().getX(),
-        target.getY() - Drivebase.getInstance().getRobotPose().getY()
-      );
+        target.getY() - Drivebase.getInstance().getRobotPose().getY());
 
-    Rotation2d shooterRotation = 
-      new Rotation2d(
+    Rotation2d shooterRotation = new Rotation2d(
         Math.atan2(
-          target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
-          diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getY()
-        )
-      );
+            target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
+            diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getY()));
 
-    Shooter.getInstance().setShooterAngle(shooterRotation,Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
+    Shooter.getInstance().setShooterAngle(shooterRotation, Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
