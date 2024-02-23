@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -68,10 +69,10 @@ public class Constants {
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20;
-    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_POS_TOLERANCE = 0; //TODO:set this! 
+    public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
   }
 
   public class DrivebaseInfo {
@@ -241,6 +242,14 @@ public class Constants {
   public static final String CANIVORE_NAME = "Canivore_1";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
+
+  public class SpeakerTargetingMath {
+    public static final Translation3d SPEAKER_POSITION =
+        new Translation3d(0.2794, 5.6451498984, 2.032); // meters
+    public static final double AVG_SHOOTER_Z_POS = 0.7017004; // meters
+    public static final double Z_FINAL_VELOCITY = 0;
+    public static final double GRAVITY = 9.81;
+  }
 
   // The position that the targeting buttion will point at
   public static final double TARGETING_POSITION_X = 0;
