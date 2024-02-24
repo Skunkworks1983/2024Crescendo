@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -15,17 +19,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
+import frc.robot.utils.SmartPIDControllerTalonFX;
 
 // This is a stub subsystem
 public class Collector extends SubsystemBase {
 
+  TalonFX rightPivotMotor;
+  TalonFX leftPivotMotor;
+  CANSparkMax topIntakeMotor;
+  CANSparkMax bottomIntakeMotor;
 
-  CANSparkMax pivotMotor;
-  // TalonFX pivotMotor;
-  CANSparkMax intakeMotor;
-
-  private static SmartPIDControllerCANSparkMax intakeMotorSpeedController;
-  private static SmartPIDControllerCANSparkMax pivotMotorController;
+  private static SmartPIDControllerCANSparkMax topIntakeMotorSpeedController;
+  private static SmartPIDControllerTalonFX pivotMotorController;
   private static Collector collector;
 
   private double pivotSetPoint;
@@ -33,27 +38,36 @@ public class Collector extends SubsystemBase {
 
   /** Creates a new Collector. */
   private Collector() {
-    intakeMotor = new CANSparkMax(Constants.Collector.COLLECTOR_PIVOT_MOTOR, MotorType.kBrushless);
-    pivotMotor = new CANSparkMax(Constants.Collector.COLLECTOR_MOTOR, MotorType.kBrushless);
+    topIntakeMotor = new CANSparkMax(Constants.Collector.TOP_INTAKE_MOTOR, MotorType.kBrushless);
+    bottomIntakeMotor =
+        new CANSparkMax(Constants.Collector.BOTTOM_INTAKE_MOTOR, MotorType.kBrushless);
+    rightPivotMotor = new TalonFX(Constants.Collector.RIGHT_PIVOT_MOTOR);
+    leftPivotMotor = new TalonFX(Constants.Collector.LEFT_PIVOT_MOTOR);
 
-    intakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO
+    bottomIntakeMotor.follow(topIntakeMotor);
+    leftPivotMotor.setControl(new Follower(Constants.Collector.RIGHT_PIVOT_MOTOR, true));
+
+    topIntakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO
         / (Constants.Collector.INTAKE_ROLLER_DIAMETER * Math.PI));
-    intakeMotorSpeedController =
-        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.CollectorIntakePID.KP,
-            Constants.PIDControllers.CollectorIntakePID.KI,
-            Constants.PIDControllers.CollectorIntakePID.KD,
-            Constants.PIDControllers.CollectorIntakePID.FF, "intake motor speed controller",
-            Constants.PIDControllers.CollectorIntakePID.SMART_PID_ACTIVE, intakeMotor);
+    topIntakeMotorSpeedController =
+        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.TopCollectorIntakePID.KP,
+            Constants.PIDControllers.TopCollectorIntakePID.KI,
+            Constants.PIDControllers.TopCollectorIntakePID.KD,
+            Constants.PIDControllers.TopCollectorIntakePID.FF, "intake motor",
+            Constants.PIDControllers.TopCollectorIntakePID.SMART_PID_ACTIVE, topIntakeMotor);
 
     pivotMotorController =
-        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.CollectorPivotPID.KP,
+        new SmartPIDControllerTalonFX(Constants.PIDControllers.CollectorPivotPID.KP,
             Constants.PIDControllers.CollectorPivotPID.KI,
             Constants.PIDControllers.CollectorPivotPID.KD,
             Constants.PIDControllers.CollectorPivotPID.FF, "pivot motor controller",
-            Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, pivotMotor);
+            Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
 
     // Setting voltage limit on the collector pivot for testing.
-    pivotMotor.setSmartCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS);
+    rightPivotMotor.getConfigurator()
+        .apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS)
+            .withSupplyCurrentLimitEnable(true));
   }
 
   public void intakeNotes(double setPoint) {
@@ -64,12 +78,12 @@ public class Collector extends SubsystemBase {
 
   public boolean isStowed() {
     return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS
-        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
+        - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public boolean isAtFloor() {
     return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS
-        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
+        - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public void setCollectorPos(double angle) {
@@ -77,10 +91,17 @@ public class Collector extends SubsystemBase {
   }
 
   public void periodic() {
+    PositionVoltage positionVoltage = new PositionVoltage(0);
 
-    pivotMotor.getPIDController().setReference(pivotSetPoint, CANSparkMax.ControlType.kPosition);
-    intakeMotor.getPIDController().setReference(speedSetPoint, CANSparkMax.ControlType.kVelocity);
+    rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
+    topIntakeMotor.getPIDController().setReference(speedSetPoint,
+        CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
+  }
+
+  public void setPercentOutput(double percent) {
+    topIntakeMotor.set(percent);
+    bottomIntakeMotor.set(percent);
   }
 
   public static Collector getInstance() {

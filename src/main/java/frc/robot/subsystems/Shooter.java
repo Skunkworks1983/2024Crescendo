@@ -188,6 +188,10 @@ public class Shooter extends SubsystemBase {
     return getLimitSwitchOutput(false);
   }
 
+  public void setTriggerPercentOutput(double percent) {
+    shooterIndexerMotor.set(percent);
+  }
+
   public static Shooter getInstance() {
     if (shooter == null) {
       shooter = new Shooter();

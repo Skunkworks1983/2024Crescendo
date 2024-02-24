@@ -58,13 +58,16 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
+    public static final int MANUAL_PERCENT_OUTPUT = 4;
   }
 
   public class Collector {
     // Collector Motor IDS
     // stub
-    public static final int COLLECTOR_MOTOR = 0; // TODO:set this!
-    public static final int COLLECTOR_PIVOT_MOTOR = 0; // TODO:set this!
+    public static final int TOP_INTAKE_MOTOR = 0; // TODO:set this!
+    public static final int BOTTOM_INTAKE_MOTOR = 0; // TODO:set this!
+    public static final int RIGHT_PIVOT_MOTOR = 0; // TODO:set this!
+    public static final int LEFT_PIVOT_MOTOR = 0; // TODO: set this!
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
@@ -75,6 +78,7 @@ public class Constants {
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
+    public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = .5;
   }
 
   public class DrivebaseInfo {
@@ -130,6 +134,8 @@ public class Constants {
     public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
+
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = .5;
 
     // z is the distance from the ground to the pivot.
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
@@ -217,7 +223,7 @@ public class Constants {
       public static final boolean SMART_PID_ACTIVE = false;
     }
 
-    public class CollectorIntakePID {
+    public class TopCollectorIntakePID {
       public static final double KP = 0;
       public static final double KI = 0;
       public static final double KD = 0;
@@ -351,6 +357,7 @@ public class Constants {
     public static final double INDEXER_SPEED = 1;
     public static final double REVERSE_INDEXER_SPEED = -1;
     public static final boolean SET_INDEXER_SMART_PID = true;
+    public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 0.5;
   }
 
   public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;
