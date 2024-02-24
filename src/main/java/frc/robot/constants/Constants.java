@@ -34,17 +34,18 @@ public class Constants {
     // Collector Motor IDS
     // stub
     public static final int COLLECTOR_MOTOR = 0;
-    public static final int COLLECTOR_PIVOT_MOTOR = 0;
+    public static final int LEFT_COLLECTOR_PIVOT_MOTOR = 35;
+    public static final int RIGHT_COLLECTOR_PIVOT_MOTOR = 34;
 
     // Climber Motor IDS
     // stub
-    public static final int CLIMBER_MOTOR_1 = 0;
-    public static final int CLIMBER_MOTOR_2 = 0;
+    public static final int CLIMBER_MOTOR_1 = 41; // Left
+    public static final int CLIMBER_MOTOR_2 = 1; // Right
 
     // Shooter Motor IDS
-    public static final int SHOOT_MOTOR1 = 0;
-    public static final int SHOOT_MOTOR2 = 0;
-    public static final int SHOOTER_PIVOT_MOTOR = 0;
+    public static final int SHOOT_MOTOR1 = 4; // Left Flywheel
+    public static final int SHOOT_MOTOR2 = 3; // Right Flywheel
+    public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 0;
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
@@ -63,10 +64,10 @@ public class Constants {
   public class Collector {
     // Collector Motor IDS
     // stub
-    public static final int TOP_INTAKE_MOTOR = 0; // TODO:set this!
-    public static final int BOTTOM_INTAKE_MOTOR = 0; // TODO:set this!
-    public static final int RIGHT_PIVOT_MOTOR = 0; // TODO:set this!
-    public static final int LEFT_PIVOT_MOTOR = 0; // TODO: set this!
+    public static final int TOP_INTAKE_MOTOR = 32;
+    public static final int BOTTOM_INTAKE_MOTOR = 31;
+    public static final int RIGHT_PIVOT_MOTOR = 34;
+    public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20;
@@ -92,16 +93,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(15, 11, 16, -0.310303, "Front Left");
+          new SwerveModuleConstants(11, 13, 15, -0.310303, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(14, 10, 17, 0.202148, "Front Right");
+          new SwerveModuleConstants(12, 14, 16, 0.202148, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(0, 4, 19, 0.387451, "Back Left");
+          new SwerveModuleConstants(21, 23, 25, 0.387451, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(1, 5, 18, -0.310059, "Back Right");
+          new SwerveModuleConstants(22, 24, 26, -0.310059, "Back Right");
     }
   }
 
@@ -334,7 +335,7 @@ public class Constants {
   }
 
   public class IndexerConstants {
-    public static final int INDEXER_MOTOR = 0;
+    public static final int INDEXER_MOTOR = 33;
     public static final int SHOOTER_BEAM_BREAK = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
