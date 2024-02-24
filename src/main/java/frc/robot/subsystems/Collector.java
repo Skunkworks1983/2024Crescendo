@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -61,6 +62,12 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.KD,
             Constants.PIDControllers.CollectorPivotPID.FF, "pivot motor controller",
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
+
+    // Setting voltage limit on the collector pivot for testing.
+    rightPivotMotor.getConfigurator()
+        .apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS)
+            .withSupplyCurrentLimitEnable(true));
   }
 
   public void intakeNotes(double setPoint) {
