@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -22,8 +23,6 @@ import frc.robot.utils.SmartPIDControllerTalonFX;
 // This is a stub subsystem
 public class Collector extends SubsystemBase {
 
-
-  // CANSparkMax pivotMotor;
   TalonFX rightPivotMotor;
   TalonFX leftPivotMotor;
   CANSparkMax topIntakeMotor;
@@ -35,8 +34,6 @@ public class Collector extends SubsystemBase {
 
   private double pivotSetPoint;
   private double speedSetPoint;
-
-  final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
   /** Creates a new Collector. */
   private Collector() {
@@ -87,8 +84,9 @@ public class Collector extends SubsystemBase {
   }
 
   public void periodic() {
-
-    rightPivotMotor.setControl(velocityVoltage.withVelocity(pivotSetPoint));
+    PositionVoltage positionVoltage = new PositionVoltage(0);
+    
+    rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
     topIntakeMotor.getPIDController().setReference(speedSetPoint,
         CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
