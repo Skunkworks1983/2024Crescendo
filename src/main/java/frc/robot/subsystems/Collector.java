@@ -52,7 +52,7 @@ public class Collector extends SubsystemBase {
         new SmartPIDControllerCANSparkMax(Constants.PIDControllers.TopCollectorIntakePID.KP,
             Constants.PIDControllers.TopCollectorIntakePID.KI,
             Constants.PIDControllers.TopCollectorIntakePID.KD,
-            Constants.PIDControllers.TopCollectorIntakePID.FF, "intake motor speed controller",
+            Constants.PIDControllers.TopCollectorIntakePID.FF, "intake motor",
             Constants.PIDControllers.TopCollectorIntakePID.SMART_PID_ACTIVE, topIntakeMotor);
 
     pivotMotorController =
@@ -85,7 +85,7 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     PositionVoltage positionVoltage = new PositionVoltage(0);
-    
+
     rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
     topIntakeMotor.getPIDController().setReference(speedSetPoint,
         CANSparkMax.ControlType.kVelocity);
