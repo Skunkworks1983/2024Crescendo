@@ -9,7 +9,7 @@ import frc.robot.subsystems.Shooter;
 
 public class FlywheelSpinup extends Command {
 
-  public Shooter shooter;
+  private Shooter shooter;
 
   public FlywheelSpinup() {
     shooter = Shooter.getInstance();

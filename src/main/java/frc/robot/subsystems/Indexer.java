@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 import frc.robot.utils.SmartPIDController;
 
@@ -33,11 +35,17 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setSpeedIndexer(double speedMetersPerSecond) {
+    indexerMotor.setIdleMode(IdleMode.kBrake);
     double speedRevolutionsPerSecond =
         ((speedMetersPerSecond / (Math.PI * (Constants.IndexerConstants.INDEXER_WHEEL_DIAMETER))
             * Constants.IndexerConstants.INDEXER_GEAR_RATIO));
     indexerMotor.getPIDController().setReference(speedRevolutionsPerSecond,
         CANSparkBase.ControlType.kVelocity);
+  }
+
+  public void setIndexerCoastMode() {
+    indexerMotor.setIdleMode(IdleMode.kCoast);
+    indexerMotor.set(0);
   }
 
   public void stop() {

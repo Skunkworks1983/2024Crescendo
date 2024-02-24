@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 
@@ -16,8 +17,7 @@ public class NoteFloorToShooter extends SequentialCommandGroup {
   /** Creates a new NoteFloorToShooter. */
   public NoteFloorToShooter() {
     this.collector = Collector.getInstance(); 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new LowerCollectorAndIntakeToIndexer(), new ShooterIntakeToBeamBrake());
+
+    addCommands(new RunCollectorAndIndexer(), new LoadPieceShooter());
   }
 }

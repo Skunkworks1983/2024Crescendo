@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -27,9 +28,6 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerCANSparkMax intakeMotorSpeedController;
   private static SmartPIDControllerCANSparkMax pivotMotorController;
   private static Collector collector;
-
-  private double pivotSetPoint;
-  private double speedSetPoint;
 
   /** Creates a new Collector. */
   private Collector() {
@@ -53,10 +51,10 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, pivotMotor);
   }
 
-  public void intakeNotes(double setPoint) {
-    speedSetPoint = ((setPoint / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))// wheel
-                                                                                        // rotion
-        * Constants.Collector.INTAKE_GEAR_RATIO);
+  //meters per second
+  public void intakeNotes(double metersPerSecond) {
+    intakeMotor.getPIDController().setReference(((metersPerSecond / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER)) * Constants.Collector.INTAKE_GEAR_RATIO), CANSparkMax.ControlType.kVelocity);
+    intakeMotor.setIdleMode(IdleMode.kBrake);
   }
   public boolean isStowed()
   {
@@ -69,13 +67,16 @@ public class Collector extends SubsystemBase {
     Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
   public void setCollectorPos(double angle) {
-    pivotSetPoint = angle;
+    pivotMotor.getPIDController().setReference(angle, CANSparkMax.ControlType.kPosition);
+  }
+
+  public void setIntakeCoastMode() {
+    intakeMotor.setIdleMode(IdleMode.kCoast);
+    intakeMotor.set(0);
   }
 
   public void periodic() {
 
-    pivotMotor.getPIDController().setReference(pivotSetPoint, CANSparkMax.ControlType.kPosition);
-    intakeMotor.getPIDController().setReference(speedSetPoint, CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
   }
   public static Collector getInstance() {

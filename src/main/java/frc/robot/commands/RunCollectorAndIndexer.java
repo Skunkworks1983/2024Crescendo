@@ -12,10 +12,11 @@ import frc.robot.subsystems.Indexer;
 
 public class RunCollectorAndIndexer extends Command {
   private final Collector collector;
-    private Indexer indexer;
+  private final Indexer indexer;
+
   /** Creates a new RunCollectorAndIndexer. */
   public RunCollectorAndIndexer() {
-    this.collector = Collector.getInstance();
+    collector = Collector.getInstance();
     indexer = Indexer.getInstance();
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,7 +37,7 @@ public class RunCollectorAndIndexer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.intakeNotes(0);
+    collector.setIntakeCoastMode();
     indexer.setSpeedIndexer(0);
   }
 

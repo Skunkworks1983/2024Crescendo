@@ -11,9 +11,11 @@ import frc.robot.subsystems.Shooter;
 public class ShooterIntakeToBeamBrake extends Command {
   private final Shooter shooter;
   /** Creates a new ShooterIntakeToBeamBrake. */
+
+  @Deprecated
   public ShooterIntakeToBeamBrake() {
     shooter = Shooter.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
+    //this is a duplicate of LoadPieceShooter, do not use
   }
 
   // Called when the command is initially scheduled.

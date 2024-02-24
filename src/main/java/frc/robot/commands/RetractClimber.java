@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter;
 
 //This is a stub command
 public class RetractClimber extends Command {
+    
     public RetractClimber(){
         addRequirements(Climber.getInstance());
     }
