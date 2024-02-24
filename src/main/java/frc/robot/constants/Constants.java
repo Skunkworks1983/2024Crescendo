@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -51,7 +52,6 @@ public class Constants {
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
 
-
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
@@ -68,10 +68,10 @@ public class Constants {
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20;
-    public static final double NOTE_INTAKE_SPEED = 0; //TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_STOW_POS = 0; //TODO:set this!
-    public static final double COLLECTOR_POS_TOLERANCE = 0; //TODO:set this! 
+    public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
   }
 
   public class DrivebaseInfo {
@@ -88,17 +88,17 @@ public class Constants {
 
     public class ModuleConstants {
 
-      public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(3, 9, 4, 0.77856445312, "Front Left");
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(3, 9, 4, 0.77856445312,
+          "Front Left");
 
-      public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(7, 11, 8, 0.12280273437, "Front Right");
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(7, 11, 8, 0.12280273437,
+          "Front Right");
 
-      public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(1, 12, 2, 0.62231445312, "Back Left");
+      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(1, 12, 2, 0.62231445312,
+          "Back Left");
 
-      public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(5, 10, 6, 0.28784179687, "Back Right");
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(5, 10, 6, 0.28784179687,
+          "Back Right");
     }
   }
 
@@ -110,13 +110,16 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER =
-        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
-    // assuming backwards on the robot is 0 and straight up is 90, double check messurements on
+    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    // assuming backwards on the robot is 0 and straight up is 90, double check
+    // messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
         27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_ROTATIONS =
@@ -129,9 +132,15 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
-    // Set Flywheel speeds for Shooter
+    // z is the distance from the ground to the pivot.
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0,
+        Units.inchesToMeters(24.586839));
+
+    // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
     public static final double AMP_FLYWHEEL_SPEED = 0;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 0;
@@ -230,12 +239,14 @@ public class Constants {
   public static final double ROT_JOY_DEADBAND = .2;
   public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
 
-  // Multiplying joystick output by this value in SwerveTeleop to get x and y feet per second.
+  // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
+  // per second.
   // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
   public static final double OI_DRIVE_SPEED_RATIO = 14.2;
 
-  // Multiplying joystick output by this value in SwerveTeleop to get degrees per second.
+  // Multiplying joystick output by this value in SwerveTeleop to get degrees per
+  // second.
   public static final double OI_TURN_SPEED_RATIO = 360;
 
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
@@ -252,34 +263,37 @@ public class Constants {
   public static final double FIELD_X_LENGTH = Units.feetToMeters(54.2708333);
   public static final double FIELD_Y_LENGTH = Units.feetToMeters(26.9375);
 
-  // Width and length of the robot with bumpers. Used for calculating start pose if pushed against
+  // Width and length of the robot with bumpers. Used for calculating start pose
+  // if pushed against
   // wall.
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
-
   public class PhotonVision {
     public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(Units.feetToMeters(-1.0), 0,
+        Units.feetToMeters(0.666667),
+        new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
 
-    // Multplying distance to target by this constant to get X and Y uncertainty when adding a
+    // Multplying distance to target by this constant to get X and Y uncertainty
+    // when adding a
     // vision measurment.
     public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
 
-    // Multiplying distance to target by this constant to get rotational uncertainty when adding a
+    // Multiplying distance to target by this constant to get rotational uncertainty
+    // when adding a
     // vision measurement.
     public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
   }
 
   public class Targeting {
     public enum FieldTarget {
-      SPEAKER(new Translation2d(Units.feetToMeters(0), Units.feetToMeters(18.520833))), AMP(
-          new Translation2d(Units.feetToMeters(6.0), Units.feetToMeters(999999999))), NONE();
+      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
+      NONE();
 
-      Translation2d target;
+      Translation3d target;
 
-      FieldTarget(Translation2d target) {
+      FieldTarget(Translation3d target) {
         this.target = target;
       }
 
@@ -289,10 +303,11 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is
+       * NONE, this will
        * return Optional.empty().
        */
-      public Optional<Translation2d> get() {
+      public Optional<Translation3d> get() {
         if (target == null) {
           return Optional.empty();
         } else {

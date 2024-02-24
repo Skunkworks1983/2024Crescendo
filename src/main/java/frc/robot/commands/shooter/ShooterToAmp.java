@@ -25,7 +25,8 @@ public class ShooterToAmp extends Command {
     shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
 
     if (shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle, Constants.Shooter.AMP_FLYWHEEL_SPEED);
+      shooter.setShooterAngle(shooterAngle);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
       isTurning = true;
     } else {
       isTurning = false;
@@ -37,16 +38,18 @@ public class ShooterToAmp extends Command {
 
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
         .getDegrees() && isTurning) {
-      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED,
-          Constants.Shooter.AMP_FLYWHEEL_SPEED);
+      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle, Constants.Shooter.AMP_FLYWHEEL_SPEED);
+      shooter.setShooterAngle(shooterAngle);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorVelocity(0, Constants.Shooter.AMP_FLYWHEEL_SPEED);
+    shooter.setPivotMotorVelocity(0);
+    shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override

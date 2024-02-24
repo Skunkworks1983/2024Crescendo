@@ -22,7 +22,7 @@ public class FlywheelSpinup extends Command {
 
   @Override
   public void execute() {
-    shooter.setFlywheelSpeed(shooter.flywheelSpeedSetpoint);
+    shooter.setFlywheelSpeed(shooter.flywheelSetpointMPS);
   }
 
 
