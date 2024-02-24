@@ -14,7 +14,7 @@ public class CollectorStow extends Command {
   public CollectorStow() {
     this.collector = Collector.getInstance();
     
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(collector);
   }
 
   // Called when the command is initially scheduled.
@@ -30,11 +30,12 @@ public class CollectorStow extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    collector.setCollectorPos(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return collector.isStowed();
   }
 }

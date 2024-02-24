@@ -28,7 +28,6 @@ public class Shooter extends SubsystemBase {
   public TalonFX shootMotor1;
   public TalonFX shootMotor2;
   public CANSparkMax shooterIndexerMotor;
-  private DigitalInput shooterBeamBrake;
   Timer timer;
   DigitalInput noteBreak1;
   DigitalInput noteBreak2;
@@ -52,7 +51,6 @@ public class Shooter extends SubsystemBase {
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
   private Shooter() {
-    shooterBeamBrake = new DigitalInput(Constants.Shooter.SHOOTER_BEAM_BRAKE);
     timer = new Timer();
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
     shootMotor1 = new TalonFX(Constants.IDS.SHOOT_MOTOR1, Constants.CANIVORE_NAME);

@@ -12,9 +12,9 @@ public class LowerCollector extends Command {
   private final Collector collector;
   /** Creates a new LowerCollector. */
   public LowerCollector() {
-    this.collector = Collector.getInstance();
+    collector = Collector.getInstance();
     
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(collector);
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +36,7 @@ public class LowerCollector extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return collector.isAtFloor();
     //check collector position
+    return collector.isAtFloor();
   }
 }
