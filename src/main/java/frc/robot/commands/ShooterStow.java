@@ -11,6 +11,7 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterStow extends Command {
   private final Shooter shooter;
+
   /** Creates a new ShooterStow. */
   public ShooterStow() {
     this.shooter = Shooter.getInstance();
@@ -20,7 +21,8 @@ public class ShooterStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterAngle(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES, shooter.pivotPosition.SHOOTER_TO_STOW);
+    shooter.setShooterAngle(Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES,
+        Constants.Shooter.LOADING_INDEXER_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +36,7 @@ public class ShooterStow extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
-    //check shooter position if is done
+    return shooter.canLoadPiece();
+    // check shooter position if is done
   }
 }

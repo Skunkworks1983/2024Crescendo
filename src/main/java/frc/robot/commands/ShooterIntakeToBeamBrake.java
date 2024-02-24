@@ -29,7 +29,7 @@ public class ShooterIntakeToBeamBrake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setShooterSpeed(0);
+    shooter.setShooterIndexerSpeed(0);
   }
 
   // Returns true when the command should end.
