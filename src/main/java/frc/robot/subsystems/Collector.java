@@ -51,6 +51,9 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.KD,
             Constants.PIDControllers.CollectorPivotPID.FF, "pivot motor controller",
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, pivotMotor);
+
+    // Setting voltage limit on the collector pivot for testing.
+    pivotMotor.setSmartCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS);
   }
 
   public void intakeNotes(double setPoint) {
