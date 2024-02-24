@@ -57,9 +57,9 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
-    public static final int MANUAL_PERCENT_OUTPUT = 4;
-    public static final int FLYWHEEL_SPINUP = 5;
-    public static final int MANUAL_SHOOT = 6;
+    public static final int MANUAL_PERCENT_OUTPUT = 16;
+    public static final int FLYWHEEL_SPINUP = 17;
+    public static final int MANUAL_SHOOT = 24;
   }
 
   public class Collector {
