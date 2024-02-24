@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
         .apply(new CurrentLimitsConfigs()
             .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
-            
+
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -118,9 +118,8 @@ public class Shooter extends SubsystemBase {
 
   public void setPivotMotorVelocity(double radiansPerSecond) {
     velocityVoltage.Slot = 0;
-    pivotMotor.setControl(velocityVoltage
-        .withVelocity(Units.radiansToDegrees(radiansPerSecond)
-            / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
+    pivotMotor.setControl(velocityVoltage.withVelocity(Units.radiansToDegrees(radiansPerSecond)
+        / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
