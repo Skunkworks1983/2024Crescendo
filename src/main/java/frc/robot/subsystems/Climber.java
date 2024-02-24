@@ -56,6 +56,12 @@ public class Climber extends SubsystemBase {
   public double getClimber2Position(){
     return climbMotor2.getPosition().getValueAsDouble();
   }
+  public double getClimber1Torque(){
+    return climbMotor1.getTorqueCurrent().getValueAsDouble();
+  }
+  public double getClimber2torque(){
+    return climbMotor2.getTorqueCurrent().getValueAsDouble();
+  }
    
   @Override
   public void periodic() {

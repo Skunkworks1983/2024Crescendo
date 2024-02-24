@@ -279,8 +279,12 @@ public class Constants {
         public static final double CLIMBER_KI = 0;
         public static final double CLIMBER_KD = 0;
         public static final double CLIMBER_KF = 0;
+
+        public static final double CLIMBER_CORD_CYLINDER_DIAMETER= 1.235;
+        public static final double METERS_TO_INCHES = 39.3701;
+        public static final double CLIMBER_METERS_TO_ROTATIONS = METERS_TO_INCHES/(Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER);
         
-        public static final double CLIMBER1_POSITION_MAX = 0;
+        public static final double CLIMBER1_POSITION_MAX = 0 * CLIMBER_METERS_TO_ROTATIONS;
         public static final double CLIMBER1_POSITION_MIN = 0; 
 
         public static final double CLIMBER2_POSITION_MAX = 0;
@@ -289,6 +293,7 @@ public class Constants {
         public static final boolean CLIMBER_PID_ACTIVE = true;
 
         public static final double CLIMBER_TOLERANCE = .01;
+        //CIRCUMFERENCE = 3.88
         
   }
 }

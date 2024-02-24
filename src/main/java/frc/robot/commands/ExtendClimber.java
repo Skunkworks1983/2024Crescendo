@@ -42,10 +42,10 @@ public class ExtendClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    private boolean ClimberOne = climber.getClimber1Postition - ClimberConstants.CLIMBER1_POSITION_MAX;
-    private boolean ClimberTwo = climber.getClimber2Postition - ClimberConstants.CLIMBER2_POSITION_MAX;
-    if(Math.abs(climber.getClimber1Postition() - ClimberConstants.CLIMBER1_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE){
-      return false;
+    if(Math.abs(climber.getClimber1Postition() - ClimberConstants.CLIMBER1_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE && 
+     Math.abs(climber.getClimber2Position() - ClimberConstants.CLIMBER2_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE){
+      return true;
     }
+    return false;
   }
 }
