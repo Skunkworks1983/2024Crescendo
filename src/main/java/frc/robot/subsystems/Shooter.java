@@ -118,9 +118,8 @@ public class Shooter extends SubsystemBase {
 
   public void setPivotMotorVelocity(double radiansPerSecond) {
     velocityVoltage.Slot = 0;
-    pivotMotor.setControl(velocityVoltage
-        .withVelocity(Units.radiansToDegrees(radiansPerSecond)
-            / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
+    pivotMotor.setControl(velocityVoltage.withVelocity(Units.radiansToDegrees(radiansPerSecond)
+        / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -187,6 +186,10 @@ public class Shooter extends SubsystemBase {
 
   public boolean canLoadPiece() {
     return getLimitSwitchOutput(false);
+  }
+
+  public void setTriggerPercentOutput(double percent) {
+    shooterIndexerMotor.set(percent);
   }
 
   public static Shooter getInstance() {
