@@ -16,53 +16,74 @@ import frc.robot.utils.SmartPIDControllerTalonFX;
 // This is a stub subsystem
 public class Climber extends SubsystemBase {
 
-  TalonFX climbMotor1;
-  TalonFX climbMotor2;
-  
-  private Slot0Configs s0conf;
+  TalonFX leftClimbMotor;
+  TalonFX rightClimbMotor;
 
   private static Climber climber;
-  
   final PositionVoltage postitionVoltage = new PositionVoltage(0);
-
   SmartPIDControllerTalonFX CLIMBER_PID_ACTIVE;
+  SmartPIDControllerTalonFX leftController;
+  SmartPIDControllerTalonFX rightController;
 
   /** Creates a new Climber. */
   private Climber() {
-    s0conf = new Slot0Configs();
-    s0conf.kP = Constants.ClimberConstants.CLIMBER_KP;
-    s0conf.kI = Constants.ClimberConstants.CLIMBER_KI;
-    s0conf.kD = Constants.ClimberConstants.CLIMBER_KD;
-    s0conf.kV = Constants.ClimberConstants.CLIMBER_KF;
 
-    climbMotor1 = new TalonFX(Constants.IDS.CLIMBER_MOTOR_1, Constants.CANIVORE_NAME);
-    climbMotor2 = new TalonFX(Constants.IDS.CLIMBER_MOTOR_2, Constants.CANIVORE_NAME);
-    climbMotor1.getConfigurator().apply(s0conf);
+    // Initialize the climbing motors.
+    leftClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_1, Constants.CANIVORE_NAME);
+    rightClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_2, Constants.CANIVORE_NAME);
+
+    leftController = new SmartPIDControllerTalonFX(
+        Constants.PIDControllers.DrivePID.KP,
+        Constants.PIDControllers.DrivePID.KI, 
+        Constants.PIDControllers.DrivePID.KD,
+        Constants.PIDControllers.DrivePID.KF, 
+        "Climb Controller 1",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, leftClimbMotor);
+
+    rightController = new SmartPIDControllerTalonFX(
+        Constants.ClimberConstants.CLIMBER_KP,
+        Constants.ClimberConstants.CLIMBER_KI, 
+        Constants.ClimberConstants.CLIMBER_KD,
+        Constants.ClimberConstants.CLIMBER_KF, 
+        "Climb Controller 2",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, 
+        );
   }
 
-  public void setClimberPosition(boolean useLeftMotor, double setPointMeters){
+  public void setClimberPosition(boolean useLeftMotor, double setPointMeters) {
     TalonFX motor;
-    if(useLeftMotor){
-     motor = climbMotor1;
-    }
-    else{
-      motor = climbMotor2;
+    if (useLeftMotor) {
+      motor = leftClimbMotor;
+    } else {
+      motor = rightClimbMotor;
     }
     motor.setControl(postitionVoltage.withPosition(setPointMeters));
   }
-  public double getClimber1Postition(){
+
+  public void setLeftClimberPosition(double setpointMeters) {
+    leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
+  }
+
+  public void setRightClimberPosition() {
+    rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
+  }
+
+  public double getClimber1Postition() {
     return climbMotor1.getPosition().getValueAsDouble();
   }
-  public double getClimber2Position(){
+
+  public double getClimber2Position() {
     return climbMotor2.getPosition().getValueAsDouble();
   }
-  public double getClimber1Torque(){
+
+  public double getClimber1Torque() {
     return climbMotor1.getTorqueCurrent().getValueAsDouble();
   }
-  public double getClimber2torque(){
+
+  public double getClimber2torque() {
     return climbMotor2.getTorqueCurrent().getValueAsDouble();
   }
-   
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
