@@ -17,7 +17,9 @@ public class FlywheelSpinup extends Command {
 
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Flywheel Spinup Command Initialize");
+  }
 
 
   @Override
@@ -29,6 +31,7 @@ public class FlywheelSpinup extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setFlywheelMotorCoastMode();
+    System.out.println("Flywheel Spinup Command End");
   }
 
   @Override

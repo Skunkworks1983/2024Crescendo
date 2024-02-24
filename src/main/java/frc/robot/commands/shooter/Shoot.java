@@ -19,6 +19,7 @@ public class Shoot extends Command {
   @Override
   public void initialize() {
     shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
+    System.out.println("Shoot Command Initialize");
   }
 
   @Override
@@ -27,6 +28,7 @@ public class Shoot extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
+    System.out.println("Shoot Command End");
   }
 
   @Override

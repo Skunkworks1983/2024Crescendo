@@ -25,6 +25,7 @@ public class ManualIntakeNotes extends Command {
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
     indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
+    System.out.println("Manual Intake Notes Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +37,7 @@ public class ManualIntakeNotes extends Command {
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
     indexer.setPercentOutput(0);
+    System.out.println("Manual Intake Notes Command End");
   }
 
   // Returns true when the command should end.
