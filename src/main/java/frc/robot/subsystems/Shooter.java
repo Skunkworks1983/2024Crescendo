@@ -188,7 +188,7 @@ public class Shooter extends SubsystemBase {
     return getLimitSwitchOutput(false);
   }
 
-  public void setFlywheelPercentOutpu(double percent) {
+  public void setFlywheelPercentOutput(double percent) {
     shootMotor1.set(percent);
   }
 

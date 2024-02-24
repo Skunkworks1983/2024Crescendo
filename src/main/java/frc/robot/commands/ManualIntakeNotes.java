@@ -8,17 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Shooter;
 
 public class ManualIntakeNotes extends Command {
   private Collector collector;
-  private Shooter shooter;
   private Indexer indexer;
 
   /** Creates a new ManualIntakeNotes. */
   public ManualIntakeNotes() {
     this.collector = Collector.getInstance();
-    this.shooter = Shooter.getInstance();
     this.indexer = Indexer.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,31 +24,24 @@ public class ManualIntakeNotes extends Command {
   @Override
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
-    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
     indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.getShooterIndexerBeambreak1()) {
-      shooter.setShooterIndexerSpeed(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW);
-      indexer.setPercentOutput(0);
-      collector.setPercentOutput(0);
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
-    shooter.setIndexerPercentOutput(0);
     indexer.setPercentOutput(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooter.getShooterIndexerBeambreak2();
+    return false;
   }
 }
