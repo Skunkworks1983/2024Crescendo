@@ -208,8 +208,8 @@ public class Drivebase extends SubsystemBase {
     odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()});
-
-    // Iterate though list of VisionMeasurements, call add
+      
+    // Iterate though list of VisionMeasurements and call addVisionMeasurement for each item in the list.
     for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
       odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
           measurement.pose.timestampSeconds, measurement.stdDevs);

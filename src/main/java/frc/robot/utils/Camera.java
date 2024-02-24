@@ -13,6 +13,7 @@ public class Camera {
     PhotonPoseEstimator poseEstimator;
     AprilTagFieldLayout aprilTagFieldLayout;
 
+    /** Camera class */
     public Camera(String cameraName, Transform3d transform3d) {
         try {
             aprilTagFieldLayout = AprilTagFieldLayout
@@ -20,8 +21,12 @@ public class Camera {
         } catch (IOException e) {
             System.out.println("Exception reading AprilTag Field JSON " + e.toString());
         }
+
+        // Creates a new PhotonCamera and PhotonPoseEstimator
         camera = new PhotonCamera(cameraName);
         poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, transform3d);
+
+        
     }
 }

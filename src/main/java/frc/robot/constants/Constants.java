@@ -235,21 +235,22 @@ public class Constants {
 
   public class PhotonVision {
     public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera (1)";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
     public static final Transform3d ROBOT_TO_CAMERA_1 =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
+        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(.66667),
             new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
     public static final Transform3d ROBOT_TO_CAMERA_2 =
-        new Transform3d(Units.feetToMeters(1.0), 0, Units.feetToMeters(.5),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(0)));
+        new Transform3d(Units.feetToMeters(-1.0), Units.feetToMeters(-1.0), Units.feetToMeters(.6667),
+            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(-90)));
+    
 
     // Multplying distance to target by this constant to get X and Y uncertainty when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
 
     // Multiplying distance to target by this constant to get rotational uncertainty when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
   }
 
   public class Targeting {
