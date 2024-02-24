@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -34,7 +35,7 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
 
   // Meters per second
-  public double flywheelSetpointMPS = 0.0;
+  public double flywheelSetpointMPS = 0.5 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
 
   private static Shooter shooter;
 
@@ -81,6 +82,13 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,
         Constants.PIDControllers.ShooterPivotPID.KF, "Shooter Pivot",
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
+
+
+    // Setting max current on pivot motor for testing.
+    pivotMotor.getConfigurator()
+        .apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
+            .withSupplyCurrentLimitEnable(true));
 
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
@@ -180,7 +188,16 @@ public class Shooter extends SubsystemBase {
     return getLimitSwitchOutput(false);
   }
 
-  public void setTriggerPercentOutput(double percent) {
+  public void setFlywheelPercentOutput(double percent) {
+    shootMotor1.set(percent);
+  }
+
+  public void setPivotMotorPercentOutput(double percent) {
+    pivotMotor.set(percent);
+  }
+
+  public void setIndexerPercentOutput(double percent) {
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
   }
 
