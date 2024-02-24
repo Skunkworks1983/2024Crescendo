@@ -69,6 +69,8 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+
+    // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
   }
 
@@ -117,7 +119,7 @@ public class Constants {
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
 
-    // Using this value to set
+    // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 1;
   }
 
