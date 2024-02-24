@@ -117,7 +117,7 @@ public class Constants {
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
 
-    // Using this value to set 
+    // Using this value to set
     public static final double SHOOTER_PIVOT_MAX_AMPS = 1;
   }
 
@@ -196,7 +196,7 @@ public class Constants {
     }
 
     public class CollectorPivotPID {
-      
+
       // Setting low value for testing.
       public static final double KP = .02;
       public static final double KI = 0;
