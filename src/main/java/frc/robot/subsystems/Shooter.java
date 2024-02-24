@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
 
   // Meters per second
-  public double flywheelSetpointMPS = 0.0;
+  public double flywheelSetpointMPS = 0.5 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
 
   private static Shooter shooter;
 
@@ -188,7 +188,16 @@ public class Shooter extends SubsystemBase {
     return getLimitSwitchOutput(false);
   }
 
-  public void setTriggerPercentOutput(double percent) {
+  public void setFlywheelPercentOutput(double percent) {
+    shootMotor1.set(percent);
+  }
+
+  public void setPivotMotorPercentOutput(double percent) {
+    pivotMotor.set(percent);
+  }
+
+  public void setIndexerPercentOutput(double percent) {
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
   }
 

@@ -59,6 +59,8 @@ public class Constants {
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
     public static final int MANUAL_PERCENT_OUTPUT = 4;
+    public static final int FLYWHEEL_SPINUP = 5;
+    public static final int MANUAL_SHOOT = 6;
   }
 
   public class Collector {
@@ -135,7 +137,9 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
-    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = .5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
+    public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
