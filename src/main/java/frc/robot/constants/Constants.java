@@ -79,8 +79,8 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations
-    public static final double TRANSLATION_X = 0.9479166665; // feet
-    public static final double TRANSLATION_Y = 0.9479166665; // feet
+    public static final double TRANSLATION_X = 0.925; // feet
+    public static final double TRANSLATION_Y = 0.8041666; // feet
 
     public class ModuleConstants {
 
@@ -115,11 +115,6 @@ public class Constants {
     public static final double SHOOTER_RESTING_POSITION_DEGREES = 27.8;
     public static final double SHOOTER_MAX_POSITION_DEGREES = 119.5;
   }
-
-  public static final double TRANSLATION_X = 0.947916666; // feet
-  public static final double TRANSLATION_Y = 0.822916666; // feet
-
-
 
   public class PIDControllers {
 
