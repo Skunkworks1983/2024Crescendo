@@ -51,21 +51,24 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, pivotMotor);
   }
 
-  //meters per second
+  // meters per second
   public void intakeNotes(double metersPerSecond) {
-    intakeMotor.getPIDController().setReference(((metersPerSecond / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER)) * Constants.Collector.INTAKE_GEAR_RATIO), CANSparkMax.ControlType.kVelocity);
+    intakeMotor.getPIDController()
+        .setReference(((metersPerSecond / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))
+            * Constants.Collector.INTAKE_GEAR_RATIO), CANSparkMax.ControlType.kVelocity);
     intakeMotor.setIdleMode(IdleMode.kBrake);
   }
-  public boolean isStowed()
-  {
-    return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS - pivotMotor.getEncoder().getPosition()) < 
-    Constants.Collector.COLLECTOR_POS_TOLERANCE);
+
+  public boolean isStowed() {
+    return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS
+        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
-  public boolean isAtFloor()
-  {
-    return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS - pivotMotor.getEncoder().getPosition()) < 
-    Constants.Collector.COLLECTOR_POS_TOLERANCE);
+
+  public boolean isAtFloor() {
+    return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS
+        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
+
   public void setCollectorPos(double angle) {
     pivotMotor.getPIDController().setReference(angle, CANSparkMax.ControlType.kPosition);
   }
@@ -76,9 +79,9 @@ public class Collector extends SubsystemBase {
   }
 
   public void periodic() {
-
     // This method will be called once per scheduler run
   }
+
   public static Collector getInstance() {
     if (collector == null) {
       collector = new Collector();
