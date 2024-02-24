@@ -39,12 +39,13 @@ public class Indexer extends SubsystemBase {
     indexerMotor.getPIDController().setReference(speedRevolutionsPerSecond,
         CANSparkBase.ControlType.kVelocity);
   }
+
   public void stop() {
     indexerMotor.getPIDController().setReference(0, CANSparkBase.ControlType.kVelocity);
   }
 
   public boolean getBeamBreakSensor() {
-    return shooterBeamBreak.get();  
+    return shooterBeamBreak.get();
   }
 
   public static Indexer getInstance() {
@@ -53,9 +54,13 @@ public class Indexer extends SubsystemBase {
     }
     return indexer;
   }
+
+  public void setPercentOutput(double percent) {
+    indexerMotor.set(percent);
+  }
+
   @Override
   public void periodic() {
-    indexerMotorController.updatePID(); 
+    indexerMotorController.updatePID();
   }
 }
-  

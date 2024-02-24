@@ -9,7 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 
-//This is a stub subsystem
+// This is a stub subsystem
 public class Climber extends SubsystemBase {
 
   TalonFX climbMotor1;
@@ -24,7 +24,7 @@ public class Climber extends SubsystemBase {
 
   }
 
-  public void setSetpoint(){
+  public void setSetpoint() {
 
 
   }
