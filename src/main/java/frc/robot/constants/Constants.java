@@ -41,7 +41,7 @@ public class Constants {
     public static final int SHOOT_MOTOR1 = 4; // Left Flywheel
     public static final int SHOOT_MOTOR2 = 3; // Right Flywheel
     public static final int SHOOTER_PIVOT_MOTOR = 5;
-    public static final int SHOOTER_INDEXER_MOTOR = 0;
+    public static final int SHOOTER_INDEXER_MOTOR = 36;
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
