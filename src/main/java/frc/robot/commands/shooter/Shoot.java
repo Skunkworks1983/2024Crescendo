@@ -18,7 +18,7 @@ public class Shoot extends Command {
 
   @Override
   public void initialize() {
-    shooter.setFlywheelPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
+    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
   }
 
   @Override
