@@ -180,7 +180,16 @@ public class Shooter extends SubsystemBase {
     return getLimitSwitchOutput(false);
   }
 
-  public void setTriggerPercentOutput(double percent) {
+  public void setFlywheelPercentOutpu(double percent) {
+    shootMotor1.set(percent);
+  }
+
+  public void setPivotMotorPercentOutput(double percent) {
+    pivotMotor.set(percent);
+  }
+
+  public void setIndexerPercentOutput(double percent) {
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
   }
 

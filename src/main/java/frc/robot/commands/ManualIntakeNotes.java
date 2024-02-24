@@ -22,30 +22,36 @@ public class ManualIntakeNotes extends Command {
     this.indexer = Indexer.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
-    shooter.setTriggerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
+    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
     indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (shooter.getShooterIndexerBeambreak1()) {
+      shooter.setShooterIndexerSpeed(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW);
+      indexer.setPercentOutput(0);
+      collector.setPercentOutput(0);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
-    shooter.setTriggerPercentOutput(0);
+    shooter.setIndexerPercentOutput(0);
     indexer.setPercentOutput(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return shooter.getShooterIndexerBeambreak2();
   }
 }

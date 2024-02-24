@@ -132,7 +132,9 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
-    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = .5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
+    public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
@@ -189,7 +191,7 @@ public class Constants {
     }
 
     public class ShootingPID {
-      public static final double KP = 0;
+      public static final double KP = 0.05;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double KF = 0;
