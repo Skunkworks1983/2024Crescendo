@@ -61,27 +61,26 @@ public class Collector extends SubsystemBase {
                                                                                         // rotion
         * Constants.Collector.INTAKE_GEAR_RATIO);
   }
-
+  public boolean isStowed()
+  {
+    return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS - pivotMotor.getEncoder().getPosition()) < 
+    Constants.Collector.COLLECTOR_POS_TOLERANCE);
+  }
+  public boolean isAtFloor()
+  {
+    return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS - pivotMotor.getEncoder().getPosition()) < 
+    Constants.Collector.COLLECTOR_POS_TOLERANCE);
+  }
   public void setCollectorPos(double angle) {
     pivotSetPoint = angle;
   }
 
-  @Override
   public void periodic() {
 
     pivotMotor.getPIDController().setReference(pivotSetPoint, CANSparkMax.ControlType.kPosition);
     intakeMotor.getPIDController().setReference(speedSetPoint, CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
   }
-
-  public void rotateCollector(Rotation2d desiredRotation) {
-
-  }
-
-  public void runCollector(double speed) {
-
-  }
-
   public static Collector getInstance() {
     if (collector == null) {
       collector = new Collector();
