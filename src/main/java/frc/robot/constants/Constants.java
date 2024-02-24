@@ -70,10 +70,13 @@ public class Constants {
     public static final int LEFT_PIVOT_MOTOR = 0; // TODO: set this!
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
-    public static final double PIVOT_GEAR_RATIO = 20;
+    public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+
+    // Max collector pivot motor current output.
+    public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
     public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = .5;
   }
@@ -152,6 +155,9 @@ public class Constants {
 
     // maximum error for flywheel spinup to consider shooting
     public static final double MAX_FLYWHEEL_ERROR = 0;
+
+    // Max shooter pivot motor current output.
+    public static final double SHOOTER_PIVOT_MAX_AMPS = 1;
   }
 
   public class PIDControllers {
@@ -209,7 +215,9 @@ public class Constants {
     }
 
     public class ShooterPivotPID {
-      public static final double KP = 0;
+
+      // Setting low values for testing.
+      public static final double KP = .05;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double KF = 0;
@@ -227,7 +235,9 @@ public class Constants {
     }
 
     public class CollectorPivotPID {
-      public static final double KP = 0;
+
+      // Setting low value for testing.
+      public static final double KP = .02;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
