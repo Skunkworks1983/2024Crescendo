@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -28,7 +29,9 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerTalonFX pivotMotorController;
   private static Collector collector;
 
-  PositionVoltage positionVoltage = new PositionVoltage(0);
+  final PositionVoltage positionVoltage = new PositionVoltage(0);
+  final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
+
 
   /** Creates a new Collector. */
   private Collector() {
@@ -93,6 +96,10 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setCollectorPivotVelocity(double speed) {
+    rightPivotMotor.setControl(velocityVoltage.withVelocity(speed));
   }
 
   public void setPercentOutput(double percent) {
