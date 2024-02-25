@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Climb;
+import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -26,6 +28,8 @@ public class OI extends SubsystemBase {
   JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
+  JoystickButton extendClimber;
+  JoystickButton pullClimber;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -46,6 +50,9 @@ public class OI extends SubsystemBase {
     manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     manualShoot.whileTrue(new Shoot());
+
+    extendClimber.onTrue(new ExtendClimber());
+    pullClimber.onTrue(new Climb());
   }
 
   @Override
