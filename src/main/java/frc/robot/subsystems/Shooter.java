@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
 
   // Meters per second
-  public double flywheelSetpointMPS = 0.5 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  public double flywheelSetpointMPS = 40.0 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
 
   private static Shooter shooter;
 

@@ -176,10 +176,10 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = .25;
-      public static final double KI = .003;
-      public static final double KD = 0.001;
-      public static final double KF = .11;
+      public static final double KP = .0;
+      public static final double KI = .000;
+      public static final double KD = 0.000;
+      public static final double KF = 0;
 
       public static final boolean SMART_PID_ACTIVE = true;
     }
@@ -193,12 +193,12 @@ public class Constants {
     }
 
     public class ShootingPID {
-      public static final double KP = 0.005;
+      public static final double KP = 0.250;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double KF = 0;
+      public static final double KF = 0.1;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class ShooterIndexerPID {
