@@ -9,10 +9,11 @@ import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
 import frc.robot.subsystems.Climber;
 
-public class PullClimber extends Command {
+public class LowerClimberToChain extends Command {
   /** Creates a new LowerTellCurrent. */
   Climber climber;
-  public PullClimber() {
+
+  public LowerClimberToChain() {
     // Use addRequirements() here to declare subsystem dependencies.
     climber = Climber.getInstance();
   }
@@ -26,11 +27,11 @@ public class PullClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE){
-    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER1_POSITION_MIN);
+    if (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
+      climber.setClimberOutput(CLIMB_MODULE.LEFT, ClimberConstants.BASE_PULL_SPEED);
     }
-    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
-    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MIN);
+    if (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
+      climber.setClimberOutput(CLIMB_MODULE.RIGHT, ClimberConstants.BASE_PULL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,7 +41,7 @@ public class PullClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
-     climber.getClimberTorque(CLIMB_MODULE.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
-     }
+    return (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE
+        && climber.getClimberTorque(CLIMB_MODULE.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
+  }
 }

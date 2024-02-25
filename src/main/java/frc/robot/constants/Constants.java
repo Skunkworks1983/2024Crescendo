@@ -39,11 +39,11 @@ public class Constants {
 
     // Climber Motor IDS
     // stub
-    public static final int CLIMBER_MOTOR_1 = 0;
-    public static final int CLIMBER_MOTOR_2 = 0;
-    
-    //Shooter Motor IDS
-    //stub
+    public static final int LEFT_CLIMBER_MOTOR = 41;
+    public static final int RIGHT_CLIMBER_MOTOR = 1;
+
+    // Shooter Motor IDS
+    // stub
 
     // Shooter Motor IDS
     public static final int SHOOT_MOTOR1 = 0;
@@ -352,40 +352,40 @@ public class Constants {
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
   }
   public class ClimberConstants {
-        // Left Climber Motor
-        public static final double CLIMBER_KP = 0;
-        public static final double CLIMBER_KI = 0;
-        public static final double CLIMBER_KD = 0;
-        public static final double CLIMBER_KF = 0;
+    // Left Climber Motor
+    public static final double CLIMBER_KP = 0;
+    public static final double CLIMBER_KI = 0;
+    public static final double CLIMBER_KD = 0;
+    public static final double CLIMBER_KF = 0;
 
-        public static final double CLIMBER_CORD_CYLINDER_DIAMETER= 1.235;
-        public static final double METERS_TO_INCHES = 39.3701;
-        public static final double CLIMBER_METERS_TO_ROTATIONS = METERS_TO_INCHES/(Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER);
-        
-        public static final double CLIMBER1_POSITION_MAX = 0 * CLIMBER_METERS_TO_ROTATIONS;
-        public static final double CLIMBER1_POSITION_MIN = 0; 
+    public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 1.235;
+    public static final double METERS_TO_INCHES = 39.3701;
+    public static final double CLIMBER_METERS_TO_ROTATIONS =
+        METERS_TO_INCHES / (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER);
 
-        public static final double CLIMBER2_POSITION_MAX = 0;
-        public static final double CLIMBER2_POSITION_MIN = 0;
+    public static final double CLIMBER1_POSITION_MAX = 0 * CLIMBER_METERS_TO_ROTATIONS;
+    public static final double CLIMBER1_POSITION_MIN = 0;
 
-        public static final boolean CLIMBER_PID_ACTIVE = true;
+    public static final double CLIMBER2_POSITION_MAX = 0;
+    public static final double CLIMBER2_POSITION_MIN = 0;
 
-        public static final double CLIMBER_TOLERANCE = .01;
+    public static final boolean CLIMBER_PID_ACTIVE = true;
 
-        //TODO: set this
-        public static final double CLIMBER_CHAIN_TORQUE = 0;
+    public static final double CLIMBER_TOLERANCE = .01;
 
-        public static final double BASE_SPEED = .5;
-        public static final double CLIMBER_END_TOLERANCE =.01;
-        public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
+    // TODO: set this
+    public static final double CLIMBER_CHAIN_TORQUE = 0;
 
-        public enum CLIMB_MODULE {
-          LEFT,
-          RIGHT;
-        }
-      
-        //CIRCUMFERENCE = 3.88
-        
+    public static final double BASE_PULL_SPEED = .5;
+    public static final double CLIMBER_END_TOLERANCE = .01;
+    public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
+
+    public enum CLIMB_MODULE {
+      LEFT, RIGHT;
+    }
+
+    // CIRCUMFERENCE = 3.88
+
   }
 
   public class IndexerConstants {

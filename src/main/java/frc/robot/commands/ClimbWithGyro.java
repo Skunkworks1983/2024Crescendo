@@ -35,8 +35,8 @@ public class ClimbWithGyro extends Command {
   public void execute() {
     double roll = drivebase.getGyroRoll();
 
-    leftOutput = ClimberConstants.BASE_SPEED + roll / 100;
-    rightOutput = ClimberConstants.BASE_SPEED - roll / 100;
+    leftOutput = ClimberConstants.BASE_PULL_SPEED + roll / 100;
+    rightOutput = ClimberConstants.BASE_PULL_SPEED - roll / 100;
 
     climber.setClimberOutput(CLIMB_MODULE.LEFT, leftOutput);
     climber.setClimberOutput(CLIMB_MODULE.RIGHT, rightOutput);

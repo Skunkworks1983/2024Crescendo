@@ -10,17 +10,17 @@ import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 
-//This is a stub command
-public class ClimberRobotUp extends Command {
+// This is a stub command
+public class SimpleClimb extends Command {
     Climber climber;
 
-    public ClimberRobotUp(){
+    public SimpleClimb() {
         climber = Climber.getInstance();
     }
+
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -36,12 +36,13 @@ public class ClimberRobotUp extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(Math.abs(climber.getClimberPostition(CLIMB_MODULE.LEFT) - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE && 
-        Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT) - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE){
+        if (Math.abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
+                - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE
+                && Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
+                        - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE) {
             return true;
         }
         return false;
     }
 
 }
-  
