@@ -22,7 +22,7 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void initialize() {
-    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
+    /*shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
 
     if (shooter.getShooterIndexerBeambreak2()) {
       shooter.setShooterAngle(shooterAngle);
@@ -30,12 +30,12 @@ public class ShooterToAmp extends Command {
       isTurning = true;
     } else {
       isTurning = false;
-    }
+    }*/
   }
 
   @Override
   public void execute() {
-
+/*
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
         .getDegrees() && isTurning) {
       shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
@@ -43,7 +43,7 @@ public class ShooterToAmp extends Command {
     } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
       shooter.setShooterAngle(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-    }
+    }*/
   }
 
   @Override

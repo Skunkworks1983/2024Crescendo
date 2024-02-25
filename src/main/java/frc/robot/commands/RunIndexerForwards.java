@@ -38,6 +38,6 @@ public class RunIndexerForwards extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.getBeamBreakSensor();
+    return false;//indexer.getBeamBreakSensor();
   }
 }

@@ -31,7 +31,6 @@ public class SwerveModule extends SubsystemBase {
   TalonFX turnMotor;
   CANcoder turnEncoder;
   String modulePosition;
-  String canivoreName;
 
   SmartPIDController turnController;
   SmartPIDControllerTalonFX driveController;
@@ -41,7 +40,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
 
     driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new TalonFX(swerveModuleConstants.turnMotorId, canivoreName);
+    turnMotor = new TalonFX(swerveModuleConstants.turnMotorId, Constants.CANIVORE_NAME);
     turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
     this.modulePosition = swerveModuleConstants.modulePosition;
 

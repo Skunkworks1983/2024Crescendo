@@ -58,7 +58,7 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
-    public static final int MANUAL_PERCENT_OUTPUT = 16;
+    public static final int MANUAL_PERCENT_OUTPUT = 18;
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
   }
@@ -168,9 +168,9 @@ public class Constants {
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .002; // .005
+      public static final double KP = .0000; // .005
       public static final double KI = 0;
-      public static final double KD = 0.0004;
+      public static final double KD = 0.0000;
       public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;

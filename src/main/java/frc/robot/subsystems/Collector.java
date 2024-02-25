@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -93,9 +94,9 @@ public class Collector extends SubsystemBase {
   public void periodic() {
     PositionVoltage positionVoltage = new PositionVoltage(0);
 
-    rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
-    topIntakeMotor.getPIDController().setReference(speedSetPoint,
-        CANSparkMax.ControlType.kVelocity);
+    rightPivotMotor.setControl(new DutyCycleOut(0));//rightPivotMotor.setControl(positionVoltage.withPosition(0));//rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
+    //topIntakeMotor.getPIDController().setReference(speedSetPoint,
+    //    CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
   }
 
