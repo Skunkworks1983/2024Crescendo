@@ -32,12 +32,13 @@ public class Climber extends SubsystemBase {
     leftClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_1, Constants.CANIVORE_NAME);
     rightClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_2, Constants.CANIVORE_NAME);
 
+    // Smart PID controllers
     leftController = new SmartPIDControllerTalonFX(
         Constants.PIDControllers.DrivePID.KP,
         Constants.PIDControllers.DrivePID.KI, 
         Constants.PIDControllers.DrivePID.KD,
         Constants.PIDControllers.DrivePID.KF, 
-        "Climb Controller 1",
+        "Left Climber",
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, leftClimbMotor);
 
     rightController = new SmartPIDControllerTalonFX(
@@ -45,43 +46,33 @@ public class Climber extends SubsystemBase {
         Constants.ClimberConstants.CLIMBER_KI, 
         Constants.ClimberConstants.CLIMBER_KD,
         Constants.ClimberConstants.CLIMBER_KF, 
-        "Climb Controller 2",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, 
+        "Right Climber",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor
         );
-  }
-
-  public void setClimberPosition(boolean useLeftMotor, double setPointMeters) {
-    TalonFX motor;
-    if (useLeftMotor) {
-      motor = leftClimbMotor;
-    } else {
-      motor = rightClimbMotor;
-    }
-    motor.setControl(postitionVoltage.withPosition(setPointMeters));
   }
 
   public void setLeftClimberPosition(double setpointMeters) {
     leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
   }
 
-  public void setRightClimberPosition() {
+  public void setRightClimberPosition(double setpointMeters) {
     rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
   }
 
-  public double getClimber1Postition() {
-    return climbMotor1.getPosition().getValueAsDouble();
+  public double getLeftClimberPostition() {
+    return leftClimbMotor.getPosition().getValueAsDouble();
   }
 
-  public double getClimber2Position() {
-    return climbMotor2.getPosition().getValueAsDouble();
+  public double getRightClimberPosition() {
+    return rightClimbMotor.getPosition().getValueAsDouble();
   }
 
-  public double getClimber1Torque() {
-    return climbMotor1.getTorqueCurrent().getValueAsDouble();
+  public double getLeftClimberTorque() {
+    return leftClimbMotor.getTorqueCurrent().getValueAsDouble();
   }
 
-  public double getClimber2torque() {
-    return climbMotor2.getTorqueCurrent().getValueAsDouble();
+  public double getRightClimberTorque() {
+    return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
   }
 
   @Override
