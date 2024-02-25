@@ -6,19 +6,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
-import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
@@ -33,6 +27,8 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerCANSparkMax topIntakeMotorSpeedController;
   private static SmartPIDControllerTalonFX pivotMotorController;
   private static Collector collector;
+
+  PositionVoltage positionVoltage = new PositionVoltage(0);
 
   /** Creates a new Collector. */
   private Collector() {
@@ -70,48 +66,34 @@ public class Collector extends SubsystemBase {
 
   // meters per second
   public void intakeNotes(double metersPerSecond) {
-    intakeMotor.getPIDController()
+    topIntakeMotor.getPIDController()
         .setReference(((metersPerSecond / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))
             * Constants.Collector.INTAKE_GEAR_RATIO), CANSparkMax.ControlType.kVelocity);
-    intakeMotor.setIdleMode(IdleMode.kBrake);
+    topIntakeMotor.setIdleMode(IdleMode.kBrake);
   }
 
   public boolean isStowed() {
     return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS
         - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
-
-  public boolean isStowed() {
-    return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS
-        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public boolean isAtFloor() {
     return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS
         - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
-
-  public boolean isAtFloor() {
-    return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS
-        - pivotMotor.getEncoder().getPosition()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public void setCollectorPos(double angle) {
-    pivotMotor.getPIDController().setReference(angle, CANSparkMax.ControlType.kPosition);
+    rightPivotMotor.setControl(positionVoltage.withPosition(angle));
   }
 
   public void setIntakeCoastMode() {
-    intakeMotor.setIdleMode(IdleMode.kCoast);
-    intakeMotor.set(0);
+    topIntakeMotor.setIdleMode(IdleMode.kCoast);
+    topIntakeMotor.set(0);
   }
 
   public void periodic() {
-    PositionVoltage positionVoltage = new PositionVoltage(0);
-
-    rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
-    topIntakeMotor.getPIDController().setReference(speedSetPoint,
-        CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
   }
-
 
   public void setPercentOutput(double percent) {
     topIntakeMotor.set(percent);
