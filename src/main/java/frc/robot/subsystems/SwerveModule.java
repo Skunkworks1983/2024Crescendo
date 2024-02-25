@@ -58,12 +58,12 @@ public class SwerveModule extends SubsystemBase {
 
     // sets the tolerance of the turning pid controller.
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
-    
+
     // reseting the configuration to default
     TalonFXConfiguration driveConfig = new TalonFXConfiguration();
     driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    
+
     TalonFXConfiguration turnConfig = new TalonFXConfiguration();
     turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
@@ -155,16 +155,16 @@ public class SwerveModule extends SubsystemBase {
     double velocityScale =
         Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
-    double scaledVelocity = Units.metersToFeet( optimized.speedMetersPerSecond);//velocityScale)
+    double scaledVelocity = Units.metersToFeet(optimized.speedMetersPerSecond);// velocityScale)
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
     setDriveMotorVelocity(scaledVelocity);
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
 
-    SmartDashboard.putNumber("turn setPoint "+ modulePosition, optimized.angle.getDegrees());
-    SmartDashboard.putNumber("drive setPoint "+modulePosition, scaledVelocity);
-    SmartDashboard.putNumber("turn encoder " +modulePosition,  getTurnEncoder()); 
+    SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
+    SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
+    SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
   }
 
   void updateTurnSpeedBasedOnSetpoint() {

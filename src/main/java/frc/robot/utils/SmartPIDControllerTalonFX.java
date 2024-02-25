@@ -50,7 +50,8 @@ public class SmartPIDControllerTalonFX {
     }
 
     public void updatePID() {
-        //if we pass this test, we are smart, so we can save some bandwith by only grabing the k values once
+        // if we pass this test, we are smart, so we can save some bandwith by only grabing the k
+        // values once
         if (!smart || !Constants.PIDControllers.SMART_PID_ACTIVE) {
             return;
         }
@@ -60,23 +61,20 @@ public class SmartPIDControllerTalonFX {
         double currentKdValue = SmartDashboard.getNumber(name + " kd Value", lastKdValue);
         double currentKfValue = SmartDashboard.getNumber(name + " kf Value", lastKfValue);
 
-        /*if (currentKpValue != lastKpValue || currentKiValue != lastKiValue
-                || currentKdValue != lastKdValue || currentKfValue != lastKfValue) {
-
-            lastKpValue = currentKpValue;
-            lastKiValue = currentKiValue;
-            lastKdValue = currentKdValue;
-            lastKfValue = currentKfValue;
-
-            Slot0Configs slot0Configs = new Slot0Configs();
-
-            slot0Configs.kP = lastKpValue;
-            slot0Configs.kI = lastKiValue;
-            slot0Configs.kD = lastKdValue;
-            slot0Configs.kV = lastKfValue;
-
-            motor.getConfigurator().apply(slot0Configs);
-        }*/
+        /*
+         * if (currentKpValue != lastKpValue || currentKiValue != lastKiValue || currentKdValue !=
+         * lastKdValue || currentKfValue != lastKfValue) {
+         * 
+         * lastKpValue = currentKpValue; lastKiValue = currentKiValue; lastKdValue = currentKdValue;
+         * lastKfValue = currentKfValue;
+         * 
+         * Slot0Configs slot0Configs = new Slot0Configs();
+         * 
+         * slot0Configs.kP = lastKpValue; slot0Configs.kI = lastKiValue; slot0Configs.kD =
+         * lastKdValue; slot0Configs.kV = lastKfValue;
+         * 
+         * motor.getConfigurator().apply(slot0Configs); }
+         */
 
         SmartDashboard.putNumber(name + " Error", motor.getClosedLoopError().getValueAsDouble());
     }

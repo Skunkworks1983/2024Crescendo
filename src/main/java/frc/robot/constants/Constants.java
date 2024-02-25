@@ -96,7 +96,7 @@ public class Constants {
           new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16,-0.387939, "Front Right");
+          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
           new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
@@ -163,7 +163,7 @@ public class Constants {
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .0075; 
+      public static final double KP = .0075;
       public static final double KI = 0;
       public static final double KD = .0001;
       public static final double KF = 0;
@@ -176,7 +176,7 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = 0.02;//was .25
+      public static final double KP = 0.02;
       public static final double KI = .000;
       public static final double KD = 0.000;
       public static final double KF = .1;

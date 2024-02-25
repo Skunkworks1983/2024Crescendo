@@ -39,11 +39,12 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  /*private final DigitalInput pivotMotorForwardLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
-  private final DigitalInput pivotMotorReverseLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
-*/
+  /*
+   * private final DigitalInput pivotMotorForwardLimit = new
+   * DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH); private final
+   * DigitalInput pivotMotorReverseLimit = new
+   * DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+   */
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDControllerTalonFX pivotController;
@@ -63,8 +64,8 @@ public class Shooter extends SubsystemBase {
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
-    //noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    //noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,
@@ -96,14 +97,12 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-/*
-    if (pivotMotorForwardLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
-      pivotMotor.set(0);
-    } else if (pivotMotorReverseLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
-    }
-*/
+    /*
+     * if (pivotMotorForwardLimit.get()) {
+     * pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
+     * pivotMotor.set(0); } else if (pivotMotorReverseLimit.get()) {
+     * pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS); }
+     */
 
     shootingController.updatePID();
     indexerController.updatePID();
@@ -152,13 +151,13 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor.set(0);
   }
 
-  //public boolean getShooterIndexerBeambreak1() {
-  //  return noteBreak1.get();
-  //}
+  // public boolean getShooterIndexerBeambreak1() {
+  // return noteBreak1.get();
+  // }
 
-  //public boolean getShooterIndexerBeambreak2() {
-  //  return noteBreak2.get();
-  //}
+  // public boolean getShooterIndexerBeambreak2() {
+  // return noteBreak2.get();
+  // }
 
   // error in meters per seconds
   public double getFlywheelError() {
@@ -173,11 +172,9 @@ public class Shooter extends SubsystemBase {
 
   public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
     return false;/*
-    if (forwardLimitSwitch) {
-      return pivotMotorForwardLimit.get();
-    } else {
-      return pivotMotorReverseLimit.get();
-    }*/
+                  * if (forwardLimitSwitch) { return pivotMotorForwardLimit.get(); } else { return
+                  * pivotMotorReverseLimit.get(); }
+                  */
   }
 
   // gets the last run command on the pivot motor
