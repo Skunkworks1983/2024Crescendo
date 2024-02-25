@@ -11,7 +11,7 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterToAmp extends Command {
 
-  public Shooter shooter;
+  private Shooter shooter;
   boolean isTurning;
   Rotation2d shooterAngle;
 

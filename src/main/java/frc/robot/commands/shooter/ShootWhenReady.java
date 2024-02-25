@@ -10,7 +10,7 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootWhenReady extends Command {
 
-  public Shooter shooter;
+  private Shooter shooter;
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
