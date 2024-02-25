@@ -63,6 +63,10 @@ public class Indexer extends SubsystemBase {
     return indexer;
   }
 
+  public void setPercentOutput(double percent) {
+    indexerMotor.set(percent);
+  }
+
   @Override
   public void periodic() {
     indexerMotorController.updatePID();

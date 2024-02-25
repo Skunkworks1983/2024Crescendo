@@ -5,33 +5,30 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
 
-public class FlywheelSpinup extends Command {
+public class Shoot extends Command {
 
   private Shooter shooter;
 
-  public FlywheelSpinup() {
+  public Shoot() {
     shooter = Shooter.getInstance();
   }
 
-
   @Override
   public void initialize() {
-    System.out.println("Flywheel Spinup Command Initialize");
+    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
+    System.out.println("Shoot Command Initialize");
   }
-
 
   @Override
-  public void execute() {
-    shooter.setFlywheelSpeed(shooter.flywheelSetpointMPS);
-  }
-
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setFlywheelMotorCoastMode();
-    System.out.println("Flywheel Spinup Command End");
+    shooter.setIndexerMotorCoastMode();
+    System.out.println("Shoot Command End");
   }
 
   @Override
