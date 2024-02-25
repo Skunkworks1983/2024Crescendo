@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -33,14 +34,8 @@ public class Shooter extends SubsystemBase {
   DigitalInput noteBreak2;
   public boolean isFlywheelSpiningWithSetpoint;
 
-  public enum PivotPosition {
-    SHOOTER_TO_STOW, // Default
-    SHOOTER_TO_AMP, SHOOTER_TO_SPEAKER
-  };
-
-  public PivotPosition pivotPosition = PivotPosition.SHOOTER_TO_STOW;
-  // Rotations per minute
-  public double flywheelSetpointMPS = 0.0;
+  // Meters per second
+  public double flywheelSetpointMPS = 0.5 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
 
   private static Shooter shooter;
 
@@ -88,6 +83,13 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShooterPivotPID.KF, "Shooter Pivot",
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
 
+
+    // Setting max current on pivot motor for testing.
+    pivotMotor.getConfigurator()
+        .apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
+            .withSupplyCurrentLimitEnable(true));
+
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -108,31 +110,29 @@ public class Shooter extends SubsystemBase {
     pivotController.updatePID();
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation, PivotPosition pivotCommand) {
+  public void setShooterAngle(Rotation2d desiredRotation) {
     positionVoltage.Slot = 0;
     pivotMotor.setControl(positionVoltage.withPosition(
         desiredRotation.getDegrees() / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
-    this.pivotPosition = pivotCommand;
   }
 
-  public void setShooterAngleVelocity(double radiansPerSecond, PivotPosition pivotCommand) {
+  public void setPivotMotorVelocity(double radiansPerSecond) {
     velocityVoltage.Slot = 0;
-    pivotMotor.setControl(velocityVoltage
-        .withVelocity(Units.radiansToDegrees(radiansPerSecond)
-            / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES)
-        .withLimitForwardMotion(pivotMotorForwardLimit.get())
-        .withLimitReverseMotion(pivotMotorReverseLimit.get()));
-    this.pivotPosition = pivotCommand;
+    pivotMotor.setControl(velocityVoltage.withVelocity(Units.radiansToDegrees(radiansPerSecond)
+        / Constants.Shooter.PIVOT_MOTOR_ROTATIONS_TO_DEGREES));
   }
 
-  public void setShooterSpeed(double speedMetersPerSecond) {
-    flywheelSetpointMPS = speedMetersPerSecond;
+  public void setFlywheelSpeed(double speedMetersPerSecond) {
     shootMotor1.setControl(velocityVoltage
         .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
     isFlywheelSpiningWithSetpoint = true;
     if (speedMetersPerSecond == 0) {
       isFlywheelSpiningWithSetpoint = false;
     }
+  }
+
+  public void setFlywheelSetpoint(double flywheelSpeed) {
+    flywheelSetpointMPS = flywheelSpeed;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -142,7 +142,7 @@ public class Shooter extends SubsystemBase {
             * Constants.SECONDS_TO_MINUTES, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void setShootMotorCoastMode() {
+  public void setFlywheelMotorCoastMode() {
     shootMotor1.setControl(new VoltageOut(0));
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -180,12 +180,25 @@ public class Shooter extends SubsystemBase {
   }
 
   // gets the last run command on the pivot motor
-  public PivotPosition getPivotArmCommand() {
-    return pivotPosition;
+  public double getFlywheelSetpoint() {
+    return flywheelSetpointMPS;
   }
 
   public boolean canLoadPiece() {
-    return getLimitSwitchOutput(false) && (getPivotArmCommand() == PivotPosition.SHOOTER_TO_STOW);
+    return getLimitSwitchOutput(false);
+  }
+
+  public void setFlywheelPercentOutput(double percent) {
+    shootMotor1.set(percent);
+  }
+
+  public void setPivotMotorPercentOutput(double percent) {
+    pivotMotor.set(percent);
+  }
+
+  public void setIndexerPercentOutput(double percent) {
+    shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
+    shooterIndexerMotor.set(percent);
   }
 
   public static Shooter getInstance() {

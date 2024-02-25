@@ -52,7 +52,6 @@ public class Drivebase extends SubsystemBase {
   private static Drivebase drivebase;
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
 
-
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
@@ -123,7 +122,8 @@ public class Drivebase extends SubsystemBase {
     visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
-    // The robot should have the same heading as the heading specified here on startup.
+    // The robot should have the same heading as the heading specified here on
+    // startup.
     resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
@@ -136,7 +136,8 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
 
-    // Setting the targetingPoint to Optional.empty() (there is no target until button is pressed).
+    // Setting the targetingPoint to Optional.empty() (there is no target until
+    // button is pressed).
     fieldTarget = Optional.empty();
   }
 
@@ -187,7 +188,8 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the targeting buttion
+  // Used for keeping robot heading in the right direction using PID and the
+  // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(getRobotHeading());
@@ -233,7 +235,6 @@ public class Drivebase extends SubsystemBase {
     Transform3d distanceToTargetTransform;
     SmartDashboard.putBoolean("Targets found", hasTargets);
 
-
     // Check if there are targets
     if (updatedVisualPose.isPresent() && hasTargets) {
 
@@ -244,7 +245,8 @@ public class Drivebase extends SubsystemBase {
         return;
       }
 
-      // Calculate the uncertainty of the vision measurement based on distance from the best
+      // Calculate the uncertainty of the vision measurement based on distance from
+      // the best
       // AprilTag target.
       EstimatedRobotPose pose = updatedVisualPose.get();
       double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
@@ -296,7 +298,16 @@ public class Drivebase extends SubsystemBase {
    * @param target The target to point at (FieldTarget enum value)
    */
   public void setFieldTarget(FieldTarget fieldTarget) {
-    Optional<Translation2d> fieldTargetOptional = fieldTarget.get();
+
+    Optional<Translation2d> fieldTargetOptional;
+
+    if (fieldTarget == null) {
+      fieldTargetOptional = Optional.empty();
+    } else {
+      fieldTargetOptional = Optional
+          .of(new Translation2d(fieldTarget.get().get().getX(), fieldTarget.get().get().getY()));
+    }
+
     Optional<Alliance> alliance = DriverStation.getAlliance();
 
     // Relying on short circuting here to check if optional value is Alliance.Red.

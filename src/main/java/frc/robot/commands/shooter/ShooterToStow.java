@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.PivotPosition;
 
 public class ShooterToStow extends Command {
 
@@ -22,7 +21,8 @@ public class ShooterToStow extends Command {
   public void initialize() {
     Rotation2d shooterAngle = Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES;
 
-    shooter.setShooterAngle(shooterAngle, PivotPosition.SHOOTER_TO_STOW);
+    shooter.setShooterAngle(shooterAngle);
+    shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
@@ -30,14 +30,15 @@ public class ShooterToStow extends Command {
 
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES
         .getDegrees()) {
-      shooter.setShooterAngleVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED,
-          PivotPosition.SHOOTER_TO_STOW);
+      shooter.setPivotMotorVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setShooterAngleVelocity(0, PivotPosition.SHOOTER_TO_STOW);
+    shooter.setPivotMotorVelocity(0);
+    shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
