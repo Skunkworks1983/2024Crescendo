@@ -7,21 +7,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Indexer;
 
-public class ExpelNote extends Command {
+public class ManualIntakeNotes extends Command {
   private Collector collector;
+  private Indexer indexer;
 
-  /** Creates a new ExpelNote. */
-  public ExpelNote() {
+  /** Creates a new ManualIntakeNotes. */
+  public ManualIntakeNotes() {
     this.collector = Collector.getInstance();
+    this.indexer = Indexer.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.collector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.intakeNotes(-Constants.Collector.NOTE_INTAKE_SPEED);
+    collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
+    indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
+    System.out.println("Manual Intake Notes Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +35,9 @@ public class ExpelNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.intakeNotes(0);
+    collector.setPercentOutput(0);
+    indexer.setPercentOutput(0);
+    System.out.println("Manual Intake Notes Command End");
   }
 
   // Returns true when the command should end.

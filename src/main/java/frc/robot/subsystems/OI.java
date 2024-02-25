@@ -7,7 +7,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.SetFieldTarget;
+import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 
 public class OI extends SubsystemBase {
   private static OI oi;
@@ -15,44 +20,64 @@ public class OI extends SubsystemBase {
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
-
+  JoystickButton targetingSpeaker;
+  JoystickButton targetingAmp;
   JoystickButton switchMotors;
-  JoystickButton targeting;  
+  JoystickButton manualIntakeNotes;
+  JoystickButton flywheelSpinup;
+  JoystickButton manualShoot;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    targeting = new JoystickButton(buttonStick, Constants.IDS.TARGETING_BUTTION);
-  }
 
+    // Targeting buttons
+    targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
+    targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+
+    manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
+    flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
+    manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
+
+    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+
+    manualIntakeNotes.whileTrue(new ManualIntakeNotes());
+    flywheelSpinup.whileTrue(new FlywheelSpinup());
+    manualShoot.whileTrue(new Shoot());
+  }
 
   @Override
+  public void periodic() {}
 
-  public void periodic() {
+  // Used to control the x field relative speed of the robot in SwerveTeleop.
+  public double getLeftX() {
+
+    // Positive joystick corrosponds to negaive robot relative coordinates, so leftJoystick.getX()
+    // must be negated.
+    return -leftJoystick.getX();
   }
 
-  public double getLeftX() { // Used to control the x field relative speed of the robot in SwerveTeleop.
-    return -leftJoystick.getX(); 
-  }
+  // Used to control the y field relative speed of the robot in SwerveTeleop.
+  public double getLeftY() {
 
-  public double getLeftY() { // Used to control the y field relative speed of the robot in SwerveTeleop.
-    //Positive joystick corosponds to negetive robot relative coördinates so leftJoystick.getY() must be negated.
+    // Positive joystick corrosponds to negetive robot relative coordiantes, so leftJoystick.getY()
+    // must be negated.
     return -leftJoystick.getY();
   }
 
-  public double getRightX() { // Used to control the rotational speed of the robot in SwerveTeleop.
-    //Positive joystick corosponds to negetive robot reletive coördinates so rightJoystick.getX() must be negated.
+  // Used to control the rotational speed of the robot in SwerveTeleop.
+  public double getRightX() {
+
+    // Positive joystick corrosponds to negative robot relative coordiantes, so rightJoystick.getX()
+    // must be negated.
     return -rightJoystick.getX();
   }
 
   public double getRightY() {
-    //Positive joystick corosponds to negetive robot relative coördinates so rightJoystick.getY() must be negated.
-    return rightJoystick.getY();
-  }
 
-  public boolean getTargetingButton() {
-    return targeting.getAsBoolean();
+    return -rightJoystick.getY();
   }
 
   public static OI getInstance() {

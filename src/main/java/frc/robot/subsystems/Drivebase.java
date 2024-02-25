@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
-
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -38,18 +37,19 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.utils.SmartPIDController;
 
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  OI oi = OI.getInstance();
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
@@ -58,7 +58,10 @@ public class Drivebase extends SubsystemBase {
 
   PhotonCamera camera = new PhotonCamera(Constants.PhotonVision.PHOTON_CAMERA_NAME);
   ChassisSpeeds speeds;
-  Pose2d pose;
+
+  // Position used for targeting.
+  Optional<Translation2d> fieldTarget;
+
   AprilTagFieldLayout aprilTagFieldLayout;
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
@@ -119,7 +122,8 @@ public class Drivebase extends SubsystemBase {
     visualOdometry = new PhotonPoseEstimator(aprilTagFieldLayout,
         PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, Constants.PhotonVision.ROBOT_TO_CAMERA);
 
-    // The robot should have the same heading as the heading specified here on startup.
+    // The robot should have the same heading as the heading specified here on
+    // startup.
     resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
@@ -131,19 +135,26 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnP", 0);
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
+
+    // Setting the targetingPoint to Optional.empty() (there is no target until
+    // button is pressed).
+    fieldTarget = Optional.empty();
   }
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new SwerveTeleop(drivebase, oi));
+    setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  // returns angle going counterclockwise
-  public double getGyroAngle() {
+  /**
+   * Used to get the angle reported by the gyro. This method is private, and should only be called
+   * when creating/updating the SwervePoseEstimator. Otherwise, call getRobotHeading instead.
+   */
+  private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
-    // Negative because gyro reads differently than wpilib
+    // Negative because gyro reads differently than wpilib.
     return -angle;
   }
 
@@ -153,13 +164,24 @@ public class Drivebase extends SubsystemBase {
 
     return roll;
   }
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
+   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
+  public double getRobotHeading() {
+    return getRobotPose().getRotation().getDegrees();
+  }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+          Rotation2d.fromDegrees(getRobotHeading()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -172,10 +194,11 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the targeting buttion
+  // Used for keeping robot heading in the right direction using PID and the
+  // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
+    degreesPerSecond = headingController.calculate(getRobotHeading());
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -218,7 +241,6 @@ public class Drivebase extends SubsystemBase {
     Transform3d distanceToTargetTransform;
     SmartDashboard.putBoolean("Targets found", hasTargets);
 
-
     // Check if there are targets
     if (updatedVisualPose.isPresent() && hasTargets) {
 
@@ -229,7 +251,8 @@ public class Drivebase extends SubsystemBase {
         return;
       }
 
-      // Calculate the uncertainty of the vision measurement based on distance from the best
+      // Calculate the uncertainty of the vision measurement based on distance from
+      // the best
       // AprilTag target.
       EstimatedRobotPose pose = updatedVisualPose.get();
       double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
@@ -238,7 +261,7 @@ public class Drivebase extends SubsystemBase {
       Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(
           new double[] {distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
               distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-              Constants.PhotonVision.ROTATIONAL_UNCERTAINTY}));
+              distanceToTarget * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
 
       // Add vision measurement/update FieldLayout prints
       visualOdometryPrint.setRobotPose(pose.estimatedPose.toPose2d());
@@ -246,7 +269,6 @@ public class Drivebase extends SubsystemBase {
           uncertainty);
     }
     integratedOdometryPrint.setRobotPose(getRobotPose());
-    SmartDashboard.putNumber("Odometry angle", getRobotPose().getRotation().getDegrees());
   }
 
   @Override
@@ -274,6 +296,43 @@ public class Drivebase extends SubsystemBase {
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  /**
+   * Sets the current target point used for targeting.
+   * 
+   * @param target The target to point at (FieldTarget enum value)
+   */
+  public void setFieldTarget(FieldTarget fieldTarget) {
+
+    Optional<Translation2d> fieldTargetOptional;
+
+    if (fieldTarget == null) {
+      fieldTargetOptional = Optional.empty();
+    } else {
+      fieldTargetOptional = Optional
+          .of(new Translation2d(fieldTarget.get().get().getX(), fieldTarget.get().get().getY()));
+    }
+
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+
+    // Relying on short circuting here to check if optional value is Alliance.Red.
+    if (fieldTargetOptional.isPresent() && alliance.isPresent() && alliance.get() == Alliance.Red) {
+      this.fieldTarget = Optional.of(new Translation2d(
+          Constants.FIELD_X_LENGTH / 2
+              + (Constants.FIELD_X_LENGTH / 2 - fieldTargetOptional.get().getX()),
+          fieldTargetOptional.get().getY()));
+    } else {
+      this.fieldTarget = fieldTargetOptional;
+    }
+
+  }
+
+  /**
+   * @returns The Optional Translation2d point used for targeting.
+   */
+  public Optional<Translation2d> getFieldTarget() {
+    return fieldTarget;
   }
 
   public void configurePathPlanner() {

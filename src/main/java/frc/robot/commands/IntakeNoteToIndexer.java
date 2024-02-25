@@ -7,22 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Indexer;
 
-public class CollectNotes extends Command {
+public class IntakeNoteToIndexer extends Command {
   private final Collector collector;
+  private final Indexer indexer;
 
-  /** Creates a new CollectnNotes. */
-  public CollectNotes() {
-    this.collector = Collector.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.collector);
+  /** Creates a new RunCollectorAndIndexer. */
+  public IntakeNoteToIndexer() {
+    collector = Collector.getInstance();
+    indexer = Indexer.getInstance();
+
+    addRequirements(indexer, collector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorPos(Constants.Collector.COLLECTOR_FLOOR_POS);
     collector.intakeNotes(Constants.Collector.NOTE_INTAKE_SPEED);
+    indexer.setSpeedIndexer(Constants.IndexerConstants.INDEXER_SPEED);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,12 +36,13 @@ public class CollectNotes extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.intakeNotes(0);
+    collector.setIntakeCoastMode();
+    indexer.setSpeedIndexer(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return indexer.getBeamBreakSensor();
   }
 }

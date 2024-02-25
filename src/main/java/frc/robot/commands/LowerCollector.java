@@ -8,20 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 
-public class ExpelNote extends Command {
-  private Collector collector;
-
-  /** Creates a new ExpelNote. */
-  public ExpelNote() {
-    this.collector = Collector.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.collector);
+public class LowerCollector extends Command {
+  private final Collector collector;
+  /** Creates a new LowerCollector. */
+  public LowerCollector() {
+    collector = Collector.getInstance();
+    
+    addRequirements(collector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.intakeNotes(-Constants.Collector.NOTE_INTAKE_SPEED);
+    collector.setCollectorPos(Constants.Collector.COLLECTOR_FLOOR_POS);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,12 +30,13 @@ public class ExpelNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.intakeNotes(0);
+    collector.setCollectorPivotVelocity(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //check collector position
+    return collector.isAtFloor();
   }
 }
