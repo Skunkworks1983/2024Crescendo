@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import edu.wpi.first.wpilibj.DutyCycle;
@@ -34,23 +36,15 @@ public class Climber extends SubsystemBase {
     rightClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_2, Constants.CANIVORE_NAME);
 
     // Smart PID controllers
-    leftController = new SmartPIDControllerTalonFX(
-        Constants.ClimberConstants.CLIMBER_KP,
-        Constants.ClimberConstants.CLIMBER_KI, 
-        Constants.ClimberConstants.CLIMBER_KD,
-        Constants.ClimberConstants.CLIMBER_KF, 
-        "Left Climber",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor
-        );
+    leftController = new SmartPIDControllerTalonFX(Constants.ClimberConstants.CLIMBER_KP,
+        Constants.ClimberConstants.CLIMBER_KI, Constants.ClimberConstants.CLIMBER_KD,
+        Constants.ClimberConstants.CLIMBER_KF, "Left Climber",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor);
 
-    rightController = new SmartPIDControllerTalonFX(
-        Constants.ClimberConstants.CLIMBER_KP,
-        Constants.ClimberConstants.CLIMBER_KI, 
-        Constants.ClimberConstants.CLIMBER_KD,
-        Constants.ClimberConstants.CLIMBER_KF, 
-        "Right Climber",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor
-        );
+    rightController = new SmartPIDControllerTalonFX(Constants.ClimberConstants.CLIMBER_KP,
+        Constants.ClimberConstants.CLIMBER_KI, Constants.ClimberConstants.CLIMBER_KD,
+        Constants.ClimberConstants.CLIMBER_KF, "Right Climber",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor);
   }
 
   public void setLeftClimberPosition(double setpointMeters) {
@@ -83,6 +77,14 @@ public class Climber extends SubsystemBase {
 
   public void setRightClimberOutput(double percentOutput) {
     rightClimbMotor.set(percentOutput);
+  }
+
+  public void setLeftBrakeMode() {
+    leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
+  }
+
+  public void setRightBrakeMode() {
+    rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override

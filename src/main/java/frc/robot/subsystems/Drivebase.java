@@ -147,6 +147,13 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
+  public double getGyroRoll () {
+    double roll = gyro.getRoll();
+    SmartDashboard.putNumber("gyro roll", roll);
+
+    return roll;
+  }
+
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
