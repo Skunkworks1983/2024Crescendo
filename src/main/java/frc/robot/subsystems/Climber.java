@@ -75,6 +75,7 @@ public class Climber extends SubsystemBase {
     return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
   }
 
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
