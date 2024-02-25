@@ -60,7 +60,7 @@ public class SmartPIDControllerTalonFX {
         double currentKdValue = SmartDashboard.getNumber(name + " kd Value", lastKdValue);
         double currentKfValue = SmartDashboard.getNumber(name + " kf Value", lastKfValue);
 
-        if (currentKpValue != lastKpValue || currentKiValue != lastKiValue
+        /*if (currentKpValue != lastKpValue || currentKiValue != lastKiValue
                 || currentKdValue != lastKdValue || currentKfValue != lastKfValue) {
 
             lastKpValue = currentKpValue;
@@ -76,7 +76,7 @@ public class SmartPIDControllerTalonFX {
             slot0Configs.kV = lastKfValue;
 
             motor.getConfigurator().apply(slot0Configs);
-        }
+        }*/
 
         SmartDashboard.putNumber(name + " Error", motor.getClosedLoopError().getValueAsDouble());
     }

@@ -58,35 +58,35 @@ public class SwerveModule extends SubsystemBase {
 
     // sets the tolerance of the turning pid controller.
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
-
+    
     // reseting the configuration to default
-    TalonFXConfiguration talonConfig = new TalonFXConfiguration();
-    talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    driveMotor.getConfigurator().apply(talonConfig);
-    turnMotor.getConfigurator().apply(talonConfig);
-    velocityController.Slot = 0;
-    TalonFXConfiguration driveConfigs = new TalonFXConfiguration();
-    driveConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+    driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    driveMotor.getConfigurator().apply(driveConfigs);
+    
+    TalonFXConfiguration turnConfig = new TalonFXConfiguration();
+    turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
+    driveMotor.getConfigurator().apply(driveConfig);
+    turnMotor.getConfigurator().apply(turnConfig);
     driveController = new SmartPIDControllerTalonFX(Constants.PIDControllers.DrivePID.KP,
         Constants.PIDControllers.DrivePID.KI, Constants.PIDControllers.DrivePID.KD,
         Constants.PIDControllers.DrivePID.KF, modulePosition + " Drive",
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
+
+    velocityController.Slot = 0;
   }
 
   @Override
   public void periodic() {
     updateTurnSpeedBasedOnSetpoint();
+    driveController.updatePID();
   }
 
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
-    velocityController.Slot = 0;
-
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
@@ -155,12 +155,16 @@ public class SwerveModule extends SubsystemBase {
     double velocityScale =
         Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
-    double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
+    double scaledVelocity = Units.metersToFeet( optimized.speedMetersPerSecond);//velocityScale)
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
     setDriveMotorVelocity(scaledVelocity);
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
+
+    SmartDashboard.putNumber("turn setPoint "+ modulePosition, optimized.angle.getDegrees());
+    SmartDashboard.putNumber("drive setPoint "+modulePosition, scaledVelocity);
+    SmartDashboard.putNumber("turn encoder " +modulePosition,  getTurnEncoder()); 
   }
 
   void updateTurnSpeedBasedOnSetpoint() {

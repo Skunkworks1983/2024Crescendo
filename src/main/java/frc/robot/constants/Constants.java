@@ -93,16 +93,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(11, 13, 15, .374268, "Front Left");
+          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16, -0.412109, "Front Right");
+          new SwerveModuleConstants(12, 14, 16,-0.387939, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(21, 23, 25, -0.410400, "Back Left");
+          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 24, 26, 0.370850, "Back Right");
+          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
     }
   }
 
@@ -163,9 +163,9 @@ public class Constants {
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .000; 
+      public static final double KP = .0075; 
       public static final double KI = 0;
-      public static final double KD = 0.0000;
+      public static final double KD = .0001;
       public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
@@ -176,10 +176,10 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = 0.0;//was .25
+      public static final double KP = 0.02;//was .25
       public static final double KI = .000;
       public static final double KD = 0.000;
-      public static final double KF = 0;
+      public static final double KF = .1;
 
       public static final boolean SMART_PID_ACTIVE = true;
     }
