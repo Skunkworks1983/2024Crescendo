@@ -31,12 +31,16 @@ public class LoadPieceShooter extends Command {
       canLoadPiece = shooter.canLoadPiece();
     }
 
-    if (!shooter.getShooterIndexerBeambreak1() && canLoadPiece) {
+    if (!canLoadPiece) {
+      return;
+    }
+
+    if (!shooter.getShooterIndexerBeambreak1()) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setSpeedIndexer(Constants.Shooter.LOADING_INDEXER_SPEED);
     }
 
-    if (shooter.getShooterIndexerBeambreak1() && canLoadPiece) {
+    if (shooter.getShooterIndexerBeambreak1()) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
       indexer.setIndexerCoastMode();
     }

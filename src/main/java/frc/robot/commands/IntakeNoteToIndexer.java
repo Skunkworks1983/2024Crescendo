@@ -9,15 +9,15 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 
-public class RunCollectorAndIndexer extends Command {
+public class IntakeNoteToIndexer extends Command {
   private final Collector collector;
   private final Indexer indexer;
 
   /** Creates a new RunCollectorAndIndexer. */
-  public RunCollectorAndIndexer() {
+  public IntakeNoteToIndexer() {
     collector = Collector.getInstance();
     indexer = Indexer.getInstance();
-    
+
     addRequirements(indexer, collector);
   }
 

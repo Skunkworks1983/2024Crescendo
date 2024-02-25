@@ -18,6 +18,6 @@ public class NoteFloorToShooter extends SequentialCommandGroup {
   public NoteFloorToShooter() {
     this.collector = Collector.getInstance(); 
 
-    addCommands(new RunCollectorAndIndexer(), new LoadPieceShooter());
+    addCommands(new IntakeNoteToIndexer(), new LoadPieceShooter());
   }
 }

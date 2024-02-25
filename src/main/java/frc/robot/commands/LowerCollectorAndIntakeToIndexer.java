@@ -12,6 +12,6 @@ public class LowerCollectorAndIntakeToIndexer extends ParallelCommandGroup {
   public LowerCollectorAndIntakeToIndexer() {
 
     // Thomas said this should not be used, double check with drive team before using this ever
-    addCommands(new LowerCollector(), new RunCollectorAndIndexer(), new ShooterToStow());
+    addCommands(new LowerCollector(), new IntakeNoteToIndexer(), new ShooterToStow());
   }
 }
