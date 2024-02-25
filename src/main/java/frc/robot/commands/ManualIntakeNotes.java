@@ -24,7 +24,7 @@ public class ManualIntakeNotes extends Command {
   @Override
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
-    indexer.setPercentOutput(-Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
+    indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
     System.out.println("Manual Intake Notes Command Initialize");
   }
 

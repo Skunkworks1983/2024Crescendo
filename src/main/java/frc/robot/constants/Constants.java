@@ -34,12 +34,20 @@ public class Constants {
 
     // Climber Motor IDS
     // stub
-    public static final int CLIMBER_MOTOR_1 = 41; // Left
-    public static final int CLIMBER_MOTOR_2 = 1; // Right
+
+    //Left
+    public static final int CLIMBER_MOTOR_1 = 41;
+
+    // Right
+    public static final int CLIMBER_MOTOR_2 = 1;
 
     // Shooter Motor IDS
-    public static final int SHOOT_MOTOR1 = 4; // Left Flywheel
-    public static final int SHOOT_MOTOR2 = 3; // Right Flywheel
+
+    //Left Flywheel
+    public static final int SHOOT_MOTOR1 = 4;
+
+    //Right Flywheel
+    public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
     public static final int NOTE_BREAK1 = 0;
@@ -86,9 +94,9 @@ public class Constants {
     public static final double WHEEL_DIAMETER = .33333333;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
-    // Module translations
-    public static final double TRANSLATION_X = 0.925; // feet
-    public static final double TRANSLATION_Y = 0.8041666; // feet
+    // Module translations feet
+    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
 
@@ -198,7 +206,7 @@ public class Constants {
       public static final double KD = 0;
       public static final double KF = 0.1;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class ShooterIndexerPID {

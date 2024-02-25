@@ -20,18 +20,19 @@ public class Indexer extends SubsystemBase {
   private static Indexer indexer;
   CANSparkMax indexerMotor;
   private SmartPIDControllerCANSparkMax indexerMotorController;
-  //private DigitalInput shooterBeamBreak;
+  // private DigitalInput shooterBeamBreak;
 
   /** Creates a new Indexer. */
   public Indexer() {
-    
-    //shooterBeamBreak = new DigitalInput(Constants.IndexerConstants.SHOOTER_BEAM_BREAK);
+
+    // TODO: uncomment code after neccecary hardware is complete.
+    // shooterBeamBreak = new DigitalInput(Constants.IndexerConstants.SHOOTER_BEAM_BREAK);
     indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR, MotorType.kBrushless);
     indexerMotorController = new SmartPIDControllerCANSparkMax(
         Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KI,
         Constants.IndexerConstants.INDEXER_MOTOR_KD, Constants.IndexerConstants.INDEXER_MOTOR_KF,
         "IndexerMotor", Constants.IndexerConstants.SET_INDEXER_SMART_PID, indexerMotor);
-        
+    indexerMotor.setInverted(true);
   }
 
   public void setSpeedIndexer(double speedMetersPerSecond) {
@@ -46,9 +47,9 @@ public class Indexer extends SubsystemBase {
     indexerMotor.getPIDController().setReference(0, CANSparkBase.ControlType.kVelocity);
   }
 
-  //public boolean getBeamBreakSensor() {
-  //  return shooterBeamBreak.get();
-  //}
+  // public boolean getBeamBreakSensor() {
+  // return shooterBeamBreak.get();
+  // }
 
   public static Indexer getInstance() {
     if (indexer == null) {

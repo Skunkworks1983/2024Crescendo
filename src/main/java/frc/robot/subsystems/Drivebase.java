@@ -151,7 +151,6 @@ public class Drivebase extends SubsystemBase {
    * when creating/updating the SwervePoseEstimator. Otherwise, call getRobotHeading instead.
    */
   private double getGyroAngle() {
-
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 

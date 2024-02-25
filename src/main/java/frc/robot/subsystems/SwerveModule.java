@@ -63,7 +63,6 @@ public class SwerveModule extends SubsystemBase {
     TalonFXConfiguration driveConfig = new TalonFXConfiguration();
     driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-
     TalonFXConfiguration turnConfig = new TalonFXConfiguration();
     turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
@@ -155,7 +154,7 @@ public class SwerveModule extends SubsystemBase {
     double velocityScale =
         Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
-    double scaledVelocity = Units.metersToFeet(optimized.speedMetersPerSecond);// velocityScale)
+    double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
     SmartDashboard.putNumber("setting velocity", scaledVelocity);
     setDriveMotorVelocity(scaledVelocity);
 
