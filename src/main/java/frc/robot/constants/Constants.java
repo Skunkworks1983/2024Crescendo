@@ -293,6 +293,9 @@ public class Constants {
         public static final boolean CLIMBER_PID_ACTIVE = true;
 
         public static final double CLIMBER_TOLERANCE = .01;
+        //TODO: set this
+        public static final double CLIMBER_CHAIN_TORQUE = 0;
+      
         //CIRCUMFERENCE = 3.88
         
   }

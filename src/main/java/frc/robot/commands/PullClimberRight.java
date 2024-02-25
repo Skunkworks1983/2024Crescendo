@@ -5,10 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants.ClimberConstants;
+import frc.robot.subsystems.Climber;
 
-public class PullClimberTwo extends Command {
+public class PullClimberRight extends Command {
+  Climber climber;
   /** Creates a new PullClimberTwo. */
-  public PullClimberTwo() {
+  public PullClimberRight() {
+    climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -18,7 +22,10 @@ public class PullClimberTwo extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climber.setLeftClimberPosition(ClimberConstants.CLIMBER2_POSITION_MIN);
+  }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

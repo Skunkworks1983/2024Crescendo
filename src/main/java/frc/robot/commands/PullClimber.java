@@ -5,11 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants.ClimberConstants;
+import frc.robot.subsystems.Climber;
 
-public class PullClimberOne extends Command {
+public class PullClimber extends Command {
   /** Creates a new LowerTellCurrent. */
-  public PullClimberOne() {
+  Climber climber;
+  public PullClimber() {
     // Use addRequirements() here to declare subsystem dependencies.
+    climber = Climber.getInstance();
   }
 
   // Called when the command is initially scheduled.
@@ -21,7 +25,11 @@ public class PullClimberOne extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //checks the current
+    if(climber.getLeftClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE){
+    climber.setLeftClimberPosition(ClimberConstants.CLIMBER1_POSITION_MIN);
+    }
+    if(climber.getRightClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE)
+    climber.setRightClimberPosition(ClimberConstants.CLIMBER2_POSITION_MIN);
   }
 
   // Called once the command ends or is interrupted.
@@ -31,7 +39,7 @@ public class PullClimberOne extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    return false;
-  }
+    return(climber.getLeftClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
+     climber.getRightClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE);
+     }
 }
