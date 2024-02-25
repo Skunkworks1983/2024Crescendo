@@ -40,13 +40,13 @@ public class LoadPieceShooter extends Command {
       return;
     }
 
-    if (!shooter.getShooterIndexerBeambreak1() && !initialSpeedSet) {
+    if (!initialSpeedSet && !shooter.getShooterIndexerBeambreak1()) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setSpeedIndexer(Constants.Shooter.LOADING_INDEXER_SPEED);
       initialSpeedSet = true;
     } 
     
-    if(shooter.getShooterIndexerBeambreak1() && !beambreak1Tripped) {
+    if(!beambreak1Tripped && shooter.getShooterIndexerBeambreak1()) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
       indexer.setIndexerCoastMode();
       beambreak1Tripped = true;
