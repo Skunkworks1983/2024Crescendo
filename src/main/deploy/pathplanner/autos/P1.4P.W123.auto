@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.52,
-      "y": 6.39
+      "x": 1.1889550496658252,
+      "y": 6.976857516056
     },
-    "rotation": 179.86081790029442
+    "rotation": -130.60778295866086
   },
   "command": {
     "type": "sequential",
@@ -26,43 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote1Pos1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectNotes"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleNote2Pos1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectNotes"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleNote3Pos1"
+            "pathName": "StartPointToWNote1.p1.4p"
           }
         },
         {
@@ -80,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote4Pos1"
+            "pathName": "WNote1ToWNote2.p1.4p"
           }
         },
         {
@@ -98,7 +62,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleNote5Pos1"
+            "pathName": "WNote2ToWNote3.p1.4p"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
           }
         }
       ]

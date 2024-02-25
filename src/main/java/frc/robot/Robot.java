@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.CollectNotes;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.commands.WaitDuration;
+import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
@@ -37,8 +39,10 @@ public class Robot extends TimedRobot {
     drivebase = Drivebase.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
-    //NamedCommands.registerCommand("CollectNotes", new CollectNotes());
-    buildAutoChooser("");
+    NamedCommands.registerCommand("CollectNote", new CollectNotes());
+    NamedCommands.registerCommand("ShootNote",new Shoot());
+    NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
+    //buildAutoChooser("");
     SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
     SmartDashboard.putData("Auto Chooser", autoDetailChooser);
   }
@@ -110,55 +114,4 @@ public class Robot extends TimedRobot {
    *     Commands.none()
    * @return SendableChooser populated with all autos
    */
-  public void buildAutoChooser(String defaultAutoName) {
-    if (!AutoBuilder.isConfigured()) {
-      throw new RuntimeException(
-          "AutoBuilder was not configured before attempting to build an auto chooser");
-    }
-
-    SendableChooser<String> posChooser = new SendableChooser<>();
-    SendableChooser<Command> chooser = new SendableChooser<>();
-    SendableChooser<String> detailChooser = new SendableChooser<>();
-    List<String> autoNames = AutoBuilder.getAllAutoNames();
-    List<String> positions = new ArrayList<String>();
-    List<String> details = new ArrayList<String>();
-
-    PathPlannerAuto defaultOption = null;
-    List<PathPlannerAuto> options = new ArrayList<>();
-
-    for (String autoName : autoNames) {
-      int dotLocation = (autoName.indexOf("."));
-      if (dotLocation > 0){
-        String position = autoName.substring(0,autoName.indexOf("."));
-        String detail = autoName.substring(dotLocation + 1);
-        if (!positions.contains(position)) { 
-          positions.add(position);  
-        }
-        if (!details.contains(detail)) { 
-          details.add(detail);  
-        }
-      }
-
-      PathPlannerAuto auto = new PathPlannerAuto(autoName);
-
-      if (!defaultAutoName.isEmpty() && defaultAutoName.equals(autoName)) {
-        defaultOption = auto;
-      } else {
-        options.add(auto);
-      }
-    }
-
-   /* if (defaultOption == null) {
-      chooser.setDefaultOption("None", Commands.none());
-    } else {
-      chooser.setDefaultOption(defaultOption.getName(), defaultOption);
-    }*/
-
-    options.forEach(auto -> chooser.addOption(auto.getName(), auto));
-    positions.forEach(position -> posChooser.addOption(position, position));
-    details.forEach(detail -> detailChooser.addOption(detail, detail));
-
-    autoDetailChooser = detailChooser;
-    autoPositionChooser = posChooser;
-  }
 }
