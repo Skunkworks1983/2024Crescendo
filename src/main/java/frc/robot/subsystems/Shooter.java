@@ -64,6 +64,8 @@ public class Shooter extends SubsystemBase {
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
+
+    // TODO: uncomment code after neccecary hardware is complete.
     // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
     // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
@@ -97,6 +99,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    // TODO: uncomment code after neccecary hardware is complete.
     /*
      * if (pivotMotorForwardLimit.get()) {
      * pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
@@ -151,10 +155,12 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor.set(0);
   }
 
+  // TODO: uncomment code after neccecary hardware is complete.
   // public boolean getShooterIndexerBeambreak1() {
   // return noteBreak1.get();
   // }
 
+  // TODO: uncomment code after neccecary hardware is complete.
   // public boolean getShooterIndexerBeambreak2() {
   // return noteBreak2.get();
   // }
@@ -171,6 +177,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
+    //TODO: uncomment code after neccecary hardware is complete.
     return false;/*
                   * if (forwardLimitSwitch) { return pivotMotorForwardLimit.get(); } else { return
                   * pivotMotorReverseLimit.get(); }

@@ -94,6 +94,7 @@ public class Collector extends SubsystemBase {
   public void periodic() {
     PositionVoltage positionVoltage = new PositionVoltage(0);
 
+    //TODO: uncomment code after neccecary hardware is complete.
     rightPivotMotor.setControl(new DutyCycleOut(0));// rightPivotMotor.setControl(positionVoltage.withPosition(0));//rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
     // topIntakeMotor.getPIDController().setReference(speedSetPoint,
     // CANSparkMax.ControlType.kVelocity);
