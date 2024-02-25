@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
+import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
 import frc.robot.subsystems.Climber;
 
 public class PullClimber extends Command {
@@ -25,11 +26,11 @@ public class PullClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(climber.getLeftClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE){
-    climber.setLeftClimberPosition(ClimberConstants.CLIMBER1_POSITION_MIN);
+    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE){
+    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER1_POSITION_MIN);
     }
-    if(climber.getRightClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE)
-    climber.setRightClimberPosition(ClimberConstants.CLIMBER2_POSITION_MIN);
+    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
+    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MIN);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +40,7 @@ public class PullClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(climber.getLeftClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
-     climber.getRightClimberTorque() < ClimberConstants.CLIMBER_CHAIN_TORQUE);
+    return(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
+     climber.getClimberTorque(CLIMB_MODULE.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
      }
 }

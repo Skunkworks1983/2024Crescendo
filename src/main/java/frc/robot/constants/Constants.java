@@ -300,6 +300,11 @@ public class Constants {
         public static final double BASE_SPEED = .5;
         public static final double CLIMBER_END_TOLERANCE =.01;
         public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
+
+        public enum CLIMB_MODULE {
+          LEFT,
+          RIGHT;
+        }
       
         //CIRCUMFERENCE = 3.88
         
