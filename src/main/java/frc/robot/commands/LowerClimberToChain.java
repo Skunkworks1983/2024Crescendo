@@ -12,7 +12,6 @@ import frc.robot.subsystems.Climber;
 public class LowerClimberToChain extends Command {
   /** Creates a new LowerTellCurrent. */
   Climber climber;
-
   public LowerClimberToChain() {
     // Use addRequirements() here to declare subsystem dependencies.
     climber = Climber.getInstance();
@@ -27,11 +26,11 @@ public class LowerClimberToChain extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
-      climber.setClimberOutput(CLIMB_MODULE.LEFT, ClimberConstants.BASE_PULL_SPEED);
+    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE){
+    climber.setClimberOutput(CLIMB_MODULE.LEFT, ClimberConstants.BASE_PULL_SPEED);
     }
-    if (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
-      climber.setClimberOutput(CLIMB_MODULE.RIGHT, ClimberConstants.BASE_PULL_SPEED);
+    if(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
+    climber.setClimberOutput(CLIMB_MODULE.RIGHT, ClimberConstants.BASE_PULL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
@@ -41,7 +40,7 @@ public class LowerClimberToChain extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE
-        && climber.getClimberTorque(CLIMB_MODULE.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
-  }
+    return(climber.getClimberTorque(CLIMB_MODULE.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
+     climber.getClimberTorque(CLIMB_MODULE.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
+     }
 }
