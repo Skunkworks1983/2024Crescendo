@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -34,12 +35,13 @@ public class Climber extends SubsystemBase {
 
     // Smart PID controllers
     leftController = new SmartPIDControllerTalonFX(
-        Constants.PIDControllers.DrivePID.KP,
-        Constants.PIDControllers.DrivePID.KI, 
-        Constants.PIDControllers.DrivePID.KD,
-        Constants.PIDControllers.DrivePID.KF, 
+        Constants.ClimberConstants.CLIMBER_KP,
+        Constants.ClimberConstants.CLIMBER_KI, 
+        Constants.ClimberConstants.CLIMBER_KD,
+        Constants.ClimberConstants.CLIMBER_KF, 
         "Left Climber",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, leftClimbMotor);
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor
+        );
 
     rightController = new SmartPIDControllerTalonFX(
         Constants.ClimberConstants.CLIMBER_KP,
@@ -74,6 +76,20 @@ public class Climber extends SubsystemBase {
   public double getRightClimberTorque() {
     return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
   }
+
+  public void setLeftClimberOutput(double percentOutput) {
+    leftClimbMotor.set(percentOutput);
+  }
+
+  public void setRightClimberOutput(double percentOutput) {
+    rightClimbMotor.set(percentOutput);
+  }
+
+    
+
+
+
+
 
   @Override
   public void periodic() {
