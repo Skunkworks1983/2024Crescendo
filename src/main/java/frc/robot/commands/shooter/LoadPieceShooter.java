@@ -15,7 +15,7 @@ public class LoadPieceShooter extends Command {
   private Indexer indexer;
   private boolean canLoadPiece;
   private boolean beambreak1Tripped;
-  private boolean beambreak2Tripped;
+  private boolean initialSpeedSet;
 
 
   public LoadPieceShooter() {
@@ -27,7 +27,7 @@ public class LoadPieceShooter extends Command {
   public void initialize() {
     canLoadPiece = shooter.canLoadPiece();
     beambreak1Tripped = shooter.getShooterIndexerBeambreak1();
-    beambreak2Tripped = shooter.getShooterIndexerBeambreak2();
+    initialSpeedSet = false;
   }
 
   @Override
@@ -40,16 +40,16 @@ public class LoadPieceShooter extends Command {
       return;
     }
 
-    if (!shooter.getShooterIndexerBeambreak1() && !beambreak1Tripped) {
+    if (!shooter.getShooterIndexerBeambreak1() && !initialSpeedSet) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setSpeedIndexer(Constants.Shooter.LOADING_INDEXER_SPEED);
-      beambreak1Tripped = true;
+      initialSpeedSet = true;
     } 
     
-    if(shooter.getShooterIndexerBeambreak1() && !beambreak2Tripped) {
+    if(shooter.getShooterIndexerBeambreak1() && !beambreak1Tripped) {
       shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
       indexer.setIndexerCoastMode();
-      beambreak2Tripped = true;
+      beambreak1Tripped = true;
     }
   }
 
