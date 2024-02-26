@@ -25,6 +25,7 @@ public class Climber extends SubsystemBase {
 
   private static Climber climber;
   private final PositionVoltage postitionVoltage = new PositionVoltage(0);
+  SmartPIDControllerTalonFX positionController;
 
   /** Creates a new Climber. */
   private Climber() {
@@ -32,6 +33,11 @@ public class Climber extends SubsystemBase {
     // Initialize the climbing motors.
     leftClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
     rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
+
+    positionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
+        Constants.PIDControllers.DrivePID.KF, modulePosition + " Drive",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {

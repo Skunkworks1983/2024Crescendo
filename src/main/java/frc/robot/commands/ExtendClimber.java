@@ -25,6 +25,7 @@ public class ExtendClimber extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("ExtendClimber command stared");
     climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION);
     climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION);
   }
@@ -35,7 +36,9 @@ public class ExtendClimber extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("ExtendClimber command ended");
+  }
 
   // Returns true when the command should end.
   @Override

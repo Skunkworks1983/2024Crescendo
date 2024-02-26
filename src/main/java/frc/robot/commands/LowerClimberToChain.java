@@ -22,7 +22,7 @@ public class LowerClimberToChain extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    System.out.println("LowerClimberToChain command started");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,12 +45,14 @@ public class LowerClimberToChain extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("LowerClimberToChain command ended");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return(climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
      climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
-     }
+    }
 }

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Shooter;
 
 // This is a stub command
 public class SimpleClimb extends Command {
@@ -20,18 +19,22 @@ public class SimpleClimb extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        System.out.println("SimpleClimb command started");
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
-        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION);
+        climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION);
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        System.out.println("SimpleClimb command ended");
+    }
 
     // Returns true when the command should end.
     @Override
