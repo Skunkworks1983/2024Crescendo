@@ -25,16 +25,13 @@ public class ExtendClimber extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    climber.setClimberPosition(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER1_POSITION_MAX);
+    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MAX);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    climber.setClimberPosition(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER1_POSITION_MAX);
-    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MAX);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -43,11 +40,8 @@ public class ExtendClimber extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math
-        .abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
-            - ClimberConstants.CLIMBER1_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE
-        && Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
-            - ClimberConstants.CLIMBER2_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE) {
+    if (climber.atPositionSetpoint(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER1_POSITION_MAX)
+        && climber.atPositionSetpoint(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MAX)) {
       return true;
     }
     return false;

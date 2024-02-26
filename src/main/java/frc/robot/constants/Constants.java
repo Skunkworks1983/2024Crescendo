@@ -380,6 +380,8 @@ public class Constants {
     public static final double CLIMBER_END_TOLERANCE = .01;
     public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
 
+    public static final double ROLL_DEGREES_TO_OUTPUT = 100;
+
     public enum CLIMB_MODULE {
       LEFT, RIGHT;
     }

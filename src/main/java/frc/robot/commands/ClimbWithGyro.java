@@ -35,8 +35,8 @@ public class ClimbWithGyro extends Command {
   public void execute() {
     double roll = drivebase.getGyroRoll();
 
-    leftOutput = ClimberConstants.BASE_PULL_SPEED + roll / 100;
-    rightOutput = ClimberConstants.BASE_PULL_SPEED - roll / 100;
+    leftOutput = ClimberConstants.BASE_PULL_SPEED + roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT;
+    rightOutput = ClimberConstants.BASE_PULL_SPEED - roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT;
 
     climber.setClimberOutput(CLIMB_MODULE.LEFT, leftOutput);
     climber.setClimberOutput(CLIMB_MODULE.RIGHT, rightOutput);
@@ -45,7 +45,9 @@ public class ClimbWithGyro extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    climber.setClimberOutput(CLIMB_MODULE.LEFT, 0);
     climber.setBrakeMode(CLIMB_MODULE.LEFT);
+    climber.setClimberOutput(CLIMB_MODULE.RIGHT, 0);
     climber.setBrakeMode(CLIMB_MODULE.RIGHT);
   }
 
@@ -58,8 +60,7 @@ public class ClimbWithGyro extends Command {
         .abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
             - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_END_TOLERANCE
         || Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
-            - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_END_TOLERANCE)
-        /*&& Math.abs(drivebase.getGyroRoll()) < ClimberConstants.CLIMBER_END_ROLL_TOLERANCE*/) {
+            - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_END_TOLERANCE)) {
       return true;
     }
     return false;
