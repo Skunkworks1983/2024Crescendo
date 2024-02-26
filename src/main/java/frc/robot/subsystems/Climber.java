@@ -26,22 +26,20 @@ public class Climber extends SubsystemBase {
   private static Climber climber;
   final PositionVoltage postitionVoltage = new PositionVoltage(0);
   SmartPIDControllerTalonFX CLIMBER_PID_ACTIVE;
-  SmartPIDControllerTalonFX leftController;
-  SmartPIDControllerTalonFX rightController;
 
   /** Creates a new Climber. */
   private Climber() {
 
     // Initialize the climbing motors.
-    leftClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_1, Constants.CANIVORE_NAME);
-    rightClimbMotor = new TalonFX(Constants.IDS.CLIMBER_MOTOR_2, Constants.CANIVORE_NAME);
+    leftClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
+    rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
   }
 
   public void setClimberPosition(CLIMB_MODULE module, double setpointMeters) {
     leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     if (module == CLIMB_MODULE.LEFT) {
       leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
-    } 
+    }
     if (module == CLIMB_MODULE.RIGHT) {
       rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     }
@@ -50,10 +48,10 @@ public class Climber extends SubsystemBase {
   public double getClimberPostition(CLIMB_MODULE module) {
     if (module == CLIMB_MODULE.LEFT) {
       return leftClimbMotor.getPosition().getValueAsDouble();
-    } 
+    }
     if (module == CLIMB_MODULE.RIGHT) {
       return rightClimbMotor.getPosition().getValueAsDouble();
-    }   
+    }
 
     return 0.0;
   }
@@ -61,18 +59,18 @@ public class Climber extends SubsystemBase {
   public double getClimberTorque(CLIMB_MODULE module) {
     if (module == CLIMB_MODULE.LEFT) {
       return leftClimbMotor.getTorqueCurrent().getValueAsDouble();
-    } 
+    }
     if (module == CLIMB_MODULE.RIGHT) {
       return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
     }
-    
+
     return 0.0;
   }
 
   public void setClimberOutput(CLIMB_MODULE module, double percentOutput) {
     if (module == CLIMB_MODULE.LEFT) {
       leftClimbMotor.set(percentOutput);
-    } 
+    }
     if (module == CLIMB_MODULE.RIGHT) {
       rightClimbMotor.set(percentOutput);
     }
@@ -81,7 +79,7 @@ public class Climber extends SubsystemBase {
   public void setBrakeMode(CLIMB_MODULE module) {
     if (module == CLIMB_MODULE.LEFT) {
       leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
-    } 
+    }
     if (module == CLIMB_MODULE.RIGHT) {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }

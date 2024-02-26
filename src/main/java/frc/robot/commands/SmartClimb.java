@@ -6,12 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Climb extends SequentialCommandGroup {
+public class SmartClimb extends SequentialCommandGroup {
   /** Creates a new Climb. */
-  public Climb() {
+  public SmartClimb() {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new PullClimber(), new ClimbWithGyro());
+    addCommands(new LowerClimberToChain(), new ClimbWithGyro());
   }
 }
