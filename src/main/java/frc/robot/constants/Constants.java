@@ -351,8 +351,9 @@ public class Constants {
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
   }
+
   public class ClimberConstants {
-        // Left Climber Motor
+
         public static final double CLIMBER_KP = 0;
         public static final double CLIMBER_KI = 0;
         public static final double CLIMBER_KD = 0;
@@ -372,20 +373,19 @@ public class Constants {
 
         public static final double CLIMBER_TOLERANCE = .01;
 
-        //TODO: set this
+        // TODO: set this
         public static final double CLIMBER_CHAIN_TORQUE = 0;
 
         public static final double BASE_SPEED = .5;
+
+        // 
         public static final double CLIMBER_END_TOLERANCE =.01;
         public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
 
         public enum CLIMB_MODULE {
           LEFT,
           RIGHT;
-        }
-      
-        //CIRCUMFERENCE = 3.88
-        
+        }        
   }
 
   public class IndexerConstants {
