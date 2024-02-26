@@ -83,8 +83,8 @@ public class Climber extends SubsystemBase {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
   }
-  public boolean atPositionSetpoint(CLIMB_MODULE module, double setpoint){
-    if(Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_TOLERANCE){
+  public boolean atPositionSetpoint(ClimbModule module, double setpoint){
+    if(Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE){
       return true;
     }
     return false;
