@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.CollectNotes;
+import frc.robot.commands.CollectNote;
+import frc.robot.commands.CollectNote;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
     drivebase = Drivebase.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
-    NamedCommands.registerCommand("CollectNote", new CollectNotes());
+    NamedCommands.registerCommand("CollectNote", new CollectNote());
     NamedCommands.registerCommand("ShootNote",new Shoot());
     NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
     //buildAutoChooser("");
