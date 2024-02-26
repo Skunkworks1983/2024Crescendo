@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
-import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 // This is a stub subsystem
@@ -24,8 +24,7 @@ public class Climber extends SubsystemBase {
   TalonFX rightClimbMotor;
 
   private static Climber climber;
-  final PositionVoltage postitionVoltage = new PositionVoltage(0);
-  SmartPIDControllerTalonFX CLIMBER_PID_ACTIVE;
+  private final PositionVoltage postitionVoltage = new PositionVoltage(0);
 
   /** Creates a new Climber. */
   private Climber() {
@@ -35,52 +34,52 @@ public class Climber extends SubsystemBase {
     rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
   }
 
-  public void setClimberPosition(CLIMB_MODULE module, double setpointMeters) {
+  public void setClimberPosition(ClimbModule module, double setpointMeters) {
     leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
-    if (module == CLIMB_MODULE.LEFT) {
+    if (module == ClimbModule.LEFT) {
       leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     }
-    if (module == CLIMB_MODULE.RIGHT) {
+    if (module == ClimbModule.RIGHT) {
       rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     }
   }
 
-  public double getClimberPostition(CLIMB_MODULE module) {
-    if (module == CLIMB_MODULE.LEFT) {
+  public double getClimberPostition(ClimbModule module) {
+    if (module == ClimbModule.LEFT) {
       return leftClimbMotor.getPosition().getValueAsDouble();
     }
-    if (module == CLIMB_MODULE.RIGHT) {
+    if (module == ClimbModule.RIGHT) {
       return rightClimbMotor.getPosition().getValueAsDouble();
     }
 
     return 0.0;
   }
 
-  public double getClimberTorque(CLIMB_MODULE module) {
-    if (module == CLIMB_MODULE.LEFT) {
+  public double getClimberTorque(ClimbModule module) {
+    if (module == ClimbModule.LEFT) {
       return leftClimbMotor.getTorqueCurrent().getValueAsDouble();
     }
-    if (module == CLIMB_MODULE.RIGHT) {
+    if (module == ClimbModule.RIGHT) {
       return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
     }
 
     return 0.0;
   }
 
-  public void setClimberOutput(CLIMB_MODULE module, double percentOutput) {
-    if (module == CLIMB_MODULE.LEFT) {
+  public void setClimberOutput(ClimbModule module, double percentOutput) {
+    if (module == ClimbModule.LEFT) {
       leftClimbMotor.set(percentOutput);
     }
-    if (module == CLIMB_MODULE.RIGHT) {
+    if (module == ClimbModule.RIGHT) {
       rightClimbMotor.set(percentOutput);
     }
   }
 
-  public void setBrakeMode(CLIMB_MODULE module) {
-    if (module == CLIMB_MODULE.LEFT) {
+  public void setBrakeMode(ClimbModule module) {
+    if (module == ClimbModule.LEFT) {
       leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
-    if (module == CLIMB_MODULE.RIGHT) {
+    if (module == ClimbModule.RIGHT) {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
   }

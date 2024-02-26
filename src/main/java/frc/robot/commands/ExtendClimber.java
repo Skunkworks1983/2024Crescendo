@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
-import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
 // This is a stub command
@@ -32,8 +32,8 @@ public class ExtendClimber extends Command {
   @Override
   public void execute() {
 
-    climber.setClimberPosition(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER1_POSITION_MAX);
-    climber.setClimberPosition(CLIMB_MODULE.RIGHT, ClimberConstants.CLIMBER2_POSITION_MAX);
+    climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION);
+    climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION);
   }
 
   // Called once the command ends or is interrupted.
@@ -44,10 +44,10 @@ public class ExtendClimber extends Command {
   @Override
   public boolean isFinished() {
     if (Math
-        .abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
-            - ClimberConstants.CLIMBER1_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE
-        && Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
-            - ClimberConstants.CLIMBER2_POSITION_MAX) < ClimberConstants.CLIMBER_TOLERANCE) {
+        .abs(climber.getClimberPostition(ClimbModule.LEFT)
+            - ClimberConstants.MAX_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE
+        && Math.abs(climber.getClimberPostition(ClimbModule.RIGHT)
+            - ClimberConstants.MAX_POSITION) < ClimberConstants.MAX_POSITION) {
       return true;
     }
     return false;

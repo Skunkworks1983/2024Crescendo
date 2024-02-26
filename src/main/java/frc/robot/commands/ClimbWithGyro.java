@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
-import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivebase;
 
@@ -38,15 +38,15 @@ public class ClimbWithGyro extends Command {
     leftOutput = ClimberConstants.BASE_PULL_SPEED + roll / 100;
     rightOutput = ClimberConstants.BASE_PULL_SPEED - roll / 100;
 
-    climber.setClimberOutput(CLIMB_MODULE.LEFT, leftOutput);
-    climber.setClimberOutput(CLIMB_MODULE.RIGHT, rightOutput);
+    climber.setClimberOutput(ClimbModule.LEFT, leftOutput);
+    climber.setClimberOutput(ClimbModule.RIGHT, rightOutput);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.setBrakeMode(CLIMB_MODULE.LEFT);
-    climber.setBrakeMode(CLIMB_MODULE.RIGHT);
+    climber.setBrakeMode(ClimbModule.LEFT);
+    climber.setBrakeMode(ClimbModule.RIGHT);
   }
 
   // Returns true when the command should end.
@@ -55,10 +55,10 @@ public class ClimbWithGyro extends Command {
 
     // Checks if one of the climbers is at the minimun position, if yes, it ends the command
     if ((Math
-        .abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
-            - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_END_TOLERANCE
-        || Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
-            - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_END_TOLERANCE)
+        .abs(climber.getClimberPostition(ClimbModule.LEFT)
+            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE
+        || Math.abs(climber.getClimberPostition(ClimbModule.RIGHT)
+            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE)
         /*&& Math.abs(drivebase.getGyroRoll()) < ClimberConstants.CLIMBER_END_ROLL_TOLERANCE*/) {
       return true;
     }

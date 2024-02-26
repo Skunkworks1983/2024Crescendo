@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
-import frc.robot.constants.Constants.ClimberConstants.CLIMB_MODULE;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 
@@ -25,8 +25,8 @@ public class SimpleClimb extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climber.setClimberPosition(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER1_POSITION_MIN);
-        climber.setClimberPosition(CLIMB_MODULE.LEFT, ClimberConstants.CLIMBER2_POSITION_MIN);
+        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
+        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION);
     }
 
     // Called once the command ends or is interrupted.
@@ -36,10 +36,10 @@ public class SimpleClimb extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(climber.getClimberPostition(CLIMB_MODULE.LEFT)
-                - ClimberConstants.CLIMBER1_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE
-                && Math.abs(climber.getClimberPostition(CLIMB_MODULE.RIGHT)
-                        - ClimberConstants.CLIMBER2_POSITION_MIN) < ClimberConstants.CLIMBER_TOLERANCE) {
+        if (Math.abs(climber.getClimberPostition(ClimbModule.LEFT)
+                - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE
+                && Math.abs(climber.getClimberPostition(ClimbModule.RIGHT)
+                        - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
             return true;
         }
         return false;
