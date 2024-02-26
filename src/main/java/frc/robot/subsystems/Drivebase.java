@@ -158,13 +158,12 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
-  public double getGyroRoll() {
+  public double getGyroRoll () {
     double roll = gyro.getRoll();
     SmartDashboard.putNumber("gyro roll", roll);
 
     return roll;
   }
-
   /**
    * Call this method instead of getGyroAngle(). This method returns the robot's heading according
    * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
