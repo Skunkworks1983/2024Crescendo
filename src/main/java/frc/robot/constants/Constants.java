@@ -375,6 +375,8 @@ public class Constants {
 
     public static final double BASE_PULL_SPEED = .5;
 
+    public static final double ROLL_DEGREES_TO_OUTPUT = 100;
+
     public enum ClimbModule {
       LEFT, RIGHT;
     }

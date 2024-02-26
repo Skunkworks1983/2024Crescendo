@@ -9,9 +9,11 @@ import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
+// this command lowers the climber arms are in contact with the chain
 public class LowerClimberToChain extends Command {
-  /** Creates a new LowerTellCurrent. */
+  /** Creates a new LowerClimberToChain. */
   Climber climber;
+
   public LowerClimberToChain() {
     // Use addRequirements() here to declare subsystem dependencies.
     climber = Climber.getInstance();
@@ -26,11 +28,19 @@ public class LowerClimberToChain extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE){
-    climber.setClimberOutput(ClimbModule.LEFT, ClimberConstants.BASE_PULL_SPEED);
+    if (climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
+      climber.setClimberOutput(ClimbModule.LEFT, ClimberConstants.BASE_PULL_SPEED);
+    } else {
+      climber.setClimberOutput(ClimbModule.LEFT, 0);
+      climber.setBrakeMode(ClimbModule.LEFT);
     }
-    if(climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE)
-    climber.setClimberOutput(ClimbModule.RIGHT, ClimberConstants.BASE_PULL_SPEED);
+
+    if (climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
+      climber.setClimberOutput(ClimbModule.RIGHT, ClimberConstants.BASE_PULL_SPEED);
+    } else {
+      climber.setClimberOutput(ClimbModule.RIGHT, 0);
+      climber.setBrakeMode(ClimbModule.RIGHT);
+    }
   }
 
   // Called once the command ends or is interrupted.
