@@ -77,8 +77,9 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 100; // TODO:set this!
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;

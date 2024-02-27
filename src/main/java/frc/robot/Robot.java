@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.WaitDuration;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
@@ -23,11 +24,13 @@ public class Robot extends TimedRobot {
 
   OI oi;
   Drivebase drivebase;
+  Collector collector;
 
   @Override
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
+    collector = Collector.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -42,7 +45,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    SmartDashboard.putNumber("collector pos degrees", collector.getCollectorPos());
+  }
 
   @Override
   public void disabledExit() {}

@@ -26,6 +26,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
+  JoystickButton collectorPositionChange;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -39,14 +40,16 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
+    collectorPositionChange = new JoystickButton(buttonStick, 0);
 
     //TODO: uncomment code after neccecary hardware (cameras) is complete.
     // targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     // targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
-    manualIntakeNotes.whileTrue(new ManualIntakeNotes());
-    flywheelSpinup.whileTrue(new FlywheelSpinup());
-    manualShoot.whileTrue(new Shoot());
+    //manualIntakeNotes.whileTrue(new ManualIntakeNotes());
+    //flywheelSpinup.whileTrue(new FlywheelSpinup());
+    //manualShoot.whileTrue(new Shoot());
+    //collectorPositionChange.whileTrue(new )
   }
 
   @Override
