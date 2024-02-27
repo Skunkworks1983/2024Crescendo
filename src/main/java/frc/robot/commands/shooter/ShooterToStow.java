@@ -11,7 +11,7 @@ import frc.robot.subsystems.Shooter;
 
 public class ShooterToStow extends Command {
 
-  public Shooter shooter;
+  private Shooter shooter;
 
   public ShooterToStow() {
     shooter = Shooter.getInstance();
