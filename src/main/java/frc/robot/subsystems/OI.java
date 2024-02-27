@@ -43,9 +43,8 @@ public class OI extends SubsystemBase {
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
     collectorPositionChange = new JoystickButton(buttonStick, 13);
 
-    //TODO: uncomment code after neccecary hardware (cameras) is complete.
-    // targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    // targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     //manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     //flywheelSpinup.whileTrue(new FlywheelSpinup());

@@ -116,6 +116,7 @@ public class Constants {
   }
 
   public class Shooter {
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
@@ -353,7 +354,7 @@ public class Constants {
   }
 
   public class IndexerConstants {
-    public static final int INDEXER_MOTOR = 0;
+    public static final int INDEXER_MOTOR = 33;
     public static final int INDEXER_BEAM_BREAK = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;

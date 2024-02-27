@@ -61,7 +61,6 @@ public class LoadPieceShooter extends Command {
 
   @Override
   public boolean isFinished() {
-    // TODO: uncomment code after neccecary hardware is complete.
-    return false;// shooter.getShooterIndexerBeambreak2();
+    return shooter.getShooterIndexerBeambreak2();
   }
 }

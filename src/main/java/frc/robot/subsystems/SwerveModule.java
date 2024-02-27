@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -38,7 +37,6 @@ public class SwerveModule extends SubsystemBase {
   final VelocityVoltage velocityController = new VelocityVoltage(0);
 
   public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
-
     driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
     turnMotor = new TalonFX(swerveModuleConstants.turnMotorId, Constants.CANIVORE_NAME);
     turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
