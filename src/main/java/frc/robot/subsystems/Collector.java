@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -62,6 +63,11 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
 
     // Setting voltage limit on the collector pivot for testing.
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightPivotMotor.getConfigurator().apply(config);
+    leftPivotMotor.getConfigurator().apply(config);
+
     rightPivotMotor.getConfigurator()
         .apply(new CurrentLimitsConfigs()
             .withSupplyCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS)
@@ -87,7 +93,7 @@ public class Collector extends SubsystemBase {
   }
 
   public void setCollectorPos(double angle) {
-    rightPivotMotor.setControl(positionVoltage.withPosition(angle));
+    rightPivotMotor.setControl(positionVoltage.withPosition(angle * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS));
   }
 
   public void setIntakeCoastMode() {

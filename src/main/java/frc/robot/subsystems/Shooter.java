@@ -156,14 +156,14 @@ public class Shooter extends SubsystemBase {
   }
 
   // TODO: uncomment code after neccecary hardware is complete.
-  // public boolean getShooterIndexerBeambreak1() {
-  // return noteBreak1.get();
-  // }
+  public boolean getShooterIndexerBeambreak1() {
+    return false; //noteBreak1.get();
+  }
 
   // TODO: uncomment code after neccecary hardware is complete.
-  // public boolean getShooterIndexerBeambreak2() {
-  // return noteBreak2.get();
-  // }
+  public boolean getShooterIndexerBeambreak2() {
+    return false; //noteBreak2.get();
+  }
 
   // error in meters per seconds
   public double getFlywheelError() {

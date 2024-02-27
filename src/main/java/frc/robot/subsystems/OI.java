@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -40,7 +41,7 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange = new JoystickButton(buttonStick, 0);
+    collectorPositionChange = new JoystickButton(buttonStick, 13);
 
     //TODO: uncomment code after neccecary hardware (cameras) is complete.
     // targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
@@ -49,7 +50,7 @@ public class OI extends SubsystemBase {
     //manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     //flywheelSpinup.whileTrue(new FlywheelSpinup());
     //manualShoot.whileTrue(new Shoot());
-    //collectorPositionChange.whileTrue(new )
+    collectorPositionChange.whileTrue(new LowerCollector());
   }
 
   @Override

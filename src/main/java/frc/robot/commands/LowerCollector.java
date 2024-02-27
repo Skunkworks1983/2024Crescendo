@@ -37,6 +37,6 @@ public class LowerCollector extends Command {
   @Override
   public boolean isFinished() {
     //check collector position
-    return collector.isAtFloor();
+    return false;
   }
 }
