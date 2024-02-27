@@ -22,28 +22,30 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void initialize() {
-    // TODO: uncomment code after neccecary hardware is complete.
-    /*
-     * shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
-     * 
-     * if (shooter.getShooterIndexerBeambreak2()) { shooter.setShooterAngle(shooterAngle);
-     * shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED); isTurning = true; } else
-     * { isTurning = false; }
-     */
+
+    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
+
+    if (shooter.getShooterIndexerBeambreak2()) {
+      shooter.setShooterAngle(shooterAngle);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+      isTurning = true;
+    } else {
+      isTurning = false;
+    }
+
   }
 
   @Override
   public void execute() {
+    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
+        .getDegrees() && isTurning) {
+      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+    } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
+      shooter.setShooterAngle(shooterAngle);
+      shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+    }
 
-    // TODO: uncomment code after neccecary hardware is complete.
-    /*
-     * if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
-     * .getDegrees() && isTurning) {
-     * shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
-     * shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED); } else if (!isTurning &&
-     * shooter.getShooterIndexerBeambreak2()) { shooter.setShooterAngle(shooterAngle);
-     * shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED); }
-     */
   }
 
   @Override

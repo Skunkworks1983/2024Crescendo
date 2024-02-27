@@ -23,10 +23,9 @@ public class LoadPieceShooter extends Command {
 
   @Override
   public void execute() {
-    // TODO: uncomment code after neccecary hardware is complete.
-    // if (shooter.getShooterIndexerBeambreak1()) {
-    // shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
-    // }
+    if (shooter.getShooterIndexerBeambreak1()) {
+      shooter.setShooterIndexerSpeed(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
+    }
   }
 
   @Override
@@ -36,7 +35,6 @@ public class LoadPieceShooter extends Command {
 
   @Override
   public boolean isFinished() {
-    // TODO: uncomment code after neccecary hardware is complete.
-    return false;// shooter.getShooterIndexerBeambreak2();
+    return shooter.getShooterIndexerBeambreak2();
   }
 }
