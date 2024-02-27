@@ -9,7 +9,6 @@ import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
-// This is a stub command
 public class SimpleClimb extends Command {
     Climber climber;
 
@@ -21,13 +20,13 @@ public class SimpleClimb extends Command {
     @Override
     public void initialize() {
         System.out.println("SimpleClimb command started");
+        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
+        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
-        climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION);
     }
 
     // Called once the command ends or is interrupted.
