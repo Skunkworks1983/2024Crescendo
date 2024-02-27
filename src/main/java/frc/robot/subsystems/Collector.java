@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -96,6 +97,7 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 
   public void setCollectorPivotVelocity(double speed) {

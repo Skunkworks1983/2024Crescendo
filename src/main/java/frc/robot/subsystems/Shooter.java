@@ -35,7 +35,8 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
 
   // Meters per second
-  public double flywheelSetpointMPS = 0.5 / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  public double flywheelSetpointMPS = Constants.Shooter.TEMP_SHOOT_FLYWHEEL_SPEED_RPS
+      / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
 
   private static Shooter shooter;
 
@@ -54,8 +55,8 @@ public class Shooter extends SubsystemBase {
   private Shooter() {
     timer = new Timer();
     pivotMotor = new TalonFX(Constants.IDS.SHOOTER_PIVOT_MOTOR, Constants.CANIVORE_NAME);
-    shootMotor1 = new TalonFX(Constants.IDS.SHOOT_MOTOR1, Constants.CANIVORE_NAME);
-    shootMotor2 = new TalonFX(Constants.IDS.SHOOT_MOTOR2, Constants.CANIVORE_NAME);
+    shootMotor1 = new TalonFX(Constants.IDS.SHOOT_MOTOR1);
+    shootMotor2 = new TalonFX(Constants.IDS.SHOOT_MOTOR2);
     TalonFXConfiguration talonConfig = new TalonFXConfiguration();
     pivotMotor.getConfigurator().apply(talonConfig);
     shootMotor1.getConfigurator().apply(talonConfig);
@@ -63,6 +64,7 @@ public class Shooter extends SubsystemBase {
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
+
     noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
     noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 

@@ -35,7 +35,6 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void execute() {
-
     if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
         .getDegrees() && isTurning) {
       shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
