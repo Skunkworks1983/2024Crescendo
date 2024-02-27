@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
+import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -30,6 +31,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
+  JoystickButton collectorPositionChange;
 
   // Climber buttons
   JoystickButton extendClimber;
@@ -51,6 +53,7 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
+    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
 
     extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
@@ -69,10 +72,12 @@ public class OI extends SubsystemBase {
 
     extendClimber.onTrue(new ExtendClimber());
     smartClimb.onTrue(new SmartClimb());
-    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .1));
-    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.1));
-    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .1));
-    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.1));
+    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .05));
+    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.05));
+    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .05));
+    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
+
+    collectorPositionChange.whileTrue(new LowerCollector());
   }
 
   @Override

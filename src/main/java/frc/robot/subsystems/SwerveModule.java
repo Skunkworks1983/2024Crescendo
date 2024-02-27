@@ -4,16 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,7 +27,7 @@ import frc.robot.utils.SmartPIDControllerTalonFX;
 public class SwerveModule extends SubsystemBase {
 
   TalonFX driveMotor;
-  CANSparkMax turnMotor;
+  TalonFX turnMotor;
   CANcoder turnEncoder;
   String modulePosition;
 
@@ -40,8 +38,7 @@ public class SwerveModule extends SubsystemBase {
 
   public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
     driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
-    turnMotor = new CANSparkMax(swerveModuleConstants.turnMotorId, MotorType.kBrushless);
-    turnMotor.restoreFactoryDefaults();
+    turnMotor = new TalonFX(swerveModuleConstants.turnMotorId, Constants.CANIVORE_NAME);
     turnEncoder = new CANcoder(swerveModuleConstants.turnEncoderId, Constants.CANIVORE_NAME);
     this.modulePosition = swerveModuleConstants.modulePosition;
 
@@ -49,7 +46,6 @@ public class SwerveModule extends SubsystemBase {
         Constants.PIDControllers.TurnPID.KI, Constants.PIDControllers.TurnPID.KD,
         modulePosition + " Turn", Constants.PIDControllers.TurnPID.SMART_PID_ACTIVE);
 
-    turnMotor.restoreFactoryDefaults();
     CANcoderConfiguration canCoderConfig = new CANcoderConfiguration();
     canCoderConfig.MagnetSensor.MagnetOffset = -swerveModuleConstants.turnEncoderOffset;
     canCoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
@@ -61,28 +57,33 @@ public class SwerveModule extends SubsystemBase {
     // sets the tolerance of the turning pid controller.
     turnController.setTolerance(Constants.PIDControllers.TurnPID.TURN_PID_TOLERANCE);
 
-    TalonFXConfiguration talonConfig = new TalonFXConfiguration();
-    talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    driveMotor.getConfigurator().apply(talonConfig);
-    velocityController.Slot = 0;
+    // reseting the configuration to default
+    TalonFXConfiguration driveConfig = new TalonFXConfiguration();
+    driveConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
+    TalonFXConfiguration turnConfig = new TalonFXConfiguration();
+    turnConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    driveMotor.getConfigurator().apply(driveConfig);
+    turnMotor.getConfigurator().apply(turnConfig);
     driveController = new SmartPIDControllerTalonFX(Constants.PIDControllers.DrivePID.KP,
         Constants.PIDControllers.DrivePID.KI, Constants.PIDControllers.DrivePID.KD,
         Constants.PIDControllers.DrivePID.KF, modulePosition + " Drive",
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
+
+    velocityController.Slot = 0;
   }
 
   @Override
   public void periodic() {
     updateTurnSpeedBasedOnSetpoint();
+    driveController.updatePID();
   }
 
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
     double revsPerSecond = feetPerSecond * Constants.DrivebaseInfo.REVS_PER_FOOT;
-    velocityController.Slot = 0;
-
     driveMotor.setControl(velocityController.withVelocity(revsPerSecond));
   }
 
@@ -94,7 +95,7 @@ public class SwerveModule extends SubsystemBase {
   public double getDriveEncoderPosition() {
 
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
-    SmartDashboard.putNumber("drive encoder", distance);
+    SmartDashboard.putNumber("drive encoder " + turnMotor, distance);
     return distance;
   }
 
@@ -157,18 +158,16 @@ public class SwerveModule extends SubsystemBase {
 
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
+
+    SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
+    SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
+    SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
   }
 
   void updateTurnSpeedBasedOnSetpoint() {
     // calculate speed
     double speed = -turnController.calculate(getTurnEncoder());
     boolean atSetpoint = turnController.atSetpoint();
-
-    if (!atSetpoint) {
-      // clamp and set speed
-      setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
-          Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
-    }
 
     if (!atSetpoint) {
       // clamp and set speed
