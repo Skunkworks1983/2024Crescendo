@@ -11,7 +11,6 @@ import frc.robot.commands.SmartClimb;
 import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
-import frc.robot.commands.SmartClimb;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.constants.Constants;

@@ -6,11 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -25,7 +21,8 @@ public class Climber extends SubsystemBase {
 
   private static Climber climber;
   private final PositionVoltage postitionVoltage = new PositionVoltage(0);
-  SmartPIDControllerTalonFX positionController;
+  SmartPIDControllerTalonFX leftPositionController;
+  SmartPIDControllerTalonFX rightPositionController;
 
   /** Creates a new Climber. */
   private Climber() {
@@ -34,10 +31,15 @@ public class Climber extends SubsystemBase {
     leftClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
     rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
 
-    positionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
+    leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
-        Constants.PIDControllers.DrivePID.KF, modulePosition + " Drive",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
+        Constants.PIDControllers.DrivePID.KF, "Left Climb Motor",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, leftClimbMotor);
+    
+    rightPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
+        Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
+        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor);
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {
