@@ -92,7 +92,7 @@ public class Constants {
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
-    public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = .5;
+    public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = 1;
   }
 
   public class DrivebaseInfo {
@@ -150,7 +150,7 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
-    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
@@ -412,7 +412,7 @@ public class Constants {
     public static final double INDEXER_SPEED = 1;
     public static final double REVERSE_INDEXER_SPEED = -1;
     public static final boolean SET_INDEXER_SMART_PID = true;
-    public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 0.5;
+    public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 1;
   }
 
   public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;

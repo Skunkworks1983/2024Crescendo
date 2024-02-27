@@ -64,7 +64,7 @@ public class Collector extends SubsystemBase {
 
     // Setting voltage limit on the collector pivot for testing.
     TalonFXConfiguration config = new TalonFXConfiguration();
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     rightPivotMotor.getConfigurator().apply(config);
     leftPivotMotor.getConfigurator().apply(config);
 
