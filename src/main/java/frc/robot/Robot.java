@@ -24,13 +24,11 @@ public class Robot extends TimedRobot {
 
   OI oi;
   Drivebase drivebase;
-  Collector collector;
 
   @Override
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
-    collector = Collector.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -45,9 +43,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-    SmartDashboard.putNumber("collector pos degrees", collector.getCollectorPos());
-  }
+  public void disabledPeriodic() {}
 
   @Override
   public void disabledExit() {}

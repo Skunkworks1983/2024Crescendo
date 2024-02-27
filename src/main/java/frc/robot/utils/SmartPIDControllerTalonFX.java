@@ -50,10 +50,9 @@ public class SmartPIDControllerTalonFX {
     }
 
     public void updatePID() {
-        return;
         // if we pass this test, we are smart, so we can save some bandwith by only grabing the k
         // values once
-        /*if (!smart || !Constants.PIDControllers.SMART_PID_ACTIVE) {
+        if (!smart || !Constants.PIDControllers.SMART_PID_ACTIVE) {
             return;
         }
 
@@ -82,7 +81,5 @@ public class SmartPIDControllerTalonFX {
         }
 
         SmartDashboard.putNumber(name + " Error", motor.getClosedLoopError().getValueAsDouble());
-                    */
-
     }
 }

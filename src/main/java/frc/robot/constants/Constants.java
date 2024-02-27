@@ -64,6 +64,7 @@ public class Constants {
     public static final int MANUAL_PERCENT_OUTPUT = 18;
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
+    public static final int COLLECTOR_POSITION_CHANGE = 13;
   }
 
   public class Collector {
@@ -77,7 +78,7 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 50; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
 
@@ -169,7 +170,7 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = true;
+    public static final boolean SMART_PID_ACTIVE = false;
 
     public class TurnPID {
       // Turning Motor PID Constants
