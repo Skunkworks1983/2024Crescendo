@@ -40,7 +40,6 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-
   private final DigitalInput pivotMotorForwardLimit =
       new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
   private final DigitalInput pivotMotorReverseLimit =
