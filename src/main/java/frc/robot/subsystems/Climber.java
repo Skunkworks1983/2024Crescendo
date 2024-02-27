@@ -31,11 +31,15 @@ public class Climber extends SubsystemBase {
 
     // Initialize the climbing motors.
     leftClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
-    rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
+    rightClimbMotor = new TalonFX(Constants.IDS.RIGHT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
 
     TalonFXConfiguration inverted = new TalonFXConfiguration();
+    TalonFXConfiguration notInverted = new TalonFXConfiguration();
     inverted.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    leftClimbMotor.getConfigurator().apply(inverted);
+    notInverted.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    leftClimbMotor.getConfigurator().apply(notInverted);
+    rightClimbMotor.getConfigurator().apply(inverted);
 
     leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
@@ -71,10 +75,10 @@ public class Climber extends SubsystemBase {
 
   public double getClimberTorque(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
-      return leftClimbMotor.getTorqueCurrent().getValueAsDouble();
+      return Math.abs(leftClimbMotor.getTorqueCurrent().getValueAsDouble());
     }
     if (module == ClimbModule.RIGHT) {
-      return rightClimbMotor.getTorqueCurrent().getValueAsDouble();
+      return Math.abs(rightClimbMotor.getTorqueCurrent().getValueAsDouble());
     }
 
     return 0.0;

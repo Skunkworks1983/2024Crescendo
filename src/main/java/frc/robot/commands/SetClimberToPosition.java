@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
@@ -21,7 +20,6 @@ public class SetClimberToPosition extends Command {
     this.position = position;
     this.module = module;
     climber = Climber.getInstance();
-    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.

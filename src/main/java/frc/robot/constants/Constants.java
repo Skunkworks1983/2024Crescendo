@@ -262,7 +262,7 @@ public class Constants {
     public class ClimberPID {
 
       // not tuned - swag
-      public static final double CLIMBER_KP = 0.01;
+      public static final double CLIMBER_KP = 0.1;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
@@ -372,24 +372,26 @@ public class Constants {
 
   public class ClimberConstants {
 
+    public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
+
     // Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
-    public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / 2;
+    public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
 
     // Meters
-    public static final double CLIMBER_MOVEMENT = 0.6201156;
+    public static final double CLIMBER_MOVEMENT = 0.431;
 
     // TODO: set these
-    public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) * CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = (.1) * CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = (.2) * CLIMBER_ROTATIONS_TO_METERS;
 
     // If the position in within the tolerance, stop setting the speed.
     public static final double CLIMBER_POSITION_TOLERANCE = .01;
 
     // TODO: set this
-    public static final double CLIMBER_CHAIN_TORQUE = 1;
+    public static final double CLIMBER_CHAIN_TORQUE = 20;
 
-    public static final double BASE_PULL_SPEED = .5;
+    public static final double BASE_PULL_SPEED = -.2;
 
     public static final double ROLL_DEGREES_TO_OUTPUT = 150;
 

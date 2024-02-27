@@ -21,7 +21,7 @@ public class SimpleClimb extends Command {
     public void initialize() {
         System.out.println("SimpleClimb command started");
         climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
-        climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
+        climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

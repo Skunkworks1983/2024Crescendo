@@ -40,10 +40,10 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  private final DigitalInput pivotMotorForwardLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
-  private final DigitalInput pivotMotorReverseLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+  // private final DigitalInput pivotMotorForwardLimit =
+  //     new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  // private final DigitalInput pivotMotorReverseLimit =
+  //     new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
@@ -65,8 +65,8 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
-    noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,
@@ -96,21 +96,21 @@ public class Shooter extends SubsystemBase {
     isFlywheelSpiningWithSetpoint = false;
   }
 
-  @Override
-  public void periodic() {
+  // @Override
+  // public void periodic() {
 
-    if (pivotMotorForwardLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
-      pivotMotor.set(0);
-    } else if (pivotMotorReverseLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
-    }
+  //   if (pivotMotorForwardLimit.get()) {
+  //     pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
+  //     pivotMotor.set(0);
+  //   } else if (pivotMotorReverseLimit.get()) {
+  //     pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
+  //   }
 
 
-    shootingController.updatePID();
-    indexerController.updatePID();
-    pivotController.updatePID();
-  }
+  //   shootingController.updatePID();
+  //   indexerController.updatePID();
+  //   pivotController.updatePID();
+  // }
 
   public void setShooterAngle(Rotation2d desiredRotation) {
     positionVoltage.Slot = 0;
@@ -175,9 +175,9 @@ public class Shooter extends SubsystemBase {
 
   public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
     if (forwardLimitSwitch) {
-      return pivotMotorForwardLimit.get();
+      return false; // pivotMotorForwardLimit.get();
     } else {
-      return pivotMotorReverseLimit.get();
+      return false; // pivotMotorReverseLimit.get();
     }
   }
 

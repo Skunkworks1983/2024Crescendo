@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -27,6 +28,7 @@ public class ClimbWithGyro extends Command {
   @Override
   public void initialize() {
     System.out.println("ClimbWithGyro command started");
+    SmartDashboard.putBoolean("ClimbWithGyro", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +41,8 @@ public class ClimbWithGyro extends Command {
 
     climber.setClimberOutput(ClimbModule.LEFT, leftOutput);
     climber.setClimberOutput(ClimbModule.RIGHT, rightOutput);
+
+    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +53,7 @@ public class ClimbWithGyro extends Command {
     climber.setBrakeMode(ClimbModule.LEFT);
     climber.setClimberOutput(ClimbModule.RIGHT, 0);
     climber.setBrakeMode(ClimbModule.RIGHT);
+    SmartDashboard.putBoolean("ClimbWithGyro", false);
   }
 
   // Returns true when the command should end.
@@ -57,8 +62,7 @@ public class ClimbWithGyro extends Command {
 
     // Checks if one of the climbers is at the minimun position, if yes, it ends the command
     if (climber.atPositionSetpoint(ClimbModule.LEFT, ClimberConstants.MIN_POSITION)
-        || Math.abs(climber.getClimberPostition(ClimbModule.RIGHT)
-            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
+        || climber.atPositionSetpoint(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION)) {
       return true;
     }
     return false;
