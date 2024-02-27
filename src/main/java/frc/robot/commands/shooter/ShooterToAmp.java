@@ -22,7 +22,6 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void initialize() {
-
     shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
 
     if (shooter.getShooterIndexerBeambreak2()) {
@@ -32,7 +31,6 @@ public class ShooterToAmp extends Command {
     } else {
       isTurning = false;
     }
-
   }
 
   @Override
@@ -45,7 +43,6 @@ public class ShooterToAmp extends Command {
       shooter.setShooterAngle(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
-
   }
 
   @Override

@@ -80,7 +80,6 @@ public class SmartPIDControllerTalonFX {
             motor.getConfigurator().apply(slot0Configs);
         }
 
-
         SmartDashboard.putNumber(name + " Error", motor.getClosedLoopError().getValueAsDouble());
     }
 }

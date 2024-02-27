@@ -40,11 +40,11 @@ public class Shooter extends SubsystemBase {
   private static Shooter shooter;
 
 
-  private final DigitalInput pivotMotorForwardLimit = new
-   DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH); private final
-  DigitalInput pivotMotorReverseLimit = new
-  DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
-  
+  private final DigitalInput pivotMotorForwardLimit =
+      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  private final DigitalInput pivotMotorReverseLimit =
+      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDControllerTalonFX pivotController;
@@ -179,7 +179,6 @@ public class Shooter extends SubsystemBase {
     } else {
       return pivotMotorReverseLimit.get();
     }
-
   }
 
   // gets the last run command on the pivot motor
