@@ -7,13 +7,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.SmartClimb;
-import frc.robot.commands.ExtendClimber;
+import frc.robot.commands.climber.ExtendClimber;
+import frc.robot.commands.climber.ManualMoveClimber;
+import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 
 public class OI extends SubsystemBase {
@@ -28,8 +30,14 @@ public class OI extends SubsystemBase {
   JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
+
+  // Climber buttons
   JoystickButton extendClimber;
-  JoystickButton pullClimber;
+  JoystickButton smartClimb;
+  JoystickButton manualLeftClimberUp;
+  JoystickButton manualLeftClimberDown;
+  JoystickButton manualRightClimberUp;
+  JoystickButton manualRightClimberDown;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -44,6 +52,14 @@ public class OI extends SubsystemBase {
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
 
+    extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
+    smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
+
+    manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
+    manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
+    manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
+    manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
@@ -52,7 +68,11 @@ public class OI extends SubsystemBase {
     manualShoot.whileTrue(new Shoot());
 
     extendClimber.onTrue(new ExtendClimber());
-    pullClimber.onTrue(new SmartClimb());
+    smartClimb.onTrue(new SmartClimb());
+    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .1));
+    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.1));
+    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .1));
+    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.1));
   }
 
   @Override

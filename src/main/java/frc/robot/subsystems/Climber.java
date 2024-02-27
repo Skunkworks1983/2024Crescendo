@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
@@ -31,15 +33,19 @@ public class Climber extends SubsystemBase {
     leftClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
     rightClimbMotor = new TalonFX(Constants.IDS.LEFT_CLIMBER_MOTOR, Constants.CANIVORE_NAME);
 
+    TalonFXConfiguration inverted = new TalonFXConfiguration();
+    inverted.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    leftClimbMotor.getConfigurator().apply(inverted);
+
     leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Left Climb Motor",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, leftClimbMotor);
+        false, leftClimbMotor);
     
     rightPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
-        Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, rightClimbMotor);
+        false, rightClimbMotor);
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {

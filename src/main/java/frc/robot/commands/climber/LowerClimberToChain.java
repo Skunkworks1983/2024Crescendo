@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -13,9 +13,10 @@ import frc.robot.subsystems.Climber;
 public class LowerClimberToChain extends Command {
   /** Creates a new LowerClimberToChain. */
   Climber climber;
+  boolean isTorqueLeft = false;
+  boolean isTorqueRight = false;
 
   public LowerClimberToChain() {
-    // Use addRequirements() here to declare subsystem dependencies.
     climber = Climber.getInstance();
   }
 
@@ -28,14 +29,17 @@ public class LowerClimberToChain extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
+    isTorqueLeft = climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE;
+    isTorqueRight = climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE;
+
+    if (isTorqueLeft) {
       climber.setClimberOutput(ClimbModule.LEFT, ClimberConstants.BASE_PULL_SPEED);
     } else {
       climber.setClimberOutput(ClimbModule.LEFT, 0);
       climber.setBrakeMode(ClimbModule.LEFT);
     }
 
-    if (climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE) {
+    if (isTorqueRight) {
       climber.setClimberOutput(ClimbModule.RIGHT, ClimberConstants.BASE_PULL_SPEED);
     } else {
       climber.setClimberOutput(ClimbModule.RIGHT, 0);
@@ -52,7 +56,6 @@ public class LowerClimberToChain extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE &&
-     climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE);
-    }
+      return(isTorqueLeft && isTorqueRight);
+  }
 }

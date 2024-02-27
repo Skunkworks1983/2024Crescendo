@@ -10,14 +10,16 @@ import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
 // This is a stub command
-public class ExtendClimber extends Command {
-  private boolean ClimberOne;
-  private boolean ClimberTwo;
+public class SetClimberToPosition extends Command {
 
-  private Climber climber;
+  Climber climber;
+  double position;
+  ClimbModule module;
+  
 
-  /** Creates a new ExtendClimber. */
-  public ExtendClimber() {
+  public SetClimberToPosition(ClimbModule module, double position) {
+    this.position = position;
+    this.module = module;
     climber = Climber.getInstance();
     addRequirements(climber);
   }
@@ -26,8 +28,7 @@ public class ExtendClimber extends Command {
   @Override
   public void initialize() {
     System.out.println("ExtendClimber command stared");
-    climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION);
-    climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION);
+    climber.setClimberPosition(module, position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,13 +39,14 @@ public class ExtendClimber extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ExtendClimber command ended");
+    climber.setClimberOutput(module, 0);
+    climber.setBrakeMode(module);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climber.atPositionSetpoint(ClimbModule.LEFT, ClimberConstants.MAX_POSITION)
-        && climber.atPositionSetpoint(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION)) {
+    if (climber.atPositionSetpoint(module, position)) {
       return true;
     }
     return false;

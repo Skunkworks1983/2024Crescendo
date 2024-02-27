@@ -2,9 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -18,7 +17,6 @@ public class ClimbWithGyro extends Command {
   double leftOutput, rightOutput;
 
   public ClimbWithGyro() {
-    // Use addRequirements() here to declare subsystem dependencies.
     climber = Climber.getInstance();
     drivebase = Drivebase.getInstance();
     leftOutput = 0;
@@ -58,11 +56,9 @@ public class ClimbWithGyro extends Command {
   public boolean isFinished() {
 
     // Checks if one of the climbers is at the minimun position, if yes, it ends the command
-    if ((Math
-        .abs(climber.getClimberPostition(ClimbModule.LEFT)
-            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE
+    if (climber.atPositionSetpoint(ClimbModule.LEFT, ClimberConstants.MIN_POSITION)
         || Math.abs(climber.getClimberPostition(ClimbModule.RIGHT)
-            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE)) {
+            - ClimberConstants.MIN_POSITION) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
       return true;
     }
     return false;
