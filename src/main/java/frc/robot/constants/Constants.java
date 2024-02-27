@@ -77,7 +77,7 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 100; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 50; // TODO:set this!
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
 
@@ -242,12 +242,12 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = .02;
+      public static final double KP = 0.005;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
   }
 
@@ -353,8 +353,8 @@ public class Constants {
   }
 
   public class IndexerConstants {
-    public static final int INDEXER_MOTOR = 33;
-    public static final int SHOOTER_BEAM_BREAK = 0;
+    public static final int INDEXER_MOTOR = 0;
+    public static final int INDEXER_BEAM_BREAK = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;

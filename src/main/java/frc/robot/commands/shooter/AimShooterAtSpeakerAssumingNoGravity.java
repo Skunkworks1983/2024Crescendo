@@ -23,8 +23,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -32,14 +31,13 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     Translation3d target = Constants.Targeting.FieldTarget.SPEAKER.get().get();
 
     // from center of robot to target -- not shooter pivot.
-    Translation2d diffrenceInPosition = new Translation2d(
-        target.getX() - Drivebase.getInstance().getRobotPose().getX(),
-        target.getY() - Drivebase.getInstance().getRobotPose().getY());
+    Translation2d diffrenceInPosition =
+        new Translation2d(target.getX() - Drivebase.getInstance().getRobotPose().getX(),
+            target.getY() - Drivebase.getInstance().getRobotPose().getY());
 
-    Rotation2d shooterRotation = new Rotation2d(
-        Math.atan2(
-            target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
-            diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
+    Rotation2d shooterRotation = new Rotation2d(Math.atan2(
+        target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
+        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
     shooter.setShooterAngle(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
@@ -47,8 +45,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

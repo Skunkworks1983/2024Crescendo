@@ -5,21 +5,16 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
-import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
@@ -35,8 +30,9 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerTalonFX pivotMotorController;
   private static Collector collector;
 
-  private double pivotSetPoint;
-  private double speedSetPoint;
+  final PositionVoltage positionVoltage = new PositionVoltage(0);
+  final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
+
 
   /** Creates a new Collector. */
   private Collector() {
@@ -66,17 +62,18 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
 
     // Setting voltage limit on the collector pivot for testing.
-    rightPivotMotor.getConfigurator().apply(new TalonFXConfiguration());
     rightPivotMotor.getConfigurator()
         .apply(new CurrentLimitsConfigs()
             .withSupplyCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
   }
 
-  public void intakeNotes(double setPoint) {
-    speedSetPoint = ((setPoint / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))// wheel
-                                                                                        // rotion
-        * Constants.Collector.INTAKE_GEAR_RATIO);
+  // meters per second
+  public void intakeNotes(double metersPerSecond) {
+    topIntakeMotor.getPIDController()
+        .setReference(((metersPerSecond / (Math.PI * Constants.Collector.INTAKE_ROLLER_DIAMETER))
+            * Constants.Collector.INTAKE_GEAR_RATIO), CANSparkMax.ControlType.kVelocity);
+    topIntakeMotor.setIdleMode(IdleMode.kBrake);
   }
 
   public boolean isStowed() {
@@ -90,17 +87,20 @@ public class Collector extends SubsystemBase {
   }
 
   public void setCollectorPos(double angle) {
-    pivotSetPoint = angle;
+    rightPivotMotor.setControl(positionVoltage.withPosition(angle));
+  }
+
+  public void setIntakeCoastMode() {
+    topIntakeMotor.setIdleMode(IdleMode.kCoast);
+    topIntakeMotor.set(0);
   }
 
   public void periodic() {
-    PositionVoltage positionVoltage = new PositionVoltage(0);
-
-    //TODO: uncomment code after neccecary hardware is complete.
-    rightPivotMotor.setControl(new DutyCycleOut(0));// rightPivotMotor.setControl(positionVoltage.withPosition(0));//rightPivotMotor.setControl(positionVoltage.withPosition(pivotSetPoint));
-    // topIntakeMotor.getPIDController().setReference(speedSetPoint,
-    // CANSparkMax.ControlType.kVelocity);
     // This method will be called once per scheduler run
+  }
+
+  public void setCollectorPivotVelocity(double speed) {
+    rightPivotMotor.setControl(velocityVoltage.withVelocity(speed));
   }
 
   public void setPercentOutput(double percent) {

@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 import frc.robot.utils.SmartPIDController;
 
@@ -20,15 +22,11 @@ public class Indexer extends SubsystemBase {
   private static Indexer indexer;
   CANSparkMax indexerMotor;
   private SmartPIDControllerCANSparkMax indexerMotorController;
-
-  // TODO: uncomment code after neccecary hardware is complete.
-  // private DigitalInput shooterBeamBreak;
+  private DigitalInput indexerBeamBreak;
 
   /** Creates a new Indexer. */
   public Indexer() {
-
-    // TODO: uncomment code after neccecary hardware is complete.
-    // shooterBeamBreak = new DigitalInput(Constants.IndexerConstants.SHOOTER_BEAM_BREAK);
+    indexerBeamBreak = new DigitalInput(Constants.IndexerConstants.INDEXER_BEAM_BREAK);
     indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR, MotorType.kBrushless);
     indexerMotorController = new SmartPIDControllerCANSparkMax(
         Constants.IndexerConstants.INDEXER_MOTOR_KP, Constants.IndexerConstants.INDEXER_MOTOR_KI,
@@ -38,6 +36,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setSpeedIndexer(double speedMetersPerSecond) {
+    indexerMotor.setIdleMode(IdleMode.kBrake);
     double speedRevolutionsPerSecond =
         ((speedMetersPerSecond / (Math.PI * (Constants.IndexerConstants.INDEXER_WHEEL_DIAMETER))
             * Constants.IndexerConstants.INDEXER_GEAR_RATIO));
@@ -45,14 +44,18 @@ public class Indexer extends SubsystemBase {
         CANSparkBase.ControlType.kVelocity);
   }
 
+  public void setIndexerCoastMode() {
+    indexerMotor.setIdleMode(IdleMode.kCoast);
+    indexerMotor.set(0);
+  }
+
   public void stop() {
     indexerMotor.getPIDController().setReference(0, CANSparkBase.ControlType.kVelocity);
   }
 
-  // TODO: uncomment code after neccecary hardware is complete.
-  // public boolean getBeamBreakSensor() {
-  // return shooterBeamBreak.get();
-  // }
+  public boolean getBeamBreakSensor() {
+    return indexerBeamBreak.get();
+  }
 
   public static Indexer getInstance() {
     if (indexer == null) {
