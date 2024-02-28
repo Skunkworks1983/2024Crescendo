@@ -5,6 +5,7 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
@@ -22,7 +23,7 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void initialize() {
-    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
+    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION;
 
     if (shooter.getShooterIndexerBeambreak2()) {
       shooter.setShooterAngle(shooterAngle);
@@ -35,9 +36,8 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void execute() {
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
-        .getDegrees() && isTurning) {
-      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+    if (shooter.getShooterPivotRotationInDegrees() >= Constants.Shooter.SHOOTER_MAX_POSITION.getDegrees() && isTurning) {
+      shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
       shooter.setShooterAngle(shooterAngle);
@@ -47,7 +47,8 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorVelocity(0);
+    shooter.setShooterAngle(
+        new Rotation2d(Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees())));
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 

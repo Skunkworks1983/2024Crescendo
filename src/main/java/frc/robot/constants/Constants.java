@@ -53,7 +53,7 @@ public class Constants {
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 6;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -120,9 +120,10 @@ public class Constants {
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
-    public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
+    public static final double SHOOT_PIVOT_GEAR_RATIO = 12.0 / 30.0;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
+    public static final double TICKS_PER_PIVOT_MOTOR_REV = 2048;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
     public static final double SHOOTER_ROTATIONS_PER_METER =
@@ -132,14 +133,14 @@ public class Constants {
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
-    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
-        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
-        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
+    public static final double PIVOT_MOTOR_TICKS_TO_DEGREES = (1/TICKS_PER_PIVOT_MOTOR_REV) * SHOOT_PIVOT_GEAR_RATIO * 360;
+    public static final double SHOOTER_RESTING_POSITION_TICKS =
+        27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_TICKS =
+        119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION =
         new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
+    public static final Rotation2d SHOOTER_MAX_POSITION =
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
