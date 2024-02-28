@@ -7,7 +7,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.LowerCollector;
+import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
+import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 
@@ -20,6 +24,10 @@ public class OI extends SubsystemBase {
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton switchMotors;
+  JoystickButton manualIntakeNotes;
+  JoystickButton flywheelSpinup;
+  JoystickButton manualShoot;
+  JoystickButton collectorPositionChange;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -30,8 +38,18 @@ public class OI extends SubsystemBase {
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
     targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
 
+    manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
+    flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
+    manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
+    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+
+    manualIntakeNotes.whileTrue(new ManualIntakeNotes());
+    flywheelSpinup.whileTrue(new FlywheelSpinup());
+    manualShoot.whileTrue(new Shoot());
+    collectorPositionChange.whileTrue(new LowerCollector());
   }
 
   @Override

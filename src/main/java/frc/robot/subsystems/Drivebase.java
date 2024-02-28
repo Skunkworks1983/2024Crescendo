@@ -114,7 +114,8 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("testTurnI", 0);
     SmartDashboard.putNumber("testTurnD", 0);
 
-    // Setting the targetingPoint to Optional.empty() (there is no target until button is pressed).
+    // Setting the targetingPoint to Optional.empty() (there is no target until
+    // button is pressed).
     fieldTarget = Optional.empty();
 
     vision = new Vision(new Camera[] {
@@ -169,7 +170,8 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the targeting buttion
+  // Used for keeping robot heading in the right direction using PID and the
+  // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(getRobotHeading());
@@ -251,7 +253,16 @@ public class Drivebase extends SubsystemBase {
    * @param target The target to point at (FieldTarget enum value)
    */
   public void setFieldTarget(FieldTarget fieldTarget) {
-    Optional<Translation2d> fieldTargetOptional = fieldTarget.get();
+
+    Optional<Translation2d> fieldTargetOptional;
+
+    if (fieldTarget == null) {
+      fieldTargetOptional = Optional.empty();
+    } else {
+      fieldTargetOptional = Optional
+          .of(new Translation2d(fieldTarget.get().get().getX(), fieldTarget.get().get().getY()));
+    }
+
     Optional<Alliance> alliance = DriverStation.getAlliance();
 
     // Relying on short circuting here to check if optional value is Alliance.Red.
