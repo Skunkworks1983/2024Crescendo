@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -32,11 +31,6 @@ public class Constants {
   // Motor, Encoder, & Joystick IDS
   public class IDS {
 
-    // Collector Motor IDS
-    // stub
-    public static final int COLLECTOR_MOTOR = 0;
-    public static final int COLLECTOR_PIVOT_MOTOR = 0;
-
     // Climber Motor IDS
     // stub
     public static final int LEFT_CLIMBER_MOTOR = 41;
@@ -46,10 +40,14 @@ public class Constants {
     // stub
 
     // Shooter Motor IDS
-    public static final int SHOOT_MOTOR1 = 0;
-    public static final int SHOOT_MOTOR2 = 0;
-    public static final int SHOOTER_PIVOT_MOTOR = 0;
-    public static final int SHOOTER_INDEXER_MOTOR = 0;
+
+    //Left Flywheel
+    public static final int SHOOT_MOTOR1 = 4;
+
+    //Right Flywheel
+    public static final int SHOOT_MOTOR2 = 3;
+    public static final int SHOOTER_PIVOT_MOTOR = 5;
+    public static final int SHOOTER_INDEXER_MOTOR = 36;
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
@@ -61,29 +59,40 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
-    public static final int MANUAL_PERCENT_OUTPUT = 4;
-    public static final int FLYWHEEL_SPINUP = 5;
-    public static final int MANUAL_SHOOT = 6;
+    public static final int MANUAL_PERCENT_OUTPUT = 18;
+    public static final int FLYWHEEL_SPINUP = 17;
+    public static final int MANUAL_SHOOT = 24;
+
+      // Joystick IDs for the climber
+    public static final int EXTEND_CLIMBER = 12;
+    public static final int SMART_CLIMB = 11;
+    public static final int MANUAL_LEFT_CLIMBER_UP = 6;
+    public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
+    public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
+    public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
+    
+    public static final int COLLECTOR_POSITION_CHANGE = 13;
   }
 
   public class Collector {
     // Collector Motor IDS
     // stub
-    public static final int TOP_INTAKE_MOTOR = 0; // TODO:set this!
-    public static final int BOTTOM_INTAKE_MOTOR = 0; // TODO:set this!
-    public static final int RIGHT_PIVOT_MOTOR = 0; // TODO:set this!
-    public static final int LEFT_PIVOT_MOTOR = 0; // TODO: set this!
+    public static final int TOP_INTAKE_MOTOR = 32;
+    public static final int BOTTOM_INTAKE_MOTOR = 31;
+    public static final int RIGHT_PIVOT_MOTOR = 34;
+    public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 0; // TODO:set this!
+    public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
-    public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = .5;
+    public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = 1;
   }
 
   public class DrivebaseInfo {
@@ -94,27 +103,28 @@ public class Constants {
     public static final double WHEEL_DIAMETER = .33333333;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
-    // Module translations
-    public static final double TRANSLATION_X = 0.9479166665; // feet
-    public static final double TRANSLATION_Y = 0.9479166665; // feet
+    // Module translations feet
+    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(3, 9, 4, 0.77856445312, "Front Left");
+          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(7, 11, 8, 0.12280273437, "Front Right");
+          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(1, 12, 2, 0.62231445312, "Back Left");
+          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(5, 10, 6, 0.28784179687, "Back Right");
+          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
     }
   }
 
   public class Shooter {
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
@@ -140,7 +150,7 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
-    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
+    public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
@@ -167,14 +177,13 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = true;
+    public static final boolean SMART_PID_ACTIVE = false;
 
     public class TurnPID {
       // Turning Motor PID Constants
-      // currently fairly fast but noisy.
-      public static final double KP = .005;
+      public static final double KP = .0075;
       public static final double KI = 0;
-      public static final double KD = 0.0004;
+      public static final double KD = .0001;
       public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
@@ -185,10 +194,10 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = .25;
-      public static final double KI = .003;
-      public static final double KD = 0.001;
-      public static final double KF = .11;
+      public static final double KP = 0.02;
+      public static final double KI = .000;
+      public static final double KD = 0.000;
+      public static final double KF = .1;
 
       public static final boolean SMART_PID_ACTIVE = true;
     }
@@ -202,10 +211,10 @@ public class Constants {
     }
 
     public class ShootingPID {
-      public static final double KP = 0;
+      public static final double KP = 0.250;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double KF = 0;
+      public static final double KF = 0.1;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -242,12 +251,21 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = .02;
+      public static final double KP = 0.1;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
+    }
+
+    public class ClimberPID {
+
+      // not tuned - swag
+      public static final double CLIMBER_KP = 0.1;
+      public static final double CLIMBER_KI = 0;
+      public static final double CLIMBER_KD = 0;
+      public static final double CLIMBER_KF = 0;
     }
   }
 
@@ -269,7 +287,7 @@ public class Constants {
 
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
-  public static final String CANIVORE_NAME = "Canivore_1";
+  public static final String CANIVORE_NAME = "1983 Comp Drivebase";
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
 
@@ -351,47 +369,39 @@ public class Constants {
     // distance from center to wheel
     public static final double PATHPLANNER_DRIVEBASE_RADIUS_METERS = 0.413;
   }
+
   public class ClimberConstants {
-    // Left Climber Motor
-    public static final double CLIMBER_KP = 0;
-    public static final double CLIMBER_KI = 0;
-    public static final double CLIMBER_KD = 0;
-    public static final double CLIMBER_KF = 0;
 
-    public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 1.235;
-    public static final double METERS_TO_INCHES = 39.3701;
-    public static final double CLIMBER_METERS_TO_ROTATIONS =
-        METERS_TO_INCHES / (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER);
+    public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
 
-    public static final double CLIMBER1_POSITION_MAX = 0 * CLIMBER_METERS_TO_ROTATIONS;
-    public static final double CLIMBER1_POSITION_MIN = 0;
+    // Meters
+    public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
+    public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
 
-    public static final double CLIMBER2_POSITION_MAX = 0;
-    public static final double CLIMBER2_POSITION_MIN = 0;
+    // Meters
+    public static final double CLIMBER_MOVEMENT = 0.431;
 
-    public static final boolean CLIMBER_PID_ACTIVE = true;
+    // TODO: set these
+    public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = (.2) * CLIMBER_ROTATIONS_TO_METERS;
 
-    public static final double CLIMBER_TOLERANCE = .01;
+    // If the position in within the tolerance, stop setting the speed.
+    public static final double CLIMBER_POSITION_TOLERANCE = .01;
 
     // TODO: set this
-    public static final double CLIMBER_CHAIN_TORQUE = 0;
+    public static final double CLIMBER_CHAIN_TORQUE = 20;
 
-    public static final double BASE_PULL_SPEED = .5;
-    public static final double CLIMBER_END_TOLERANCE = .01;
-    public static final double CLIMBER_END_ROLL_TOLERANCE = 5;
+    public static final double BASE_PULL_SPEED = -.2;
 
-    public static final double ROLL_DEGREES_TO_OUTPUT = 100;
+    public static final double ROLL_DEGREES_TO_OUTPUT = 150;
 
-    public enum CLIMB_MODULE {
+    public enum ClimbModule {
       LEFT, RIGHT;
     }
-
-    // CIRCUMFERENCE = 3.88
-
   }
 
   public class IndexerConstants {
-    public static final int INDEXER_MOTOR = 0;
+    public static final int INDEXER_MOTOR = 33;
     public static final int INDEXER_BEAM_BREAK = 0;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
@@ -402,7 +412,7 @@ public class Constants {
     public static final double INDEXER_SPEED = 1;
     public static final double REVERSE_INDEXER_SPEED = -1;
     public static final boolean SET_INDEXER_SMART_PID = true;
-    public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 0.5;
+    public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 1;
   }
 
   public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;

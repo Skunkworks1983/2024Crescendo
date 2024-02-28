@@ -2,16 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Climber;
 
 public class SmartClimb extends SequentialCommandGroup {
-  /** Creates a new Climb. */
-  public SmartClimb() {
+  Climber climber;
 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+  public SmartClimb() {
+    climber = Climber.getInstance();
+
+    // Sequential Command group with LowerClimberToChain and ClimbWithGyro.
     addCommands(new LowerClimberToChain(), new ClimbWithGyro());
   }
 }
