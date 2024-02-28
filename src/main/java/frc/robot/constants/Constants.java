@@ -236,6 +236,8 @@ public class Constants {
   public class PhotonVision {
     public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
     public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+
+    // TODO: Update these transforms with the correct ones.
     public static final Transform3d ROBOT_TO_CAMERA_1 =
         new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(.66667),
             new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
