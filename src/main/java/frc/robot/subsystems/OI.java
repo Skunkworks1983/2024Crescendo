@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
@@ -50,6 +51,7 @@ public class OI extends SubsystemBase {
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     manualShoot.whileTrue(new Shoot());
     collectorPositionChange.whileTrue(new LowerCollector());
+    collectorPositionChange.whileFalse(new CollectorStow());
   }
 
   @Override

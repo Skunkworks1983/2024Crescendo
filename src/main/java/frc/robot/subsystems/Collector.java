@@ -55,6 +55,11 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.TopCollectorIntakePID.FF, "intake motor",
             Constants.PIDControllers.TopCollectorIntakePID.SMART_PID_ACTIVE, topIntakeMotor);
 
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightPivotMotor.getConfigurator().apply(config);
+    leftPivotMotor.getConfigurator().apply(config);
+
     pivotMotorController =
         new SmartPIDControllerTalonFX(Constants.PIDControllers.CollectorPivotPID.KP,
             Constants.PIDControllers.CollectorPivotPID.KI,
@@ -63,10 +68,7 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
 
     // Setting voltage limit on the collector pivot for testing.
-    TalonFXConfiguration config = new TalonFXConfiguration();
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    rightPivotMotor.getConfigurator().apply(config);
-    leftPivotMotor.getConfigurator().apply(config);
+    
 
     rightPivotMotor.getConfigurator()
         .apply(new CurrentLimitsConfigs()
