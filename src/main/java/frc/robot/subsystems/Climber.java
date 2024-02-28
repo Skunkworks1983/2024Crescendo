@@ -46,12 +46,12 @@ public class Climber extends SubsystemBase {
     leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Left Climb Motor",
-        false, leftClimbMotor);
+        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, leftClimbMotor);
     
     rightPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
-        false, rightClimbMotor);
+        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, rightClimbMotor);
 
     SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
     SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));

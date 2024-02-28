@@ -267,6 +267,8 @@ public class Constants {
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = false;
     }
   }
 
