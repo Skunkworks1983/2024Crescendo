@@ -11,8 +11,6 @@ import frc.robot.subsystems.Climber;
 
 // This is a stub command
 public class ExtendClimber extends Command {
-  private boolean ClimberOne;
-  private boolean ClimberTwo;
 
   private Climber climber;
 
