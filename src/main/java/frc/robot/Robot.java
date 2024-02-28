@@ -17,11 +17,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.CollectNote;
+import frc.robot.commands.CollectorStow;
+import frc.robot.commands.IntakeNoteToIndexer;
+import frc.robot.commands.LowerCollector;
+import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
@@ -38,11 +44,26 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
+    // Wait Times
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
+
+    // Collector 
+    NamedCommands.registerCommand("LowerCollector", new LowerCollector());
+    NamedCommands.registerCommand("CollectorStow", new CollectorStow());
     NamedCommands.registerCommand("CollectNote", new CollectNote());
+    
+    // Shooter
     NamedCommands.registerCommand("ShootNote",new Shoot());
     NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
+    NamedCommands.registerCommand("ShooterToAmo", new ShooterToAmp());
+
+    //indexer
+    NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
+    NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexer());
+
+    NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+   
     //buildAutoChooser("");
     SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
     SmartDashboard.putData("Auto Chooser", autoDetailChooser);

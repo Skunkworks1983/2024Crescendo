@@ -14,6 +14,12 @@
         {
           "type": "named",
           "data": {
+            "name": "LowerCollector"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "SpinUpFlywheel"
           }
         },
@@ -75,6 +81,12 @@
           "type": "named",
           "data": {
             "name": "ShootNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectorStow"
           }
         }
       ]

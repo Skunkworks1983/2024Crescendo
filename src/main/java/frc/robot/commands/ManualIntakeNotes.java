@@ -8,15 +8,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 
 public class ManualIntakeNotes extends Command {
   private Collector collector;
   private Indexer indexer;
+  private Shooter shooter;
 
   /** Creates a new ManualIntakeNotes. */
   public ManualIntakeNotes() {
     this.collector = Collector.getInstance();
     this.indexer = Indexer.getInstance();
+    this.shooter = Shooter.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +28,7 @@ public class ManualIntakeNotes extends Command {
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
     indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
+    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
     System.out.println("Manual Intake Notes Command Initialize");
   }
 
@@ -37,6 +41,7 @@ public class ManualIntakeNotes extends Command {
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
     indexer.setPercentOutput(0);
+    shooter.setIndexerPercentOutput(0);
     System.out.println("Manual Intake Notes Command End");
   }
 
