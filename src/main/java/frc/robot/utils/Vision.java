@@ -25,14 +25,15 @@ public class Vision {
     }
 
     /**
-     * Returns an ArrayList of VisionMeasurements. In drivebase, call addVisionMeasurements for each
+     * Returns an ArrayList of VisionMeasurements. In drivebase, call
+     * addVisionMeasurements for each
      * item in this list every loop.
      */
     public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
         ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement>();
         int i = 0;
 
-        // Iterate through list of visionUnits; 
+        // Iterate through list of visionUnits;
         for (Camera visionUnit : visionUnits) {
 
             Optional<EstimatedRobotPose> updatedVisualPose = visionUnit.poseEstimator.update();
@@ -52,7 +53,8 @@ public class Vision {
                     continue;
                 }
 
-                // Calculate the uncertainty of the vision measurement based on distance from the
+                // Calculate the uncertainty of the vision measurement based on distance from
+                // the
                 // best AprilTag target.
                 EstimatedRobotPose pose = updatedVisualPose.get();
                 double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
@@ -63,7 +65,7 @@ public class Vision {
                         distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
                         distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
                         distanceToTarget
-                                * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL}));
+                                * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL }));
 
                 visionMeasurements.add(new VisionMeasurement(pose, uncertainty));
             }

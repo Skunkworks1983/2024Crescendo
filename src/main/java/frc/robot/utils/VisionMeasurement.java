@@ -10,12 +10,12 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
 public class VisionMeasurement {
-        public EstimatedRobotPose pose;
-        public Matrix<N3, N1> stdDevs;
-        
-        public VisionMeasurement(EstimatedRobotPose pose, Matrix<N3, N1> stdDevs) {
-            this.pose = pose;
-            this.stdDevs = stdDevs;
-        }
-    
+    public EstimatedRobotPose pose;
+    public Matrix<N3, N1> stdDevs;
+
+    public VisionMeasurement(EstimatedRobotPose pose, Matrix<N3, N1> stdDevs) {
+        this.pose = pose;
+        this.stdDevs = stdDevs;
+    }
+
 }

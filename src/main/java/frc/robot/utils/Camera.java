@@ -27,6 +27,5 @@ public class Camera {
         poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, transform3d);
 
-        
     }
 }
