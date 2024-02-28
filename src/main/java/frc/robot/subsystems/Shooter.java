@@ -41,9 +41,9 @@ public class Shooter extends SubsystemBase {
   private static Shooter shooter;
 
   // private final DigitalInput pivotMotorForwardLimit =
-  //     new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
   // private final DigitalInput pivotMotorReverseLimit =
-  //     new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
@@ -62,8 +62,7 @@ public class Shooter extends SubsystemBase {
     shootMotor1.getConfigurator().apply(talonConfig);
     shootMotor2.getConfigurator().apply(talonConfig);
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
-    shooterIndexerMotor =
-        new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
+    shooterIndexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
     // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
     // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
@@ -73,18 +72,16 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShootingPID.KF, "Shooter Shoot",
         Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE, shootMotor1);
 
-    indexerController =
-        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
-            Constants.PIDControllers.ShooterIndexerPID.KI,
-            Constants.PIDControllers.ShooterIndexerPID.KD,
-            Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
-            Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
+    indexerController = new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
+        Constants.PIDControllers.ShooterIndexerPID.KI,
+        Constants.PIDControllers.ShooterIndexerPID.KD,
+        Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
+        Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
 
     pivotController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShooterPivotPID.KP,
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,
         Constants.PIDControllers.ShooterPivotPID.KF, "Shooter Pivot",
         Constants.PIDControllers.ShooterPivotPID.SMART_PID_ACTIVE, pivotMotor);
-
 
     // Setting max current on pivot motor for testing.
     pivotMotor.getConfigurator()
@@ -99,17 +96,16 @@ public class Shooter extends SubsystemBase {
   // @Override
   // public void periodic() {
 
-  //   if (pivotMotorForwardLimit.get()) {
-  //     pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
-  //     pivotMotor.set(0);
-  //   } else if (pivotMotorReverseLimit.get()) {
-  //     pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
-  //   }
+  // if (pivotMotorForwardLimit.get()) {
+  // pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
+  // pivotMotor.set(0);
+  // } else if (pivotMotorReverseLimit.get()) {
+  // pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
+  // }
 
-
-  //   shootingController.updatePID();
-  //   indexerController.updatePID();
-  //   pivotController.updatePID();
+  // shootingController.updatePID();
+  // indexerController.updatePID();
+  // pivotController.updatePID();
   // }
 
   public void setShooterAngle(Rotation2d desiredRotation) {

@@ -29,14 +29,12 @@ public class ManualMoveClimber extends Command {
 
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climber.setClimberOutput(module, 0);
-    // climber.setBrakeMode(module);
     System.out.println("ManualMoveClimber command ended");
   }
 

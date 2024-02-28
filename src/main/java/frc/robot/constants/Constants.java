@@ -41,10 +41,10 @@ public class Constants {
 
     // Shooter Motor IDS
 
-    //Left Flywheel
+    // Left Flywheel
     public static final int SHOOT_MOTOR1 = 4;
 
-    //Right Flywheel
+    // Right Flywheel
     public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
@@ -63,15 +63,15 @@ public class Constants {
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
 
-      // Joystick IDs for the climber
+    // Joystick IDs for the climber
     public static final int EXTEND_CLIMBER = 12;
-    public static final int RETRACT_CLIMBER = 11; 
+    public static final int RETRACT_CLIMBER = 11;
     public static final int SMART_CLIMB = 15;
     public static final int MANUAL_LEFT_CLIMBER_UP = 6;
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    
+
     public static final int COLLECTOR_POSITION_CHANGE = 13;
   }
 
@@ -88,7 +88,7 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
-    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -105,27 +105,27 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
-    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
 
-      public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(11, 13, 15, 0.320801,
+          "Front Left");
 
-      public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(12, 14, 16, -0.387939,
+          "Front Right");
 
-      public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
+      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(21, 23, 25, -0.204590,
+          "Back Left");
 
-      public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(22, 24, 26, 0.311035,
+          "Back Right");
     }
   }
 
   public class Shooter {
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
@@ -133,22 +133,16 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER =
-        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
-        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
-        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
@@ -156,8 +150,8 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
-        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -309,9 +303,9 @@ public class Constants {
 
   public class PhotonVision {
     public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(Units.feetToMeters(-1.0), 0,
+        Units.feetToMeters(0.666667),
+        new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
@@ -327,7 +321,8 @@ public class Constants {
   public class Targeting {
     public enum FieldTarget {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
+      NONE();
 
       Translation3d target;
 
@@ -341,7 +336,8 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is
+       * NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {
@@ -388,7 +384,8 @@ public class Constants {
     public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
     public static final double MIN_POSITION = .1 * CLIMBER_ROTATIONS_TO_METERS;
 
-    // If the position in within the tolerance, stop setting the speed. Setting this to 5 cm.
+    // If the position in within the tolerance, stop setting the speed. Setting this
+    // to 5 cm.
     public static final double CLIMBER_POSITION_TOLERANCE = .05;
 
     public static final double CLIMBER_CHAIN_TORQUE = 10;

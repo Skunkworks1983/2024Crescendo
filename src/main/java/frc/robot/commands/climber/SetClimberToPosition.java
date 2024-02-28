@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
-// This is a stub command
 public class SetClimberToPosition extends Command {
 
   Climber climber;
-  double position;
   ClimbModule module;
-  
+  double position;
 
   public SetClimberToPosition(ClimbModule module, double position) {
     this.position = position;
@@ -31,7 +29,8 @@ public class SetClimberToPosition extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
