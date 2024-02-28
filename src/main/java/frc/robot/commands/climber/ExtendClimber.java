@@ -5,7 +5,6 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.SetClimberToPosition;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 

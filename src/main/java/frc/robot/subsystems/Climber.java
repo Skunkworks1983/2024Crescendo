@@ -9,6 +9,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
@@ -50,6 +52,11 @@ public class Climber extends SubsystemBase {
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
         false, rightClimbMotor);
+
+    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {
@@ -101,8 +108,9 @@ public class Climber extends SubsystemBase {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
   }
-  public boolean atPositionSetpoint(ClimbModule module, double setpoint){
-    if(Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE){
+
+  public boolean atPositionSetpoint(ClimbModule module, double setpoint) {
+    if (Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
       return true;
     }
     return false;
@@ -110,7 +118,10 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
   }
 
   public static Climber getInstance() {

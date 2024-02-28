@@ -47,8 +47,6 @@ public class LowerClimberToChain extends Command {
       climber.setClimberOutput(ClimbModule.RIGHT, 0);
       climber.setBrakeMode(ClimbModule.RIGHT);
     }
-
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
   }
 
   // Called once the command ends or is interrupted.

@@ -65,7 +65,8 @@ public class Constants {
 
       // Joystick IDs for the climber
     public static final int EXTEND_CLIMBER = 12;
-    public static final int SMART_CLIMB = 11;
+    public static final int RETRACT_CLIMBER = 11; 
+    public static final int SMART_CLIMB = 15;
     public static final int MANUAL_LEFT_CLIMBER_UP = 6;
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
@@ -383,16 +384,13 @@ public class Constants {
 
     // TODO: set these
     public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = (.2) * CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = .1 * CLIMBER_ROTATIONS_TO_METERS;
 
-    // If the position in within the tolerance, stop setting the speed.
-    public static final double CLIMBER_POSITION_TOLERANCE = .01;
+    // If the position in within the tolerance, stop setting the speed. Setting this to 5 cm.
+    public static final double CLIMBER_POSITION_TOLERANCE = .05;
 
-    // TODO: set this
-    public static final double CLIMBER_CHAIN_TORQUE = 20;
-
+    public static final double CLIMBER_CHAIN_TORQUE = 10;
     public static final double BASE_PULL_SPEED = -.2;
-
     public static final double ROLL_DEGREES_TO_OUTPUT = 150;
 
     public enum ClimbModule {

@@ -50,7 +50,7 @@ import frc.robot.utils.SmartPIDController;
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  // AHRS gyro = new AHRS(I2C.Port.kOnboard);
+  AHRS gyro = new AHRS(I2C.Port.kOnboard);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -151,7 +151,7 @@ public class Drivebase extends SubsystemBase {
    * when creating/updating the SwervePoseEstimator. Otherwise, call getRobotHeading instead.
    */
   private double getGyroAngle() {
-    double angle = 0; // gyro.getAngle();
+    double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
     // Negative because gyro reads differently than wpilib.
@@ -159,7 +159,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroRoll () {
-    double roll = 0;// gyro.getRoll();
+    double roll = gyro.getRoll();
     SmartDashboard.putNumber("gyro roll", roll);
 
     return roll;

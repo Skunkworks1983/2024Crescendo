@@ -41,8 +41,6 @@ public class ClimbWithGyro extends Command {
 
     climber.setClimberOutput(ClimbModule.LEFT, leftOutput);
     climber.setClimberOutput(ClimbModule.RIGHT, rightOutput);
-
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
   }
 
   // Called once the command ends or is interrupted.
