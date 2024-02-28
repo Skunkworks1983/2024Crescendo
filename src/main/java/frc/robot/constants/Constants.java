@@ -391,7 +391,7 @@ public class Constants {
 
     public static final double CLIMBER_CHAIN_TORQUE = 10;
     public static final double BASE_PULL_SPEED = -.2;
-    public static final double ROLL_DEGREES_TO_OUTPUT = 150;
+    public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
       LEFT, RIGHT;
