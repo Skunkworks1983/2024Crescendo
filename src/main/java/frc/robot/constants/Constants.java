@@ -53,7 +53,7 @@ public class Constants {
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 1;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -78,7 +78,7 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
+    public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
