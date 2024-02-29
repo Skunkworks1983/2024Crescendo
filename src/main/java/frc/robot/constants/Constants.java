@@ -238,7 +238,7 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.1;
+      public static final double KP = 0.25;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
