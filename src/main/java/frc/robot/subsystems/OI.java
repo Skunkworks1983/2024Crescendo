@@ -11,6 +11,7 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.RetractClimber;
 import frc.robot.commands.climber.SmartClimb;
+import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
@@ -82,6 +83,7 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
 
     collectorPositionChange.whileTrue(new LowerCollector());
+    collectorPositionChange.whileFalse(new CollectorStow());
   }
 
   @Override

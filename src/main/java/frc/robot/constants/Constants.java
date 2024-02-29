@@ -51,7 +51,7 @@ public class Constants {
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 1;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -86,7 +86,7 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
+    public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
@@ -302,20 +302,26 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(Units.feetToMeters(-1.0), 0,
-        Units.feetToMeters(0.666667),
-        new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+
+    // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
+    public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
   }
 
   public class Targeting {
