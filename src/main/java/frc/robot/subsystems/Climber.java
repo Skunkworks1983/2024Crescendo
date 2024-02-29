@@ -63,8 +63,7 @@ public class Climber extends SubsystemBase {
     leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     }
   }
@@ -72,30 +71,23 @@ public class Climber extends SubsystemBase {
   public double getClimberPostition(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       return leftClimbMotor.getPosition().getValueAsDouble();
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       return rightClimbMotor.getPosition().getValueAsDouble();
     }
-
-    return 0.0;
   }
 
   public double getClimberTorque(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       return Math.abs(leftClimbMotor.getTorqueCurrent().getValueAsDouble());
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       return Math.abs(rightClimbMotor.getTorqueCurrent().getValueAsDouble());
     }
-
-    return 0.0;
   }
 
   public void setClimberOutput(ClimbModule module, double percentOutput) {
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.set(percentOutput);
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.set(percentOutput);
     }
   }
@@ -103,8 +95,7 @@ public class Climber extends SubsystemBase {
   public void setBrakeMode(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
   }
