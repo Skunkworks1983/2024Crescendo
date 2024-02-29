@@ -110,9 +110,16 @@ public class Drivebase extends SubsystemBase {
     // button is pressed).
     fieldTarget = Optional.empty();
 
-    vision = new Vision(new SkunkPhotonCamera[] {
-        new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-        new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
+    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
+    try {
+      vision = new Vision(new SkunkPhotonCamera[] {
+          new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
+          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
+      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+    } catch (Exception e) {
+      vision = new Vision(new SkunkPhotonCamera[] {});
+      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
+    }
   }
 
   /** run in teleop init to set swerve as default teleop command */

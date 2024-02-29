@@ -300,6 +300,9 @@ public class Constants {
     // when adding a
     // vision measurement.
     public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+
+    // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
+    public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
   }
 
   public class Targeting {
