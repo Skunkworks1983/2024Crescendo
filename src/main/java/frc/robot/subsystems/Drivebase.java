@@ -117,6 +117,7 @@ public class Drivebase extends SubsystemBase {
           new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
     } catch (Exception e) {
+      System.out.println("Exception creating cameras: " + e.toString());
       vision = new Vision(new SkunkPhotonCamera[] {});
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
     }
