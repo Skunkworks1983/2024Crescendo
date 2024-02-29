@@ -50,8 +50,8 @@ public class Constants {
     public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
-    public static final int NOTE_BREAK1 = 0;
-    public static final int NOTE_BREAK2 = 0;
+    public static final int NOTE_BREAK1 = 7;
+    public static final int NOTE_BREAK2 = 6;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 1;
 
@@ -358,7 +358,7 @@ public class Constants {
 
   public class IndexerConstants {
     public static final int INDEXER_MOTOR = 33;
-    public static final int INDEXER_BEAM_BREAK = 0;
+    public static final int INDEXER_BEAM_BREAK = 9;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;
