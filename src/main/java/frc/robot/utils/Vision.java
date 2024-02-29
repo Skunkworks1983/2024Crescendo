@@ -7,9 +7,11 @@ package frc.robot.utils;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
+import org.opencv.photo.Photo;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -21,6 +23,13 @@ public class Vision {
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
+    }
+
+    public Pose2d getPieceLocation() {
+        
+        PhotonPipelineResult result = .getLatestResult();
+
+        
     }
 
     /**
