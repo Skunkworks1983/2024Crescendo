@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
-import frc.robot.utils.Camera;
+import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.Vision;
 import frc.robot.utils.VisionMeasurement;
@@ -110,9 +110,9 @@ public class Drivebase extends SubsystemBase {
     // button is pressed).
     fieldTarget = Optional.empty();
 
-    vision = new Vision(new Camera[] {
-        new Camera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-        new Camera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
+    vision = new Vision(new SkunkPhotonCamera[] {
+        new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
+        new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
   }
 
   /** run in teleop init to set swerve as default teleop command */

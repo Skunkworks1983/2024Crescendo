@@ -35,7 +35,7 @@ public class Constants {
     // Climber Motor IDS
     // stub
 
-    //Left
+    // Left
     public static final int CLIMBER_MOTOR_1 = 41;
 
     // Right
@@ -43,10 +43,10 @@ public class Constants {
 
     // Shooter Motor IDS
 
-    //Left Flywheel
+    // Left Flywheel
     public static final int SHOOT_MOTOR1 = 4;
 
-    //Right Flywheel
+    // Right Flywheel
     public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
@@ -80,7 +80,7 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 50; // value is about halfway down on robot
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
-    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -97,27 +97,27 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
-    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
 
-      public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(11, 13, 15, 0.320801,
+          "Front Left");
 
-      public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(12, 14, 16, -0.387939,
+          "Front Right");
 
-      public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
+      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(21, 23, 25, -0.204590,
+          "Back Left");
 
-      public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(22, 24, 26, 0.311035,
+          "Back Right");
     }
   }
 
   public class Shooter {
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
@@ -125,22 +125,16 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER =
-        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
-        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
-        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
@@ -148,8 +142,8 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
-        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -292,14 +286,10 @@ public class Constants {
     public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
     public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
 
-    // TODO: Update these transforms with the correct ones for the comp robot.
-    public static final Transform3d ROBOT_TO_CAMERA_1 =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(.66667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
-    public static final Transform3d ROBOT_TO_CAMERA_2 =
-        new Transform3d(Units.feetToMeters(-1.0), Units.feetToMeters(-1.0), Units.feetToMeters(.6667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(-90)));
-    
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
@@ -315,7 +305,8 @@ public class Constants {
   public class Targeting {
     public enum FieldTarget {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
+      NONE();
 
       Translation3d target;
 
@@ -329,7 +320,8 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is
+       * NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {

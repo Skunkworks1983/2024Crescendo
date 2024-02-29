@@ -16,32 +16,30 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 
-/** Add your docs here. */
 public class Vision {
-    Camera[] visionUnits;
+    SkunkPhotonCamera[] cameras;
 
-    public Vision(Camera[] cameras) {
-        visionUnits = cameras;
+    public Vision(SkunkPhotonCamera[] cameras) {
+        this.cameras = cameras;
     }
 
     /**
      * Returns an ArrayList of VisionMeasurements. In drivebase, call
-     * addVisionMeasurements for each
-     * item in this list every loop.
+     * addVisionMeasurements for each item in this list every loop.
      */
     public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
         ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement>();
-        int i = 0;
+        int i = 1;
 
-        // Iterate through list of visionUnits;
-        for (Camera visionUnit : visionUnits) {
+        // Iterate through list of cameras.
+        for (SkunkPhotonCamera camera : cameras) {
 
-            Optional<EstimatedRobotPose> updatedVisualPose = visionUnit.poseEstimator.update();
-            PhotonPipelineResult result = visionUnit.camera.getLatestResult();
+            Optional<EstimatedRobotPose> updatedVisualPose = camera.poseEstimator.update();
+            PhotonPipelineResult result = camera.camera.getLatestResult();
             boolean hasTargets = result.hasTargets();
             Transform3d distanceToTargetTransform;
 
-            SmartDashboard.putBoolean("hasTargets" + i, hasTargets);
+            SmartDashboard.putBoolean("Camera " + i + " hasTargets", hasTargets);
 
             // Check if there are targets
             if (updatedVisualPose.isPresent() && hasTargets) {
@@ -53,13 +51,12 @@ public class Vision {
                     continue;
                 }
 
-                // Calculate the uncertainty of the vision measurement based on distance from
-                // the
-                // best AprilTag target.
+                // Calculate the uncertainty of the vision measurement based on the distance
+                // from the best AprilTag target.
                 EstimatedRobotPose pose = updatedVisualPose.get();
                 double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
                         + Math.pow(distanceToTargetTransform.getY(), 2));
-                SmartDashboard.putNumber("Dist to target" + i,
+                SmartDashboard.putNumber("Camera " + i + " distanceToTarget",
                         distanceToTarget);
                 Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
                         distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,

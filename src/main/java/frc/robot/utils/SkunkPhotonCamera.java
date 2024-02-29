@@ -8,13 +8,12 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Transform3d;
 
-public class Camera {
+public class SkunkPhotonCamera {
     PhotonCamera camera;
     PhotonPoseEstimator poseEstimator;
     AprilTagFieldLayout aprilTagFieldLayout;
 
-    /** Camera class */
-    public Camera(String cameraName, Transform3d transform3d) {
+    public SkunkPhotonCamera(String cameraName, Transform3d transform3d) {
         try {
             aprilTagFieldLayout = AprilTagFieldLayout
                     .loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
