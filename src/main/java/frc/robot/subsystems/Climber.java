@@ -55,8 +55,8 @@ public class Climber extends SubsystemBase {
 
     SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
     SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
-    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", getClimberTorque(ClimbModule.RIGHT));
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {

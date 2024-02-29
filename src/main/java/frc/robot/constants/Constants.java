@@ -257,7 +257,7 @@ public class Constants {
     public class ClimberPID {
 
       // not tuned - swag
-      public static final double CLIMBER_KP = 0.1;
+      public static final double CLIMBER_KP = 0.2;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
@@ -388,14 +388,14 @@ public class Constants {
 
     // TODO: set these
     public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = .1 * CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = .01 / CLIMBER_ROTATIONS_TO_METERS;
 
     // If the position in within the tolerance, stop setting the speed. Setting this
     // to 5 cm.
-    public static final double CLIMBER_POSITION_TOLERANCE = .05;
+    public static final double CLIMBER_POSITION_TOLERANCE = .1;
 
     public static final double CLIMBER_CHAIN_TORQUE = 10;
-    public static final double BASE_PULL_SPEED = -.2;
+    public static final double BASE_PULL_SPEED = -.35;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
