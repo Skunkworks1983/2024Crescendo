@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -16,10 +17,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDController;
@@ -45,8 +46,8 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  //private final DigitalInput pivotMotorForwardLimit =
-      //new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  // private final DigitalInput pivotMotorForwardLimit =
+  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
   private final DigitalInput pivotMotorReverseLimit =
       new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
@@ -69,19 +70,21 @@ public class Shooter extends SubsystemBase {
     talonConfigShootMotor.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     shootMotor1.getConfigurator().apply(talonConfigShootMotor);
     shootMotor2.getConfigurator().apply(talonConfigShootMotor);
-    
+
     talonConfigPivotMotor.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    talonConfigPivotMotor.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
     pivotMotor.getConfigurator().apply(talonConfigPivotMotor);
 
-    pivotEncoder = new Encoder(3, 4);
+    pivotEncoder = new Encoder(Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_1,
+        Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_2);
     pivotEncoderBaseValue = 0.0;
 
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
-    //noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    //noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,
@@ -112,22 +115,25 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (//pivotMotorForwardLimit.get()
+    if (// pivotMotorForwardLimit.get()
     false) {
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_MAX_POSITION_TICKS;
-    } else if (pivotMotorReverseLimit.get()) {
+    } else if (getLimitSwitchOutput(false)) {
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_RESTING_POSITION_TICKS;
     }
 
-
     shootingController.updatePID();
     indexerController.updatePID();
+    SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
+    SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
   }
 
-  public void setShooterAngle(Rotation2d desiredRotation) {
-    pivotMotor.set(pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()));
+  // needs to be run in exectute
+  public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
+    pivotMotor.setControl(new DutyCycleOut((pivotController
+        .calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()))));
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -183,7 +189,7 @@ public class Shooter extends SubsystemBase {
     if (forwardLimitSwitch) {
       return false; // pivotMotorForwardLimit.get();
     } else {
-      return pivotMotorReverseLimit.get();
+      return !pivotMotorReverseLimit.get();
     }
   }
 

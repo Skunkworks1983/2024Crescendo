@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("shooter pivot rotation", shooter.getShooterPivotRotationInDegrees());
+    SmartDashboard.putBoolean("Shooter Pivot Reverse Limit", shooter.getLimitSwitchOutput(false));
   }
 
   @Override
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     SmartDashboard.putNumber("shooter pivot rotation", shooter.getShooterPivotRotationInDegrees());
+    SmartDashboard.putBoolean("Shooter Pivot Reverse Limit", shooter.getLimitSwitchOutput(false));
   }
 
   @Override

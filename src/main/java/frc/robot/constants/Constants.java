@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -35,7 +34,7 @@ public class Constants {
     // Climber Motor IDS
     // stub
 
-    //Left
+    // Left
     public static final int CLIMBER_MOTOR_1 = 41;
 
     // Right
@@ -43,17 +42,24 @@ public class Constants {
 
     // Shooter Motor IDS
 
-    //Left Flywheel
+    // Left Flywheel
     public static final int SHOOT_MOTOR1 = 4;
 
-    //Right Flywheel
+    // Right Flywheel
     public static final int SHOOT_MOTOR2 = 3;
+
+    // Shooter Pivot
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
+    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 8;
+    public static final int SHOOTER_PIVOT_ENCODER_PIN_1 = 3;
+    public static final int SHOOTER_PIVOT_ENCODER_PIN_2 = 4;
+
+
+    // Other Shooter IDS
     public static final int NOTE_BREAK1 = 0;
     public static final int NOTE_BREAK2 = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 6;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -80,7 +86,7 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
-    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -97,7 +103,7 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
-    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
@@ -117,14 +123,14 @@ public class Constants {
   }
 
   public class Shooter {
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 12.0 / 30.0;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double TICKS_PER_PIVOT_MOTOR_REV = 2048;
-    public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double FLYWHEEL_DIAMETER = 0.1016;
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
     public static final double SHOOTER_ROTATIONS_PER_METER =
         SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
@@ -133,11 +139,10 @@ public class Constants {
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
-    public static final double PIVOT_MOTOR_TICKS_TO_DEGREES = (1/TICKS_PER_PIVOT_MOTOR_REV) * SHOOT_PIVOT_GEAR_RATIO * 360;
-    public static final double SHOOTER_RESTING_POSITION_TICKS =
-        27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_TICKS =
-        119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final double PIVOT_MOTOR_TICKS_TO_DEGREES =
+        (1 / TICKS_PER_PIVOT_MOTOR_REV) * SHOOT_PIVOT_GEAR_RATIO * 360;
+    public static final double SHOOTER_RESTING_POSITION_TICKS = 27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_TICKS = 119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
     public static final Rotation2d SHOOTER_RESTING_POSITION =
         new Rotation2d(Units.degreesToRadians(27.8));
     public static final Rotation2d SHOOTER_MAX_POSITION =
@@ -171,7 +176,7 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = false;
+    public static final boolean SMART_PID_ACTIVE = true;
 
     public class TurnPID {
       // Turning Motor PID Constants
@@ -205,10 +210,10 @@ public class Constants {
     }
 
     public class ShootingPID {
-      public static final double KP = 0.250;
+      public static final double KP = 0.4;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double KF = 0.1;
+      public static final double KF = 0.12;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -219,18 +224,18 @@ public class Constants {
       public static final double KD = 0;
       public static final double KF = 0;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class ShooterPivotPID {
 
       // Setting low values for testing.
-      public static final double KP = .05;
+      public static final double KP = .03;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double KF = 0;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class TopCollectorIntakePID {
