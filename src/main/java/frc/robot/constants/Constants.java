@@ -304,6 +304,8 @@ public class Constants {
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
 
+    // Enum used as parameter in SkunkPhotonCamera. We're using some cameras for
+    // aprilTags, and others for piece detection.
     public enum PipelineType {
       APRILTAG,
       PIECE_DETECTION;

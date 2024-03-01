@@ -32,11 +32,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
-import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
-import frc.robot.utils.Vision;
-import frc.robot.utils.VisionMeasurement;
+import frc.robot.vision.SkunkPhotonCamera;
+import frc.robot.vision.Vision;
+import frc.robot.vision.VisionMeasurement;
 import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.constants.Constants.PhotonVision.PipelineType;
 
 public class Drivebase extends SubsystemBase {
 
@@ -111,16 +112,7 @@ public class Drivebase extends SubsystemBase {
     fieldTarget = Optional.empty();
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
-    try {
-      vision = new Vision(new SkunkPhotonCamera[] {
-          new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
-    } catch (Exception e) {
-      System.out.println("Exception creating cameras: " + e.toString());
-      vision = new Vision(new SkunkPhotonCamera[] {});
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
-    }
+    
   }
 
   /** run in teleop init to set swerve as default teleop command */

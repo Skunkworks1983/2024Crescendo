@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils;
+package frc.robot.vision;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -10,6 +10,8 @@ import org.ejml.simple.SimpleMatrix;
 import org.opencv.photo.Photo;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -17,19 +19,37 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.constants.Constants.PhotonVision.PipelineType;
 
 public class Vision {
+    private static Vision vision;
     SkunkPhotonCamera[] cameras;
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
     }
 
-    public Pose2d getPieceLocation() {
-        
-        PhotonPipelineResult result = .getLatestResult();
+    /**
+     * Returns an ArrayList of PieceData objects. PieceData class contains
+     * information about the target for each piece detection camera.
+     */
+    public ArrayList<PieceData> getPieceData() {
+        ArrayList<PieceData> pieceData = new ArrayList<PieceData>();
+        for (SkunkPhotonCamera camera : cameras) {
+            if (camera.pipelineType == PipelineType.PIECE_DETECTION) {
+                PhotonPipelineResult result = camera.camera.getLatestResult();
 
-        
+                // Verifies whether the latest result from the camera has any targets to prevent
+                // code from crashing.
+                if (result.hasTargets()) {
+                    PhotonTrackedTarget target = result.getBestTarget();
+                    pieceData.add(new PieceData(target));
+                }
+            }
+        }
+
+        return pieceData;
     }
 
     /**
@@ -80,5 +100,22 @@ public class Vision {
         }
 
         return visionMeasurements;
+    }
+
+    public static Vision getInstance() {
+        if (vision == null) {
+            try {
+                vision = new Vision(new SkunkPhotonCamera[] {
+                    new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1, PipelineType.APRILTAG),
+                    new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2, PipelineType.APRILTAG) });
+                SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+            } catch (Exception e) {
+                System.out.println("Exception creating cameras: " + e.toString());
+                vision = new Vision(new SkunkPhotonCamera[] {});
+                SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
+            }
+        }
+
+        return vision;
     }
 }
