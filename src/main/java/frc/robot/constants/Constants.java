@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 
 public class Constants {
 
@@ -283,13 +284,17 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
 
-    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
+    // Forwards facing camera
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256), Units.inchesToMeters(0.901+.875), Units.inchesToMeters(10.727+2.088-0.175),
         new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
-    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
+
+    // Sideways facing camera
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(Units.inchesToMeters(6.261-.875), Units.inchesToMeters(5.901), Units.inchesToMeters(11.077+2.088-0.175),
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+    
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
