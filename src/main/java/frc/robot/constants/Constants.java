@@ -108,17 +108,17 @@ public class Constants {
 
     public class ModuleConstants {
 
-      public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(11, 13, 15, 0.320801,
+          "Front Left");
 
-      public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(12, 14, 16, -0.387939,
+          "Front Right");
 
-      public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
+      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(21, 23, 25, -0.204590,
+          "Back Left");
 
-      public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(22, 24, 26, 0.311035,
+          "Back Right");
     }
   }
 
@@ -132,10 +132,8 @@ public class Constants {
     public static final double TICKS_PER_PIVOT_MOTOR_REV = 2048;
     public static final double FLYWHEEL_DIAMETER = 0.1016;
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER =
-        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
@@ -154,8 +152,8 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
-        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -250,7 +248,7 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.1;
+      public static final double KP = 0.25;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
@@ -295,26 +293,33 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+
+    // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
+    public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
   }
 
   public class Targeting {
     public enum FieldTarget {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
+      NONE();
 
       Translation3d target;
 
@@ -328,7 +333,8 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is
+       * NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {
@@ -362,7 +368,7 @@ public class Constants {
 
   public class IndexerConstants {
     public static final int INDEXER_MOTOR = 33;
-    public static final int INDEXER_BEAM_BREAK = 0;
+    public static final int INDEXER_BEAM_BREAK = 9;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;
