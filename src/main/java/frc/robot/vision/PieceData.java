@@ -6,11 +6,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 
 public class PieceData {
 
-    double yaw;
-    double pitch;
-    double area;
-    double skew;
-    Transform3d bestCameraToTargetTransform;
+    public double yaw;
+    public double pitch;
+    public double area;
+    public double skew;
+    public Transform3d bestCameraToTargetTransform;
 
     public PieceData(PhotonTrackedTarget target) {
         this.yaw = target.getYaw();

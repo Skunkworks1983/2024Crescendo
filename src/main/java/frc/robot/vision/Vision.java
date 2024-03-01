@@ -26,7 +26,7 @@ public class Vision {
     private static Vision vision;
     SkunkPhotonCamera[] cameras;
 
-    public Vision(SkunkPhotonCamera[] cameras) {
+    private Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
     }
 
@@ -34,8 +34,7 @@ public class Vision {
      * Returns an ArrayList of PieceData objects. PieceData class contains
      * information about the target for each piece detection camera.
      */
-    public ArrayList<PieceData> getPieceData() {
-        ArrayList<PieceData> pieceData = new ArrayList<PieceData>();
+    public PieceData getBestPieceData() {
         for (SkunkPhotonCamera camera : cameras) {
             if (camera.pipelineType == PipelineType.PIECE_DETECTION) {
                 PhotonPipelineResult result = camera.camera.getLatestResult();

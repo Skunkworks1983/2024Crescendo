@@ -112,7 +112,7 @@ public class Drivebase extends SubsystemBase {
     fieldTarget = Optional.empty();
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
-    
+    vision = Vision.getInstance();
   }
 
   /** run in teleop init to set swerve as default teleop command */

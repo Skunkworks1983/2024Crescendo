@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.vision.Vision;
 
 public class CenterOnPiece extends Command {
 
-  Vision vision = new Vision()
+  Vision vision = Vision.getInstance();
+
+  PIDController centeringController = new PIDController(0, 0, 0);
 
   public CenterOnPiece() {
-
+    
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +27,7 @@ public class CenterOnPiece extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    centeringController.setSetpoint(vision.getPieceData().get(0).yaw);
   }
 
   // Called once the command ends or is interrupted.
