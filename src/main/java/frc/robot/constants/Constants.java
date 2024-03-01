@@ -135,7 +135,7 @@ public class Constants {
     public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
     public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     //used for the stow command, a variable for how far away from stow it does a slow speed
-    public static double PIVOT_STOW_OFFSET = 10;
+    public static final double PIVOT_STOW_OFFSET = 10;
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot

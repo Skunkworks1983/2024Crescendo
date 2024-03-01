@@ -32,7 +32,7 @@ public class ShooterToStow extends Command {
   public void execute() {
 
     if (shooter.getShooterPivotRotationInDegrees() <= Constants.Shooter.SHOOTER_RESTING_POSITION
-        .getDegrees() + 10) {
+        .getDegrees() + Constants.Shooter.PIVOT_STOW_OFFSET) {
       shooter.setPivotMotorPercentOutput(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     } else {
@@ -42,7 +42,7 @@ public class ShooterToStow extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorPercentOutput(Constants.Shooter.PIVOT_STOW_OFFSET);
+    shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
