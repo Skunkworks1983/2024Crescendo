@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.ShooterAimController;
+import frc.robot.utils.ShooterAimUtils;
 
 public class SmartAim extends Command {
   Shooter shooter;
@@ -29,10 +29,11 @@ public class SmartAim extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double flywheelSpeed = ShooterAimController
+    double flywheelSpeed = ShooterAimUtils
         .calculateIdealFlywheelSpeed(Shooter.getInstance().getPositionFlyWheelFieldReletive());
     shooter.setFlywheelSetpoint(flywheelSpeed);
-    double shooterAngle = ShooterAimController.calculateIdealShooterPivotAngle(
+
+    double shooterAngle = ShooterAimUtils.calculateIdealStationaryShooterPivotAngle(
         shooter.getPositionPivotBaseFieldReletive(), flywheelSpeed);
     shooter.setShooterAngle(new Rotation2d(shooterAngle));
   }

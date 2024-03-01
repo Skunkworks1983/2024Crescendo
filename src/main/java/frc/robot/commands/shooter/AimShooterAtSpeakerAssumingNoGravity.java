@@ -14,6 +14,7 @@ import frc.robot.subsystems.Shooter;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
+  Translation3d target;
 
   /** Creates a new AimShooterAtSpeakerAssumingNoGravity. */
   public AimShooterAtSpeakerAssumingNoGravity() {
@@ -23,20 +24,21 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    target = Constants.Targeting.FieldTarget.SPEAKER.get().get();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation3d target = Constants.Targeting.FieldTarget.SPEAKER.get().get();
-
-    // from center of robot to target -- not shooter pivot.
+    
+    Translation3d shooterPivot = shooter.getPositionPivotBaseFieldReletive();
     Translation2d diffrenceInPosition =
-        new Translation2d(target.getX() - Drivebase.getInstance().getRobotPose().getX(),
-            target.getY() - Drivebase.getInstance().getRobotPose().getY());
+        new Translation2d(target.getX() - shooterPivot.getX(),
+            target.getY() - shooterPivot.getY());
 
     Rotation2d shooterRotation = new Rotation2d(Math.atan2(
-        target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
+        target.getZ() - shooterPivot.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
     shooter.setShooterAngle(shooterRotation);

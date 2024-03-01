@@ -9,9 +9,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 
-public class ShooterAimController {
+public class ShooterAimUtils {
 
-    public static double calculateIdealShooterPivotAngle(Translation3d shooterPivotPosition,
+ public static double calculateIdealStationaryShooterPivotAngle(Translation3d shooterPivotPosition,
             double flywheelSpeed) {
         double robotAngle = Math.atan2(
                 shooterPivotPosition.getX()
@@ -41,6 +41,7 @@ public class ShooterAimController {
                 * Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE);
     }
 
+    // Based on math from https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
     static double noteHitPosition(double theta, double distance, double velocity) {
         double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
                 / (Math.cos(theta) * velocity);
@@ -49,6 +50,8 @@ public class ShooterAimController {
                 + (Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE * Math.sin(theta));
     }
 
+    // uses bisection to find pivot rotation based on angle of shooter
+    // https://en.wikipedia.org/wiki/Bisection_method
     static double hitPositionToMinAngle(int depth, double minInput, double maxInput,
             double desiredHitPosition, double flywheelSpeed) {
         double pivotAngleGuess = (minInput + maxInput) / 2;
@@ -69,7 +72,8 @@ public class ShooterAimController {
         return new Translation3d(a.getX() - b.getX(), a.getY() - b.getY(), a.getZ() - b.getZ());
     }
 
-    // meters horisontal means x and y but no z
+    // in meters 
+    // Horisontal means x and y but no z
     public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
         return calculateHorizontalDistance(a.toTranslation2d(), a.toTranslation2d());
     }

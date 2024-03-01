@@ -118,7 +118,7 @@ public class Constants {
 
   public class Shooter {
 
-    // 10 is maximum because 2^10=1024=number of ticks in motor
+    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut in half.
     public static final int ANGLE_SEARCH_DEPTH = 10;
 
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
