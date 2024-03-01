@@ -5,12 +5,24 @@
       "x": 1.4187317942065913,
       "y": 6.914191131181245
     },
-    "rotation": 180.0
+    "rotation": -146.6592926535229
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlywheel"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
         {
           "type": "path",
           "data": {
@@ -20,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "CollectNote"
           }
         },
         {
@@ -32,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "ShootNote"
           }
         },
         {
@@ -44,7 +56,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "CollectNote"
           }
         },
         {
@@ -56,7 +68,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "ShootNote"
           }
         },
         {
@@ -68,7 +80,13 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
           }
         },
         {
@@ -80,13 +98,25 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitHalfSecond"
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Note1ToAmp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterToAmp"
           }
         }
       ]

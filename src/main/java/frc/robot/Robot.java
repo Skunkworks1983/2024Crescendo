@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
-    
+
    // Wait Times
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
     // Shooter
     NamedCommands.registerCommand("ShootNote",new Shoot());
     NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
-    NamedCommands.registerCommand("ShooterToAmo", new ShooterToAmp());
+    NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
 
     //indexer
     NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
