@@ -6,19 +6,24 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command {
 
   private Shooter shooter;
+  private Indexer indexer;
 
   public Shoot() {
     shooter = Shooter.getInstance();
+    indexer = Indexer.getInstance();
   }
 
   @Override
   public void initialize() {
     shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
+    indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED); 
+
     System.out.println("Shoot Command Initialize");
   }
 
@@ -28,6 +33,7 @@ public class Shoot extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
+    indexer.setIndexerCoastMode();
     System.out.println("Shoot Command End");
   }
 

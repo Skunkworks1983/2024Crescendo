@@ -65,6 +65,7 @@ public class Constants {
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
     public static final int COLLECTOR_POSITION_CHANGE = 13;
+    public static final int RIGHT_JOYSTICK_1 = 1;
   }
 
   public class Collector {
@@ -151,9 +152,9 @@ public class Constants {
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
-    public static final double LOADING_INDEXER_SPEED = 0;
-    public static final double BEAMBREAK1_INDEXER_SPEED = 0;
-    public static final double SHOOTING_INDEXER_SPEED = 0;
+    public static final double LOADING_INDEXER_SPEED = 1;
+    public static final double BEAMBREAK1_INDEXER_SPEED = 0.5;
+    public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
     public static final double MAX_FLYWHEEL_ERROR = 0;
