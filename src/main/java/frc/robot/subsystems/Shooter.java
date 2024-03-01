@@ -67,8 +67,8 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
-    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,

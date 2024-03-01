@@ -50,8 +50,8 @@ public class Constants {
     public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
-    public static final int NOTE_BREAK1 = 0;
-    public static final int NOTE_BREAK2 = 0;
+    public static final int NOTE_BREAK1 = 7;
+    public static final int NOTE_BREAK2 = 6;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 1;
 
@@ -136,22 +136,16 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER =
-        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER =
-        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
-        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
-        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
@@ -159,8 +153,8 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
-        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
+        0, Units.inchesToMeters(24.586839));
 
     public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(14);
 
@@ -258,7 +252,7 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.1;
+      public static final double KP = 0.25;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
@@ -306,20 +300,26 @@ public class Constants {
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
 
   public class PhotonVision {
-    public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform3d ROBOT_TO_CAMERA =
-        new Transform3d(Units.feetToMeters(-1.0), 0, Units.feetToMeters(0.666667),
-            new Rotation3d(0, Units.degreesToRadians(40), Units.degreesToRadians(180)));
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854,
+        0.3131312, new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854,
+        0.321945, new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.3;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+
+    // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
+    public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
   }
 
   public class Targeting {
@@ -329,11 +329,8 @@ public class Constants {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
           new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
               0)), SPEAKER_HOOD(
-                  new Translation3d(.47, Units.feetToMeters(18.520833), Units.feetToMeters(7))), // FIX
-                                                                                                 // value
-
-
-      NONE();
+                  new Translation3d(.47, Units.feetToMeters(18.520833), Units.feetToMeters(7))),
+                  NONE();
 
       Translation3d target;
 
@@ -347,7 +344,8 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is
+       * NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {
@@ -384,7 +382,7 @@ public class Constants {
 
   public class IndexerConstants {
     public static final int INDEXER_MOTOR = 33;
-    public static final int INDEXER_BEAM_BREAK = 0;
+    public static final int INDEXER_BEAM_BREAK = 9;
     public static final int INDEXER_WHEEL_DIAMETER = 0;
     public static final double INDEXER_GEAR_RATIO = 16;
     public static final double INDEXER_MOTOR_KP = 0;

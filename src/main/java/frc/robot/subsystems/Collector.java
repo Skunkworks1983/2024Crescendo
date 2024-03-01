@@ -57,6 +57,7 @@ public class Collector extends SubsystemBase {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .75;
     rightPivotMotor.getConfigurator().apply(config);
     leftPivotMotor.getConfigurator().apply(config);
 

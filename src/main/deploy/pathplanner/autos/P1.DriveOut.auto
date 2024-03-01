@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.39784299924834,
+      "y": 6.6321923992448495
+    },
+    "rotation": -129.28940686250033
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DriveOutP1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos1",
+  "choreoAuto": false
+}
