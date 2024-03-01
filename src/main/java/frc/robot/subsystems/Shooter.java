@@ -15,6 +15,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
@@ -40,10 +42,10 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  //private final DigitalInput pivotMotorForwardLimit =
-      //new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
-  //private final DigitalInput pivotMotorReverseLimit =
-      //new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+  // private final DigitalInput pivotMotorForwardLimit =
+  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  // private final DigitalInput pivotMotorReverseLimit =
+  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
@@ -65,8 +67,8 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
-    //noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    //noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,
@@ -99,13 +101,12 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    /*if (pivotMotorForwardLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
-      pivotMotor.set(0);
-    } else if (pivotMotorReverseLimit.get()) {
-      pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS);
-    }*/
-
+    /*
+     * if (pivotMotorForwardLimit.get()) {
+     * pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
+     * pivotMotor.set(0); } else if (pivotMotorReverseLimit.get()) {
+     * pivotMotor.setPosition(Constants.Shooter.SHOOTER_MAX_POSITION_ROTATIONS); }
+     */
 
     shootingController.updatePID();
     indexerController.updatePID();
@@ -174,11 +175,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
-    /*if (forwardLimitSwitch) {
-      return pivotMotorForwardLimit.get();
-    } else {
-      return pivotMotorReverseLimit.get();
-    }*/
+    /*
+     * if (forwardLimitSwitch) { return pivotMotorForwardLimit.get(); } else { return
+     * pivotMotorReverseLimit.get(); }
+     */
     return false;
   }
 
@@ -203,6 +203,29 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
   }
+
+  public Translation3d getPositionPivotBaseFieldReletive() {
+    Translation2d robotTranslation = Drivebase.getInstance().getRobotPose().getTranslation();
+    Translation3d pivotPosition = Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION;
+    double drivebaseRotation = Drivebase.getInstance().getRobotPose().getRotation().getRadians();
+    Translation3d pivotPositionRotated = new Translation3d(
+        robotTranslation.getX() + Math.cos(drivebaseRotation) * pivotPosition.getX()
+            + Math.sin(drivebaseRotation) * pivotPosition.getY(), // make one of these negetive
+        robotTranslation.getY() + Math.cos(drivebaseRotation) * pivotPosition.getY()
+            + Math.sin(drivebaseRotation) * pivotPosition.getX(),
+        0);
+
+    return new Translation3d(pivotPositionRotated.getX() * Math.sin(getShooterPivotRotation()),
+        pivotPositionRotated.getY() * Math.sin(getShooterPivotRotation()),
+        Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ()
+            + (pivotPositionRotated.getZ() * Math.cos(getShooterPivotRotation())));
+  }
+
+  public Translation3d getPositionFlyWheelFieldReletive() {
+    return new Translation3d(getPositionPivotBaseFieldReletive().getX(),
+        getPositionPivotBaseFieldReletive().getY(), getPositionPivotBaseFieldReletive().getZ());
+  }
+
 
   public static Shooter getInstance() {
     if (shooter == null) {

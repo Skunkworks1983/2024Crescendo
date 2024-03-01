@@ -35,7 +35,7 @@ public class Constants {
     // Climber Motor IDS
     // stub
 
-    //Left
+    // Left
     public static final int CLIMBER_MOTOR_1 = 41;
 
     // Right
@@ -43,10 +43,10 @@ public class Constants {
 
     // Shooter Motor IDS
 
-    //Left Flywheel
+    // Left Flywheel
     public static final int SHOOT_MOTOR1 = 4;
 
-    //Right Flywheel
+    // Right Flywheel
     public static final int SHOOT_MOTOR2 = 3;
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
@@ -80,7 +80,7 @@ public class Constants {
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
-    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO/360;
+    public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -97,7 +97,7 @@ public class Constants {
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
-    public static final double TRANSLATION_X = 0.925; 
+    public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
 
     public class ModuleConstants {
@@ -117,7 +117,18 @@ public class Constants {
   }
 
   public class Shooter {
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS=25;
+
+    // 10 is maximum because 2^10=1024=number of ticks in motor
+    public static final int ANGLE_SEARCH_DEPTH = 10;
+
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE = 1;
+
+    // 1 indicates aiming at the highest point. 0 indicates aiming at the lowest point.
+    // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
+    // the hood have no way of getting in.
+    public static final double AUTO_AIM_ROTATION_RATIO = .3;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
@@ -150,6 +161,9 @@ public class Constants {
     // z is the distance from the ground to the pivot.
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
         new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
+
+    public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(14);
+
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 0;
@@ -288,6 +302,9 @@ public class Constants {
   // wall.
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
+  // m/s^2
+  public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
+
   public class PhotonVision {
     public static final String PHOTON_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
     public static final Transform3d ROBOT_TO_CAMERA =
@@ -306,9 +323,17 @@ public class Constants {
   }
 
   public class Targeting {
+
     public enum FieldTarget {
+      // fix height
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
+              0)), SPEAKER_HOOD(
+                  new Translation3d(.47, Units.feetToMeters(18.520833), Units.feetToMeters(7))), // FIX
+                                                                                                 // value
+
+
+      NONE();
 
       Translation3d target;
 
@@ -333,6 +358,9 @@ public class Constants {
         }
       }
     }
+
+    public static double distanceFromHoodToSpeaker =
+        FieldTarget.SPEAKER_HOOD.get().get().getX() - FieldTarget.SPEAKER.get().get().getX();
   }
 
   // pathplanner PID constants
