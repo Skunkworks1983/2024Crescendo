@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3961860455049235,
-        "y": 5.637461700988565
+        "x": 2.35,
+        "y": 5.56
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.344749351152838,
-        "y": 5.647749039858983
+        "x": 2.467303182252998,
+        "y": 5.044858402533605
       },
       "isLocked": false,
-      "linkedName": "new pickup 3"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.52,
-        "y": 4.341257003316012
+        "x": 2.35,
+        "y": 4.1345912090810435
       },
       "prevControl": {
-        "x": 1.7587369235891357,
-        "y": 4.752750558132695
+        "x": 2.3954399827699007,
+        "y": 4.685542405118119
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 140.0,
+    "rotation": 168.46713346060275,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "P1.4P.W123",
+  "previewStartingState": {
+    "rotation": -173.23023808244676,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

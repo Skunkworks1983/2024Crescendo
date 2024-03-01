@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +30,8 @@ import frc.robot.subsystems.OI;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
-  private SendableChooser<Command> autoChooser;
+  private SendableChooser<String> autoPositionChooser;
+  private SendableChooser<String> autoDetailChooser;
 
   OI oi;
   Drivebase drivebase;
@@ -60,6 +63,27 @@ public class Robot extends TimedRobot {
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
+
+    // Collector 
+    NamedCommands.registerCommand("LowerCollector", new LowerCollector());
+    NamedCommands.registerCommand("CollectorStow", new CollectorStow());
+    NamedCommands.registerCommand("CollectNote", new CollectNote());
+    
+    // Shooter
+    NamedCommands.registerCommand("ShootNote",new Shoot());
+    NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
+    NamedCommands.registerCommand("ShooterToAmo", new ShooterToAmp());
+
+    //indexer
+    NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
+    NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexer());
+
+    NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+   
+    //buildAutoChooser("");
+    SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
+    SmartDashboard.putData("Auto Chooser", autoDetailChooser);
   }
 
   @Override
@@ -85,7 +109,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-    Command currentAutonomousCommand = autoChooser.getSelected();
+    Command currentAutonomousCommand = null;//autoDetailChooser.getSelected();
     if (currentAutonomousCommand != null) {
       currentAutonomousCommand.schedule();
     }
@@ -122,4 +146,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+   /**
+   * Create and populate a sendable chooser with all PathPlannerAutos in the project
+   *
+   * @param defaultAutoName The name of the auto that should be the default option. If this is an
+   *     empty string, or if an auto with the given name does not exist, the default option will be
+   *     Commands.none()
+   * @return SendableChooser populated with all autos
+   */
 }
