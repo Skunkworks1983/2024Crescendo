@@ -31,14 +31,12 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+
     Translation3d shooterPivot = shooter.getPositionPivotBaseFieldReletive();
     Translation2d diffrenceInPosition =
-        new Translation2d(target.getX() - shooterPivot.getX(),
-            target.getY() - shooterPivot.getY());
+        new Translation2d(target.getX() - shooterPivot.getX(), target.getY() - shooterPivot.getY());
 
-    Rotation2d shooterRotation = new Rotation2d(Math.atan2(
-        target.getZ() - shooterPivot.getZ(),
+    Rotation2d shooterRotation = new Rotation2d(Math.atan2(target.getZ() - shooterPivot.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
     shooter.setShooterAngle(shooterRotation);

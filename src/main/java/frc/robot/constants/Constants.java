@@ -118,7 +118,8 @@ public class Constants {
 
   public class Shooter {
 
-    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut in half.
+    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
+    // in half.
     public static final int ANGLE_SEARCH_DEPTH = 10;
 
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
@@ -136,16 +137,22 @@ public class Constants {
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    public static final double SHOOTER_ROTATIONS_PER_METER =
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER =
+        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double SHOOTER_RESTING_POSITION_ROTATIONS =
+        27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_ROTATIONS =
+        119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
+        new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
@@ -153,8 +160,8 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
-        0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
+        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
     public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(14);
 
@@ -329,8 +336,8 @@ public class Constants {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
           new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
               0)), SPEAKER_HOOD(
-                  new Translation3d(.47, Units.feetToMeters(18.520833), Units.feetToMeters(7))),
-                  NONE();
+                  new Translation3d(.47, Units.feetToMeters(18.520833),
+                      Units.feetToMeters(7))), NONE();
 
       Translation3d target;
 
@@ -344,8 +351,7 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is
-       * NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {
