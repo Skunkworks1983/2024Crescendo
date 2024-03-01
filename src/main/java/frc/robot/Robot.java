@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.IntakeNoteToIndexer;
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
   private Command swerve;
   private SendableChooser<String> autoPositionChooser;
   private SendableChooser<String> autoDetailChooser;
+  private SendableChooser<String> autoChooser;
 
   OI oi;
   Drivebase drivebase;
@@ -61,7 +63,7 @@ public class Robot extends TimedRobot {
 
     NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
     
-    autoChooser = AutoBuilder.buildAutoChooser();
+    //autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
 
@@ -83,7 +85,7 @@ public class Robot extends TimedRobot {
    
     //buildAutoChooser("");
     SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
-    SmartDashboard.putData("Auto Chooser", autoDetailChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   @Override
