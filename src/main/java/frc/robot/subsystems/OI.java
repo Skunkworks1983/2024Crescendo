@@ -50,6 +50,7 @@ public class OI extends SubsystemBase {
     collectorPositionChange =
         new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
 
+    // temp commands that use overlapping button ids
     // shooterToAngle = new JoystickButton(buttonStick, 24);
     // shooterToStow = new JoystickButton(buttonStick, 18);
 
@@ -59,9 +60,10 @@ public class OI extends SubsystemBase {
     manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     manualShoot.whileTrue(new Shoot());
-    // collectorPositionChange.whileTrue(new LowerCollector());
-    // collectorPositionChange.whileFalse(new CollectorStow());
+    collectorPositionChange.whileTrue(new LowerCollector());
+    collectorPositionChange.whileFalse(new CollectorStow());
 
+    // temp commands that use overlapping button ids
     // shooterToAngle.whileTrue(new ShooterToAngle(90));
     // shooterToStow.whileTrue(new ShooterToStow());
   }

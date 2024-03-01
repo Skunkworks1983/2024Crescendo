@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class ShooterToStow extends Command {
 
@@ -22,7 +23,7 @@ public class ShooterToStow extends Command {
   @Override
   public void initialize() {
     shooterAngle = new Rotation2d(
-        Constants.Shooter.SHOOTER_RESTING_POSITION.getRadians() + Units.degreesToRadians(10));
+        Constants.Shooter.SHOOTER_RESTING_POSITION.getRadians() + Units.degreesToRadians(Constants.Shooter.PIVOT_STOW_OFFSET));
 
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
@@ -41,13 +42,13 @@ public class ShooterToStow extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorPercentOutput(0);
+    shooter.setPivotMotorPercentOutput(Constants.Shooter.PIVOT_STOW_OFFSET);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
   public boolean isFinished() {
 
-    return shooter.getLimitSwitchOutput(false);
+    return shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH);
   }
 }

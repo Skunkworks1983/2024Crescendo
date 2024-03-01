@@ -39,6 +39,10 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
+  public enum LimitSwitch {
+    FORWARD_LIMIT_SWITCH, 
+    REVERSE_LIMIT_SWITCH
+  }
 
   // Meters per second
   public double flywheelSetpointMPS = Constants.Shooter.TEMP_SHOOT_FLYWHEEL_SPEED_RPS
@@ -117,9 +121,10 @@ public class Shooter extends SubsystemBase {
 
     if (// pivotMotorForwardLimit.get()
     false) {
+      // We dont yet have a top limit switch
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_MAX_POSITION_TICKS;
-    } else if (getLimitSwitchOutput(false)) {
+    } else if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_RESTING_POSITION_TICKS;
     }
@@ -130,7 +135,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
   }
 
-  // needs to be run in exectute
+  // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
     pivotMotor.setControl(new DutyCycleOut((pivotController
         .calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()))));
@@ -185,12 +190,13 @@ public class Shooter extends SubsystemBase {
         * Constants.Shooter.PIVOT_MOTOR_TICKS_TO_DEGREES;
   }
 
-  public boolean getLimitSwitchOutput(boolean forwardLimitSwitch) {
-    if (forwardLimitSwitch) {
+  public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
+    if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
       return false; // pivotMotorForwardLimit.get();
-    } else {
+    } else if(limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
       return !pivotMotorReverseLimit.get();
     }
+    return false;
   }
 
   // gets the last run command on the pivot motor
@@ -199,7 +205,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean canLoadPiece() {
-    return getLimitSwitchOutput(false);
+    return getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH);
   }
 
   public void setFlywheelPercentOutput(double percent) {

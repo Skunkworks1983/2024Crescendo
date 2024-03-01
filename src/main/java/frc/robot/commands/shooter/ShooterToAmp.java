@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class ShooterToAmp extends Command {
 
@@ -54,6 +55,6 @@ public class ShooterToAmp extends Command {
   @Override
   public boolean isFinished() {
 
-    return shooter.getLimitSwitchOutput(true);
+    return shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH);
   }
 }

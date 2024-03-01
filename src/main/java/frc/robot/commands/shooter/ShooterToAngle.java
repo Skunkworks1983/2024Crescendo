@@ -23,9 +23,7 @@ public class ShooterToAngle extends Command {
   }
 
   @Override
-  public void initialize() {
-    shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {
@@ -35,7 +33,6 @@ public class ShooterToAngle extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setPivotMotorPercentOutput(0);
-    shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
