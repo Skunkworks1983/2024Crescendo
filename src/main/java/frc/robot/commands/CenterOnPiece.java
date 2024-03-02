@@ -27,7 +27,7 @@ public class CenterOnPiece extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    centeringController.setSetpoint(vision.getPieceData().get(0).yaw);
+    centeringController.setSetpoint(vision.getBestPieceData().yaw);
   }
 
   // Called once the command ends or is interrupted.
