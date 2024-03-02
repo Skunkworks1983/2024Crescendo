@@ -166,10 +166,10 @@ public class Constants {
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 0;
     public static final double BEAMBREAK1_INDEXER_SPEED = 0;
-    public static final double SHOOTING_INDEXER_SPEED = 0;
+    public static final double SHOOTING_INDEXER_SPEED = 1.0;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0;
+    public static final double MAX_FLYWHEEL_ERROR = 0.25;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 1;

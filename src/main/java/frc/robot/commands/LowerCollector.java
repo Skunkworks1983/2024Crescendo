@@ -14,7 +14,7 @@ public class LowerCollector extends Command {
   public LowerCollector() {
     collector = Collector.getInstance();
     
-    addRequirements(collector);
+    //addRequirements(collector);
   }
 
   // Called when the command is initially scheduled.

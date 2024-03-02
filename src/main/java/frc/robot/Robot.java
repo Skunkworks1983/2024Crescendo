@@ -24,6 +24,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
@@ -32,9 +33,9 @@ import frc.robot.subsystems.Shooter;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
-  private SendableChooser<String> autoPositionChooser;
-  private SendableChooser<String> autoDetailChooser;
-  private SendableChooser<String> autoChooser;
+  //private SendableChooser<String> autoPositionChooser;
+  //private SendableChooser<String> autoDetailChooser;
+  private SendableChooser<Command> autoChooser;
 
   OI oi;
   Drivebase drivebase;
@@ -59,6 +60,7 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("ShootNote",new Shoot());
     NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
     NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
+    NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
 
     //indexer
     NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
@@ -66,7 +68,7 @@ public class Robot extends TimedRobot {
 
     NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
     
-    //autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
 
@@ -86,8 +88,8 @@ public class Robot extends TimedRobot {
 
     NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
    
-    //buildAutoChooser("");
-    SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
+//    buildAutoChooser("");
+//    SmartDashboard.putData("Auto Position Chooser", autoPositionChooser);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -115,7 +117,7 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-    Command currentAutonomousCommand = null;//autoDetailChooser.getSelected();
+    Command currentAutonomousCommand = autoChooser.getSelected();//autoDetailChooser.getSelected();
     if (currentAutonomousCommand != null) {
       currentAutonomousCommand.schedule();
     }

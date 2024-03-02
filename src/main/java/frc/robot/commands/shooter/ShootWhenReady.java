@@ -17,7 +17,9 @@ public class ShootWhenReady extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("shoot when ready initialize");
+  }
 
   @Override
   public void execute() {
@@ -30,10 +32,11 @@ public class ShootWhenReady extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
+    System.out.println("shoot when ready end");
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return !shooter.getShooterIndexerBeambreak2();
   }
 }
