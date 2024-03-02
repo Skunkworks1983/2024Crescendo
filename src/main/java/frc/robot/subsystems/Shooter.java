@@ -118,6 +118,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("break 1", getShooterIndexerBeambreak1());
+    SmartDashboard.putBoolean("break 2", getShooterIndexerBeambreak2());
 
     if (// pivotMotorForwardLimit.get()
     false) {
@@ -172,11 +174,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getShooterIndexerBeambreak1() {
-    return noteBreak1.get();
+    return !noteBreak1.get();
   }
 
   public boolean getShooterIndexerBeambreak2() {
-    return noteBreak2.get();
+    return !noteBreak2.get();
   }
 
   // error in meters per seconds

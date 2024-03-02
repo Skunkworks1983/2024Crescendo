@@ -124,7 +124,7 @@ public class Constants {
   }
 
   public class Shooter {
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 50;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
@@ -295,8 +295,8 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_2_NAME = "Side";
+    public static final String CAMERA_1_NAME = "Forward";
 
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256), Units.inchesToMeters(0.901+.875), Units.inchesToMeters(10.727+2.088-0.175),
