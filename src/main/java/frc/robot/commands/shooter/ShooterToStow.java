@@ -5,13 +5,16 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class ShooterToStow extends Command {
 
   private Shooter shooter;
+  private Rotation2d shooterAngle;
 
   public ShooterToStow() {
     shooter = Shooter.getInstance();
@@ -19,31 +22,32 @@ public class ShooterToStow extends Command {
 
   @Override
   public void initialize() {
-    Rotation2d shooterAngle = Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES;
-
-    shooter.setShooterAngle(shooterAngle);
+    shooterAngle = new Rotation2d(
+        Constants.Shooter.SHOOTER_RESTING_POSITION.getRadians() + Units.degreesToRadians(Constants.Shooter.PIVOT_STOW_OFFSET));
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
   public void execute() {
 
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_RESTING_POSITION_DEGREES
-        .getDegrees()) {
-      shooter.setPivotMotorVelocity(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+    if (shooter.getShooterPivotRotationInDegrees() <= Constants.Shooter.SHOOTER_RESTING_POSITION
+        .getDegrees() + Constants.Shooter.PIVOT_STOW_OFFSET) {
+      shooter.setPivotMotorPercentOutput(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+    } else {
+      shooter.setPivotAngleAndSpeed(shooterAngle);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorVelocity(0);
+    shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
   public boolean isFinished() {
 
-    return shooter.getLimitSwitchOutput(false);
+    return shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH);
   }
 }

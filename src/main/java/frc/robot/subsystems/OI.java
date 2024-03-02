@@ -14,6 +14,9 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 
@@ -31,6 +34,8 @@ public class OI extends SubsystemBase {
   JoystickButton manualShoot;
   JoystickButton collectorPositionChange;
   JoystickButton noteFloorToShooter;
+  JoystickButton shooterToAngle;
+  JoystickButton shooterToStow;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);

@@ -48,8 +48,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putBoolean("shooter beambreak 1", shooter.getShooterIndexerBeambreak1());
-    SmartDashboard.putBoolean("shooter beambreak 2", shooter.getShooterIndexerBeambreak2());
   }
 
   @Override

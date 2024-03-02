@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class ShooterToAmp extends Command {
 
@@ -22,10 +23,10 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void initialize() {
-    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
+    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION;
 
     if (shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle);
+      shooter.setPivotAngleAndSpeed(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
       isTurning = true;
     } else {
@@ -35,25 +36,25 @@ public class ShooterToAmp extends Command {
 
   @Override
   public void execute() {
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
+    if (shooter.getShooterPivotRotationInDegrees() >= Constants.Shooter.SHOOTER_MAX_POSITION
         .getDegrees() && isTurning) {
-      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+      shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle);
+      shooter.setPivotAngleAndSpeed(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorVelocity(0);
+    shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
   @Override
   public boolean isFinished() {
 
-    return shooter.getLimitSwitchOutput(true);
+    return shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH);
   }
 }
