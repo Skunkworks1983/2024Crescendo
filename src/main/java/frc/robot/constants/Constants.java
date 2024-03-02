@@ -158,7 +158,7 @@ public class Constants {
         0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 0;
+    public static final double STOW_FLYWHEEL_SPEED = 13;
     public static final double AMP_FLYWHEEL_SPEED = 0;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
@@ -171,7 +171,7 @@ public class Constants {
     public static final double MAX_FLYWHEEL_ERROR = 0;
 
     // Max shooter pivot motor current output.
-    public static final double SHOOTER_PIVOT_MAX_AMPS = 1;
+    public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
   }
 
   public class PIDControllers {
@@ -229,9 +229,9 @@ public class Constants {
 
     public class ShooterPivotPID {
 
-      public static final double KP = .03;
+      public static final double KP = .02;
       public static final double KI = 0;
-      public static final double KD = 0.0015;
+      public static final double KD = 0.00025;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }

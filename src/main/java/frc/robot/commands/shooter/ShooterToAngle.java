@@ -23,13 +23,14 @@ public class ShooterToAngle extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooter.setFlywheelSetpoint(32);
+  }
 
   @Override
   public void execute() {
     shooter.setPivotAngleAndSpeed(shooterAngle);
   }
-
   @Override
   public void end(boolean interrupted) {
     shooter.setPivotMotorPercentOutput(0);

@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
@@ -58,7 +59,7 @@ public class Shooter extends SubsystemBase {
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDController pivotController;
-
+  double pivotKf = 0.0;
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
@@ -77,6 +78,7 @@ public class Shooter extends SubsystemBase {
 
     talonConfigPivotMotor.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     talonConfigPivotMotor.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
+    talonConfigPivotMotor.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 1;
     pivotMotor.getConfigurator().apply(talonConfigPivotMotor);
 
     pivotEncoder = new Encoder(Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_1,
@@ -133,12 +135,16 @@ public class Shooter extends SubsystemBase {
     indexerController.updatePID();
     SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
     SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+
+    pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }
 
   // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
-    pivotMotor.setControl(new DutyCycleOut((pivotController
-        .calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()))));
+    double controllerCalculation = pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees());
+    pivotMotor.setControl(new DutyCycleOut(controllerCalculation + pivotKf));
+        SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation + pivotKf);
+
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
