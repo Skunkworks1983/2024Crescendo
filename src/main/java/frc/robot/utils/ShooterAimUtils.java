@@ -29,7 +29,7 @@ public class ShooterAimUtils {
         distanceToHood, 0.0, Math.PI, flywheelSpeed);
 
     double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToHood + (Math.cos(robotAngle) * Constants.Targeting.distanceFromHoodToSpeaker),
+        distanceToHood + (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)),
         0.0, Math.PI, flywheelSpeed);
 
     double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
@@ -76,7 +76,7 @@ public class ShooterAimUtils {
   // in meters
   // horizontal means x and y but no z
   public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
-    return a.toTranslation2d().getDistance(a.toTranslation2d());
+    return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
   /*
@@ -95,8 +95,8 @@ public class ShooterAimUtils {
 
     // theta - 90 is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    double cosP = Math.cos(shooterPivotRotation - Math.PI / 2);
-    double sinP = Math.sin(shooterPivotRotation - Math.PI / 2);
+    double cosP = Math.cos(Math.PI / 2 - shooterPivotRotation);
+    double sinP = Math.sin(Math.PI / 2 - shooterPivotRotation);
 
     Matrix<N4, N4> robotToField = new Matrix<N4, N4>(
         new SimpleMatrix(new double[][] {{cosD, -sinD, 0.0, drivebaseTranslation.getX()},
