@@ -143,9 +143,10 @@ public class Shooter extends SubsystemBase {
 
   // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
-    double controllerCalculation = pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees());
-    pivotMotor.setControl(new DutyCycleOut(controllerCalculation + pivotKf));
-        SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation + pivotKf);
+    double controllerCalculation = pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()) + pivotKf;
+
+    pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
+        SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
 
   }
 
