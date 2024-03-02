@@ -41,7 +41,7 @@ public class ShooterToStow extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorPercentOutput(Constants.Shooter.PIVOT_STOW_OFFSET);
+    shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
