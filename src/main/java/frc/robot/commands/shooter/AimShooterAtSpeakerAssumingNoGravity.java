@@ -4,6 +4,8 @@
 
 package frc.robot.commands.shooter;
 
+import org.ejml.equation.MatrixConstructor;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utils.ShooterAimUtils;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
@@ -35,10 +38,11 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   public void execute() {
     Translation3d robotTranslation =
         new Translation3d(drivebase.getRobotPose().getTranslation().getX(),
-            drivebase.getRobotPose().getTranslation().getY(),
-            0);
+            drivebase.getRobotPose().getTranslation().getY(), 0);
     Translation3d shooterPivot =
-        shooter.getPositionPivotDrivebaseReletive().plus(robotTranslation);
+        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getRobotHeading(),
+            shooter.getShooterPivotRotation(), drivebase.getRobotPose().getTranslation());
+
     Translation2d diffrenceInPosition =
         new Translation2d(target.getX() - shooterPivot.getX(), target.getY() - shooterPivot.getY());
 

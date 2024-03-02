@@ -4,7 +4,15 @@
 
 package frc.robot.commands.shooter;
 
+import org.ejml.simple.SimpleMatrix;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.numbers.N4;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -29,12 +37,17 @@ public class SmartAim extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double flywheelSpeed = ShooterAimUtils
-        .calculateIdealFlywheelSpeed(Shooter.getInstance().getPositionFlyWheelDrivebaseReletive().plus());
+
+    Translation3d pivotPositionFieldReletive =
+        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getRobotHeading(),
+            shooter.getShooterPivotRotation(), drivebase.getRobotPose().getTranslation());
+
+    double flywheelSpeed =
+        ShooterAimUtils.calculateIdealFlywheelSpeed(pivotPositionFieldReletive.toTranslation2d());
     shooter.setFlywheelSetpoint(flywheelSpeed);
 
-    double shooterAngle = ShooterAimUtils.calculateIdealStationaryShooterPivotAngle(
-        shooter.getPositionPivotBaseFieldReletive(), flywheelSpeed);
+    double shooterAngle = ShooterAimUtils
+        .calculateIdealStationaryShooterPivotAngle(pivotPositionFieldReletive, flywheelSpeed);
     shooter.setShooterAngle(new Rotation2d(shooterAngle));
   }
 
