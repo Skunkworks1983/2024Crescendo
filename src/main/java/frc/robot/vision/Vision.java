@@ -11,6 +11,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -28,16 +29,23 @@ public class Vision {
     }
 
     /**
-     * Returns an ArrayList of PieceData objects. PieceData class contains
-     * information about the target for each piece detection camera.
+     * Returns an Optional PieceData object. Returns Optional.empty() if:
+     * <ul><li>No camera exists with the specified camera name.</li></ul>
+     * <ul><li>The camera with the specified camera name is not being used for piece detection.</li></ul>
+     * <ul><li>There are no targets being detected.</li></ul>
+     *  
     */
-    public Optional<PieceData> getBestPieceData(String pieceDetectionCameraName) {
+    public Optional<PieceData> getPieceData(String pieceDetectionCameraName) {
         Optional<PieceData> pieceData = Optional.empty();
+
+        // Iterate through each camera
         for (SkunkPhotonCamera camera : cameras) {
+
+            // If statement to check if it is the specified camera
             if (camera.cameraName == pieceDetectionCameraName && camera.pipelineType == PipelineType.PIECE_DETECTION) {
                 PhotonPipelineResult result = camera.camera.getLatestResult();
 
-                // Verifies whether the latest result from the camera has any targets to prevent
+                // If statement to verify whether the latest result from the camera has any targets to prevent
                 // code from crashing.
                 if (result.hasTargets()) {
                     PhotonTrackedTarget target = result.getBestTarget();
@@ -45,6 +53,7 @@ public class Vision {
                 }
             }
         }
+
         return pieceData;
     }
 
