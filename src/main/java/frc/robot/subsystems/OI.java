@@ -52,7 +52,8 @@ public class OI extends SubsystemBase {
     collectorPositionChange =
         new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
 
-    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
     noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));

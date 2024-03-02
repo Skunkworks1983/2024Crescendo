@@ -42,9 +42,9 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
+
   public enum LimitSwitch {
-    FORWARD_LIMIT_SWITCH, 
-    REVERSE_LIMIT_SWITCH
+    FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
   }
 
   // Meters per second
@@ -54,7 +54,7 @@ public class Shooter extends SubsystemBase {
   private static Shooter shooter;
 
   private final DigitalInput pivotMotorForwardLimit =
-  new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
   private final DigitalInput pivotMotorReverseLimit =
       new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
@@ -143,10 +143,12 @@ public class Shooter extends SubsystemBase {
 
   // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
-    double controllerCalculation = pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()) + pivotKf;
+    double controllerCalculation =
+        pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees())
+            + pivotKf;
 
     pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
-        SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
+    SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
 
   }
 
@@ -202,7 +204,7 @@ public class Shooter extends SubsystemBase {
   public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
     if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
       return pivotMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
-    } else if(limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
+    } else if (limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
       return pivotMotor.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
     }
     return false;
