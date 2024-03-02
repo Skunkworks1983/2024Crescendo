@@ -126,7 +126,7 @@ public class Constants {
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
-    public static final double SHOOT_PIVOT_GEAR_RATIO = 12.0 / 30.0;
+    public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double TICKS_PER_PIVOT_MOTOR_REV_ENCODER = 2048;
@@ -140,7 +140,7 @@ public class Constants {
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_TICKS_TO_DEGREES =
-        (1 / TICKS_PER_PIVOT_MOTOR_REV_ENCODER) * SHOOT_PIVOT_GEAR_RATIO * 360;
+        (1 / TICKS_PER_PIVOT_MOTOR_REV_ENCODER) * SHOOT_PIVOT_GEAR_RATIO_ENCODER * 360;
     public static final double SHOOTER_RESTING_POSITION_TICKS = 27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_TICKS = 119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
     public static final Rotation2d SHOOTER_RESTING_POSITION =
@@ -240,7 +240,7 @@ public class Constants {
     public class TopCollectorIntakePID {
       public static final double KP = 0;
       public static final double KI = 0;
-      public static final double KD = 0;  
+      public static final double KD = 0;
       public static final double FF = 0;
 
       public static final boolean SMART_PID_ACTIVE = false;
