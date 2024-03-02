@@ -27,6 +27,7 @@ import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
+import frc.robot.subsystems.Shooter;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -37,13 +38,15 @@ public class Robot extends TimedRobot {
 
   OI oi;
   Drivebase drivebase;
+  Shooter shooter;
 
   @Override
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
+    shooter = Shooter.getInstance();
 
-   // Wait Times
+    //wait times
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
 
@@ -99,7 +102,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
   public void disabledExit() {}

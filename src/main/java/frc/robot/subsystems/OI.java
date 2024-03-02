@@ -13,6 +13,9 @@ import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 
@@ -29,6 +32,8 @@ public class OI extends SubsystemBase {
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
   JoystickButton collectorPositionChange;
+  JoystickButton shooterToAngle;
+  JoystickButton shooterToStow;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -42,7 +47,12 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+
+    // temp commands that use overlapping button ids
+    // shooterToAngle = new JoystickButton(buttonStick, 24);
+    // shooterToStow = new JoystickButton(buttonStick, 18);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -52,6 +62,10 @@ public class OI extends SubsystemBase {
     manualShoot.whileTrue(new Shoot());
     collectorPositionChange.whileTrue(new LowerCollector());
     collectorPositionChange.whileFalse(new CollectorStow());
+
+    // temp commands that use overlapping button ids
+    // shooterToAngle.whileTrue(new ShooterToAngle(90));
+    // shooterToStow.whileTrue(new ShooterToStow());
   }
 
   @Override
