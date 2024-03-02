@@ -64,7 +64,7 @@ public class OI extends SubsystemBase {
     //collectorPositionChange.whileFalse(new CollectorStow());
 
     // temp commands that use overlapping button ids
-    shooterToAngle.whileTrue(new ShooterToAngle(45));
+    shooterToAngle.whileTrue(new ShooterToAngle(90));
     shooterToStow.whileTrue(new ShooterToStow());
   }
 
