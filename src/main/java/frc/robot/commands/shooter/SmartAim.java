@@ -48,7 +48,10 @@ public class SmartAim extends Command {
 
     double shooterAngle = ShooterAimUtils
         .calculateIdealStationaryShooterPivotAngle(pivotPositionFieldReletive, flywheelSpeed);
-    shooter.setShooterAngle(new Rotation2d(shooterAngle));
+
+    // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
+    // system in which 0 is forward and 90 is upward.
+    shooter.setShooterAngle(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 
   // Called once the command ends or is interrupted.

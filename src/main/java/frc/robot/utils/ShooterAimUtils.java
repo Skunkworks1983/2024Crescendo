@@ -96,6 +96,9 @@ public class ShooterAimUtils {
     Translation3d pivotTranslation = Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION;
     double cosD = Math.cos(drivebaseRotation);
     double sinD = Math.sin(drivebaseRotation);
+
+    // theta - 90 is neccecary to convert from the system in which forward is 90 and up is 0 to the
+    // system in which 0 is forward and 90 is upward.
     double cosP = Math.cos(shooterPivotRotation - Math.PI / 2);
     double sinP = Math.sin(shooterPivotRotation - Math.PI / 2);
 
