@@ -73,10 +73,6 @@ public class ShooterAimUtils {
     return pivotAngleGuess;
   }
 
-  static Translation3d positionDiff(Translation3d a, Translation3d b) {
-    return new Translation3d(a.getX() - b.getX(), a.getY() - b.getY(), a.getZ() - b.getZ());
-  }
-
   // in meters
   // horizontal means x and y but no z
   public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
