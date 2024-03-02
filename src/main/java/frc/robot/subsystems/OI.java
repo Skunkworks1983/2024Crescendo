@@ -10,11 +10,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
+import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -32,6 +37,9 @@ public class OI extends SubsystemBase {
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
   JoystickButton collectorPositionChange;
+  JoystickButton noteFloorToShooter;
+  JoystickButton shooterToAngle;
+  JoystickButton shooterToStow;
 
   // Climber buttons
   JoystickButton extendClimber;
@@ -54,6 +62,7 @@ public class OI extends SubsystemBase {
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
     collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
     extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
@@ -78,6 +87,9 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
 
     collectorPositionChange.whileTrue(new LowerCollector());
+    collectorPositionChange.whileFalse(new CollectorStow());
+
+    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
   }
 
   @Override

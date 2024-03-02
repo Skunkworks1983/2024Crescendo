@@ -19,18 +19,24 @@ public class SwerveTeleop extends Command {
   Drivebase drivebase;
   OI oi;
 
-  // This is updated to the robot's current heading when using the targeting button or when outside
-  // the turn joystick deadzone. Used for heading correction when not using the targeting button and
+  // This is updated to the robot's current heading when using the targeting
+  // button or when outside
+  // the turn joystick deadzone. Used for heading correction when not using the
+  // targeting button and
   // when inside the turn joystick deadzone.
   double currentHeading = 0.0;
 
-  // Parts of the code set this variable, and then the variable is used to tell the drive command
+  // Parts of the code set this variable, and then the variable is used to tell
+  // the drive command
   // that turns to a certan angle where to turn to.
   double headingControllerSetpoint = 0.0;
 
-  // hasUpdated ensures that desired heading is only set once, when the driver stops rotating. If it
-  // is false and the robot should maintain current heading, desiredHeadingSetpoint will set to
-  // current heading. Once it is set to true, the robot will rotate to desiredHeadingSetpoint.
+  // hasUpdated ensures that desired heading is only set once, when the driver
+  // stops rotating. If it
+  // is false and the robot should maintain current heading,
+  // desiredHeadingSetpoint will set to
+  // current heading. Once it is set to true, the robot will rotate to
+  // desiredHeadingSetpoint.
   boolean hasUpdated = false;
 
   Timer timer = new Timer();
@@ -63,16 +69,18 @@ public class SwerveTeleop extends Command {
     boolean isTargeting = drivebase.getFieldTarget().isPresent();
     boolean outsideDeadband = Math.abs(oi.getRightX()) > Constants.ROT_JOY_DEADBAND;
 
-    // If the targeting button is being pressed, than override all other heading controls and use
+    // If the targeting button is being pressed, than override all other heading
+    // controls and use
     // targeting.
     if (isTargeting) {
       Translation2d targetPoint = drivebase.getFieldTarget().get();
 
-      // Uses odometry position and the specified targeting point to calculate desired heading.
-      headingControllerSetpoint =
-          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+      // Uses odometry position and the specified targeting point to calculate desired
+      // heading.
+      headingControllerSetpoint = Units
+          .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      currentHeading = drivebase.getRobotHeading();
+      currentHeading = drivebase.getGyroAngle();
       lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;
       hasUpdated = false;
@@ -80,7 +88,7 @@ public class SwerveTeleop extends Command {
       // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
 
-      currentHeading = drivebase.getRobotHeading();
+      currentHeading = drivebase.getGyroAngle();
       lastSeconds = timer.getFPGATimestamp();
       hasUpdated = false;
 
@@ -90,7 +98,7 @@ public class SwerveTeleop extends Command {
       // Waits a second to allow extra turn momentum to dissipate.
       if (timer.getFPGATimestamp() - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL
           && !hasUpdated) {
-        currentHeading = drivebase.getRobotHeading();
+        currentHeading = drivebase.getGyroAngle();
         headingControllerSetpoint = currentHeading;
 
         // Ensures that the setpoint is only set once when maintaining heading.
@@ -101,8 +109,8 @@ public class SwerveTeleop extends Command {
       useHeadingControl = hasUpdated;
     }
 
-
-    // If not using the heading controller, run regular swerve without heading control.
+    // If not using the heading controller, run regular swerve without heading
+    // control.
     if (!useHeadingControl) {
       drivebase.setDrive(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
@@ -127,7 +135,8 @@ public class SwerveTeleop extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

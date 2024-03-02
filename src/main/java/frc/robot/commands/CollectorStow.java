@@ -21,6 +21,7 @@ public class CollectorStow extends Command {
   @Override
   public void initialize() {
     collector.setCollectorPos(Constants.Collector.COLLECTOR_STOW_POS);
+    System.out.println("collector stow initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +32,7 @@ public class CollectorStow extends Command {
   @Override
   public void end(boolean interrupted) {
     collector.setCollectorPivotVelocity(0);
+    System.out.println("collector stow end");
   }
 
   // Returns true when the command should end.
