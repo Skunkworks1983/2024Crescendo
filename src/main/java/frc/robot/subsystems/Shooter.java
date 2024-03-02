@@ -204,8 +204,7 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor.set(percent);
   }
 
-  public Translation3d getPositionPivotBaseFieldReletive() {
-    Translation2d robotTranslation = Drivebase.getInstance().getRobotPose().getTranslation();
+  public Translation3d getPositionPivotDrivebaseReletive() {
     Translation3d pivotPosition = Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION;
     double drivebaseRotation = Drivebase.getInstance().getRobotPose().getRotation().getRadians();
     Translation3d pivotPositionRotated = new Translation3d(
@@ -221,7 +220,7 @@ public class Shooter extends SubsystemBase {
             + (pivotPositionRotated.getZ() * Math.cos(getShooterPivotRotation())));
   }
 
-  public Translation3d getPositionFlyWheelFieldReletive() {
+  public Translation3d getPositionFlyWheelDrivebaseReletive() {
     return new Translation3d(getPositionPivotBaseFieldReletive().getX(),
         getPositionPivotBaseFieldReletive().getY(), getPositionPivotBaseFieldReletive().getZ());
   }

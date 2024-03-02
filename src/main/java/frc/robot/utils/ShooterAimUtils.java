@@ -4,20 +4,18 @@
 
 package frc.robot.utils;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.Drivebase;
 
 public class ShooterAimUtils {
 
         public static double calculateIdealStationaryShooterPivotAngle(
                         Translation3d shooterPivotPosition, double flywheelSpeed) {
-                double robotAngle = Math.atan2(shooterPivotPosition.getX()
-                                - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getX(),
-                                shooterPivotPosition.getY()
+                double robotAngle = Math.atan2(shooterPivotPosition.getY()
+                                - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getY(),
+                                shooterPivotPosition.getX()
                                                 - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get()
-                                                                .get().getY());
+                                                                .get().getX());
 
                 double distanceToHood = calculateHorizontalDistance(shooterPivotPosition,
                                 Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get());
@@ -35,11 +33,10 @@ public class ShooterAimUtils {
         }
 
         // meters/second
-        public static double calculateIdealFlywheelSpeed(Translation3d shooterPivotTranslation) {
+        public static double calculateIdealFlywheelSpeed(Translation2d shooterPivotTranslation) {
                 return Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED
-                                + (calculateHorizontalDistance(
-                                                Constants.Targeting.FieldTarget.SPEAKER_HOOD.get()
-                                                                .get(),
+                                + (Constants.Targeting.FieldTarget.SPEAKER_HOOD.get()
+                                                                .get().getDistance(
                                                 shooterPivotTranslation)
                                                 * Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE);
         }
@@ -68,6 +65,7 @@ public class ShooterAimUtils {
                         } else {
                                 maxInput = pivotAngleGuess;
                         }
+                        pivotAngleGuess = (minInput + maxInput) / 2;
                 }
                 return pivotAngleGuess;
         }
@@ -78,13 +76,8 @@ public class ShooterAimUtils {
         }
 
         // in meters
-        // Horisontal means x and y but no z
+        // horizontal means x and y but no z
         public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
-                return calculateHorizontalDistance(a.toTranslation2d(), a.toTranslation2d());
-        }
-
-        public static double calculateHorizontalDistance(Translation2d a, Translation2d b) {
-                return new Translation2d(a.getX(), a.getY())
-                                .getDistance(new Translation2d(b.getX(), b.getY()));
+                return a.toTranslation2d().getDistance(a.toTranslation2d());
         }
 }

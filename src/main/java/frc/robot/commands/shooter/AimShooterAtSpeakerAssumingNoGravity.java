@@ -15,10 +15,12 @@ import frc.robot.subsystems.Shooter;
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
   Translation3d target;
+  Drivebase drivebase;
 
   /** Creates a new AimShooterAtSpeakerAssumingNoGravity. */
   public AimShooterAtSpeakerAssumingNoGravity() {
     shooter = Shooter.getInstance();
+    drivebase = Drivebase.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,8 +33,12 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    Translation3d shooterPivot = shooter.getPositionPivotBaseFieldReletive();
+    Translation3d robotTranslation =
+        new Translation3d(drivebase.getRobotPose().getTranslation().getX(),
+            drivebase.getRobotPose().getTranslation().getY(),
+            0);
+    Translation3d shooterPivot =
+        shooter.getPositionPivotDrivebaseReletive().plus(robotTranslation);
     Translation2d diffrenceInPosition =
         new Translation2d(target.getX() - shooterPivot.getX(), target.getY() - shooterPivot.getY());
 

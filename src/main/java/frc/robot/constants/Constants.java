@@ -122,10 +122,12 @@ public class Constants {
     // in half.
     public static final int ANGLE_SEARCH_DEPTH = 10;
 
+    // in m/s
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE = 1;
 
-    // 1 indicates aiming at the highest point. 0 indicates aiming at the lowest point.
+    // 1 indicates aiming at the highest point. 0 indicates aiming at the lowest point. .3 would
+    // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
     // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
     // the hood have no way of getting in.
     public static final double AUTO_AIM_ROTATION_RATIO = .3;
@@ -150,9 +152,9 @@ public class Constants {
     public static final double SHOOTER_MAX_POSITION_ROTATIONS =
         119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
     public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(27.8));
+        new Rotation2d(Units.degreesToRadians(SHOOTER_RESTING_POSITION_ROTATIONS));
     public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES =
-        new Rotation2d(Units.degreesToRadians(119.5));
+        new Rotation2d(Units.degreesToRadians(SHOOTER_MAX_POSITION_ROTATIONS));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
@@ -332,11 +334,12 @@ public class Constants {
   public class Targeting {
 
     public enum FieldTarget {
-      // fix height
-      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
+      // SPEAKER uses average part of goal.
+      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))),
+      SPEAKER_LOWEST_GOAL_PART(new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(), SPEAKER.get().get().getZ()-)), AMP(
           new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
               0)), SPEAKER_HOOD(
-                  new Translation3d(.47, Units.feetToMeters(18.520833),
+                  new Translation3d(.47, SPEAKER.get().get().getY(),
                       Units.feetToMeters(7))), NONE();
 
       Translation3d target;

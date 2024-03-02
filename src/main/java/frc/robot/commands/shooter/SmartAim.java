@@ -30,7 +30,7 @@ public class SmartAim extends Command {
   @Override
   public void execute() {
     double flywheelSpeed = ShooterAimUtils
-        .calculateIdealFlywheelSpeed(Shooter.getInstance().getPositionFlyWheelFieldReletive());
+        .calculateIdealFlywheelSpeed(Shooter.getInstance().getPositionFlyWheelDrivebaseReletive().plus());
     shooter.setFlywheelSetpoint(flywheelSpeed);
 
     double shooterAngle = ShooterAimUtils.calculateIdealStationaryShooterPivotAngle(
@@ -40,7 +40,9 @@ public class SmartAim extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.setFlywheelSetpoint(0.0);
+  }
 
   // Returns true when the command should end.
   @Override
