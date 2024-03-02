@@ -134,7 +134,7 @@ public class Drivebase extends SubsystemBase {
    * when creating/updating the SwervePoseEstimator. Otherwise, call
    * getRobotHeading instead.
    */
-  private double getGyroAngle() {
+  public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -142,27 +142,12 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
-  /**
-   * Call this method instead of getGyroAngle(). This method returns the robot's
-   * heading according
-   * to the integrated odometry. This allows for an accurate heading measurement,
-   * even if the gyro
-   * is inaccurate.
-   * 
-   * @return The heading of the robot according to the integrated odometry, in
-   *         degrees. Note:
-   *         Measurement is 0-360 degrees instead of continuous.
-   */
-  public double getRobotHeading() {
-    return getRobotPose().getRotation().getDegrees();
-  }
-
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getRobotHeading()));
+          Rotation2d.fromDegrees(getGyroAngle()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -179,7 +164,7 @@ public class Drivebase extends SubsystemBase {
   // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getRobotHeading());
+    degreesPerSecond = headingController.calculate(getGyroAngle());
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
