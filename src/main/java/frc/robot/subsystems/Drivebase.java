@@ -129,10 +129,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   /**
-   * Used to get the angle reported by the gyro. This method is private, and
-   * should only be called
-   * when creating/updating the SwervePoseEstimator. Otherwise, call
-   * getRobotHeading instead.
+   * Used to get the angle reported by the gyro.
    */
   public double getGyroAngle() {
     double angle = gyro.getAngle();
