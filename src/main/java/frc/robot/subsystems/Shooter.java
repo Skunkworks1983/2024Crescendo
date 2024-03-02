@@ -180,11 +180,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getShooterIndexerBeambreak1() {
-    return noteBreak1.get();
+    return !noteBreak1.get();
   }
 
   public boolean getShooterIndexerBeambreak2() {
-    return noteBreak2.get();
+    return !noteBreak2.get();
   }
 
   // error in meters per seconds

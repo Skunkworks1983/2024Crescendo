@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 
 public class Constants {
 
@@ -71,6 +72,7 @@ public class Constants {
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
     public static final int COLLECTOR_POSITION_CHANGE = 13;
+    public static final int RIGHT_JOYSTICK_1 = 1;
   }
 
   public class Collector {
@@ -126,7 +128,7 @@ public class Constants {
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
-    public static final double SHOOT_PIVOT_GEAR_RATIO = 12.0 / 30.0;
+    public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
     public static final double TICKS_PER_PIVOT_MOTOR_REV_ENCODER = 2048;
@@ -140,7 +142,7 @@ public class Constants {
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_TICKS_TO_DEGREES =
-        (1 / TICKS_PER_PIVOT_MOTOR_REV_ENCODER) * SHOOT_PIVOT_GEAR_RATIO * 360;
+        (1 / TICKS_PER_PIVOT_MOTOR_REV_ENCODER) * SHOOT_PIVOT_GEAR_RATIO_ENCODER * 360;
     public static final double SHOOTER_RESTING_POSITION_TICKS = 27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
     public static final double SHOOTER_MAX_POSITION_TICKS = 119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
     public static final Rotation2d SHOOTER_RESTING_POSITION =
@@ -163,9 +165,9 @@ public class Constants {
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
-    public static final double LOADING_INDEXER_SPEED = 0;
-    public static final double BEAMBREAK1_INDEXER_SPEED = 0;
-    public static final double SHOOTING_INDEXER_SPEED = 0;
+    public static final double LOADING_INDEXER_SPEED = 1;
+    public static final double BEAMBREAK1_INDEXER_SPEED = 0.5;
+    public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
     public static final double MAX_FLYWHEEL_ERROR = 0;
@@ -239,7 +241,7 @@ public class Constants {
     public class TopCollectorIntakePID {
       public static final double KP = 0;
       public static final double KI = 0;
-      public static final double KD = 0;  
+      public static final double KD = 0;
       public static final double FF = 0;
 
       public static final boolean SMART_PID_ACTIVE = false;
@@ -293,13 +295,17 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
 
-    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
+    // Forwards facing camera
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256), Units.inchesToMeters(0.901+.875), Units.inchesToMeters(10.727+2.088-0.175),
         new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
-    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
+
+    // Sideways facing camera
+    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(Units.inchesToMeters(6.261-.875), Units.inchesToMeters(5.901), Units.inchesToMeters(11.077+2.088-0.175),
+        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+    
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
