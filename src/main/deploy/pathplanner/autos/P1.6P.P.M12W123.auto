@@ -1,0 +1,97 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.44,
+      "y": 6.74
+    },
+    "rotation": -90.66472369874637
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote1 6P"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BackToMidPoint1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote2 6P"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BackToMidPoint2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note1FromMP"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note1ToNote2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitHalfSecond"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note2ToNote3"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos1",
+  "choreoAuto": false
+}
