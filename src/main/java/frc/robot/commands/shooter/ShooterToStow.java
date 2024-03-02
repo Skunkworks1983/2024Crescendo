@@ -24,7 +24,7 @@ public class ShooterToStow extends Command {
   public void initialize() {
     shooterAngle = new Rotation2d(
         Constants.Shooter.SHOOTER_RESTING_POSITION.getRadians() + Units.degreesToRadians(Constants.Shooter.PIVOT_STOW_OFFSET));
-
+S
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
@@ -42,7 +42,7 @@ public class ShooterToStow extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorPercentOutput(0);
+    shooter.setPivotMotorPercentOutput(Constants.Shooter.PIVOT_STOW_OFFSET);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
   }
 
