@@ -286,6 +286,9 @@ public class Constants {
     public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
     public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
 
+    // TODO: set this
+    public static final String PIECE_DETECTION_CAMERA_NAME = "";
+
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(0.2097024, -0.0228854, 0.3131312,
         new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
     public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,

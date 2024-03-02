@@ -4,8 +4,13 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.vision.PieceData;
 import frc.robot.vision.Vision;
 
 public class CenterOnPiece extends Command {
@@ -27,7 +32,10 @@ public class CenterOnPiece extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    centeringController.setSetpoint(vision.getBestPieceData().yaw);
+    Optional<PieceData> pieceData = vision.getBestPieceData(PhotonVision.PIECE_DETECTION_CAMERA_NAME);
+    if (pieceData.isPresent()) {
+      centeringController.setSetpoint(pieceData.get().yaw);
+    }
   }
 
   // Called once the command ends or is interrupted.

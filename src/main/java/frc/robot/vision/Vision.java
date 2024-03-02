@@ -7,13 +7,10 @@ package frc.robot.vision;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
-import org.opencv.photo.Photo;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -33,22 +30,21 @@ public class Vision {
     /**
      * Returns an ArrayList of PieceData objects. PieceData class contains
      * information about the target for each piece detection camera.
-     */
-    public ArrayList<PieceData> getBestPieceData() {
-        ArrayList<PieceData> pieceData = new ArrayList<PieceData> ();
+    */
+    public Optional<PieceData> getBestPieceData(String pieceDetectionCameraName) {
+        Optional<PieceData> pieceData = Optional.empty();
         for (SkunkPhotonCamera camera : cameras) {
-            if (camera.pipelineType == PipelineType.PIECE_DETECTION) {
+            if (camera.cameraName == pieceDetectionCameraName && camera.pipelineType == PipelineType.PIECE_DETECTION) {
                 PhotonPipelineResult result = camera.camera.getLatestResult();
 
                 // Verifies whether the latest result from the camera has any targets to prevent
                 // code from crashing.
                 if (result.hasTargets()) {
                     PhotonTrackedTarget target = result.getBestTarget();
-                    pieceData.add(new PieceData(target));
+                    pieceData = Optional.of(new PieceData(target));
                 }
             }
         }
-
         return pieceData;
     }
 
