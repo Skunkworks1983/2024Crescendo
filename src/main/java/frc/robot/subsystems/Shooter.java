@@ -12,7 +12,9 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -51,8 +53,8 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  // private final DigitalInput pivotMotorForwardLimit =
-  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+  private final DigitalInput pivotMotorForwardLimit =
+  new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
   private final DigitalInput pivotMotorReverseLimit =
       new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
@@ -78,6 +80,8 @@ public class Shooter extends SubsystemBase {
 
     talonConfigPivotMotor.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     talonConfigPivotMotor.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
+    talonConfigPivotMotor.HardwareLimitSwitch.ForwardLimitEnable = true;
+    talonConfigPivotMotor.HardwareLimitSwitch.ReverseLimitEnable = true;
     talonConfigPivotMotor.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 1;
     pivotMotor.getConfigurator().apply(talonConfigPivotMotor);
 
@@ -121,9 +125,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (// pivotMotorForwardLimit.get()
-    false) {
-      // We dont yet have a top limit switch
+    if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) {
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_MAX_POSITION_TICKS;
     } else if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
@@ -198,9 +200,9 @@ public class Shooter extends SubsystemBase {
 
   public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
     if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
-      return false; // pivotMotorForwardLimit.get();
+      return pivotMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
     } else if(limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
-      return !pivotMotorReverseLimit.get();
+      return pivotMotor.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
     }
     return false;
   }
