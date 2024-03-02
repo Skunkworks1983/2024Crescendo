@@ -1,0 +1,115 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.335176614373586,
+      "y": 5.56
+    },
+    "rotation": -179.24615166692934
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlywheel"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LowerCollector"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "StartToWNote2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "WNote2ToSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SpeakerToWNote1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "WNote1ToSpekaer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SpeakerToWingNote3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "WNote3ToSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectorStow"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos1",
+  "choreoAuto": false
+}
