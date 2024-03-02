@@ -110,7 +110,8 @@ public class Drivebase extends SubsystemBase {
     // button is pressed).
     fieldTarget = Optional.empty();
 
-    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
+    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
+    // plugged in.
     try {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
@@ -128,9 +129,7 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  /**
-   * Used to get the angle reported by the gyro.
-   */
+  /** Used to get the angle reported by the gyro. */
   public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
