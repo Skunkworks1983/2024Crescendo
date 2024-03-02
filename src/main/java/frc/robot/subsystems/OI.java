@@ -52,24 +52,18 @@ public class OI extends SubsystemBase {
     collectorPositionChange =
         new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
 
-    // temp commands that use overlapping button ids
-    shooterToAngle = new JoystickButton(buttonStick, 18);
-    shooterToStow = new JoystickButton(buttonStick, 12);
     collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
     noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
-    //targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
-    //manualIntakeNotes.whileTrue(new ManualIntakeNotes());
+    manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     manualShoot.whileTrue(new Shoot());
-    //collectorPositionChange.whileTrue(new LowerCollector());
-    //collectorPositionChange.whileFalse(new CollectorStow());
+    collectorPositionChange.whileTrue(new LowerCollector());
+    collectorPositionChange.whileFalse(new CollectorStow());
 
-    // temp commands that use overlapping button ids
-    shooterToAngle.whileTrue(new ShooterToAngle(68));
-    shooterToStow.whileTrue(new ShooterToStow());
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
   }
 
