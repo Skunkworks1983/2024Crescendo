@@ -54,7 +54,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public boolean getBeamBreakSensor() {
-    return indexerBeamBreak.get();
+    return !indexerBeamBreak.get();
   }
 
   public static Indexer getInstance() {

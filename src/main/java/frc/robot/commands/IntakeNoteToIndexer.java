@@ -24,9 +24,9 @@ public class IntakeNoteToIndexer extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.intakeNotes(Constants.Collector.NOTE_INTAKE_SPEED);
-    indexer.setSpeedIndexer(Constants.IndexerConstants.INDEXER_SPEED);
-
+    collector.setPercentOutput(1);
+    indexer.setPercentOutput(1);
+    System.out.println("start intake note to indexer");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,12 +37,15 @@ public class IntakeNoteToIndexer extends Command {
   @Override
   public void end(boolean interrupted) {
     collector.setIntakeCoastMode();
-    indexer.setSpeedIndexer(0);
+collector.setPercentOutput(0);
+    indexer.setPercentOutput(0);
+    System.out.println("intake note to indexer command end");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return indexer.getBeamBreakSensor();
+    
   }
 }

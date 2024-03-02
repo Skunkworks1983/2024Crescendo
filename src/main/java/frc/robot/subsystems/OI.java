@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
@@ -32,6 +33,7 @@ public class OI extends SubsystemBase {
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
   JoystickButton collectorPositionChange;
+  JoystickButton noteFloorToShooter;
   JoystickButton shooterToAngle;
   JoystickButton shooterToStow;
 
@@ -47,12 +49,8 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange =
-        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
-
-    // temp commands that use overlapping button ids
-    // shooterToAngle = new JoystickButton(buttonStick, 24);
-    // shooterToStow = new JoystickButton(buttonStick, 18);
+    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -63,9 +61,7 @@ public class OI extends SubsystemBase {
     collectorPositionChange.whileTrue(new LowerCollector());
     collectorPositionChange.whileFalse(new CollectorStow());
 
-    // temp commands that use overlapping button ids
-    // shooterToAngle.whileTrue(new ShooterToAngle(90));
-    // shooterToStow.whileTrue(new ShooterToStow());
+    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
   }
 
   @Override
