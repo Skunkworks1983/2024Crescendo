@@ -23,7 +23,7 @@ public class SetClimberToPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ExtendClimber command stared");
+    System.out.println("SetClimberToPosition command started");
     climber.setClimberPosition(module, position);
   }
 
@@ -35,7 +35,7 @@ public class SetClimberToPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("ExtendClimber command ended");
+    System.out.println("SetClimberToPosition command ended");
     climber.setClimberOutput(module, 0);
     climber.setBrakeMode(module);
   }

@@ -379,7 +379,7 @@ public class Constants {
 
     public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
 
-
+    //Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
     public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
     public static final double CLIMBER_MOVEMENT = 0.431;

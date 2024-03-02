@@ -10,7 +10,7 @@ import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
-// this command lowers the climber arms are in contact with the chain
+// this command lowers the climber until arms are in contact with the chain
 public class LowerClimberToChain extends Command {
   /** Creates a new LowerClimberToChain. */
   Climber climber;
