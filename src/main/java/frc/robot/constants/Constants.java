@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -48,12 +47,19 @@ public class Constants {
 
     // Right Flywheel
     public static final int SHOOT_MOTOR2 = 3;
+
+    // Shooter Pivot
     public static final int SHOOTER_PIVOT_MOTOR = 5;
     public static final int SHOOTER_INDEXER_MOTOR = 36;
+    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
+    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 8;
+    public static final int SHOOTER_PIVOT_ENCODER_PIN_1 = 3;
+    public static final int SHOOTER_PIVOT_ENCODER_PIN_2 = 4;
+
+
+    // Other Shooter IDS
     public static final int NOTE_BREAK1 = 7;
     public static final int NOTE_BREAK2 = 6;
-    public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
-    public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 1;
 
     // Joystick Ids
     public static final int LEFT_JOYSTICK = 0;
@@ -120,21 +126,27 @@ public class Constants {
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
-    public static final double SHOOT_PIVOT_GEAR_RATIO = 149.333333333;
+    public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
     public static final double TICKS_PER_SHOOT_MOTOR_REV = 48;
     public static final double TICKS_PER_INDEXER_MOTOR_REV = 48;
-    public static final double FLYWHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double TICKS_PER_PIVOT_MOTOR_REV_ENCODER = 2048;
+    public static final double FLYWHEEL_DIAMETER = 0.1016;
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
     public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
     public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    //used for the stow command, a variable for how far away from stow it does a slow speed
+    public static double PIVOT_STOW_OFFSET = 10;
     // assuming backwards on the robot is 0 and straight up is 90, double check
     // messurements on
     // real robot
-    public static final double PIVOT_MOTOR_ROTATIONS_TO_DEGREES = SHOOT_PIVOT_GEAR_RATIO / 360;
-    public static final double SHOOTER_RESTING_POSITION_ROTATIONS = 27.8 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final double SHOOTER_MAX_POSITION_ROTATIONS = 119.5 * PIVOT_MOTOR_ROTATIONS_TO_DEGREES;
-    public static final Rotation2d SHOOTER_RESTING_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(27.8));
-    public static final Rotation2d SHOOTER_MAX_POSITION_DEGREES = new Rotation2d(Units.degreesToRadians(119.5));
+    public static final double PIVOT_MOTOR_TICKS_TO_DEGREES =
+        (1 / TICKS_PER_PIVOT_MOTOR_REV_ENCODER) * SHOOT_PIVOT_GEAR_RATIO_ENCODER * 360;
+    public static final double SHOOTER_RESTING_POSITION_TICKS = 27.8 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final double SHOOTER_MAX_POSITION_TICKS = 119.5 / PIVOT_MOTOR_TICKS_TO_DEGREES;
+    public static final Rotation2d SHOOTER_RESTING_POSITION =
+        new Rotation2d(Units.degreesToRadians(27.8));
+    public static final Rotation2d SHOOTER_MAX_POSITION =
+        new Rotation2d(Units.degreesToRadians(119.5));
     public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 0.5;
@@ -198,10 +210,10 @@ public class Constants {
     }
 
     public class ShootingPID {
-      public static final double KP = 0.250;
+      public static final double KP = 0.4;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double KF = 0.1;
+      public static final double KF = 0.12;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -217,8 +229,7 @@ public class Constants {
 
     public class ShooterPivotPID {
 
-      // Setting low values for testing.
-      public static final double KP = .05;
+      public static final double KP = .03;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double KF = 0;
@@ -232,7 +243,7 @@ public class Constants {
       public static final double KD = 0;
       public static final double FF = 0;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class CollectorPivotPID {
