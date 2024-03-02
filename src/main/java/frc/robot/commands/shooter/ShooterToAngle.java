@@ -23,9 +23,7 @@ public class ShooterToAngle extends Command {
   }
 
   @Override
-  public void initialize() {
-    shooter.setFlywheelSetpoint(32);
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {
