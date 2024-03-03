@@ -102,9 +102,11 @@ public class Climber extends SubsystemBase {
     }
   }
 
-  public boolean isAtSetpoint() {
-    postitionVoltage.
-    
+  public boolean atPositionSetpoint(double setpoi) {
+    if (getClimberPostition()) {
+
+    }
+    return 
   }
 
   @Override
