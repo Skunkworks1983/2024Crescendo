@@ -50,9 +50,9 @@ public class LoadPieceShooter extends Command {
     if (!initialSpeedSet && !shooter.getShooterIndexerBeambreak1()) {
       shooter.setIndexerPercentOutput(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
-      collector.setPercentOutput(1);
+      collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
       initialSpeedSet = true;
-      System.out.println("initialSpeedSet");
+      System.out.println("Load Piece Shooter initialSpeedSet");
     }
 
     if (!beambreak1Tripped && shooter.getShooterIndexerBeambreak1()) {
@@ -60,7 +60,7 @@ public class LoadPieceShooter extends Command {
       indexer.setIndexerCoastMode();
       collector.setIntakeCoastMode();
       beambreak1Tripped = true;
-      System.out.println("beam break slowed");
+      System.out.println("Load Piece Shooter beam break slowed");
     }
   }
 

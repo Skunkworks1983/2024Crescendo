@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.text.CollationElementIterator;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -19,7 +18,6 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.OI;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
