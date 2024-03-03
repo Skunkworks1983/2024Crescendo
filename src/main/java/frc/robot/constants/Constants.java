@@ -101,6 +101,7 @@ public class Constants {
     public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
+    public static final double REVERSE_COLLECTOR_SPEED = -.5;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -171,6 +172,7 @@ public class Constants {
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
+    public static final double SHOOTER_MANUAL_INDEXER_BACKWARDS = -.5;
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
@@ -445,7 +447,7 @@ public class Constants {
     public static final double INDEXER_MOTOR_KD = 0;
     public static final double INDEXER_MOTOR_KF = 0;
     public static final double INDEXER_SPEED = 1;
-    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final double REVERSE_INDEXER_SPEED_PERCENT_OUTPUT = -.5;
     public static final boolean SET_INDEXER_SMART_PID = true;
     public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 1;
   }
