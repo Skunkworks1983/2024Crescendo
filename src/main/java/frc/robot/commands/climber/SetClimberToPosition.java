@@ -43,9 +43,7 @@ public class SetClimberToPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climber.atPositionSetpoint(module, position)) {
-      return true;
-    }
+    
     return false;
   }
 }
