@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class Shoot extends Command {
 
@@ -17,12 +19,14 @@ public class Shoot extends Command {
   public Shoot() {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL),
+        SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
   @Override
   public void initialize() {
     shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
-    indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED); 
+    indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
 
     System.out.println("Shoot Command Initialize");
   }

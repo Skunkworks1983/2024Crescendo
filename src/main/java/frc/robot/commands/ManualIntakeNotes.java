@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class ManualIntakeNotes extends Command {
   private Collector collector;
@@ -17,7 +19,8 @@ public class ManualIntakeNotes extends Command {
   public ManualIntakeNotes() {
     this.collector = Collector.getInstance();
     this.indexer = Indexer.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
+
+    addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
   // Called when the command is initially scheduled.
