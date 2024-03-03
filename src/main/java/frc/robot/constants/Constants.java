@@ -110,17 +110,17 @@ public class Constants {
 
     public class ModuleConstants {
 
-      public static final SwerveModuleConstants FRONT_LEFT_MODULE = new SwerveModuleConstants(11, 13, 15, 0.320801,
-          "Front Left");
+      public static final SwerveModuleConstants FRONT_LEFT_MODULE =
+          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
 
-      public static final SwerveModuleConstants FRONT_RIGHT_MODULE = new SwerveModuleConstants(12, 14, 16, -0.387939,
-          "Front Right");
+      public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
+          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
 
-      public static final SwerveModuleConstants BACK_LEFT_MODULE = new SwerveModuleConstants(21, 23, 25, -0.204590,
-          "Back Left");
+      public static final SwerveModuleConstants BACK_LEFT_MODULE =
+          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
 
-      public static final SwerveModuleConstants BACK_RIGHT_MODULE = new SwerveModuleConstants(22, 24, 26, 0.311035,
-          "Back Right");
+      public static final SwerveModuleConstants BACK_RIGHT_MODULE =
+          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
     }
   }
 
@@ -134,11 +134,13 @@ public class Constants {
     public static final double TICKS_PER_PIVOT_MOTOR_REV_ENCODER = 2048;
     public static final double FLYWHEEL_DIAMETER = 0.1016;
     public static final double ROLLER_DIAMETER = Units.inchesToMeters(1.25);
-    public static final double SHOOTER_ROTATIONS_PER_METER = SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
-    public static final double INDEXER_ROTATIONS_PER_METER = INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
-    //used for the stow command, a variable for how far away from stow it does a slow speed
-    public static double PIVOT_STOW_OFFSET = 10;
-    // assuming backwards on the robot is 0 and straight up is 90, double check
+    public static final double SHOOTER_ROTATIONS_PER_METER =
+        SHOOT_MOTOR_GEAR_RATIO / (FLYWHEEL_DIAMETER * Math.PI);
+    public static final double INDEXER_ROTATIONS_PER_METER =
+        INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
+    // used for the stow command, a variable for how far away from stow it does a slow speed
+    public static final double PIVOT_STOW_OFFSET = 10;
+    // assuming backwards on the robot is 0 and straight up is 180, double check
     // messurements on
     // real robot
     public static final double PIVOT_MOTOR_TICKS_TO_DEGREES =
@@ -156,11 +158,11 @@ public class Constants {
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
-    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION = new Translation3d(Units.inchesToMeters(11.976378),
-        0, Units.inchesToMeters(24.586839));
+    public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
+        new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 0;
+    public static final double STOW_FLYWHEEL_SPEED = 13;
     public static final double AMP_FLYWHEEL_SPEED = 0;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
@@ -173,7 +175,7 @@ public class Constants {
     public static final double MAX_FLYWHEEL_ERROR = 0;
 
     // Max shooter pivot motor current output.
-    public static final double SHOOTER_PIVOT_MAX_AMPS = 1;
+    public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
   }
 
   public class PIDControllers {
@@ -231,10 +233,9 @@ public class Constants {
 
     public class ShooterPivotPID {
 
-      public static final double KP = .03;
+      public static final double KP = .02;
       public static final double KI = 0;
-      public static final double KD = 0;
-      public static final double KF = 0;
+      public static final double KD = 0.00025;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -300,13 +301,16 @@ public class Constants {
     public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
 
     // Forwards facing camera
-    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256), Units.inchesToMeters(0.901+.875), Units.inchesToMeters(10.727+2.088-0.175),
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
+        Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
         new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
 
     // Sideways facing camera
-    public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(Units.inchesToMeters(6.261-.875), Units.inchesToMeters(5.901), Units.inchesToMeters(11.077+2.088-0.175),
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
-    
+    public static final Transform3d ROBOT_TO_CAMERA_2 =
+        new Transform3d(Units.inchesToMeters(6.261 - .875), Units.inchesToMeters(5.901),
+            Units.inchesToMeters(11.077 + 2.088 - 0.175),
+            new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+
 
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
@@ -325,8 +329,7 @@ public class Constants {
   public class Targeting {
     public enum FieldTarget {
       SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)),
-      NONE();
+          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
 
       Translation3d target;
 
@@ -340,8 +343,7 @@ public class Constants {
       }
 
       /**
-       * Returns the Optional<Translation2d> value of the target. If the target is
-       * NONE, this will
+       * Returns the Optional<Translation2d> value of the target. If the target is NONE, this will
        * return Optional.empty().
        */
       public Optional<Translation3d> get() {
