@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class IntakeNoteToIndexer extends Command {
   private final Collector collector;
@@ -18,7 +20,7 @@ public class IntakeNoteToIndexer extends Command {
     collector = Collector.getInstance();
     indexer = Indexer.getInstance();
 
-    addRequirements(indexer, collector);
+    addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +28,7 @@ public class IntakeNoteToIndexer extends Command {
   public void initialize() {
     collector.setPercentOutput(1);
     indexer.setPercentOutput(1);
-    System.out.println("start intake note to indexer");
+    System.out.println("Intake Note to Indexer Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,15 +39,15 @@ public class IntakeNoteToIndexer extends Command {
   @Override
   public void end(boolean interrupted) {
     collector.setIntakeCoastMode();
-collector.setPercentOutput(0);
+    collector.setPercentOutput(0);
     indexer.setPercentOutput(0);
-    System.out.println("intake note to indexer command end");
+    System.out.println("Intake Note to Indexer Command End");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return indexer.getBeamBreakSensor();
-    
+
   }
 }

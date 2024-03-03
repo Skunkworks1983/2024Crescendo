@@ -102,11 +102,8 @@ public class Climber extends SubsystemBase {
     }
   }
 
-  public boolean atPositionSetpoint(double setpoi) {
-    if (getClimberPostition()) {
-
-    }
-    return 
+  public boolean atPositionSetpoint(double setpoint, ClimbModule module) {
+    return Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_MOTOR_POSITION_TOLERANCE;
   }
 
   @Override

@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 // this command lowers the climber until arms are in contact with the chain
 public class LowerClimberToChain extends Command {
@@ -24,15 +26,20 @@ public class LowerClimberToChain extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("LowerClimberToChain command started");
+    addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_RIGHT),
+        SubsystemGroups.getInstance(Subsystems.CLIMBER_LEFT));
+
+    System.out.println("Lower Climber to Chain Command Initialize");
     SmartDashboard.putBoolean("LowerClimberToChain", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    isTorqueLeft = climber.getClimberTorque(ClimbModule.LEFT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
-    isTorqueRight = climber.getClimberTorque(ClimbModule.RIGHT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
+    isTorqueLeft =
+        climber.getClimberTorque(ClimbModule.LEFT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
+    isTorqueRight =
+        climber.getClimberTorque(ClimbModule.RIGHT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
 
     if (!isTorqueLeft) {
       climber.setClimberOutput(ClimbModule.LEFT, ClimberConstants.BASE_PULL_SPEED);
@@ -52,7 +59,7 @@ public class LowerClimberToChain extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("LowerClimberToChain command ended");
+    System.out.println("Lower Climber to Chain Command End");
     SmartDashboard.putBoolean("LowerClimberToChain", false);
   }
 
