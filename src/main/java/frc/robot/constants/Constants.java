@@ -402,14 +402,14 @@ public class Constants {
 
     // TODO: set these
     public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = .01 / CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = .02 / CLIMBER_ROTATIONS_TO_METERS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
-    public static final double CLIMBER_POSITION_TOLERANCE = .1;
+    public static final double CLIMBER_POSITION_TOLERANCE = .3;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
-    public static final double CLIMBER_CHAIN_TORQUE = 6; 
+    public static final double CLIMBER_CHAIN_TORQUE = 10; 
     public static final double BASE_PULL_SPEED = -.35;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
