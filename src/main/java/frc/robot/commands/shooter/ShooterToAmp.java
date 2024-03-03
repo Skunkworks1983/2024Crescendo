@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.LimitSwitch;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class ShooterToAmp extends Command {
 
@@ -19,6 +21,7 @@ public class ShooterToAmp extends Command {
   public ShooterToAmp() {
     shooter = Shooter.getInstance();
     isTurning = false;
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
   }
 
   @Override
@@ -32,6 +35,7 @@ public class ShooterToAmp extends Command {
     } else {
       isTurning = false;
     }
+    System.out.println("Shooter to Amp Command Initialize");
   }
 
   @Override
@@ -50,6 +54,7 @@ public class ShooterToAmp extends Command {
   public void end(boolean interrupted) {
     shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+    System.out.println("Shooter to Amp Command End");
   }
 
   @Override

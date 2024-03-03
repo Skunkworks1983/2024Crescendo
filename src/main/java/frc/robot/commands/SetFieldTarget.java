@@ -23,6 +23,7 @@ public class SetFieldTarget extends Command {
   @Override
   public void initialize() {
     drivebase.setFieldTarget(fieldTarget);
+    System.out.println("Set Field Target Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,6 +34,7 @@ public class SetFieldTarget extends Command {
   @Override
   public void end(boolean interrupted) {
     drivebase.setFieldTarget(FieldTarget.NONE);
+    System.out.println("Set Field Target Command End");
   }
 
   // Returns true when the command should end.
