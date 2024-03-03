@@ -269,8 +269,7 @@ public class Constants {
 
     public class ClimberPID {
 
-      // not tuned - swag
-      public static final double CLIMBER_KP = 0.2;
+      public static final double CLIMBER_KP = 0.3;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
@@ -399,16 +398,14 @@ public class Constants {
 
     //Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
-    public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
-    public static final double CLIMBER_MOVEMENT = 0.431;
+    public static final double CLIMBER_METERS_TO_MOTOR_ROTATIONS = 1 / ((Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO);
 
-    // TODO: set these
-    public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = .02 / CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MAX_POSITION = .35 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MIN_POSITION = .02 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
-    public static final double CLIMBER_POSITION_TOLERANCE = .3;
+    public static final double CLIMBER_MOTOR_POSITION_TOLERANCE = .5;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 10; 

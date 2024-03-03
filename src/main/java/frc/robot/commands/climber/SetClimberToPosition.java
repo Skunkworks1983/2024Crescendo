@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
@@ -35,15 +36,14 @@ public class SetClimberToPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("SetClimberToPosition command ended");
     climber.setClimberOutput(module, 0);
     climber.setBrakeMode(module);
+    SmartDashboard.putBoolean("SetClimberToPosition " + module, true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    return false;
+    return climber.atPositionSetpoint(position, module) 
   }
 }
