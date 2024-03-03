@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.WaitDuration;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -23,11 +25,13 @@ public class Robot extends TimedRobot {
 
   OI oi;
   Drivebase drivebase;
+  Shooter shooter;
 
   @Override
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
+    shooter = Shooter.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -36,6 +40,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Shooter Angle Degrees", shooter.getShooterPivotRotationInDegrees());
+    SmartDashboard.putBoolean("Shooter Limit Switch Backward", shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Switch Forward", shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
   }
 
   @Override
@@ -44,7 +51,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    SmartDashboard.putNumber("Shooter Angle Degrees", shooter.getShooterPivotRotationInDegrees());
+    SmartDashboard.putBoolean("Shooter Limit Switch Backward", shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Switch Forward", shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
+  }
 
   @Override
   public void disabledExit() {}

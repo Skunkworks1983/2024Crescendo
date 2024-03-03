@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
@@ -18,12 +20,14 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   /** Creates a new AimShooterAtSpeakerAssumingNoGravity. */
   public AimShooterAtSpeakerAssumingNoGravity() {
     shooter = Shooter.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Aim Shooter at Speaker Command Initialize");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -39,13 +43,15 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
         target.getZ() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
-    shooter.setShooterAngle(shooterRotation);
+    shooter.setPivotAngleAndSpeed(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("Aim Shooter at Speaker Command End");
+  }
 
   // Returns true when the command should end.
   @Override

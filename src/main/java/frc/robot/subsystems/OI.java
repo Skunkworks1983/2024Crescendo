@@ -7,13 +7,21 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.climber.ExtendClimber;
+import frc.robot.commands.climber.ManualMoveClimber;
+import frc.robot.commands.climber.RetractClimber;
+import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 
 public class OI extends SubsystemBase {
@@ -29,6 +37,18 @@ public class OI extends SubsystemBase {
   JoystickButton flywheelSpinup;
   JoystickButton manualShoot;
   JoystickButton collectorPositionChange;
+  JoystickButton noteFloorToShooter;
+  JoystickButton shooterToAngle;
+  JoystickButton shooterToStow;
+
+  // Climber buttons
+  JoystickButton extendClimber;
+  JoystickButton retractClimber;
+  JoystickButton smartClimb;
+  JoystickButton manualLeftClimberUp;
+  JoystickButton manualLeftClimberDown;
+  JoystickButton manualRightClimberUp;
+  JoystickButton manualRightClimberDown;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -42,7 +62,21 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
+
+    extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
+    retractClimber = new JoystickButton(buttonStick, Constants.IDS.RETRACT_CLIMBER);
+    smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
+
+    manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
+    manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
+    manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
+    manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -50,8 +84,19 @@ public class OI extends SubsystemBase {
     manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     manualShoot.whileTrue(new Shoot());
+
+    extendClimber.onTrue(new ExtendClimber());
+    retractClimber.onTrue(new RetractClimber());
+    smartClimb.onTrue(new SmartClimb());
+    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .05));
+    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.05));
+    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .05));
+    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
+
     collectorPositionChange.whileTrue(new LowerCollector());
     collectorPositionChange.whileFalse(new CollectorStow());
+
+    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
   }
 
   @Override

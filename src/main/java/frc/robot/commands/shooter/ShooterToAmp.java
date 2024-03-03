@@ -8,6 +8,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.LimitSwitch;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class ShooterToAmp extends Command {
 
@@ -18,42 +21,45 @@ public class ShooterToAmp extends Command {
   public ShooterToAmp() {
     shooter = Shooter.getInstance();
     isTurning = false;
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
   }
 
   @Override
   public void initialize() {
-    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES;
+    shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION;
 
     if (shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle);
+      shooter.setPivotAngleAndSpeed(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
       isTurning = true;
     } else {
       isTurning = false;
     }
+    System.out.println("Shooter to Amp Command Initialize");
   }
 
   @Override
   public void execute() {
-    if (shooter.getShooterPivotRotation() >= Constants.Shooter.SHOOTER_MAX_POSITION_DEGREES
+    if (shooter.getShooterPivotRotationInDegrees() >= Constants.Shooter.SHOOTER_MAX_POSITION
         .getDegrees() && isTurning) {
-      shooter.setPivotMotorVelocity(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
+      shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     } else if (!isTurning && shooter.getShooterIndexerBeambreak2()) {
-      shooter.setShooterAngle(shooterAngle);
+      shooter.setPivotAngleAndSpeed(shooterAngle);
       shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setPivotMotorVelocity(0);
+    shooter.setPivotMotorPercentOutput(0);
     shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+    System.out.println("Shooter to Amp Command End");
   }
 
   @Override
   public boolean isFinished() {
 
-    return shooter.getLimitSwitchOutput(true);
+    return shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH);
   }
 }
