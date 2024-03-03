@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.Optional;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.PhotonVision;
 import frc.robot.vision.PieceData;
@@ -16,10 +17,9 @@ public class CenterOnPiece extends Command {
 
   Vision vision = Vision.getInstance();
 
-  PIDController centeringController = new PIDController(0, 0, 0);
+  // PIDController centeringController = new PIDController(0, 0, 0);
 
   public CenterOnPiece() {
-    
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +33,8 @@ public class CenterOnPiece extends Command {
   public void execute() {
     Optional<PieceData> pieceData = vision.getPieceData(PhotonVision.PIECE_DETECTION_CAMERA_NAME);
     if (pieceData.isPresent()) {
-      centeringController.setSetpoint(pieceData.get().yaw);
+      // centeringController.setSetpoint(pieceData.get().yaw);
+      SmartDashboard.putNumber("Piece Yaw", pieceData.get().yaw);
     }
   }
 

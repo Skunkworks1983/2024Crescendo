@@ -283,8 +283,8 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_1_NAME = "Forward";
+    public static final String CAMERA_2_NAME = "Side";
 
     // TODO: set this
     public static final String PIECE_DETECTION_CAMERA_NAME = "";
@@ -294,6 +294,9 @@ public class Constants {
     public static final Transform3d ROBOT_TO_CAMERA_2 = new Transform3d(0.1190244, 0.1498854, 0.321945,
         new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(-90)));
 
+    // TODO: set this
+    public static final Transform3d ROBOT_TO_PIECE_DETECTION_CAMERA = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
+    
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.

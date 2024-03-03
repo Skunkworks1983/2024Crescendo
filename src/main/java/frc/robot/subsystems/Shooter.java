@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -79,6 +80,10 @@ public class Shooter extends SubsystemBase {
             Constants.PIDControllers.ShooterIndexerPID.KD,
             Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
             Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
+
+    TalonFXConfiguration coastMode = new TalonFXConfiguration();
+    coastMode.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    pivotMotor.getConfigurator().apply(coastMode);
 
     pivotController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShooterPivotPID.KP,
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,

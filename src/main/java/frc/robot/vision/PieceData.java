@@ -19,5 +19,4 @@ public class PieceData {
         this.skew = target.getSkew();
         this.bestCameraToTargetTransform = target.getBestCameraToTarget();
     }
-
 }
