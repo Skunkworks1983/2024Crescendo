@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 
-public class ExtendClimber extends ParallelCommandGroup {
-  public ExtendClimber() {
-    addCommands(new SetClimberToPosition(ClimbModule.LEFT, ClimberConstants.MAX_POSITION),
-        new SetClimberToPosition(ClimbModule.RIGHT, ClimberConstants.MAX_POSITION));
+public class RetractClimber extends ParallelCommandGroup {
+  public RetractClimber() {
+    addCommands(new SetClimberToPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION),
+        new SetClimberToPosition(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION));
   }
 }

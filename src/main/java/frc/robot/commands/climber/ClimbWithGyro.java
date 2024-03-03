@@ -36,13 +36,14 @@ public class ClimbWithGyro extends Command {
   public void execute() {
     double roll = drivebase.getGyroRoll();
 
-    leftOutput = ClimberConstants.BASE_PULL_SPEED + roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT;
-    rightOutput = ClimberConstants.BASE_PULL_SPEED - roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT;
+    leftOutput = ClimberConstants.BASE_PULL_SPEED - (roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT);
+    rightOutput = ClimberConstants.BASE_PULL_SPEED + (roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT);
+
+    SmartDashboard.putNumber("Left Climber Output", leftOutput);
+    SmartDashboard.putNumber("Right Climber Output", rightOutput);
 
     climber.setClimberOutput(ClimbModule.LEFT, leftOutput);
     climber.setClimberOutput(ClimbModule.RIGHT, rightOutput);
-
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
   }
 
   // Called once the command ends or is interrupted.
@@ -60,7 +61,8 @@ public class ClimbWithGyro extends Command {
   @Override
   public boolean isFinished() {
 
-    // Checks if one of the climbers is at the minimun position, if yes, it ends the command
+    // Checks if one of the climbers is at the minimun position, if yes, it ends the
+    // command
     if (climber.atPositionSetpoint(ClimbModule.LEFT, ClimberConstants.MIN_POSITION)
         || climber.atPositionSetpoint(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION)) {
       return true;

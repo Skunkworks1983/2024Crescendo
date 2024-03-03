@@ -9,13 +9,14 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
-// This is a stub subsystem
 public class Climber extends SubsystemBase {
 
   TalonFX leftClimbMotor;
@@ -23,10 +24,10 @@ public class Climber extends SubsystemBase {
 
   private static Climber climber;
   private final PositionVoltage postitionVoltage = new PositionVoltage(0);
+
   SmartPIDControllerTalonFX leftPositionController;
   SmartPIDControllerTalonFX rightPositionController;
 
-  /** Creates a new Climber. */
   private Climber() {
 
     // Initialize the climbing motors.
@@ -41,23 +42,28 @@ public class Climber extends SubsystemBase {
     leftClimbMotor.getConfigurator().apply(notInverted);
     rightClimbMotor.getConfigurator().apply(inverted);
 
+    // Using Smart PID Controllers on the motors for position control
     leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Left Climb Motor",
-        false, leftClimbMotor);
-    
+        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, leftClimbMotor);
+
     rightPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
         Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
-        false, rightClimbMotor);
+        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, rightClimbMotor);
+
+    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", getClimberTorque(ClimbModule.RIGHT));
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {
     leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.setControl(postitionVoltage.withPosition(setpointMeters));
     }
   }
@@ -65,30 +71,23 @@ public class Climber extends SubsystemBase {
   public double getClimberPostition(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       return leftClimbMotor.getPosition().getValueAsDouble();
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       return rightClimbMotor.getPosition().getValueAsDouble();
     }
-
-    return 0.0;
   }
 
   public double getClimberTorque(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       return Math.abs(leftClimbMotor.getTorqueCurrent().getValueAsDouble());
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       return Math.abs(rightClimbMotor.getTorqueCurrent().getValueAsDouble());
     }
-
-    return 0.0;
   }
 
   public void setClimberOutput(ClimbModule module, double percentOutput) {
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.set(percentOutput);
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.set(percentOutput);
     }
   }
@@ -96,13 +95,13 @@ public class Climber extends SubsystemBase {
   public void setBrakeMode(ClimbModule module) {
     if (module == ClimbModule.LEFT) {
       leftClimbMotor.setNeutralMode(NeutralModeValue.Brake);
-    }
-    if (module == ClimbModule.RIGHT) {
+    } else {
       rightClimbMotor.setNeutralMode(NeutralModeValue.Brake);
     }
   }
-  public boolean atPositionSetpoint(ClimbModule module, double setpoint){
-    if(Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE){
+
+  public boolean atPositionSetpoint(ClimbModule module, double setpoint) {
+    if (Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
       return true;
     }
     return false;
@@ -110,7 +109,12 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
+    // Updating SmartDashboard prints every loop.
+    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
   }
 
   public static Climber getInstance() {

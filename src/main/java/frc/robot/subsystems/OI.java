@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
+import frc.robot.commands.climber.RetractClimber;
 import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
@@ -43,6 +44,7 @@ public class OI extends SubsystemBase {
 
   // Climber buttons
   JoystickButton extendClimber;
+  JoystickButton retractClimber;
   JoystickButton smartClimb;
   JoystickButton manualLeftClimberUp;
   JoystickButton manualLeftClimberDown;
@@ -65,6 +67,7 @@ public class OI extends SubsystemBase {
     noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
     extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
+    retractClimber = new JoystickButton(buttonStick, Constants.IDS.RETRACT_CLIMBER);
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
     manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
@@ -80,6 +83,7 @@ public class OI extends SubsystemBase {
     manualShoot.whileTrue(new Shoot());
 
     extendClimber.onTrue(new ExtendClimber());
+    retractClimber.onTrue(new RetractClimber());
     smartClimb.onTrue(new SmartClimb());
     manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .05));
     manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.05));

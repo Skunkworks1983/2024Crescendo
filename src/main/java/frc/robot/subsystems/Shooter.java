@@ -84,8 +84,7 @@ public class Shooter extends SubsystemBase {
     pivotEncoderBaseValue = 0.0;
 
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
-    shooterIndexerMotor =
-        new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
+    shooterIndexerMotor = new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
     // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
     // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
@@ -95,12 +94,11 @@ public class Shooter extends SubsystemBase {
         Constants.PIDControllers.ShootingPID.KF, "Shooter Shoot",
         Constants.PIDControllers.ShootingPID.SMART_PID_ACTIVE, shootMotor1);
 
-    indexerController =
-        new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
-            Constants.PIDControllers.ShooterIndexerPID.KI,
-            Constants.PIDControllers.ShooterIndexerPID.KD,
-            Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
-            Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
+    indexerController = new SmartPIDControllerCANSparkMax(Constants.PIDControllers.ShooterIndexerPID.KP,
+        Constants.PIDControllers.ShooterIndexerPID.KI,
+        Constants.PIDControllers.ShooterIndexerPID.KD,
+        Constants.PIDControllers.ShooterIndexerPID.KF, "Shooter Indexer",
+        Constants.PIDControllers.ShooterIndexerPID.SMART_PID_ACTIVE, shooterIndexerMotor);
 
     pivotController = new SmartPIDController(Constants.PIDControllers.ShooterPivotPID.KP,
         Constants.PIDControllers.ShooterPivotPID.KI, Constants.PIDControllers.ShooterPivotPID.KD,

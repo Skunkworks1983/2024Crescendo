@@ -69,14 +69,15 @@ public class Constants {
     public static final int FLYWHEEL_SPINUP = 17;
     public static final int MANUAL_SHOOT = 24;
 
-      // Joystick IDs for the climber
+    // Joystick IDs for the climber
     public static final int EXTEND_CLIMBER = 12;
-    public static final int SMART_CLIMB = 11;
+    public static final int RETRACT_CLIMBER = 11;
+    public static final int SMART_CLIMB = 15;
     public static final int MANUAL_LEFT_CLIMBER_UP = 6;
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    
+
     public static final int COLLECTOR_POSITION_CHANGE = 13;
     public static final int RIGHT_JOYSTICK_1 = 1;
   }
@@ -268,10 +269,12 @@ public class Constants {
     public class ClimberPID {
 
       // not tuned - swag
-      public static final double CLIMBER_KP = 0.1;
+      public static final double CLIMBER_KP = 0.2;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
+
+      public static final boolean SMART_PID_ACTIVE = false;
     }
   }
 
@@ -392,26 +395,23 @@ public class Constants {
 
     public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
 
-    // Meters
+    //Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
     public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
-
-    // Meters
     public static final double CLIMBER_MOVEMENT = 0.431;
 
     // TODO: set these
     public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = (.2) * CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MIN_POSITION = .01 / CLIMBER_ROTATIONS_TO_METERS;
 
-    // If the position in within the tolerance, stop setting the speed.
-    public static final double CLIMBER_POSITION_TOLERANCE = .01;
+    // Tolerance when checking if the climber is at a position setpoint. NOTE: This
+    // tolerance is in motor rotations, NOT cm.
+    public static final double CLIMBER_POSITION_TOLERANCE = .1;
 
-    // TODO: set this
-    public static final double CLIMBER_CHAIN_TORQUE = 20;
-
-    public static final double BASE_PULL_SPEED = -.2;
-
-    public static final double ROLL_DEGREES_TO_OUTPUT = 150;
+    // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
+    public static final double CLIMBER_CHAIN_TORQUE = 6; 
+    public static final double BASE_PULL_SPEED = -.35;
+    public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
       LEFT, RIGHT;

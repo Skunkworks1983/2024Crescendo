@@ -10,12 +10,12 @@ import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
 
-// this command lowers the climber arms are in contact with the chain
+// this command lowers the climber until arms are in contact with the chain
 public class LowerClimberToChain extends Command {
   /** Creates a new LowerClimberToChain. */
   Climber climber;
-  boolean isNoTorqueLeft = false;
-  boolean isNoTorqueRight = false;
+  boolean isTorqueLeft = true;
+  boolean isTorqueRight = true;
 
   public LowerClimberToChain() {
     climber = Climber.getInstance();
@@ -31,24 +31,22 @@ public class LowerClimberToChain extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    isNoTorqueLeft = climber.getClimberTorque(ClimbModule.LEFT) < ClimberConstants.CLIMBER_CHAIN_TORQUE;
-    isNoTorqueRight = climber.getClimberTorque(ClimbModule.RIGHT) < ClimberConstants.CLIMBER_CHAIN_TORQUE;
+    isTorqueLeft = climber.getClimberTorque(ClimbModule.LEFT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
+    isTorqueRight = climber.getClimberTorque(ClimbModule.RIGHT) > ClimberConstants.CLIMBER_CHAIN_TORQUE;
 
-    if (isNoTorqueLeft) {
+    if (!isTorqueLeft) {
       climber.setClimberOutput(ClimbModule.LEFT, ClimberConstants.BASE_PULL_SPEED);
     } else {
       climber.setClimberOutput(ClimbModule.LEFT, 0);
       climber.setBrakeMode(ClimbModule.LEFT);
     }
 
-    if (isNoTorqueRight) {
+    if (!isTorqueRight) {
       climber.setClimberOutput(ClimbModule.RIGHT, ClimberConstants.BASE_PULL_SPEED);
     } else {
       climber.setClimberOutput(ClimbModule.RIGHT, 0);
       climber.setBrakeMode(ClimbModule.RIGHT);
     }
-
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
   }
 
   // Called once the command ends or is interrupted.
@@ -61,6 +59,6 @@ public class LowerClimberToChain extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return(!isNoTorqueLeft && !isNoTorqueRight);
+    return (isTorqueLeft && isTorqueRight);
   }
 }
