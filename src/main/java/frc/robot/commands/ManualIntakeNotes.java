@@ -10,10 +10,12 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
+import frc.robot.subsystems.Shooter;
 
 public class ManualIntakeNotes extends Command {
   private Collector collector;
   private Indexer indexer;
+  private Shooter shooter;
 
   /** Creates a new ManualIntakeNotes. */
   public ManualIntakeNotes() {
@@ -21,6 +23,8 @@ public class ManualIntakeNotes extends Command {
     this.indexer = Indexer.getInstance();
 
     addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
+    shooter = Shooter.getInstance();
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -28,6 +32,7 @@ public class ManualIntakeNotes extends Command {
   public void initialize() {
     collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
     indexer.setPercentOutput(Constants.IndexerConstants.INDEXER_MANUAL_PERCENT_OUTPUT);
+    shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
     System.out.println("Manual Intake Notes Command Initialize");
   }
 
@@ -40,6 +45,7 @@ public class ManualIntakeNotes extends Command {
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
     indexer.setPercentOutput(0);
+    shooter.setShooterIndexerSpeed(0);
     System.out.println("Manual Intake Notes Command End");
   }
 
