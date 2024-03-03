@@ -29,7 +29,7 @@ public class ShootWhenReady extends Command {
   public void execute() {
     if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR
         && shooter.isFlywheelSpiningWithSetpoint) {
-      shooter.setShooterIndexerSpeed(Constants.Shooter.SHOOTING_INDEXER_SPEED);
+      shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
   }
 

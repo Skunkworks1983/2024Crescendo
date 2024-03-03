@@ -68,21 +68,23 @@ public class Constants {
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
 
-    public static final int SHOOT_WHEN_READY = 0;
-    public static final int FLYWHEEL_SPINUP = 0;
+    public static final int SHOOT_WHEN_READY = 11;
+    public static final int FLYWHEEL_SPINUP = 9;
 
-    public static final int SHOOTER_TO_AMP = 0;
-    public static final int SHOOTER_TO_SPEAKER = 0;
+    public static final int COLLECTOR_STOW = 15;
+    public static final int COLLECTOR_DOWN = 13;
 
-    public static final int NOTE_FLOOR_TO_SHOOTER = 0;
+    public static final int SHOOTER_TO_AMP = 12;
+    public static final int SHOOTER_TO_SPEAKER = 10;
+
+    public static final int NOTE_FLOOR_TO_SHOOTER = 14;
 
     // Joystick IDs for the climber
-    public static final int EXTEND_CLIMBER = 12;
-    public static final int SMART_CLIMB = 15;
-    public static final int MANUAL_LEFT_CLIMBER_UP = 6;
-    public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
-    public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
-    public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
+    public static final int SMART_CLIMB = 7;
+    public static final int MANUAL_LEFT_CLIMBER_UP = 3;
+    public static final int MANUAL_LEFT_CLIMBER_DOWN = 4;
+    public static final int MANUAL_RIGHT_CLIMBER_UP = 6;
+    public static final int MANUAL_RIGHT_CLIMBER_DOWN = 5;
     }
 
   public class Collector {
@@ -176,7 +178,7 @@ public class Constants {
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 13;
-    public static final double AMP_FLYWHEEL_SPEED = 0;
+    public static final double AMP_FLYWHEEL_SPEED = 7;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
@@ -185,7 +187,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0;
+    public static final double MAX_FLYWHEEL_ERROR = 0.25;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
@@ -420,10 +422,10 @@ public class Constants {
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
-    public static final double CLIMBER_POSITION_TOLERANCE = .3;
+    public static final double CLIMBER_POSITION_TOLERANCE = .03;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
-    public static final double CLIMBER_CHAIN_TORQUE = 10;
+    public static final double CLIMBER_CHAIN_TORQUE = 15;
     public static final double BASE_PULL_SPEED = -.35;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
