@@ -74,8 +74,8 @@ public class Constants {
     public static final int COLLECTOR_STOW = 15;
     public static final int COLLECTOR_DOWN = 13;
 
-    public static final int SHOOTER_TO_AMP = 12;
-    public static final int SHOOTER_TO_SPEAKER = 10;
+    public static final int SHOOTER_TO_AMP = 1;
+    public static final int SHOOTER_TO_SPEAKER = 1;
 
     public static final int NOTE_FLOOR_TO_SHOOTER = 14;
 
@@ -178,7 +178,7 @@ public class Constants {
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 13;
-    public static final double AMP_FLYWHEEL_SPEED = 7;
+    public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
