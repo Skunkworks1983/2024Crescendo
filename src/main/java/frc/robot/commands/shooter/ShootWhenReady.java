@@ -6,6 +6,7 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
@@ -13,9 +14,11 @@ import frc.robot.subsystems.SubsystemGroups.Subsystems;
 public class ShootWhenReady extends Command {
 
   private Shooter shooter;
+  private Indexer indexer;
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
+    indexer = Indexer.getInstance();
     //only reads the flywheel, so it doesn't require the flywheel
     addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
@@ -30,12 +33,14 @@ public class ShootWhenReady extends Command {
     if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR
         && shooter.isFlywheelSpiningWithSetpoint) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
+      indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
+    indexer.setIndexerCoastMode();
     System.out.println("Shoot When Ready Command End");
   }
 

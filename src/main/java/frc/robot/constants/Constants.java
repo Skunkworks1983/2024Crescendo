@@ -65,8 +65,8 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
 
     //button Ids
-    public static final int SPEAKER_TARGETING_BUTTON = 2;
-    public static final int AMP_TARGETING_BUTTON = 3;
+    public static final int SPEAKER_TARGETING_BUTTON = 1;
+    public static final int AMP_TARGETING_BUTTON = 1;
 
     public static final int SHOOT_WHEN_READY = 11;
     public static final int FLYWHEEL_SPINUP = 9;
@@ -74,8 +74,8 @@ public class Constants {
     public static final int COLLECTOR_STOW = 15;
     public static final int COLLECTOR_DOWN = 13;
 
-    public static final int SHOOTER_TO_AMP = 1;
-    public static final int SHOOTER_TO_SPEAKER = 1;
+    public static final int SHOOTER_TO_AMP = 12;
+    public static final int SHOOTER_TO_SPEAKER = 10;
 
     public static final int NOTE_FLOOR_TO_SHOOTER = 14;
 
@@ -114,6 +114,7 @@ public class Constants {
   public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
+    public static final double CORRECTIVE_SCALE = 0.1;
 
     // aproxamation based on travel distance of trajectory. Value is in feet.
     public static final double WHEEL_DIAMETER = .33333333;
@@ -122,8 +123,6 @@ public class Constants {
     // Module translations feet
     public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
-
-    public static final double CORRECTIVE_SCALE = 0.1;
 
     public class ModuleConstants {
 
@@ -298,7 +297,7 @@ public class Constants {
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.5);
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.2);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
   // per second.
