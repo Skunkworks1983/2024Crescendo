@@ -173,11 +173,6 @@ public class Drivebase extends SubsystemBase {
     speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
     speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
 
-    // + x, + rotation, skew left
-    // - x, + rotation, skew right
-    // + y, + rotation, skew down
-    // - y, + rotation, skew up
-
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
     // Caps the module speeds
