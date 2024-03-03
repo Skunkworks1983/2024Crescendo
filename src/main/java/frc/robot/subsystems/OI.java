@@ -91,13 +91,13 @@ public class OI extends SubsystemBase {
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
 
-    //smartClimb.onTrue(new ExtendClimber());
-    //smartClimb.onFalse(new SmartClimb());
+    smartClimb.onTrue(new ExtendClimber());
+    smartClimb.onFalse(new SmartClimb());
 
-    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .05));
-    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.05));
-    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .05));
-    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
+    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
+    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
+    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
+    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
   }
 

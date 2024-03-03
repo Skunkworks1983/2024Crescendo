@@ -81,10 +81,10 @@ public class Constants {
 
     // Joystick IDs for the climber
     public static final int SMART_CLIMB = 7;
-    public static final int MANUAL_LEFT_CLIMBER_UP = 3;
-    public static final int MANUAL_LEFT_CLIMBER_DOWN = 4;
-    public static final int MANUAL_RIGHT_CLIMBER_UP = 6;
-    public static final int MANUAL_RIGHT_CLIMBER_DOWN = 5;
+    public static final int MANUAL_LEFT_CLIMBER_UP = 6;
+    public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
+    public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
+    public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
     }
 
   public class Collector {
