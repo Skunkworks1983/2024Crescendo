@@ -123,6 +123,8 @@ public class Constants {
     public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
 
+    public static final double CORRECTIVE_SCALE = 0.1;
+
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
@@ -296,7 +298,7 @@ public class Constants {
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(20);
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.5);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
   // per second.
