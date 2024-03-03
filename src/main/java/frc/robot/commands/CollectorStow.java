@@ -20,7 +20,7 @@ public class CollectorStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorPos(Constants.Collector.COLLECTOR_STOW_POS);
+    collector.setCollectorGoal(Constants.Collector.COLLECTOR_STOW_POS);
     System.out.println("collector stow initialize");
   }
 

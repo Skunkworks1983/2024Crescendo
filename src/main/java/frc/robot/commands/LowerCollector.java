@@ -20,7 +20,7 @@ public class LowerCollector extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorPos(Constants.Collector.COLLECTOR_FLOOR_POS);
+    collector.setCollectorGoal(Constants.Collector.COLLECTOR_FLOOR_POS);
     System.out.println("collector lower initialize");
   }
 

@@ -94,6 +94,9 @@ public class Constants {
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
     public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = .5;
+
+    public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
+    public static final int COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 2;
   }
 
   public class DrivebaseInfo {
@@ -251,10 +254,15 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.25;
+      public static final double KP = 0.05;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
+
+      // IN DEGREES
+      public static final double MAX_VELOCITY = 400; 
+      public static final double MAX_ACCELERATION = 200;
+
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
