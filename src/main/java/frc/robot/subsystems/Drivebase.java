@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.SwerveTeleop;
+import frc.robot.commands.drivebaseTeleop.MaintainHeading;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.utils.SkunkPhotonCamera;
@@ -135,7 +135,7 @@ public class Drivebase extends SubsystemBase {
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
+    setDefaultCommand(new MaintainHeading(drivebase, OI.getInstance()));
   }
 
   /** Used to get the angle reported by the gyro. */
