@@ -63,7 +63,11 @@ public class OI extends SubsystemBase {
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+
+    collectorPositionChange =
+        new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
     noteFloorToShooter = new JoystickButton(rightJoystick, Constants.IDS.RIGHT_JOYSTICK_1);
 
     extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);

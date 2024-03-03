@@ -29,7 +29,6 @@ public class ShooterToAngle extends Command {
   public void execute() {
     shooter.setPivotAngleAndSpeed(shooterAngle);
   }
-
   @Override
   public void end(boolean interrupted) {
     shooter.setPivotMotorPercentOutput(0);
