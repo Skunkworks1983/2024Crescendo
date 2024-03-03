@@ -63,24 +63,27 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
+
+    //button Ids
     public static final int SPEAKER_TARGETING_BUTTON = 2;
     public static final int AMP_TARGETING_BUTTON = 3;
-    public static final int MANUAL_PERCENT_OUTPUT = 18;
-    public static final int FLYWHEEL_SPINUP = 17;
-    public static final int MANUAL_SHOOT = 24;
+
+    public static final int SHOOT_WHEN_READY = 0;
+    public static final int FLYWHEEL_SPINUP = 0;
+
+    public static final int SHOOTER_TO_AMP = 0;
+    public static final int SHOOTER_TO_SPEAKER = 0;
+
+    public static final int NOTE_FLOOR_TO_SHOOTER = 0;
 
     // Joystick IDs for the climber
     public static final int EXTEND_CLIMBER = 12;
-    public static final int RETRACT_CLIMBER = 11;
     public static final int SMART_CLIMB = 15;
     public static final int MANUAL_LEFT_CLIMBER_UP = 6;
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-
-    public static final int COLLECTOR_POSITION_CHANGE = 13;
-    public static final int RIGHT_JOYSTICK_1 = 1;
-  }
+    }
 
   public class Collector {
     // Collector Motor IDS
