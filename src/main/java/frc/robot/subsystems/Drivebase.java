@@ -54,10 +54,6 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
-  SmartPIDController headingController = new SmartPIDController(
-      Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
-      Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
-      Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
   Translation2d leftFrontLocation =
@@ -171,18 +167,7 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the
-  // targeting buttion
-  public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
-    double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
-    setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
-  }
-
-  public void setHeadingController(double setpoint) {
-    headingController.setSetpoint(setpoint);
-    SmartDashboard.putNumber("Heading Setpoint", setpoint);
-  }
+  
 
   public void setModuleStates(SwerveModuleState[] states) {
     frontLeft.setState(states[0]);
@@ -306,7 +291,6 @@ public class Drivebase extends SubsystemBase {
           }
           return false;
         }, this);
-
   }
 
   public Command followPathCommand(String pathName) {
@@ -316,5 +300,5 @@ public class Drivebase extends SubsystemBase {
 
   public Command followAutoTrajectory(String autoName) {
     return new PathPlannerAuto(autoName);
-  }
+  }  
 }

@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
+import frc.robot.utils.HeadingController;
 
 public class SwerveTeleop extends Command {
 
   Drivebase drivebase;
   OI oi;
+  HeadingController headingController;
 
   // This is updated to the robot's current heading when using the targeting
   // button or when outside
@@ -44,6 +46,7 @@ public class SwerveTeleop extends Command {
   int fieldOrientationMultiplier;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
+    headingController = HeadingController.getInstance();
     lastSeconds = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
@@ -124,8 +127,8 @@ public class SwerveTeleop extends Command {
 
       // Otherwise, set the heading controller to the desired setpoint.
     } else {
-      drivebase.setHeadingController(headingControllerSetpoint);
-      drivebase.setDriveTurnPos(
+      headingController.setHeadingSetpoint(headingControllerSetpoint);
+      headingController.setDriveWithHeadingControl(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
