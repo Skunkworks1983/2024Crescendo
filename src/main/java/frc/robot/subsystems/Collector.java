@@ -35,7 +35,6 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerCANSparkMax topIntakeMotorSpeedController;
   private static ProfiledPIDController pivotMotorController;
   private static Collector collector;
-  private double collectorPivotGoal;
 
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
@@ -71,7 +70,7 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.TopCollectorIntakePID.SMART_PID_ACTIVE, topIntakeMotor);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
-    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .75;
     rightPivotMotor.getConfigurator().apply(config);
     leftPivotMotor.getConfigurator().apply(config);
@@ -110,7 +109,6 @@ public class Collector extends SubsystemBase {
   }
 
   public void setCollectorGoal(double angle) {
-    collectorPivotGoal = angle;
     pivotMotorController.setGoal(angle);
   }
 
@@ -121,22 +119,15 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Collector Error",
-        getCollectorPos() - pivotMotorController.getSetpoint().position);
-    SmartDashboard.putNumber("Collector Position Setpoint",
-        pivotMotorController.getSetpoint().position);
-    SmartDashboard.putBoolean("limit switch? forward",getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("limit switch? reverse",getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
-
     double calculateOutput = pivotMotorController.calculate(getCollectorPos());
-    if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) { 
+    if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) {
       calculateOutput = Math.min(calculateOutput, 0);
     }
-    if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) { 
+    if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
       calculateOutput = Math.max(calculateOutput, 0);
     }
     rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
-    SmartDashboard.putNumber("calculate output", calculateOutput);
+
   }
 
   public void setCollectorPivotVelocity(double speed) {
@@ -156,7 +147,7 @@ public class Collector extends SubsystemBase {
   public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
     if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
       return !collectorPivotMotorForwardLimit.get();
-    } else if(limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
+    } else if (limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
       return !collectorPivotMotorReverseLimit.get();
     }
     return false;
