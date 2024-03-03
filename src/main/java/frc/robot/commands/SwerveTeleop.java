@@ -60,6 +60,7 @@ public class SwerveTeleop extends Command {
       fieldOrientationMultiplier = 1;
     }
 
+    System.out.println("Swerve Teleop Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -77,8 +78,8 @@ public class SwerveTeleop extends Command {
 
       // Uses odometry position and the specified targeting point to calculate desired
       // heading.
-      headingControllerSetpoint = Units
-          .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+      headingControllerSetpoint =
+          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
       currentHeading = drivebase.getGyroAngle();
       lastSeconds = timer.getFPGATimestamp();
@@ -136,6 +137,7 @@ public class SwerveTeleop extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Swerve Teleop Command End");
   }
 
   // Returns true when the command should end.

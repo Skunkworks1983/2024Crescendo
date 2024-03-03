@@ -53,11 +53,6 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  private final DigitalInput pivotMotorForwardLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
-  private final DigitalInput pivotMotorReverseLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
-
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDController pivotController;
@@ -93,8 +88,8 @@ public class Shooter extends SubsystemBase {
     shooterIndexerMotor =
         new CANSparkMax(Constants.IDS.SHOOTER_INDEXER_MOTOR, MotorType.kBrushless);
 
-    // noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
-    // noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
+    noteBreak1 = new DigitalInput(Constants.IDS.NOTE_BREAK1);
+    noteBreak2 = new DigitalInput(Constants.IDS.NOTE_BREAK2);
 
     shootingController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ShootingPID.KP,
         Constants.PIDControllers.ShootingPID.KI, Constants.PIDControllers.ShootingPID.KD,

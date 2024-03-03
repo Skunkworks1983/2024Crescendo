@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class SetClimberToPosition extends Command {
 
@@ -24,18 +26,27 @@ public class SetClimberToPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("SetClimberToPosition command started");
+    System.out.println("Set Climber to Position Command Initialize");
     climber.setClimberPosition(module, position);
+
+    if (module == ClimbModule.LEFT) {
+      addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_LEFT));
+    } else if (module == ClimbModule.RIGHT) {
+      addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_RIGHT));
+    } else {
+      addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_RIGHT),
+          SubsystemGroups.getInstance(Subsystems.CLIMBER_LEFT));
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Set Climber to Position Command End");
     climber.setClimberOutput(module, 0);
     climber.setBrakeMode(module);
     SmartDashboard.putBoolean("SetClimberToPosition " + module, true);
