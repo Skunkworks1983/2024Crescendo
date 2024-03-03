@@ -104,6 +104,9 @@ public class Constants {
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
     public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
     public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = 1;
+
+    public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
+    public static final int COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 2;
   }
 
   public class DrivebaseInfo {
@@ -262,10 +265,15 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.25;
+      public static final double KP = 0.05;
       public static final double KI = 0;
       public static final double KD = 0;
       public static final double FF = 0;
+
+      // IN DEGREES
+      public static final double MAX_VELOCITY = 400;
+      public static final double MAX_ACCELERATION = 200;
+
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -400,9 +408,10 @@ public class Constants {
 
     public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
 
-    //Meters
+    // Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
-    public static final double CLIMBER_ROTATIONS_TO_METERS = (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
+    public static final double CLIMBER_ROTATIONS_TO_METERS =
+        (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
     public static final double CLIMBER_MOVEMENT = 0.431;
 
     // TODO: set these
@@ -414,7 +423,7 @@ public class Constants {
     public static final double CLIMBER_POSITION_TOLERANCE = .3;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
-    public static final double CLIMBER_CHAIN_TORQUE = 10; 
+    public static final double CLIMBER_CHAIN_TORQUE = 10;
     public static final double BASE_PULL_SPEED = -.35;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
