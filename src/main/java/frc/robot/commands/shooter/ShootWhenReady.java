@@ -16,7 +16,8 @@ public class ShootWhenReady extends Command {
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
-    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL));
+    //only reads the flywheel, so it doesn't require the flywheel
+    addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
   @Override

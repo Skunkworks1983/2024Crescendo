@@ -9,10 +9,10 @@ import java.util.Map;
 public class SubsystemGroups {
 
     public enum Subsystems {
-        ROBOT_INDEXER,
-        COLLECTOR_PIVOT,
+        ROBOT_INDEXER, //Includes note movement pieces of collector, indexer and shooter
+        COLLECTOR_PIVOT, //includes both left and right pivot motors
         SHOOTER_PIVOT,
-        SHOOTER_FLYWHEEL,
+        SHOOTER_FLYWHEEL, //includes both left and right flywheel motors
         CLIMBER_LEFT,
         CLIMBER_RIGHT
     }

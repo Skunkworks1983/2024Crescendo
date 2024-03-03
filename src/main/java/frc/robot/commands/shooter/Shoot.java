@@ -19,8 +19,7 @@ public class Shoot extends Command {
   public Shoot() {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
-    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL),
-        SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
+    addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
   @Override

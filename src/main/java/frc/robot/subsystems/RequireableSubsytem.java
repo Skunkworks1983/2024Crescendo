@@ -6,5 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-//A blank class that we can create instances of so we can use addrequirements in commands
-public class RequireableSubsytem extends SubsystemBase {}
+// A blank class that we can create instances of so we can use addrequirements to manage command
+// conflicts within subsystems
+public class RequireableSubsytem extends SubsystemBase {
+}
