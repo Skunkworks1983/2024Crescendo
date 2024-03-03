@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.text.CollationElementIterator;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -13,7 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.WaitDuration;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.OI;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.LimitSwitch;
@@ -26,12 +29,16 @@ public class Robot extends TimedRobot {
   OI oi;
   Drivebase drivebase;
   Shooter shooter;
+  Indexer indexer;
+  Collector collector;
 
   @Override
   public void robotInit() {
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
     shooter = Shooter.getInstance();
+    indexer = Indexer.getInstance();
+    collector = Collector.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -40,9 +47,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Shooter Angle Degrees", shooter.getShooterPivotRotationInDegrees());
-    SmartDashboard.putBoolean("Shooter Limit Switch Backward", shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("Shooter Limit Switch Forward", shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
+    SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
+    SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
+    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
@@ -52,9 +60,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putNumber("Shooter Angle Degrees", shooter.getShooterPivotRotationInDegrees());
-    SmartDashboard.putBoolean("Shooter Limit Switch Backward", shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("Shooter Limit Switch Forward", shooter.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
+    SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
+    SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
+    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
