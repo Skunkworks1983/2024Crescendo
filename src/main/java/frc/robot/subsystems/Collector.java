@@ -69,7 +69,7 @@ public class Collector extends SubsystemBase {
             Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
 
     // Setting voltage limit on the collector pivot for testing.
-    
+
 
     rightPivotMotor.getConfigurator()
         .apply(new CurrentLimitsConfigs()
@@ -96,7 +96,8 @@ public class Collector extends SubsystemBase {
   }
 
   public void setCollectorPos(double angle) {
-    rightPivotMotor.setControl(positionVoltage.withPosition(angle * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS));
+    rightPivotMotor.setControl(
+        positionVoltage.withPosition(angle * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS));
   }
 
   public void setIntakeCoastMode() {
@@ -119,7 +120,8 @@ public class Collector extends SubsystemBase {
   }
 
   public double getCollectorPos() {
-    return rightPivotMotor.getPosition().getValueAsDouble() / Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS;
+    return rightPivotMotor.getPosition().getValueAsDouble()
+        / Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS;
   }
 
 
