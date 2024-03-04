@@ -48,8 +48,7 @@ public class Shooter extends SubsystemBase {
   }
 
   // Meters per second
-  public double flywheelSetpointMPS = Constants.Shooter.TEMP_SHOOT_FLYWHEEL_SPEED_RPS
-      / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  public double flywheelSetpointMPS = Constants.Shooter.STOW_FLYWHEEL_SPEED;
 
   private static Shooter shooter;
 

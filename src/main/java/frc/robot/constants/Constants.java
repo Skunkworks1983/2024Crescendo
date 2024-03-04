@@ -63,24 +63,29 @@ public class Constants {
     public static final int LEFT_JOYSTICK = 0;
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
-    public static final int SPEAKER_TARGETING_BUTTON = 2;
-    public static final int AMP_TARGETING_BUTTON = 3;
-    public static final int MANUAL_PERCENT_OUTPUT = 18;
-    public static final int FLYWHEEL_SPINUP = 17;
-    public static final int MANUAL_SHOOT = 24;
+
+    //button Ids
+    public static final int SPEAKER_TARGETING_BUTTON = 1;
+    public static final int AMP_TARGETING_BUTTON = 1;
+
+    public static final int SHOOT_WHEN_READY = 11;
+    public static final int FLYWHEEL_SPINUP = 9;
+
+    public static final int COLLECTOR_STOW = 15;
+    public static final int COLLECTOR_DOWN = 13;
+
+    public static final int SHOOTER_TO_AMP = 12;
+    public static final int SHOOTER_TO_SPEAKER = 10;
+
+    public static final int NOTE_FLOOR_TO_SHOOTER = 14;
 
     // Joystick IDs for the climber
-    public static final int EXTEND_CLIMBER = 12;
-    public static final int RETRACT_CLIMBER = 11;
-    public static final int SMART_CLIMB = 15;
+    public static final int SMART_CLIMB = 7;
     public static final int MANUAL_LEFT_CLIMBER_UP = 6;
-    public static final int MANUAL_LEFT_CLIMBER_DOWN = 7;
-    public static final int MANUAL_RIGHT_CLIMBER_UP = 5;
+    public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
+    public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-
-    public static final int COLLECTOR_POSITION_CHANGE = 13;
-    public static final int RIGHT_JOYSTICK_1 = 1;
-  }
+    }
 
   public class Collector {
     // Collector Motor IDS
@@ -109,6 +114,7 @@ public class Constants {
   public class DrivebaseInfo {
 
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
+    public static final double CORRECTIVE_SCALE = 0.1;
 
     // aproxamation based on travel distance of trajectory. Value is in feet.
     public static final double WHEEL_DIAMETER = .33333333;
@@ -117,8 +123,6 @@ public class Constants {
     // Module translations feet
     public static final double TRANSLATION_X = 0.925;
     public static final double TRANSLATION_Y = 0.8041666;
-
-    public static final double CORRECTIVE_SCALE = 0.1;
 
     public class ModuleConstants {
 
@@ -175,7 +179,7 @@ public class Constants {
 
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 13;
-    public static final double AMP_FLYWHEEL_SPEED = 0;
+    public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 
     // Indexer speeds for the robot:
@@ -184,7 +188,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0;
+    public static final double MAX_FLYWHEEL_ERROR = 0.25;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
@@ -292,7 +296,7 @@ public class Constants {
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.5);
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.2);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
   // per second.
@@ -418,7 +422,7 @@ public class Constants {
     public static final double CLIMBER_MOTOR_POSITION_TOLERANCE = .5;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
-    public static final double CLIMBER_CHAIN_TORQUE = 10;
+    public static final double CLIMBER_CHAIN_TORQUE = 15;
     public static final double BASE_PULL_SPEED = -.35;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
