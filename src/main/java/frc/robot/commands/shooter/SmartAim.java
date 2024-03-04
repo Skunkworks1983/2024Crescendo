@@ -14,6 +14,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N4;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -52,7 +53,7 @@ public class SmartAim extends Command {
 
     // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
+    SmartDashboard.putNumber("smart aim rotation set", shooterAngle);//shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 
   // Called once the command ends or is interrupted.

@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -53,7 +54,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     Rotation2d shooterRotation = new Rotation2d((Math.PI/2) - Math.atan2(target.getZ() - shooterPivot.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
-    shooter.setPivotAngleAndSpeed(shooterRotation);
+    SmartDashboard.putNumber("assuming no gravity shooter rotation set", shooterRotation.getDegrees());//shooter.setPivotAngleAndSpeed(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
