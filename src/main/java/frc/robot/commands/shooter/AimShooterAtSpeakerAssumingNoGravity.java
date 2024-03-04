@@ -54,6 +54,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     Rotation2d shooterRotation = new Rotation2d((Math.PI/2) - Math.atan2(target.getZ() - shooterPivot.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
+    //TODO: enable temporarily disabled code after testing.
     SmartDashboard.putNumber("assuming no gravity shooter rotation set", shooterRotation.getDegrees());//shooter.setPivotAngleAndSpeed(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }

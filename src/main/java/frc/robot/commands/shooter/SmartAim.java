@@ -53,7 +53,8 @@ public class SmartAim extends Command {
 
     // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    SmartDashboard.putNumber("smart aim rotation set", shooterAngle);//shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
+    //TODO: enable temporarily disabled code after testing.
+    SmartDashboard.putNumber("smart aim rotation set", new Rotation2d((Math.PI / 2) - shooterAngle).getDegrees());//shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 
   // Called once the command ends or is interrupted.
