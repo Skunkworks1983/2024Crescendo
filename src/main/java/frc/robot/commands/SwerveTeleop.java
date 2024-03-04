@@ -2,18 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.drivebaseTeleop;
+package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
-public class MaintainHeading extends SwerveTeleop {
+public class SwerveTeleop extends Command {
 
   Drivebase drivebase;
   OI oi;
@@ -42,7 +43,7 @@ public class MaintainHeading extends SwerveTeleop {
   double lastSeconds;
   int fieldOrientationMultiplier;
 
-  public MaintainHeading(Drivebase drivebase, OI oi) {
+  public SwerveTeleop(Drivebase drivebase, OI oi) {
     lastSeconds = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
