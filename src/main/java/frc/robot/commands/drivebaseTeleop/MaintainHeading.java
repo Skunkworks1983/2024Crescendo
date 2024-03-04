@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drivebaseTeleop;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,7 +14,7 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
-public class SwerveTeleop extends Command {
+public class MaintainHeading extends Command {
 
   Drivebase drivebase;
   OI oi;
@@ -43,7 +43,7 @@ public class SwerveTeleop extends Command {
   double lastSeconds;
   int fieldOrientationMultiplier;
 
-  public SwerveTeleop(Drivebase drivebase, OI oi) {
+  public MaintainHeading(Drivebase drivebase, OI oi) {
     lastSeconds = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
@@ -74,26 +74,7 @@ public class SwerveTeleop extends Command {
     // controls and use
     // targeting.
     if (isTargeting) {
-      Translation2d targetPoint = drivebase.getFieldTarget().get();
-
-      // Uses odometry position and the specified targeting point to calculate desired
-      // heading.
-      headingControllerSetpoint =
-          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
-              (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      currentHeading = drivebase.getGyroAngle();
-      lastSeconds = timer.getFPGATimestamp();
-      useHeadingControl = true;
-      hasUpdated = false;
-
-      // If the joystick is outside of the deadband, run regular swerve.
-    } else if (outsideDeadband) {
-
-      currentHeading = drivebase.getGyroAngle();
-      lastSeconds = timer.getFPGATimestamp();
-      hasUpdated = false;
-
-      // Otherwise, use the heading controller to maintain heading.
+      
     } else {
 
       // Waits a second to allow extra turn momentum to dissipate.
