@@ -103,7 +103,8 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean atPositionSetpoint(double setpoint, ClimbModule module) {
-    return Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE;
+    SmartDashboard.putNumber("within tolerance", Math.abs(getClimberPostition(module) - setpoint));
+    return Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_MOTOR_POSITION_TOLERANCE;
   }
 
   @Override

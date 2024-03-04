@@ -279,7 +279,7 @@ public class Constants {
 
     public class ClimberPID {
 
-      public static final double CLIMBER_KP = 0.3;
+      public static final double CLIMBER_KP = 0.4;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
@@ -408,16 +408,10 @@ public class Constants {
 
     // Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
-<<<<<<< HEAD
     public static final double CLIMBER_METERS_TO_MOTOR_ROTATIONS = 1 / ((Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO);
-=======
-    public static final double CLIMBER_ROTATIONS_TO_METERS =
-        (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
-    public static final double CLIMBER_MOVEMENT = 0.431;
->>>>>>> main
 
-    public static final double MAX_POSITION = .35 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
-    public static final double MIN_POSITION = .02 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MAX_POSITION = .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MIN_POSITION = .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.

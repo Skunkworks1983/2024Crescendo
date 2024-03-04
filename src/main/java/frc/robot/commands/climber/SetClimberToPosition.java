@@ -26,6 +26,7 @@ public class SetClimberToPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("SetClimberToPosition " + module, false);
     System.out.println("Set Climber to Position Command Initialize");
     climber.setClimberPosition(module, position);
 
