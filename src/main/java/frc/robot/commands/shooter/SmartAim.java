@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N4;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -39,8 +40,8 @@ public class SmartAim extends Command {
   public void execute() {
 
     Translation3d pivotPositionFieldReletive =
-        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getRobotHeading(),
-            shooter.getShooterPivotRotation(), drivebase.getRobotPose().getTranslation());
+        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
+            Units.radiansToDegrees(shooter.getShooterPivotRotationInDegrees()), drivebase.getRobotPose().getTranslation());
 
     double flywheelSpeed =
         ShooterAimUtils.calculateIdealFlywheelSpeed(pivotPositionFieldReletive.toTranslation2d());
@@ -51,7 +52,7 @@ public class SmartAim extends Command {
 
     // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    shooter.setShooterAngle(new Rotation2d((Math.PI / 2) - shooterAngle));
+    shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 
   // Called once the command ends or is interrupted.
