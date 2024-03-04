@@ -329,9 +329,9 @@ public class Constants {
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
   public class PhotonVision {
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
-
+    public static final String CAMERA_1_NAME = "Forward";
+    public static final String CAMERA_2_NAME = "Side";
+    
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
