@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -14,6 +15,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
@@ -28,12 +33,21 @@ public class Collector extends SubsystemBase {
   CANSparkMax bottomIntakeMotor;
 
   private static SmartPIDControllerCANSparkMax topIntakeMotorSpeedController;
-  private static SmartPIDControllerTalonFX pivotMotorController;
+  private static ProfiledPIDController pivotMotorController;
   private static Collector collector;
 
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
+  private final DigitalInput collectorPivotMotorForwardLimit =
+      new DigitalInput(Constants.Collector.COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
+
+  private final DigitalInput collectorPivotMotorReverseLimit =
+      new DigitalInput(Constants.Collector.COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
+
+  public enum LimitSwitch {
+    FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
+  }
 
   /** Creates a new Collector. */
   private Collector() {
@@ -61,15 +75,14 @@ public class Collector extends SubsystemBase {
     rightPivotMotor.getConfigurator().apply(config);
     leftPivotMotor.getConfigurator().apply(config);
 
-    pivotMotorController =
-        new SmartPIDControllerTalonFX(Constants.PIDControllers.CollectorPivotPID.KP,
-            Constants.PIDControllers.CollectorPivotPID.KI,
-            Constants.PIDControllers.CollectorPivotPID.KD,
-            Constants.PIDControllers.CollectorPivotPID.FF, "pivot motor controller",
-            Constants.PIDControllers.CollectorPivotPID.SMART_PID_ACTIVE, rightPivotMotor);
+    pivotMotorController = new ProfiledPIDController(Constants.PIDControllers.CollectorPivotPID.KP,
+        Constants.PIDControllers.CollectorPivotPID.KI,
+        Constants.PIDControllers.CollectorPivotPID.KD,
+        new TrapezoidProfile.Constraints(Constants.PIDControllers.CollectorPivotPID.MAX_VELOCITY,
+            Constants.PIDControllers.CollectorPivotPID.MAX_ACCELERATION));
 
     // Setting voltage limit on the collector pivot for testing.
-    
+
 
     rightPivotMotor.getConfigurator()
         .apply(new CurrentLimitsConfigs()
@@ -95,8 +108,8 @@ public class Collector extends SubsystemBase {
         - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
-  public void setCollectorPos(double angle) {
-    rightPivotMotor.setControl(positionVoltage.withPosition(angle * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS));
+  public void setCollectorGoal(double angle) {
+    pivotMotorController.setGoal(angle);
   }
 
   public void setIntakeCoastMode() {
@@ -106,6 +119,14 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
+    double calculateOutput = pivotMotorController.calculate(getCollectorPos());
+    if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) {
+      calculateOutput = Math.min(calculateOutput, 0);
+    }
+    if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
+      calculateOutput = Math.max(calculateOutput, 0);
+    }
+    rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
 
   }
 
@@ -119,7 +140,17 @@ public class Collector extends SubsystemBase {
   }
 
   public double getCollectorPos() {
-    return rightPivotMotor.getPosition().getValueAsDouble() / Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS;
+    return rightPivotMotor.getPosition().getValueAsDouble()
+        / Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS;
+  }
+
+  public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
+    if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
+      return !collectorPivotMotorForwardLimit.get();
+    } else if (limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
+      return !collectorPivotMotorReverseLimit.get();
+    }
+    return false;
   }
 
 

@@ -59,33 +59,42 @@ public class Drivebase extends SubsystemBase {
       Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
-  Translation2d leftFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftFrontLocation =
+      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightFrontLocation =
+      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d leftBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftBackLocation =
+      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightBackLocation =
+      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  SwerveModule frontLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
+  SwerveModule frontLeft =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
 
-  SwerveModule frontRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
+  SwerveModule frontRight =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
 
-  SwerveModule backLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
+  SwerveModule backLeft =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
 
-  SwerveModule backRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
+  SwerveModule backRight =
+      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
-      new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-          backLeft.getPosition(), backRight.getPosition() },
-      new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+  SwerveDrivePoseEstimator odometry =
+      new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
+          new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+              backLeft.getPosition(), backRight.getPosition()},
+          new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
 
@@ -110,11 +119,12 @@ public class Drivebase extends SubsystemBase {
     // button is pressed).
     fieldTarget = Optional.empty();
 
-    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
+    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
+    // plugged in.
     try {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
+          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
     } catch (Exception e) {
       System.out.println("Exception creating cameras: " + e.toString());
@@ -128,13 +138,8 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  /**
-   * Used to get the angle reported by the gyro. This method is private, and
-   * should only be called
-   * when creating/updating the SwervePoseEstimator. Otherwise, call
-   * getRobotHeading instead.
-   */
-  private double getGyroAngle() {
+  /** Used to get the angle reported by the gyro. */
+  public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -142,19 +147,11 @@ public class Drivebase extends SubsystemBase {
     return -angle;
   }
 
-  /**
-   * Call this method instead of getGyroAngle(). This method returns the robot's
-   * heading according
-   * to the integrated odometry. This allows for an accurate heading measurement,
-   * even if the gyro
-   * is inaccurate.
-   * 
-   * @return The heading of the robot according to the integrated odometry, in
-   *         degrees. Note:
-   *         Measurement is 0-360 degrees instead of continuous.
-   */
-  public double getRobotHeading() {
-    return getRobotPose().getRotation().getDegrees();
+  public double getGyroRoll() {
+    double roll = gyro.getRoll();
+    SmartDashboard.putNumber("gyro roll", roll);
+
+    return roll;
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -162,11 +159,19 @@ public class Drivebase extends SubsystemBase {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getRobotHeading()));
+          Rotation2d.fromDegrees(getGyroAngle()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
+     double Cx = speeds.vxMetersPerSecond;
+     double Cy = speeds.vyMetersPerSecond;
+     double Omega = speeds.omegaRadiansPerSecond;
+     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
+     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
+
+    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
@@ -179,7 +184,7 @@ public class Drivebase extends SubsystemBase {
   // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getRobotHeading());
+    degreesPerSecond = headingController.calculate(getGyroAngle());
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -203,8 +208,8 @@ public class Drivebase extends SubsystemBase {
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition() },
+        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition()},
         resetPose);
   }
 
@@ -213,8 +218,8 @@ public class Drivebase extends SubsystemBase {
 
     // Update the mechanical odometry
     odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition() });
+        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition()});
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
