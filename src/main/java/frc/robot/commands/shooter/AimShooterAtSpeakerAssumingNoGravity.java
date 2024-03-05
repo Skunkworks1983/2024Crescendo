@@ -62,7 +62,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
     Rotation2d shooterRotation = new Rotation2d((Math.PI / 2.0) - Math.atan2(target.getZ() - shooterPivot.getZ(),
-        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(4));
+        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(0));
 
     // TODO: enable temporarily disabled code after testing.
 
