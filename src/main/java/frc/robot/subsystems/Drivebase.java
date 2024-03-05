@@ -184,7 +184,7 @@ public class Drivebase extends SubsystemBase {
   // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
+    degreesPerSecond = Math.min(-Constants.TURNING_SPEED_CAP, Math.max(Constants.TURNING_SPEED_CAP, headingController.calculate(getGyroAngle())));
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 

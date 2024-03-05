@@ -311,6 +311,8 @@ public class Constants {
   // second.
   public static final double OI_TURN_SPEED_RATIO = 360;
 
+  public static final double TURNING_SPEED_CAP = 180;
+
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "1983 Comp Drivebase";
