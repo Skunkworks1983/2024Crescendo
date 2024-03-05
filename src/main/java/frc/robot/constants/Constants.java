@@ -182,7 +182,10 @@ public class Constants {
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 13;
     public static final double AMP_FLYWHEEL_SPEED = 20;
+    public static final double PODIUM_FLYWHEEL_SPEED = 15;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
+
+    public static final double PODIUM_ANGLE_DEGREES = 70;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
