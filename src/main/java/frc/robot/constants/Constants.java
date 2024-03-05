@@ -103,6 +103,7 @@ public class Constants {
     public static final double COLLECTOR_FLOOR_POS = 100;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
+    public static final double REVERSE_COLLECTOR_SPEED = -.5;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -187,6 +188,7 @@ public class Constants {
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
+    public static final double SHOOTER_MANUAL_INDEXER_BACKWARDS = -.5;
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
@@ -352,8 +354,8 @@ public class Constants {
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
 
   public class PhotonVision {
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_2_NAME = "Side";
+    public static final String CAMERA_1_NAME = "Forward";
 
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
@@ -370,12 +372,12 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 4;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 4;
 
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
@@ -477,7 +479,7 @@ public class Constants {
     public static final double INDEXER_MOTOR_KD = 0;
     public static final double INDEXER_MOTOR_KF = 0;
     public static final double INDEXER_SPEED = 1;
-    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final double REVERSE_INDEXER_SPEED_PERCENT_OUTPUT = -.5;
     public static final boolean SET_INDEXER_SMART_PID = true;
     public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 1;
   }
