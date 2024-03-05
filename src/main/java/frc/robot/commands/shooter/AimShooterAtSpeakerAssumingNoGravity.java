@@ -42,20 +42,20 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation3d shooterPivot =
-        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
-            Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()), drivebase.getRobotPose().getTranslation());
+    Translation3d shooterPivot = ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
+        Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()), drivebase.getRobotPose().getTranslation());
 
-    Translation2d diffrenceInPosition =
-        new Translation2d(target.getX() - shooterPivot.getX(), target.getY() - shooterPivot.getY());
-        
-    // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
+    Translation2d diffrenceInPosition = new Translation2d(target.getX() - shooterPivot.getX(),
+        target.getY() - shooterPivot.getY());
+
+    // 90 - theta is neccecary to convert from the system in which forward is 90 and
+    // up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    Rotation2d shooterRotation = new Rotation2d((Math.PI/2) - Math.atan2(target.getZ() - shooterPivot.getZ(),
+    Rotation2d shooterRotation = new Rotation2d((Math.PI / 2) - Math.atan2(target.getZ() - shooterPivot.getZ(),
         diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
 
-    //TODO: enable temporarily disabled code after testing.
-    SmartDashboard.putNumber("assuming no gravity shooter rotation set", shooterRotation.getDegrees());//shooter.setPivotAngleAndSpeed(shooterRotation);
+    // TODO: enable temporarily disabled code after testing.
+    SmartDashboard.putNumber("assuming no gravity shooter rotation set", shooterRotation.getDegrees());// shooter.setPivotAngleAndSpeed(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 

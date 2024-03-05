@@ -23,13 +23,17 @@ public class ShooterAimUtils {
         shooterPivotPosition.getX()
             - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getX());
 
-    double distanceToHood = calculateHorizontalDistance(shooterPivotPosition,
-        Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get());
+    double distanceToSpeaker = calculateHorizontalDistance(shooterPivotPosition,
+        Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get());
+
+    /*double distanceToHood = calculateHorizontalDistance(shooterPivotPosition,
+        Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get());*/
     double maximumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToHood, 0.0, Math.PI, flywheelSpeed);
+        distanceToSpeaker - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI,
+        flywheelSpeed);
 
     double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToHood + (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)),
+        distanceToSpeaker,
         0.0, Math.PI, flywheelSpeed);
 
     double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
@@ -45,7 +49,8 @@ public class ShooterAimUtils {
             * Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE);
   }
 
-  // Based on math from https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
+  // Based on math from
+  // https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
   static double noteHitPosition(double theta, double distance, double velocity) {
     double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
         / (Math.cos(theta) * velocity);
@@ -80,12 +85,16 @@ public class ShooterAimUtils {
   }
 
   /*
-   * all rotations are in radians drivebase translation is field reletive. PivotTranslation is
-   * drivebase reletive This math uses matricies to change reference frames. Because pivot is our
-   * final position and a reference frame, we convert 0,0,0 pivot reletive to field reletive.
+   * all rotations are in radians drivebase translation is field reletive.
+   * PivotTranslation is
+   * drivebase reletive This math uses matricies to change reference frames.
+   * Because pivot is our
+   * final position and a reference frame, we convert 0,0,0 pivot reletive to
+   * field reletive.
    * 
-   * This code precomputes trigonometry before the matricies because each of the variables are used
-   * mulitple times.   * 
+   * This code precomputes trigonometry before the matricies because each of the
+   * variables are used
+   * mulitple times. *
    */
   public static Translation3d calculatePivotPositionFieldReletive(double drivebaseRotation,
       double shooterPivotRotation, Translation2d drivebaseTranslation) {
@@ -93,21 +102,21 @@ public class ShooterAimUtils {
     double cosD = Math.cos(drivebaseRotation);
     double sinD = Math.sin(drivebaseRotation);
 
-    // theta - 90 is neccecary to convert from the system in which forward is 90 and up is 0 to the
+    // theta - 90 is neccecary to convert from the system in which forward is 90 and
+    // up is 0 to the
     // system in which 0 is forward and 90 is upward.
     double cosP = Math.cos(Math.PI / 2 - shooterPivotRotation);
     double sinP = Math.sin(Math.PI / 2 - shooterPivotRotation);
 
     Matrix<N4, N4> robotToField = new Matrix<N4, N4>(
-        new SimpleMatrix(new double[][] {{cosD, -sinD, 0.0, drivebaseTranslation.getX()},
-            {sinD, cosD, 0.0, drivebaseTranslation.getY()}, {0.0, 0.0, 1.0, 0.0},
-            {0.0, 0.0, 0.0, 1.0}}));
+        new SimpleMatrix(new double[][] { { cosD, -sinD, 0.0, drivebaseTranslation.getX() },
+            { sinD, cosD, 0.0, drivebaseTranslation.getY() }, { 0.0, 0.0, 1.0, 0.0 },
+            { 0.0, 0.0, 0.0, 1.0 } }));
 
     Matrix<N4, N4> pivotToRobot = new Matrix<N4, N4>(new SimpleMatrix(new double[][] {
-        {cosP, 0.0, sinP, pivotTranslation.getX()}, {0.0, 1.0, 0.0, pivotTranslation.getY()},
-        {-sinP, 0.0, cosP, pivotTranslation.getZ()}, {0.0, 0.0, 0.0, 1.0}}));
-    Matrix<N4, N1> zeroCoordinate =
-        new Matrix<N4, N1>(new SimpleMatrix(new double[] {0.0, 0.0, 0.0, 1.0}));
+        { cosP, 0.0, sinP, pivotTranslation.getX() }, { 0.0, 1.0, 0.0, pivotTranslation.getY() },
+        { -sinP, 0.0, cosP, pivotTranslation.getZ() }, { 0.0, 0.0, 0.0, 1.0 } }));
+    Matrix<N4, N1> zeroCoordinate = new Matrix<N4, N1>(new SimpleMatrix(new double[] { 0.0, 0.0, 0.0, 1.0 }));
 
     Matrix<N4, N1> fieldPositionOfPivot = robotToField.times(pivotToRobot.times(zeroCoordinate));
     return new Translation3d(fieldPositionOfPivot.get(0, 0), fieldPositionOfPivot.get(1, 0),
