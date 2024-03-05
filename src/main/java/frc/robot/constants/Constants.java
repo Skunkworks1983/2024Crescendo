@@ -68,8 +68,8 @@ public class Constants {
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int AMP_TARGETING_BUTTON = 1;
 
-    public static final int SMART_AIM = 16;
-    public static final int LINEAR_AIM = 17;
+    public static final int SMART_AIM = 2;
+    public static final int LINEAR_AIM = 3;
     public static final int SHOOT_WHEN_READY = 11;
     public static final int FLYWHEEL_SPINUP = 9;
 
