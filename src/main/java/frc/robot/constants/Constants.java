@@ -423,7 +423,7 @@ public class Constants {
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 15;
-    public static final double BASE_PULL_SPEED = -.35;
+    public static final double BASE_PULL_SPEED = -.65;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
