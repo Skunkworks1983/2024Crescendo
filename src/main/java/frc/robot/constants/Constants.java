@@ -387,7 +387,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses average part of goal.
-      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833-1.0), Units.feetToMeters(7.2))),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833-1.1), Units.feetToMeters(7.2)+0.43)),
       SPEAKER_LOWEST_GOAL_PART(new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(), Units.feetToMeters(6.0))), AMP(
           new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
               0)), SPEAKER_HOOD(
