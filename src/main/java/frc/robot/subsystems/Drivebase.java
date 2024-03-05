@@ -154,15 +154,15 @@ public class Drivebase extends SubsystemBase {
     return roll;
   }
 
-  public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
+  public void setDrive(double xMetersPerSecond, double yMetersPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
-      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
-          Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(xMetersPerSecond,
+          yMetersPerSecond, Units.degreesToRadians(degreesPerSecond),
           Rotation2d.fromDegrees(getGyroAngle()));
     } else {
-      speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
-          Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
+      speeds = new ChassisSpeeds(Units.feetToMeters(xMetersPerSecond),
+          Units.feetToMeters(yMetersPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
      double Cx = speeds.vxMetersPerSecond;
      double Cy = speeds.vyMetersPerSecond;
@@ -181,14 +181,14 @@ public class Drivebase extends SubsystemBase {
   }
 
   // Used for keeping robot heading in the right direction using PID and the
-  // targeting buttion
-  public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
+  // targeting button
+  public void setDriveWithHeadingControl(double xMetersPerSecond, double yMetersPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = headingController.calculate(getGyroAngle());
-    setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
+    setDrive(xMetersPerSecond, yMetersPerSecond, degreesPerSecond, fieldRelative);
   }
 
-  public void setHeadingController(double setpoint) {
+  public void setHeadingControllerSetpoint(double setpoint) {
     headingController.setSetpoint(setpoint);
     SmartDashboard.putNumber("Heading Setpoint", setpoint);
   }

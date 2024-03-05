@@ -18,33 +18,10 @@ public class MaintainHeading extends Command {
 
   Drivebase drivebase;
   OI oi;
-
-  // This is updated to the robot's current heading when using the targeting
-  // button or when outside
-  // the turn joystick deadzone. Used for heading correction when not using the
-  // targeting button and
-  // when inside the turn joystick deadzone.
-  double currentHeading = 0.0;
-
-  // Parts of the code set this variable, and then the variable is used to tell
-  // the drive command
-  // that turns to a certan angle where to turn to.
-  double headingControllerSetpoint = 0.0;
-
-  // hasUpdated ensures that desired heading is only set once, when the driver
-  // stops rotating. If it
-  // is false and the robot should maintain current heading,
-  // desiredHeadingSetpoint will set to
-  // current heading. Once it is set to true, the robot will rotate to
-  // desiredHeadingSetpoint.
-  boolean hasUpdated = false;
-
-  Timer timer = new Timer();
-  double lastSeconds;
+  
   int fieldOrientationMultiplier;
 
   public MaintainHeading(Drivebase drivebase, OI oi) {
-    lastSeconds = timer.getFPGATimestamp();
     this.drivebase = drivebase;
     this.oi = oi;
     addRequirements(drivebase);
@@ -74,7 +51,26 @@ public class MaintainHeading extends Command {
     // controls and use
     // targeting.
     if (isTargeting) {
-      
+      Translation2d targetPoint = drivebase.getFieldTarget().get();
+
+      // Uses odometry position and the specified targeting point to calculate desired
+      // heading.
+      headingControllerSetpoint =
+          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+              (targetPoint.getX() - drivebase.getRobotPose().getX())));
+      currentHeading = drivebase.getGyroAngle();
+      lastSeconds = timer.getFPGATimestamp();
+      useHeadingControl = true;
+      hasUpdated = false;
+
+      // If the joystick is outside of the deadband, run regular swerve.
+    } else if (outsideDeadband) {
+
+      currentHeading = drivebase.getGyroAngle();
+      lastSeconds = timer.getFPGATimestamp();
+      hasUpdated = false;
+
+      // Otherwise, use the heading controller to maintain heading.
     } else {
 
       // Waits a second to allow extra turn momentum to dissipate.

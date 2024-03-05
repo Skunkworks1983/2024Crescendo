@@ -5,6 +5,7 @@
 package frc.robot.commands.drivebaseTeleop;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
@@ -12,7 +13,7 @@ import frc.robot.constants.Constants.PIDControllers.HeadingControlPID;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
 
-public class TargetToPoint extends Command {
+public class TargetToPoint extends SwerveTeleop {
 
   Drivebase drivebase;
   FieldTarget fieldTarget;
@@ -31,23 +32,25 @@ public class TargetToPoint extends Command {
 
   @Override
   public void execute() {
+    if (fieldTarget.get().isPresent()) {
       Translation2d targetPoint = fieldTarget.get().get().toTranslation2d();
 
       // Uses odometry position and the specified targeting point to calculate desired
       // heading.
-      headingControllerSetpoint =
-          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+      headingControllerSetpoint = Units
+          .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      currentHeading = drivebase.getGyroAngle();
-      lastSeconds = timer.getFPGATimestamp();
-      useHeadingControl = true;
-      hasUpdated = false;
+      
+      ChassisSpeeds speeds = getChassisSpeedsUsingJoysticks();
 
-    // If the joystick is outside of the deadband, run regular swerve.
+      drivebase.setHeadingControllerSetpoint(headingControllerSetpoint);
+      drivebase.setDriveWithHeadingControl(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, true);
+    }
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {
