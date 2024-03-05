@@ -14,12 +14,11 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
-public class MaintainHeading extends Command {
+public class MaintainHeading extends SwerveTeleop {
 
   Drivebase drivebase;
   OI oi;
   
-  int fieldOrientationMultiplier;
 
   public MaintainHeading(Drivebase drivebase, OI oi) {
     this.drivebase = drivebase;
@@ -27,18 +26,7 @@ public class MaintainHeading extends Command {
     addRequirements(drivebase);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-      fieldOrientationMultiplier = -1;
-    } else {
-      fieldOrientationMultiplier = 1;
-    }
-
-    System.out.println("Swerve Teleop Command Initialize");
-  }
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

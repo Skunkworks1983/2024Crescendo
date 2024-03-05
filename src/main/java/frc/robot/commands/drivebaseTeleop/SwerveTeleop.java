@@ -6,6 +6,7 @@ package frc.robot.commands.drivebaseTeleop;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -15,6 +16,7 @@ public class SwerveTeleop extends Command {
 
   Drivebase drivebase;
   OI oi;
+  int fieldOrientationMultiplier;
 
   public SwerveTeleop() {
     drivebase = Drivebase.getInstance();
@@ -22,7 +24,26 @@ public class SwerveTeleop extends Command {
     addRequirements(drivebase);
   }
 
-  public ChassisSpeeds getChassisSpeedsUsingJoysticks () {
-    return new ChassisSpeeds();
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      fieldOrientationMultiplier = -1;
+    } else {
+      fieldOrientationMultiplier = 1;
+    }
+
+    System.out.println("Swerve Teleop Command Initialize");
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return new ChassisSpeeds(
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
+            * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+        MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
+            * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+        MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
+            * Constants.OI_TURN_SPEED_RATIO);
   }
 }

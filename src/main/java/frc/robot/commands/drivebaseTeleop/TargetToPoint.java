@@ -12,22 +12,26 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PIDControllers.HeadingControlPID;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.utils.HeadingController;
 
 public class TargetToPoint extends SwerveTeleop {
 
   Drivebase drivebase;
+  HeadingController headingController;
   FieldTarget fieldTarget;
   double headingControllerSetpoint;
+
 
   public TargetToPoint(FieldTarget fieldTarget) {
     this.fieldTarget = fieldTarget;
     drivebase = Drivebase.getInstance();
+    headingController = drivebase.getHeadingController();
     addRequirements(drivebase);
   }
 
   @Override
   public void initialize() {
-
+    headingControllerSetpoint = 0;
   }
 
   @Override
@@ -41,10 +45,14 @@ public class TargetToPoint extends SwerveTeleop {
           .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
       
-      ChassisSpeeds speeds = getChassisSpeedsUsingJoysticks();
 
-      drivebase.setHeadingControllerSetpoint(headingControllerSetpoint);
-      drivebase.setDriveWithHeadingControl(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, true);
+      headingController.setSetpoint(headingControllerSetpoint);
+
+      double degreesPerSecond = headingController.calculate(drivebase.getGyroAngle());
+
+      ChassisSpeeds speeds = getChassisSpeeds();
+
+      drivebase.setDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, degreesPerSecond, true);
     }
   }
 

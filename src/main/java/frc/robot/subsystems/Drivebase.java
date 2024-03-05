@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.drivebaseTeleop.MaintainHeading;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
+import frc.robot.utils.HeadingController;
 import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.Vision;
@@ -53,10 +54,6 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
-  SmartPIDController headingController = new SmartPIDController(
-      Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
-      Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
-      Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
   Translation2d leftFrontLocation =
@@ -97,6 +94,7 @@ public class Drivebase extends SubsystemBase {
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
+  HeadingController headingController;
 
   private Drivebase() {
     gyro.reset();
@@ -109,7 +107,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
     configurePathPlanner();
-    headingController.enableContinuousInput(0, 360);
 
     SmartDashboard.putNumber("testTurnP", 0);
     SmartDashboard.putNumber("testTurnI", 0);
@@ -180,19 +177,6 @@ public class Drivebase extends SubsystemBase {
     setModuleStates(moduleStates);
   }
 
-  // Used for keeping robot heading in the right direction using PID and the
-  // targeting button
-  public void setDriveWithHeadingControl(double xMetersPerSecond, double yMetersPerSecond, boolean fieldRelative) {
-    double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
-    setDrive(xMetersPerSecond, yMetersPerSecond, degreesPerSecond, fieldRelative);
-  }
-
-  public void setHeadingControllerSetpoint(double setpoint) {
-    headingController.setSetpoint(setpoint);
-    SmartDashboard.putNumber("Heading Setpoint", setpoint);
-  }
-
   public void setModuleStates(SwerveModuleState[] states) {
     frontLeft.setState(states[0]);
     frontRight.setState(states[1]);
@@ -236,7 +220,11 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
   }
 
-  public SmartPIDController getHeadingController() {
+  public HeadingController getHeadingController() {
+    if (headingController == null) {
+      headingController = new HeadingController();
+    }
+
     return headingController;
   }
 

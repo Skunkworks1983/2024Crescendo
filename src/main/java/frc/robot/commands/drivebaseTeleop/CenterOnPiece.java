@@ -6,7 +6,7 @@ package frc.robot.commands.drivebaseTeleop;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class CenterOnPiece extends Command {
+public class CenterOnPiece extends SwerveTeleop {
   public CenterOnPiece() {
   }
 
