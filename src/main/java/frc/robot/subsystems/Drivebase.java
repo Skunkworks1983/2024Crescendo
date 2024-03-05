@@ -270,7 +270,7 @@ public class Drivebase extends SubsystemBase {
 
     Optional<Translation2d> fieldTargetOptional;
 
-    if (fieldTarget == null) {
+    if (fieldTarget == null || fieldTarget == FieldTarget.NONE) {
       fieldTargetOptional = Optional.empty();
     } else {
       fieldTargetOptional = Optional

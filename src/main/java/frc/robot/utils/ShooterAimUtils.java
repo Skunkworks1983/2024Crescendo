@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N4;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 
 public class ShooterAimUtils {
@@ -19,9 +21,9 @@ public class ShooterAimUtils {
       double flywheelSpeed) {
     double robotAngle = Math.atan2(
         shooterPivotPosition.getY()
-            - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getY(),
+            - Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
         shooterPivotPosition.getX()
-            - Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getX());
+            - Constants.Targeting.FieldTarget.SPEAKER.get().get().getX());
 
     double distanceToSpeaker = calculateHorizontalDistance(shooterPivotPosition,
         Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get());
@@ -31,10 +33,12 @@ public class ShooterAimUtils {
     double maximumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
         distanceToSpeaker - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI,
         flywheelSpeed);
-
+        SmartDashboard.putNumber("minAngleSmartShooting",Units.degreesToRadians(maximumAngle));
     double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
         distanceToSpeaker,
         0.0, Math.PI, flywheelSpeed);
+
+    System.out.println("max and min angles:" + maximumAngle +","+ minimumAngle);
 
     double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
         + minimumAngle * (1.0 - Constants.Shooter.AUTO_AIM_ROTATION_RATIO));
@@ -63,7 +67,7 @@ public class ShooterAimUtils {
   // https://en.wikipedia.org/wiki/Bisection_method
   static double hitPositionToMinAngle(int depth, double minInput, double maxInput,
       double desiredHitPosition, double flywheelSpeed) {
-    double pivotAngleGuess = (minInput + maxInput) / 2;
+    double pivotAngleGuess = (minInput + maxInput) / 2.0;
     for (int i = 0; i < depth; i++) {
 
       boolean tooLow = (desiredHitPosition > noteHitPosition(pivotAngleGuess, desiredHitPosition,
@@ -73,7 +77,7 @@ public class ShooterAimUtils {
       } else {
         maxInput = pivotAngleGuess;
       }
-      pivotAngleGuess = (minInput + maxInput) / 2;
+      pivotAngleGuess = (minInput + maxInput) / 2.0;
     }
     return pivotAngleGuess;
   }
@@ -105,8 +109,8 @@ public class ShooterAimUtils {
     // theta - 90 is neccecary to convert from the system in which forward is 90 and
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    double cosP = Math.cos(Math.PI / 2 - shooterPivotRotation);
-    double sinP = Math.sin(Math.PI / 2 - shooterPivotRotation);
+    double cosP = Math.cos(Math.PI / 2.0 - shooterPivotRotation);
+    double sinP = Math.sin(Math.PI / 2.0 - shooterPivotRotation);
 
     Matrix<N4, N4> robotToField = new Matrix<N4, N4>(
         new SimpleMatrix(new double[][] { { cosD, -sinD, 0.0, drivebaseTranslation.getX() },

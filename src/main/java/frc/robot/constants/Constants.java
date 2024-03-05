@@ -202,7 +202,7 @@ public class Constants {
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 13;
     public static final double AMP_FLYWHEEL_SPEED = 20;
-    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 25.0;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -372,7 +372,7 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
@@ -387,7 +387,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses average part of goal.
-      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7.2))),
+      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833-1.0), Units.feetToMeters(7.2))),
       SPEAKER_LOWEST_GOAL_PART(new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(), Units.feetToMeters(6.0))), AMP(
           new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
               0)), SPEAKER_HOOD(

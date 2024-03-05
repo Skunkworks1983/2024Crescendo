@@ -32,7 +32,7 @@ public class LoadPieceShooter extends Command {
   @Override
   public void initialize() {
     canLoadPiece = shooter.canLoadPiece();
-    beambreak1Tripped = shooter.getShooterIndexerBeambreak1();
+    beambreak1Tripped = false;
     initialSpeedSet = false;
     System.out.println("Load Piece Shooter Command Initialize");
   }
@@ -50,14 +50,16 @@ public class LoadPieceShooter extends Command {
     if (!initialSpeedSet && !shooter.getShooterIndexerBeambreak1()) {
       shooter.setIndexerPercentOutput(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
-      collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
+      if(!collector.isStowed()) {
+        collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
+      }
       initialSpeedSet = true;
       System.out.println("Load Piece Shooter initialSpeedSet");
     }
 
     if (!beambreak1Tripped && shooter.getShooterIndexerBeambreak1()) {
       shooter.setIndexerPercentOutput(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
-      indexer.setIndexerCoastMode();
+      indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       collector.setIntakeCoastMode();
       beambreak1Tripped = true;
       System.out.println("Load Piece Shooter beam break slowed");

@@ -66,8 +66,8 @@ public class OI extends SubsystemBase {
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
 
-    smartAim = new JoystickButton(leftJoystick, Constants.IDS.SMART_AIM);
-    linearAim = new JoystickButton(leftJoystick, Constants.IDS.LINEAR_AIM);
+    smartAim = new JoystickButton(rightJoystick, Constants.IDS.SMART_AIM);
+    linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -83,12 +83,12 @@ public class OI extends SubsystemBase {
     manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
     manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
     manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
-//
-    //targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+
+    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
+    shooterToAmp.negate().and(linearAim.negate()).whileTrue(new ShooterToStow());
 
     smartAim.whileTrue(new SmartAim());
     linearAim.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
