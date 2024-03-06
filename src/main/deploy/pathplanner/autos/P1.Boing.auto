@@ -32,6 +32,12 @@
         {
           "type": "named",
           "data": {
+            "name": "LowerCollector"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "CollectNotes"
           }
         },
@@ -99,6 +105,12 @@
           "type": "path",
           "data": {
             "pathName": "MiddleNote5Pos1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectorStow"
           }
         }
       ]

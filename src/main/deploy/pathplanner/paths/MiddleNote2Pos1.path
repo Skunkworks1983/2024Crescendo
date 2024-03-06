@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 7.0
+        "x": 7.74,
+        "y": 7.47
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9496422262806508,
-        "y": 6.500821397080056
+        "x": 7.8613511086728565,
+        "y": 7.47
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 7.34563158567311,
+        "y": 6.628103815213842
       },
       "prevControl": {
-        "x": 1.7232321612932202,
-        "y": 6.312146342923865
+        "x": 7.34563158567311,
+        "y": 6.926624422770224
+      },
+      "nextControl": {
+        "x": 7.34563158567311,
+        "y": 6.329583207657459
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.74,
+        "y": 5.767688926682201
+      },
+      "prevControl": {
+        "x": 7.492325474096708,
+        "y": 5.767688926682201
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.1034997794744,
+    "rotation": -177.96802590171674,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "GetMiddleNotesPathsPos1",
   "previewStartingState": {
-    "rotation": 177.53058398094984,
+    "rotation": -179.0100306582829,
     "velocity": 0
   },
   "useDefaultConstraints": true

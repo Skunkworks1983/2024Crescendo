@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 7.0
+        "x": 7.69,
+        "y": 4.06
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9496422262806508,
-        "y": 6.500821397080056
+        "x": 7.807944063093097,
+        "y": 3.3148643937039424
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 5.958694153413153,
+        "y": 1.6839287094723252
       },
       "prevControl": {
-        "x": 1.7232321612932202,
-        "y": 6.312146342923865
+        "x": 7.381194153413153,
+        "y": 2.168928709472323
+      },
+      "nextControl": {
+        "x": 4.5361941534131525,
+        "y": 1.1989287094723253
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.49,
+        "y": 2.12
+      },
+      "prevControl": {
+        "x": 3.663654310041541,
+        "y": 1.7866648155656562
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.1034997794744,
+    "rotation": 150.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "4PieceMidAutoPos3",
   "previewStartingState": {
-    "rotation": 177.53058398094984,
+    "rotation": -179.96277370946177,
     "velocity": 0
   },
   "useDefaultConstraints": true

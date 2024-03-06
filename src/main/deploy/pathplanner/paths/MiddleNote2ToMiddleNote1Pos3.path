@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 7.0
+        "x": 7.69,
+        "y": 5.76
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9496422262806508,
-        "y": 6.500821397080056
+        "x": 7.68936234469138,
+        "y": 6.3503731931432
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 7.69,
+        "y": 7.380412385734258
       },
       "prevControl": {
-        "x": 1.7232321612932202,
-        "y": 6.312146342923865
+        "x": 7.665407944863682,
+        "y": 7.09295958780187
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.1034997794744,
+    "rotation": -178.63779853978355,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "GetMiddleNotesPos3",
   "previewStartingState": {
-    "rotation": 177.53058398094984,
+    "rotation": -176.634392692231,
     "velocity": 0
   },
   "useDefaultConstraints": true

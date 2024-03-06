@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4187317942065913,
+      "y": 4.699978865606586
+    },
+    "rotation": 150.06848815949212
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlywheel"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DriveOutP2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos2",
+  "choreoAuto": false
+}

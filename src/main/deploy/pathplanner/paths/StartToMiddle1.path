@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 7.0
+        "x": 1.4187317942065913,
+        "y": 6.914191131181245
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9496422262806508,
-        "y": 6.500821397080056
+        "x": 2.2751723874949024,
+        "y": 6.4755264370579635
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 4.458051460632184,
+        "y": 6.151750115205065
       },
       "prevControl": {
-        "x": 1.7232321612932202,
-        "y": 6.312146342923865
+        "x": 3.4410027267891694,
+        "y": 6.0342506435649
+      },
+      "nextControl": {
+        "x": 5.475100194475197,
+        "y": 6.26924958684523
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.74,
+        "y": 7.47
+      },
+      "prevControl": {
+        "x": 6.74,
+        "y": 7.47
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.1034997794744,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "5PieceAutoAmpPos1",
   "previewStartingState": {
-    "rotation": 177.53058398094984,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true
