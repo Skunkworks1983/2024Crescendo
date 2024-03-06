@@ -180,7 +180,7 @@ public class Constants {
         new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 13;
+    public static final double STOW_FLYWHEEL_SPEED = 17;
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
 

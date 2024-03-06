@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -20,6 +21,7 @@ import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
@@ -62,22 +64,7 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
   NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
   NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
-
-  //indexer
-  NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
-  NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexer());
-
-  NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
-
-  // Collector 
-  NamedCommands.registerCommand("LowerCollector", new LowerCollector());
-  NamedCommands.registerCommand("CollectorStow", new CollectorStow());
-  NamedCommands.registerCommand("CollectNote", new CollectNote());
-
-  // Shooter
-  NamedCommands.registerCommand("ShootNote",new Shoot());
-  NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
-  NamedCommands.registerCommand("ShooterToAmo", new ShooterToAmp());
+  NamedCommands.registerCommand("LoadPieceShooter", new LoadPieceShooter());
 
   //indexer
   NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());

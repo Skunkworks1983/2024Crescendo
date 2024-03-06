@@ -12,99 +12,174 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "SpinUpFlywheel"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "LowerCollector"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "StartToWNote2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "WNote2ToSpeaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "SpeakerToWNote1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "WNote1ToSpekaer"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "SpeakerToWingNote3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "WNote3ToSpeaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootNote"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectorStow"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ShootWhenReady"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "LowerCollector"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeNoteToIndexer"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "StartToWNote2"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "LoadPieceShooter"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "WNote2ToSpeaker"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShootWhenReady"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeNoteToIndexer"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "SpeakerToWNote1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "LoadPieceShooter"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "WNote1ToSpekaer"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShootWhenReady"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeNoteToIndexer"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "SpeakerToWingNote3"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "LoadPieceShooter"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "WNote3ToSpeaker"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShootWhenReady"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "CollectorStow"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]
