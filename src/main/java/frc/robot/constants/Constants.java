@@ -10,7 +10,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
-
+  public static class Telemetry {
+    public static boolean enabled = true;
+  }
   public static class SwerveModuleConstants {
     public int driveMotorId;
     public int turnMotorId;

@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
@@ -94,8 +95,11 @@ public class Shooter extends SubsystemBase {
   }
 
   // @Override
-  // public void periodic() {
-
+   public void periodic() {
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putBoolean("Beam Break 1", noteBreak1.get());
+      SmartDashboard.putBoolean("Beam Break 2", noteBreak2.get());
+    }
     /*if (pivotMotorForwardLimit.get()) {
       pivotMotor.setPosition(Constants.Shooter.SHOOTER_RESTING_POSITION_ROTATIONS);
       pivotMotor.set(0);
@@ -106,7 +110,7 @@ public class Shooter extends SubsystemBase {
   // shootingController.updatePID();
   // indexerController.updatePID();
   // pivotController.updatePID();
-  // }
+   }
 
   public void setShooterAngle(Rotation2d desiredRotation) {
     positionVoltage.Slot = 0;

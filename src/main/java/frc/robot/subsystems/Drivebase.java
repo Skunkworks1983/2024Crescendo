@@ -96,15 +96,19 @@ public class Drivebase extends SubsystemBase {
     // startup.
     resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
+    if (Constants.Telemetry.enabled){
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
+    }
 
     configurePathPlanner();
     headingController.enableContinuousInput(0, 360);
-
-    SmartDashboard.putNumber("testTurnP", 0);
-    SmartDashboard.putNumber("testTurnI", 0);
-    SmartDashboard.putNumber("testTurnD", 0);
+    
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putNumber("testTurnP", 0);
+      SmartDashboard.putNumber("testTurnI", 0);
+      SmartDashboard.putNumber("testTurnD", 0);
+    }
 
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
@@ -115,11 +119,15 @@ public class Drivebase extends SubsystemBase {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
           new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+          if (Constants.Telemetry.enabled){
+            SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+          }
     } catch (Exception e) {
       System.out.println("Exception creating cameras: " + e.toString());
       vision = new Vision(new SkunkPhotonCamera[] {});
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
+      if (Constants.Telemetry.enabled){
+        SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
+      }
     }
   }
 
@@ -136,16 +144,19 @@ public class Drivebase extends SubsystemBase {
    */
   private double getGyroAngle() {
     double angle = gyro.getAngle();
-    SmartDashboard.putNumber("gyro", -angle);
-
+    
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putNumber("gyro", -angle);
+    }
     // Negative because gyro reads differently than wpilib.
     return -angle;
   }
 
   public double getGyroRoll () {
     double roll = gyro.getRoll();
+    if (Constants.Telemetry.enabled){
     SmartDashboard.putNumber("gyro roll", roll);
-
+    }
     return roll;
   }
   /**
@@ -191,7 +202,9 @@ public class Drivebase extends SubsystemBase {
 
   public void setHeadingController(double setpoint) {
     headingController.setSetpoint(setpoint);
-    SmartDashboard.putNumber("Heading Setpoint", setpoint);
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putNumber("Heading Setpoint", setpoint);
+    }
   }
 
   public void setModuleStates(SwerveModuleState[] states) {
