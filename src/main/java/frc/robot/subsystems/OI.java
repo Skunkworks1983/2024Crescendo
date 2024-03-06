@@ -14,9 +14,14 @@ import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShootWhenReady;
+import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -29,15 +34,15 @@ public class OI extends SubsystemBase {
   Joystick buttonStick;
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
-  JoystickButton switchMotors;
-  JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
-  JoystickButton manualShoot;
-  JoystickButton collectorPositionChange;
+  JoystickButton shootWhenReady;
+  JoystickButton noteFloorToShooter;
+  JoystickButton shooterToAmp;
+  JoystickButton shooterToSpeaker;
+  JoystickButton collectorStow;
+  JoystickButton collectorDown;
 
   // Climber buttons
-  JoystickButton extendClimber;
-  JoystickButton retractClimber;
   JoystickButton smartClimb;
   JoystickButton manualLeftClimberUp;
   JoystickButton manualLeftClimberDown;
@@ -51,39 +56,49 @@ public class OI extends SubsystemBase {
 
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
-    targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+    targetingAmp = new JoystickButton(leftJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
 
-    manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
+    //Shooter Pivot Buttons
+    shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
+    shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
+
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
-    manualShoot = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SHOOT);
-    collectorPositionChange = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_POSITION_CHANGE);
+    shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
 
-    extendClimber = new JoystickButton(buttonStick, Constants.IDS.EXTEND_CLIMBER);
-    retractClimber = new JoystickButton(buttonStick, Constants.IDS.RETRACT_CLIMBER);
+    collectorDown = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_DOWN);
+    collectorStow = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_STOW);
+
+    noteFloorToShooter = new JoystickButton(buttonStick, Constants.IDS.NOTE_FLOOR_TO_SHOOTER);
+
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
     manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
     manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
     manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
     manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+//
+    //targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
-    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    shooterToAmp.whileTrue(new ShooterToAmp());
+    shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
-    manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
-    manualShoot.whileTrue(new Shoot());
+    shootWhenReady.whileTrue(new ShootWhenReady());
 
-    extendClimber.onTrue(new ExtendClimber());
-    retractClimber.onTrue(new RetractClimber());
-    smartClimb.onTrue(new SmartClimb());
-    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .05));
-    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.05));
-    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .05));
-    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.05));
+    collectorDown.whileTrue(new LowerCollector());
+    collectorStow.whileTrue(new CollectorStow());
 
-    collectorPositionChange.whileTrue(new LowerCollector());
-    collectorPositionChange.whileFalse(new CollectorStow());
+    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
+
+    smartClimb.onTrue(new ExtendClimber());
+    smartClimb.onFalse(new SmartClimb());
+
+    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
+    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
+    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
+    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
+
   }
 
   @Override

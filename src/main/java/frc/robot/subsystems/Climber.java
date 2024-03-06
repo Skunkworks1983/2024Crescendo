@@ -43,15 +43,17 @@ public class Climber extends SubsystemBase {
     rightClimbMotor.getConfigurator().apply(inverted);
 
     // Using Smart PID Controllers on the motors for position control
-    leftPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
-        Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
-        Constants.PIDControllers.DrivePID.KF, "Left Climb Motor",
-        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, leftClimbMotor);
+    leftPositionController = new SmartPIDControllerTalonFX(
+        Constants.PIDControllers.ClimberPID.CLIMBER_KP,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KI,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KD, Constants.PIDControllers.DrivePID.KF,
+        "Left Climb Motor", Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, leftClimbMotor);
 
-    rightPositionController = new SmartPIDControllerTalonFX(Constants.PIDControllers.ClimberPID.CLIMBER_KP,
-        Constants.PIDControllers.ClimberPID.CLIMBER_KI, Constants.PIDControllers.ClimberPID.CLIMBER_KD,
-        Constants.PIDControllers.DrivePID.KF, "Right Climb Motor",
-        Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, rightClimbMotor);
+    rightPositionController = new SmartPIDControllerTalonFX(
+        Constants.PIDControllers.ClimberPID.CLIMBER_KP,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KI,
+        Constants.PIDControllers.ClimberPID.CLIMBER_KD, Constants.PIDControllers.DrivePID.KF,
+        "Right Climb Motor", Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, rightClimbMotor);
 
     SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
     SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
@@ -100,11 +102,9 @@ public class Climber extends SubsystemBase {
     }
   }
 
-  public boolean atPositionSetpoint(ClimbModule module, double setpoint) {
-    if (Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
-      return true;
-    }
-    return false;
+  public boolean atPositionSetpoint(double setpoint, ClimbModule module) {
+    SmartDashboard.putNumber("within tolerance", Math.abs(getClimberPostition(module) - setpoint));
+    return Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_MOTOR_POSITION_TOLERANCE;
   }
 
   @Override
