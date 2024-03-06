@@ -69,11 +69,8 @@ public class ClimbWithGyro extends Command {
   public boolean isFinished() {
     // Checks if one of the climbers is at the minimun position, if yes, it ends the
     // command
-
-    if (climber.getClimberPostition(ClimbModule.LEFT) < ClimberConstants.MIN_POSITION
-        + ClimberConstants.CLIMBER_POSITION_TOLERANCE
-        || climber.getClimberPostition(ClimbModule.RIGHT) < ClimberConstants.MIN_POSITION
-            + ClimberConstants.CLIMBER_POSITION_TOLERANCE) {
+    if (climber.getClimberPostition(ClimbModule.LEFT) <= ClimberConstants.MIN_POSITION
+        || climber.getClimberPostition(ClimbModule.RIGHT) <= ClimberConstants.MIN_POSITION) {
       return true;
     }
 
