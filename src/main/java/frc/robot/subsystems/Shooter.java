@@ -116,6 +116,7 @@ public class Shooter extends SubsystemBase {
     isFlywheelSpiningWithSetpoint = false;
   }
 
+
   @Override
   public void periodic() {
 
@@ -129,8 +130,12 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
-    SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putBoolean("Beam Break 1", noteBreak1.get());
+      SmartDashboard.putBoolean("Beam Break 2", noteBreak2.get());
+      SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
+      SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+    }
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }

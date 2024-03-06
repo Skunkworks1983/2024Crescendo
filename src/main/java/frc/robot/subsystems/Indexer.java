@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import frc.robot.utils.SmartPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
@@ -70,6 +71,9 @@ public class Indexer extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (Constants.Telemetry.enabled){
+      SmartDashboard.putBoolean("Beam Break", getBeamBreakSensor());
+    }
     indexerMotorController.updatePID();
   }
 }

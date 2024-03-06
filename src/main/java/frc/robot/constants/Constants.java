@@ -11,7 +11,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
 
 public class Constants {
-
+  public static class Telemetry {
+    public static boolean enabled = true;
+  }
   public static class SwerveModuleConstants {
     public int driveMotorId;
     public int turnMotorId;
