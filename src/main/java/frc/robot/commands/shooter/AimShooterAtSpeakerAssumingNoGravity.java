@@ -38,8 +38,8 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     target = new Translation3d(
       Constants.Targeting.FieldTarget.SPEAKER.get().get().getX(),
       Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ() + 0.54
-    
+
+      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ();    
     );
     
     System.out.println("Aim Shooter at Speaker Command Initialize");
@@ -62,7 +62,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
     Rotation2d shooterRotation = new Rotation2d((Math.PI / 2.0) - Math.atan2(target.getZ() - shooterPivot.getZ(),
-        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()));
+        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(0));
 
     // TODO: enable temporarily disabled code after testing.
 
@@ -77,7 +77,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     shooter.setPivotAngleAndSpeed(shooterRotation);
 
     //shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
-    shooter.setFlywheelSpeed(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
+    shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
   // Called once the command ends or is interrupted.
