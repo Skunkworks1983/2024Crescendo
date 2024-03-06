@@ -30,40 +30,34 @@ public class HeadingController {
     // Time at the last input
     double timeAtLastInput;
 
-    Timer timer;
+    private final Timer timer = new Timer();
 
-    SmartPIDController headingPIDController; 
-    headingPIDController = new SmartPIDController(
+    SmartPIDController headingPIDController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
       Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
-        headingPIDController.enableContinuousInput(0, 360);
+      
 
     public HeadingController() {
+      headingPIDController.enableContinuousInput(0, 360);
         currentHeading = 0;
         headingControllerSetpoint = 0;
         hasUpdated = false;
-        timer = new Timer();
-        timeAtLastInput = timer.
     }
 
-    // Used for keeping robot heading in the right direction using PID and the
-    // targeting button
+    /** Calculate the rotational velocity of the robot when using the heading controller. */
     public double calculate(double headingMeasurment) {
-        double degreesPerSecond = headingPIDController.calculate(headingMeasurment);
-        return degreesPerSecond;
+      double degreesPerSecond = headingPIDController.calculate(headingMeasurment);
+      return degreesPerSecond;
     }
 
+    /** Sets the setpoint of the heading controller. */
     public void setSetpoint(double setpoint) {
-    headingPIDController.setSetpoint(setpoint);
-    SmartDashboard.putNumber("Heading Setpoint", setpoint);
-  }
+      headingPIDController.setSetpoint(setpoint);
+      SmartDashboard.putNumber("Heading Controller Setpoint", setpoint);
+    }
 
     public void setTimeOfLastInput() {
-      timeAtLastInput = timer.getFPGATimestamp();
-    }
-
-    public void setHeadingControllerSetpoint () {
-
+      timeAtLastInput = 
     }
 }

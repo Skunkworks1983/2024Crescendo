@@ -44,14 +44,10 @@ public class TargetToPoint extends SwerveTeleop {
       headingControllerSetpoint = Units
           .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      
 
       headingController.setSetpoint(headingControllerSetpoint);
-
       double degreesPerSecond = headingController.calculate(drivebase.getGyroAngle());
-
-      ChassisSpeeds speeds = getChassisSpeeds();
-
+      ChassisSpeeds speeds = getDriveSpeeds();
       drivebase.setDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, degreesPerSecond, true);
     }
   }
