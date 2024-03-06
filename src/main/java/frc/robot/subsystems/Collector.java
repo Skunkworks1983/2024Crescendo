@@ -18,13 +18,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.utils.SmartPIDControllerCANSparkMax;
-import frc.robot.utils.SmartPIDControllerTalonFX;
 
-// This is a stub subsystem
 public class Collector extends SubsystemBase {
 
   TalonFX rightPivotMotor;
@@ -88,6 +85,10 @@ public class Collector extends SubsystemBase {
         .apply(new CurrentLimitsConfigs()
             .withSupplyCurrentLimit(Constants.Collector.COLLECTOR_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
+
+    
+    // Set the tolerance of the pivot motor's pid controller.
+    pivotMotorController.setTolerance(2);
   }
 
   // meters per second
@@ -110,6 +111,10 @@ public class Collector extends SubsystemBase {
 
   public void setCollectorGoal(double angle) {
     pivotMotorController.setGoal(angle);
+  }
+
+  public boolean isAtCollectorGoal() {
+    return pivotMotorController.atSetpoint();
   }
 
   public void setIntakeCoastMode() {
@@ -153,6 +158,24 @@ public class Collector extends SubsystemBase {
     return false;
   }
 
+  /** Reset the positions of the pivot motor encoders. */
+  public void resetPivotEncoderPosition () {
+    leftPivotMotor.setPosition(0);
+    rightPivotMotor.setPosition(0);
+  }
+
+  /** Set the speed of the collector pivot motor in percent output.  */
+  public void setPivotPercentOutput(double percentOutput) {
+    leftPivotMotor.set(percentOutput);
+  }
+
+  public double getLeftPivotTorque() {
+    return leftPivotMotor.getTorqueCurrent().getValueAsDouble();
+  }
+
+  public double getRightPivotTorque() {
+    return rightPivotMotor.getTorqueCurrent().getValueAsDouble();
+  }
 
   public static Collector getInstance() {
     if (collector == null) {

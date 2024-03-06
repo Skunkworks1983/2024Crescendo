@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.collector;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
@@ -10,12 +10,12 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
-public class CollectorStow extends Command {
+public class LowerCollector extends Command {
   private final Collector collector;
 
-  /** Creates a new CollectorStow. */
-  public CollectorStow() {
-    this.collector = Collector.getInstance();
+  /** Creates a new LowerCollector. */
+  public LowerCollector() {
+    collector = Collector.getInstance();
 
     addRequirements(SubsystemGroups.getInstance(Subsystems.COLLECTOR_PIVOT));
   }
@@ -23,8 +23,8 @@ public class CollectorStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorGoal(Constants.Collector.COLLECTOR_STOW_POS);
-    System.out.println("Collector Stow Command Initialize");
+    collector.setCollectorGoal(Constants.Collector.COLLECTOR_FLOOR_POS);
+    System.out.println("Lower Collector Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,12 +35,13 @@ public class CollectorStow extends Command {
   @Override
   public void end(boolean interrupted) {
     collector.setCollectorPivotVelocity(0);
-    System.out.println("Collector Stow Command End");
+    System.out.println("Lower Collector Command end");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return collector.isStowed();
+    // check collector position
+    return false;
   }
 }

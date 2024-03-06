@@ -71,8 +71,11 @@ public class Constants {
     public static final int SHOOT_WHEN_READY = 11;
     public static final int FLYWHEEL_SPINUP = 9;
 
+    // Joystick IDS for the collector
     public static final int COLLECTOR_STOW = 15;
     public static final int COLLECTOR_DOWN = 13;
+    public static final int COLLECTOR_RESET_POSITION;
+    public static final int COLLECTOR_RESET_FLOOR;
 
     public static final int SHOOTER_TO_AMP = 12;
     public static final int SHOOTER_TO_SPEAKER = 10;
@@ -85,7 +88,7 @@ public class Constants {
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    }
+  }
 
   public class Collector {
     // Collector Motor IDS

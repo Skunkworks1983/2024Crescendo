@@ -11,8 +11,10 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.RetractClimber;
 import frc.robot.commands.climber.SmartClimb;
-import frc.robot.commands.CollectorStow;
-import frc.robot.commands.LowerCollector;
+import frc.robot.commands.collector.CollectorStow;
+import frc.robot.commands.collector.LowerCollector;
+import frc.robot.commands.collector.LowerCollectorToFloor;
+import frc.robot.commands.collector.ResetCollectorPosition;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
@@ -29,25 +31,36 @@ import frc.robot.constants.Constants.Targeting.FieldTarget;
 public class OI extends SubsystemBase {
   private static OI oi;
 
+  // Joysticks
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
+
+  // Targeting
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
+
+  // Shooter
   JoystickButton flywheelSpinup;
   JoystickButton shootWhenReady;
   JoystickButton noteFloorToShooter;
   JoystickButton shooterToAmp;
   JoystickButton shooterToSpeaker;
+
+  // Collector
   JoystickButton collectorStow;
   JoystickButton collectorDown;
+  JoystickButton resetCollectorPosition;
+  JoystickButton resetCollectorToFloor;
 
-  // Climber buttons
+  // Climber
   JoystickButton smartClimb;
   JoystickButton manualLeftClimberUp;
   JoystickButton manualLeftClimberDown;
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
+
+
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -76,6 +89,9 @@ public class OI extends SubsystemBase {
     manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
     manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
     manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+
+    resetCollectorPosition = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_RESET_POSITION);
+    resetCollectorToFloor = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_RESET_FLOOR);
 //
     //targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -99,6 +115,8 @@ public class OI extends SubsystemBase {
     manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
     manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
+    resetCollectorPosition.whileTrue(new ResetCollectorPosition());
+    resetCollectorToFloor.whileTrue(new LowerCollectorToFloor());
   }
 
   @Override
