@@ -35,12 +35,12 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    drivebase.setFieldTarget(Constants.Targeting.FieldTarget.SPEAKER);
     target = new Translation3d(
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getX(),
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
+      drivebase.getFieldTarget().get().getX(),
+      drivebase.getFieldTarget().get().getY(),
 
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ();    
-    );
+      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ());
     
     System.out.println("Aim Shooter at Speaker Command Initialize");
   }
@@ -62,9 +62,9 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
     Rotation2d shooterRotation = new Rotation2d((Math.PI / 2.0) - Math.atan2(target.getZ() - shooterPivot.getZ(),
-        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(0));
+        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(-4));
 
-    // TODO: enable temporarily disabled code after testing.
+        SmartDashboard.putNumber("not bounded assuming no gravity shooter rotation set", shooterRotation.getDegrees());
 
     if(shooterRotation.getDegrees() >= 90.0){
       shooterRotation = new Rotation2d(Math.PI/2.0);
