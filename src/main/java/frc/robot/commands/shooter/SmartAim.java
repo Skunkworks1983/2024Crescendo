@@ -3,16 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.shooter;
-
-import org.ejml.simple.SimpleMatrix;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.numbers.N4;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +46,7 @@ public class SmartAim extends Command {
     // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
     //TODO: enable temporarily disabled code after testing.
+    SmartDashboard.putNumber("smart aim rotation set with normal rotationt", Units.radiansToDegrees(shooterAngle));
     SmartDashboard.putNumber("smart aim rotation set", new Rotation2d((Math.PI / 2.0) - shooterAngle).getDegrees());//shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 

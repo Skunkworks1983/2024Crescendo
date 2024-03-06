@@ -9,10 +9,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N4;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 
 public class ShooterAimUtils {
@@ -20,26 +17,29 @@ public class ShooterAimUtils {
   public static double calculateIdealStationaryShooterPivotAngle(Translation3d shooterPivotPosition,
       double flywheelSpeed) {
     double robotAngle = Math.atan2(
-        shooterPivotPosition.getY()
-            - Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
-        shooterPivotPosition.getX()
-            - Constants.Targeting.FieldTarget.SPEAKER.get().get().getX());
+            Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getY() - shooterPivotPosition.getY(),
+            Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getX() - shooterPivotPosition.getX());
 
-    double distanceToSpeaker = calculateHorizontalDistance(shooterPivotPosition,
+    double distanceToSpeakerZ = 
+      Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getZ()
+      - shooterPivotPosition.getZ();
+
+    double distanceToSpeakerHoodZ = Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getZ() - 
+    shooterPivotPosition.getZ();
+
+    double distanceToSpeakerH = calculateHorizontalDistance(shooterPivotPosition,
         Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get());
 
-    /*double distanceToHood = calculateHorizontalDistance(shooterPivotPosition,
-        Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get());*/
+        //Speaker
+        double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
+        distanceToSpeakerH,
+            0.0, Math.PI, distanceToSpeakerZ, flywheelSpeed);
+
+            //Hood
     double maximumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToSpeaker - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI,
+        distanceToSpeakerH - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI, distanceToSpeakerHoodZ,
         flywheelSpeed);
-        SmartDashboard.putNumber("minAngleSmartShooting",Units.degreesToRadians(maximumAngle));
-    double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToSpeaker,
-        0.0, Math.PI, flywheelSpeed);
-
-    System.out.println("max and min angles:" + maximumAngle +","+ minimumAngle);
-
+        
     double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
         + minimumAngle * (1.0 - Constants.Shooter.AUTO_AIM_ROTATION_RATIO));
     return desiredAngle;
@@ -56,16 +56,20 @@ public class ShooterAimUtils {
   // Based on math from
   // https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
   static double noteHitPosition(double theta, double distance, double velocity) {
-    double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
+    /*double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
         / (Math.cos(theta) * velocity);
     return (-.5 * Constants.ACCELERATION_DUE_TO_GRAVITY * Math.pow(t, 2))
         + (velocity * Math.sin(theta) * t)
         + (Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE * Math.sin(theta));
+        */
+    double t = (distance/(velocity*Math.cos(theta)))-(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)/velocity;
+    return (-.5*Constants.ACCELERATION_DUE_TO_GRAVITY*
+    Math.pow(t,2))+(velocity*Math.sin(theta)*t)+(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)*Math.sin(theta);
   }
 
   // uses bisection to find pivot rotation based on angle of shooter
   // https://en.wikipedia.org/wiki/Bisection_method
-  static double hitPositionToMinAngle(int depth, double minInput, double maxInput,
+  static double hitPositionToMinAngle(int depth,double distance, double minInput, double maxInput,
       double desiredHitPosition, double flywheelSpeed) {
     double pivotAngleGuess = (minInput + maxInput) / 2.0;
     for (int i = 0; i < depth; i++) {

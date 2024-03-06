@@ -38,7 +38,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     target = new Translation3d(
       Constants.Targeting.FieldTarget.SPEAKER.get().get().getX(),
       Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ()+0.54
+      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ() + 0.54
     
     );
     
