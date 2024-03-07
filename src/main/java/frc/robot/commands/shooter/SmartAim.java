@@ -36,6 +36,7 @@ public class SmartAim extends Command {
         ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
             Units.radiansToDegrees(shooter.getShooterPivotRotationInDegrees()), drivebase.getRobotPose().getTranslation());
 
+    //TODO: enable commented out code after sufficient testing.
     double flywheelSpeed =
     Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED;//ShooterAimUtils.calculateIdealFlywheelSpeed(pivotPositionFieldReletive.toTranslation2d());
     //shooter.setFlywheelSetpoint(flywheelSpeed);
@@ -45,8 +46,8 @@ public class SmartAim extends Command {
 
     // 90 - theta is neccecary to convert from the system in which forward is 90 and up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    //TODO: enable temporarily disabled code after testing.
-    SmartDashboard.putNumber("smart aim rotation set with normal rotationt", Units.radiansToDegrees(shooterAngle));
+
+    SmartDashboard.putNumber("smart aim rotation set with normal rotation", Units.radiansToDegrees(shooterAngle));
     SmartDashboard.putNumber("smart aim rotation set", new Rotation2d((Math.PI / 2.0) - shooterAngle).getDegrees());//shooter.setPivotAngleAndSpeed(new Rotation2d((Math.PI / 2) - shooterAngle));
   }
 
