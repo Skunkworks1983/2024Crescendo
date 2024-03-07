@@ -99,7 +99,7 @@ public class Constants {
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
-    public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
+    public static final double NOTE_INTAKE_SPEED = 0;
     public static final double COLLECTOR_FLOOR_POS = 105;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
@@ -145,6 +145,8 @@ public class Constants {
 
   public class Shooter {
 
+
+    public static final double AUTOAIMING_OFFSET = -3.25;
     // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
     // in half.
     public static final int ANGLE_SEARCH_DEPTH = 10;
@@ -386,7 +388,7 @@ public class Constants {
   public class Targeting {
 
     public enum FieldTarget {
-      // SPEAKER uses average part of goal.
+      // SPEAKER uses middle part of goal for z value.
       SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),

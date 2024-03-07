@@ -14,97 +14,23 @@ import frc.robot.constants.Constants;
 
 public class ShooterAimUtils {
 
-  public static double calculateIdealStationaryShooterPivotAngle(Translation3d shooterPivotPosition,
-      double flywheelSpeed) {
-    double robotAngle = Math.atan2(
-            Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getY() - shooterPivotPosition.getY(),
-            Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getX() - shooterPivotPosition.getX());
-
-    double distanceToSpeakerZ = 
-      Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get().getZ()
-      - shooterPivotPosition.getZ();
-
-    double distanceToSpeakerHoodZ = Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().getZ() - 
-    shooterPivotPosition.getZ();
-
-    double distanceToSpeakerH = calculateHorizontalDistance(shooterPivotPosition,
-        Constants.Targeting.FieldTarget.SPEAKER_LOWEST_GOAL_PART.get().get());
-
-        //Speaker
-        double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToSpeakerH,
-            0.0, Math.PI, distanceToSpeakerZ, flywheelSpeed);
-
-            //Hood
-    double maximumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToSpeakerH - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI, distanceToSpeakerHoodZ,
-        flywheelSpeed);
-        
-    double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
-        + minimumAngle * (1.0 - Constants.Shooter.AUTO_AIM_ROTATION_RATIO));
-    return desiredAngle;
-  }
-
-  // meters/second
-  public static double calculateIdealFlywheelSpeed(Translation2d shooterPivotTranslation) {
-    return Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED
-        + (Constants.Targeting.FieldTarget.SPEAKER_HOOD.get().get().toTranslation2d()
-            .getDistance(shooterPivotTranslation)
-            * Constants.Shooter.BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE);
-  }
-
-  // Based on math from
-  // https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
-  static double noteHitPosition(double theta, double distance, double velocity) {
-    /*double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
-        / (Math.cos(theta) * velocity);
-    return (-.5 * Constants.ACCELERATION_DUE_TO_GRAVITY * Math.pow(t, 2))
-        + (velocity * Math.sin(theta) * t)
-        + (Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE * Math.sin(theta));
-        */
-    double t = (distance/(velocity*Math.cos(theta)))-(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)/velocity;
-    return (-.5*Constants.ACCELERATION_DUE_TO_GRAVITY*
-    Math.pow(t,2))+(velocity*Math.sin(theta)*t)+(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)*Math.sin(theta);
-  }
-
-  // uses bisection to find pivot rotation based on angle of shooter
-  // https://en.wikipedia.org/wiki/Bisection_method
-  static double hitPositionToMinAngle(int depth,double distance, double minInput, double maxInput,
-      double desiredHitPosition, double flywheelSpeed) {
-    double pivotAngleGuess = (minInput + maxInput) / 2.0;
-    for (int i = 0; i < depth; i++) {
-
-      boolean tooLow = (desiredHitPosition > noteHitPosition(pivotAngleGuess, desiredHitPosition,
-          flywheelSpeed));
-      if (tooLow) {
-        minInput = pivotAngleGuess;
-      } else {
-        maxInput = pivotAngleGuess;
-      }
-      pivotAngleGuess = (minInput + maxInput) / 2.0;
-    }
-    return pivotAngleGuess;
-  }
-
-  // in meters
-  // horizontal means x and y but no z
   public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
   /*
-   * all rotations are in radians drivebase translation is field reletive.
+   * all rotations are in radians drivebase translation is field relative.
    * PivotTranslation is
-   * drivebase reletive This math uses matricies to change reference frames.
+   * drivebase relative This math uses matricies to change reference frames.
    * Because pivot is our
-   * final position and a reference frame, we convert 0,0,0 pivot reletive to
-   * field reletive.
+   * final position and a reference frame, we convert 0,0,0 pivot relative to
+   * field relative.
    * 
    * This code precomputes trigonometry before the matricies because each of the
    * variables are used
    * mulitple times. *
    */
-  public static Translation3d calculatePivotPositionFieldReletive(double drivebaseRotation,
+  public static Translation3d calculatePivotPositionFieldRelative(double drivebaseRotation,
       double shooterPivotRotation, Translation2d drivebaseTranslation) {
     Translation3d pivotTranslation = Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION;
     double cosD = Math.cos(drivebaseRotation);

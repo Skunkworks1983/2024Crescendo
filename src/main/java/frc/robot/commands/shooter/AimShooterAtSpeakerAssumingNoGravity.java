@@ -4,22 +4,19 @@
 
 package frc.robot.commands.shooter;
 
-import org.ejml.equation.MatrixConstructor;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.ShooterAimUtils;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
+import frc.robot.utils.ShooterAimUtils;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
@@ -37,55 +34,53 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //drivebase.setFieldTarget(Constants.Targeting.FieldTarget.SPEAKER);
-    
-    double x = 0;
+
+    //Flip position if on red side of the field
+    double positionShiftOnRedSide = 0;
     var alliance = DriverStation.getAlliance();
-    if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-      x = Math.abs(Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() - Constants.FIELD_X_LENGTH/2) * 2;
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      positionShiftOnRedSide = Math.abs(
+          Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() - Constants.FIELD_X_LENGTH / 2)
+          * 2;
     }
 
-    target = new Translation3d(
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() + x,
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
+    target = new Translation3d(Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() + positionShiftOnRedSide,
+        Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
 
-      Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ());
-    
+        Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ());
+
     System.out.println("Aim Shooter at Speaker Command Initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation3d shooterPivot = ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
-        Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()), drivebase.getRobotPose().getTranslation());
+    Translation3d shooterPivot =
+        ShooterAimUtils.calculatePivotPositionFieldRelative(drivebase.getGyroAngle(),
+            Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()),
+            drivebase.getRobotPose().getTranslation());
 
-    Translation2d diffrenceInPosition = new Translation2d(target.getX() - shooterPivot.getX(),
-        target.getY() - shooterPivot.getY());
-    SmartDashboard.putNumber("L value smart aim", Math.sqrt(
-      Math.pow(diffrenceInPosition.getX(),2) +
-      Math.pow(diffrenceInPosition.getY(),2)
-      )
-      );
+    Translation2d diffrenceInPosition =
+        new Translation2d(target.getX() - shooterPivot.getX(), target.getY() - shooterPivot.getY());
     // 90 - theta is neccecary to convert from the system in which forward is 90 and
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
-    Rotation2d shooterRotation = new Rotation2d((Math.PI / 2.0) - Math.atan2(target.getZ() - shooterPivot.getZ(),
-        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(-3.25));
+    Rotation2d shooterRotation =
+        new Rotation2d((Math.PI / 2.0)
+            - Math.atan2(target.getZ() - shooterPivot.getZ(),
+                diffrenceInPosition.getNorm()
+                    - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX())
+            + Units.degreesToRadians(Constants.Shooter.AUTOAIMING_OFFSET));
 
-        SmartDashboard.putNumber("not bounded assuming no gravity shooter rotation set", shooterRotation.getDegrees());
-
-    if(shooterRotation.getDegrees() >= 90.0){
-      shooterRotation = new Rotation2d(Math.PI/2.0);
-    }
-    else if(shooterRotation.getDegrees()<=Constants.Shooter.SHOOTER_RESTING_POSITION.getDegrees())
-    {
+    //Ensures that setpoint is not outside the range of rotations the shooter pivot can make
+    if (shooterRotation.getDegrees() >= 90.0) {
+      shooterRotation = new Rotation2d(Math.PI / 2.0);
+    } else if (shooterRotation.getDegrees() <= Constants.Shooter.SHOOTER_RESTING_POSITION
+        .getDegrees()) {
       shooterRotation = Constants.Shooter.SHOOTER_RESTING_POSITION;
     }
-    SmartDashboard.putNumber("assuming no gravity shooter rotation set", shooterRotation.getDegrees());
-    shooter.setPivotAngleAndSpeed(shooterRotation);
 
-    //shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
+    shooter.setPivotAngleAndSpeed(shooterRotation);
     shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
@@ -93,8 +88,6 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Aim Shooter at Speaker Command End");
-    //shooter.setPivotAngleAndSpeed(Constants.Shooter.SHOOTER_RESTING_POSITION);
-    //shooter.setFlywheelSpeed(0.0);
     shooter.setFlywheelMotorCoastMode();
     drivebase.setFieldTarget(FieldTarget.NONE);
   }
