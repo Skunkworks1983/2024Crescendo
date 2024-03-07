@@ -142,7 +142,6 @@ public class Shooter extends SubsystemBase {
 
     pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
     SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
-
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -154,8 +153,17 @@ public class Shooter extends SubsystemBase {
     }
   }
 
+  public double getShooterPivotError() {
+    return pivotController.getPositionError();
+  }
+
   public void setFlywheelSetpoint(double flywheelSpeed) {
     flywheelSetpointMPS = flywheelSpeed;
+  }
+
+  public double getFlywheelVelocity() {
+    return shootMotor1.getVelocity().getValueAsDouble()
+        / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -223,6 +231,10 @@ public class Shooter extends SubsystemBase {
   public void setIndexerPercentOutput(double percent) {
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
+  }
+
+  public double getShooterSetpoint() {
+    return pivotController.getSetpoint();
   }
 
   public static Shooter getInstance() {
