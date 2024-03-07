@@ -41,7 +41,6 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
-  double shooterAngleSetpoint;
 
   public enum LimitSwitch {
     FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
@@ -142,9 +141,7 @@ public class Shooter extends SubsystemBase {
             + pivotKf;
 
     pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
-    shooterAngleSetpoint = desiredRotation.getDegrees();
     SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
-
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -165,7 +162,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getFlywheelVelocity() {
-    return shootMotor1.getVelocity().getValueAsDouble() / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+    return shootMotor1.getVelocity().getValueAsDouble()
+        / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -236,7 +234,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getShooterSetpoint() {
-    return shooterAngleSetpoint;
+    return pivotController.getSetpoint();
   }
 
   public static Shooter getInstance() {
