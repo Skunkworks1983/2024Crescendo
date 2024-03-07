@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.8382,
-  "robotLength": 0.84,
+  "robotWidth": 0.8128,
+  "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
     "4PieceMidAutoPos3",
@@ -11,15 +11,16 @@
     "GetMiddleNotesPathsPos1",
     "GetMiddleNotesPos3",
     "P1.4P.P.W123new",
-    "P1.4P.W123"
+    "P1.4P.W123",
+    "P2.3P.P.M45"
   ],
   "autoFolders": [
     "StartingPos1",
     "StartingPos3",
     "StartingPos2"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 4.5,
+  "defaultMaxVel": 3.6,
+  "defaultMaxAccel": 7.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5
