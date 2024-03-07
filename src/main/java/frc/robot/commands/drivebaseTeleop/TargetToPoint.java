@@ -7,20 +7,17 @@ package frc.robot.commands.drivebaseTeleop;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.PIDControllers.HeadingControlPID;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.utils.HeadingController;
 
-public class TargetToPoint extends SwerveTeleop {
+/** Point the robot to a location on the field. */
+public class TargetToPoint extends BaseSwerveTeleop {
 
   Drivebase drivebase;
   HeadingController headingController;
   FieldTarget fieldTarget;
   double headingControllerSetpoint;
-
 
   public TargetToPoint(FieldTarget fieldTarget) {
     this.fieldTarget = fieldTarget;
@@ -41,20 +38,20 @@ public class TargetToPoint extends SwerveTeleop {
 
       // Uses odometry position and the specified targeting point to calculate desired
       // heading.
-      headingControllerSetpoint = Units
-          .radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
+      headingControllerSetpoint =
+          Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
 
       headingController.setSetpoint(headingControllerSetpoint);
       double degreesPerSecond = headingController.calculate(drivebase.getGyroAngle());
       ChassisSpeeds speeds = getDriveSpeeds();
-      drivebase.setDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, degreesPerSecond, true);
+      drivebase.setDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, degreesPerSecond,
+          true);
     }
   }
 
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

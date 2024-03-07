@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.drivebaseTeleop.MaintainHeading;
+import frc.robot.commands.drivebaseTeleop.RegularSwerve;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.utils.HeadingController;
@@ -132,7 +133,7 @@ public class Drivebase extends SubsystemBase {
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new MaintainHeading(drivebase, OI.getInstance()));
+    setDefaultCommand(new RegularSwerve());
   }
 
   /** Used to get the angle reported by the gyro. */
@@ -154,21 +155,22 @@ public class Drivebase extends SubsystemBase {
   public void setDrive(double xMetersPerSecond, double yMetersPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
-      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(xMetersPerSecond,
-          yMetersPerSecond, Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(xMetersPerSecond, yMetersPerSecond,
+          Units.degreesToRadians(degreesPerSecond), Rotation2d.fromDegrees(getGyroAngle()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xMetersPerSecond),
           Units.feetToMeters(yMetersPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
-     double Cx = speeds.vxMetersPerSecond;
-     double Cy = speeds.vyMetersPerSecond;
-     double Omega = speeds.omegaRadiansPerSecond;
-     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
-     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
+    double Cx = speeds.vxMetersPerSecond;
+    double Cy = speeds.vyMetersPerSecond;
+    double Omega = speeds.omegaRadiansPerSecond;
+    double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
+    double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
 
-    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
-    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
+    speeds.vxMetersPerSecond =
+        Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond =
+        Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 

@@ -13,16 +13,16 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
 
-public class SwerveTeleop extends Command {
+/** Basic swerve drive teleop functionalities. */
+public class BaseSwerveTeleop extends Command {
 
   Drivebase drivebase;
   OI oi;
   int fieldOrientationMultiplier;
 
-  public SwerveTeleop() {
+  public BaseSwerveTeleop() {
     drivebase = Drivebase.getInstance();
     oi = OI.getInstance();
-    addRequirements(drivebase);
   }
 
   @Override
@@ -33,8 +33,6 @@ public class SwerveTeleop extends Command {
     } else {
       fieldOrientationMultiplier = 1;
     }
-
-    System.out.println("Swerve Teleop Command Initialize");
   }
 
   /** Get the speeds of the drivebase using the joysticks. */

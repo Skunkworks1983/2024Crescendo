@@ -5,12 +5,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.RetractClimber;
 import frc.robot.commands.climber.SmartClimb;
+import frc.robot.commands.drivebaseTeleop.CenterOnPiece;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
@@ -18,8 +20,6 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
-import frc.robot.commands.shooter.ShooterToAngle;
-import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -30,8 +30,12 @@ public class OI extends SubsystemBase {
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
-  JoystickButton targetingSpeaker;
-  JoystickButton targetingAmp;
+
+  // Drivebase Teleop
+  JoystickButton targetToPointSpeaker;
+  JoystickButton targetToHeadingAmp;
+  JoystickButton centerOnPiece;
+
   JoystickButton switchMotors;
   JoystickButton manualIntakeNotes;
   JoystickButton flywheelSpinup;
@@ -55,9 +59,13 @@ public class OI extends SubsystemBase {
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
 
-    // Targeting buttons
-    targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
-    targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+    // Drivebase Teleop
+    targetToPointSpeaker =
+        new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
+    targetToHeadingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+
+    // TODO: Assign button id
+    centerOnPiece = new JoystickButton(rightJoystick, 0);
 
     manualIntakeNotes = new JoystickButton(buttonStick, Constants.IDS.MANUAL_PERCENT_OUTPUT);
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
@@ -76,10 +84,13 @@ public class OI extends SubsystemBase {
     manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
     manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
     manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
-    manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+    manualRightClimberDown =
+        new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
-    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    // Drivebase Teleop
+    targetToPointSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetToHeadingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    centerOnPiece.onTrue(new CenterOnPiece());
 
     manualIntakeNotes.whileTrue(new ManualIntakeNotes());
     flywheelSpinup.whileTrue(new FlywheelSpinup());

@@ -4,15 +4,15 @@
 
 package frc.robot.commands.drivebaseTeleop;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.subsystems.Drivebase;
 
-// TODO: Finish writing this command with new piece detection code
-/** Center the drivebase on a game piece. */
-public class CenterOnPiece extends BaseSwerveTeleop {
+/** Regular swerve with heading controlled by joysticks. */
+public class RegularSwerve extends BaseSwerveTeleop {
 
   Drivebase drivebase;
 
-  public CenterOnPiece() {
+  public RegularSwerve() {
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
   }
@@ -21,7 +21,11 @@ public class CenterOnPiece extends BaseSwerveTeleop {
   public void initialize() {}
 
   @Override
-  public void execute() {}
+  public void execute() {
+    ChassisSpeeds speeds = getDriveSpeeds();
+    drivebase.setDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
+        speeds.omegaRadiansPerSecond, true);
+  }
 
   @Override
   public void end(boolean interrupted) {}
