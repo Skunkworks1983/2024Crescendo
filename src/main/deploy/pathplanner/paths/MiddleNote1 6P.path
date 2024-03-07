@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3665098068109631,
-        "y": 6.506859629495342
+        "x": 1.439620589164843,
+        "y": 6.736636374036107
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3810583009578419,
-        "y": 6.506859629495342
+        "x": 1.8714589388466318,
+        "y": 5.449721795117892
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.949574214937904,
-        "y": 6.357575421917761
+        "x": 5.0324933219840995,
+        "y": 6.736636374036107
       },
       "prevControl": {
-        "x": 1.489305862512766,
-        "y": 5.976819605471014
+        "x": 4.099040630307742,
+        "y": 6.838098623131364
       },
       "nextControl": {
-        "x": 7.406120075398046,
-        "y": 6.892517043179449
+        "x": 5.993377890063668,
+        "y": 6.632192399244849
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.807326291344313,
-        "y": 7.427458664441138
+        "x": 7.737592269077669,
+        "y": 7.47
       },
       "prevControl": {
-        "x": 7.087212570419863,
-        "y": 7.118838498327036
+        "x": 6.755818906039849,
+        "y": 7.177556870584478
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "new pickup 1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -59,7 +59,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5PieceAutoWithoutCommands",
-  "previewStartingState": null,
+  "folder": "6PieceAutoWithOutCommandsPos1",
+  "previewStartingState": {
+    "rotation": -179.6213866019383,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

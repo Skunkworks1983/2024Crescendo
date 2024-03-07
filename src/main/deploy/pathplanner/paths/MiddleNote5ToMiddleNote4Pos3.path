@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 7.69,
+        "y": 0.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.34,
-        "y": 6.330506318758457
+        "x": 7.569590345552886,
+        "y": 1.1522684305325177
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3796163622861606,
-        "y": 7.0
+        "x": 7.69,
+        "y": 2.3978972215728653
       },
       "prevControl": {
-        "x": 1.405548718139948,
-        "y": 6.828245593301891
+        "x": 7.776900097985853,
+        "y": 2.3978972215728653
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.75,
-    "maxAcceleration": 5.5,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -43,10 +43,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "GetMiddleNotesPos3",
   "previewStartingState": {
-    "rotation": -179.60609296820724,
+    "rotation": 178.88259747481652,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
