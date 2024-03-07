@@ -47,6 +47,6 @@ public class ShootWhenReady extends Command {
 
   @Override
   public boolean isFinished() {
-    return !shooter.getShooterIndexerBeambreak2();
+    return !shooter.getShooterIndexerBeambreak2() && !shooter.getShooterIndexerBeambreak1();
   }
 }

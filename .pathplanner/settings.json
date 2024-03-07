@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.8382,
-  "robotLength": 0.84,
+  "robotWidth": 0.8128,
+  "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
     "4PieceMidAutoPos3",
@@ -11,7 +11,8 @@
     "GetMiddleNotesPathsPos1",
     "GetMiddleNotesPos3",
     "P1.4P.P.W123new",
-    "P1.4P.W123"
+    "P1.4P.W123",
+    "P2.3P.P.M45"
   ],
   "autoFolders": [
     "StartingPos1",

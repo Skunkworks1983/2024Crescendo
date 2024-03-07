@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.IntakeNoteToIndexer;
+import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
@@ -68,7 +69,7 @@ public class Robot extends TimedRobot {
 
   //indexer
   NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
-  NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexer());
+  NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
 
