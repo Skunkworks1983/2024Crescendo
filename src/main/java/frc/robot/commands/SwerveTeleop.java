@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -73,7 +74,7 @@ public class SwerveTeleop extends Command {
     // If the targeting button is being pressed, than override all other heading
     // controls and use
     // targeting.
-    if (isTargeting) {
+    if (isTargeting) {      
       Translation2d targetPoint = drivebase.getFieldTarget().get();
 
       // Uses odometry position and the specified targeting point to calculate desired
@@ -85,7 +86,6 @@ public class SwerveTeleop extends Command {
       lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;
       hasUpdated = false;
-
       // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
 
