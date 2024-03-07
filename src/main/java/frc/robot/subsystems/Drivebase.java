@@ -288,7 +288,6 @@ public class Drivebase extends SubsystemBase {
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
-
   }
 
   /**
