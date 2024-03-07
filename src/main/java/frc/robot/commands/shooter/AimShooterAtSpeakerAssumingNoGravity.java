@@ -10,9 +10,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.ShooterAimUtils;
@@ -35,10 +37,17 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.setFieldTarget(Constants.Targeting.FieldTarget.SPEAKER);
+    //drivebase.setFieldTarget(Constants.Targeting.FieldTarget.SPEAKER);
+    
+    double x = 0;
+    var alliance = DriverStation.getAlliance();
+    if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      x = Math.abs(Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() - Constants.FIELD_X_LENGTH/2) * 2;
+    }
+
     target = new Translation3d(
-      drivebase.getFieldTarget().get().getX(),
-      drivebase.getFieldTarget().get().getY(),
+      Constants.Targeting.FieldTarget.SPEAKER.get().get().getX() + x,
+      Constants.Targeting.FieldTarget.SPEAKER.get().get().getY(),
 
       Constants.Targeting.FieldTarget.SPEAKER.get().get().getZ());
     
@@ -62,7 +71,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     // up is 0 to the
     // system in which 0 is forward and 90 is upward.
     Rotation2d shooterRotation = new Rotation2d((Math.PI / 2.0) - Math.atan2(target.getZ() - shooterPivot.getZ(),
-        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(-4));
+        diffrenceInPosition.getNorm() - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX()) + Units.degreesToRadians(-3.25));
 
         SmartDashboard.putNumber("not bounded assuming no gravity shooter rotation set", shooterRotation.getDegrees());
 
@@ -87,6 +96,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
     //shooter.setPivotAngleAndSpeed(Constants.Shooter.SHOOTER_RESTING_POSITION);
     //shooter.setFlywheelSpeed(0.0);
     shooter.setFlywheelMotorCoastMode();
+    drivebase.setFieldTarget(FieldTarget.NONE);
   }
 
   // Returns true when the command should end.

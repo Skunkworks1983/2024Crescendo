@@ -64,9 +64,9 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
-    //button Ids
+    // button Ids
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int AMP_TARGETING_BUTTON = 1;
+    public static final int AMP_TARGETING_BUTTON = 3;
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -87,7 +87,7 @@ public class Constants {
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    }
+  }
 
   public class Collector {
     // Collector Motor IDS
@@ -195,12 +195,12 @@ public class Constants {
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
         new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
-    //TODO: find more exact value
+    // TODO: find more exact value
     public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(7);
 
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 13;
+    public static final double STOW_FLYWHEEL_SPEED = 16;
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
 
@@ -387,12 +387,14 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses average part of goal.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833-1.1), Units.feetToMeters(7.2)+0.43)),
-      SPEAKER_LOWEST_GOAL_PART(new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(), Units.feetToMeters(6.0))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
-              0)), SPEAKER_HOOD(
-                  new Translation3d(.47, SPEAKER.get().get().getY(),
-                      Units.feetToMeters(7))), NONE();
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
+          Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
+              new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
+                  Units.feetToMeters(6.0))), AMP(
+                      new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
+                          0)), SPEAKER_HOOD(
+                              new Translation3d(.47, SPEAKER.get().get().getY(),
+                                  Units.feetToMeters(7))), NONE();
 
       Translation3d target;
 

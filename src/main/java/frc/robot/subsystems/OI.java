@@ -14,6 +14,7 @@ import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
+import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
@@ -45,6 +46,7 @@ public class OI extends SubsystemBase {
   JoystickButton shooterToSpeaker;
   JoystickButton collectorStow;
   JoystickButton collectorDown;
+  JoystickButton manualExpelBackwards;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -60,7 +62,7 @@ public class OI extends SubsystemBase {
 
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
-    targetingAmp = new JoystickButton(leftJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+    targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
 
     //Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
@@ -76,6 +78,7 @@ public class OI extends SubsystemBase {
     collectorStow = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_STOW);
 
     noteFloorToShooter = new JoystickButton(buttonStick, Constants.IDS.NOTE_FLOOR_TO_SHOOTER);
+    manualExpelBackwards = new JoystickButton(buttonStick, 16);
 
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
@@ -85,13 +88,13 @@ public class OI extends SubsystemBase {
     manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(linearAim.negate()).whileTrue(new ShooterToStow());
+    shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
     smartAim.whileTrue(new SmartAim());
-    linearAim.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
+    shooterToSpeaker.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
@@ -99,6 +102,7 @@ public class OI extends SubsystemBase {
     collectorStow.whileTrue(new CollectorStow());
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
+    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
 
     smartClimb.onTrue(new ExtendClimber());
     smartClimb.onFalse(new SmartClimb());
