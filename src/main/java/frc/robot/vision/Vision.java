@@ -11,7 +11,6 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -32,7 +31,7 @@ public class Vision {
      * Returns an Optional PieceData object. Returns Optional.empty() if:
      * <ul><li>No camera exists with the specified camera name.</li></ul>
      * <ul><li>The camera with the specified camera name is not being used for piece detection.</li></ul>
-     * <ul><li>There are no targets being detected.</li></ul>
+     * <ul><li>There are no targets detected by the camera.</li></ul>
      *  
     */
     public Optional<PieceData> getPieceData(String pieceDetectionCameraName) {

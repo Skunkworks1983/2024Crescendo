@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PhotonVision;
 import frc.robot.vision.PieceData;
 import frc.robot.vision.Vision;
@@ -32,10 +33,7 @@ public class NavigateToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-
-
-    
+    Optional<PieceData> pieceData = vision.getPieceData(Constants.PhotonVision.PIECE_DETECTION_CAMERA_NAME);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

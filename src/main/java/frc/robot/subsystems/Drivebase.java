@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -316,5 +317,18 @@ public class Drivebase extends SubsystemBase {
 
   public Command followAutoTrajectory(String autoName) {
     return new PathPlannerAuto(autoName);
+  }
+
+  public Command pathfindToPose (Pose2d targetPose) {
+
+    PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+    return AutoBuilder.pathfindToPose(
+      targetPose,
+      constraints,
+      0.0, // Goal end velocity in meters/sec
+      0.0); // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
   }
 }
