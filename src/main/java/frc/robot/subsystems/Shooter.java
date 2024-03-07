@@ -31,7 +31,6 @@ import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 public class Shooter extends SubsystemBase {
-
   public TalonFX pivotMotor;
   public TalonFX shootMotor1;
   public TalonFX shootMotor2;
