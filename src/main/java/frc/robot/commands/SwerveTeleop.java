@@ -79,7 +79,6 @@ public class SwerveTeleop extends Command {
 
       // Uses odometry position and the specified targeting point to calculate desired
       // heading.
-      SmartDashboard.putNumber("headingSetpoint", headingControllerSetpoint);
       headingControllerSetpoint =
           Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));

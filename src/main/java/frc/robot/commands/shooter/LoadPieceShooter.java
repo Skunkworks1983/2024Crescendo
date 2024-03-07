@@ -32,6 +32,9 @@ public class LoadPieceShooter extends Command {
   @Override
   public void initialize() {
     canLoadPiece = shooter.canLoadPiece();
+
+    // This is set to false so we update the speeds if this command is run and the note only
+    // triggers the first beambreak.
     beambreak1Tripped = false;
     initialSpeedSet = false;
     System.out.println("Load Piece Shooter Command Initialize");
@@ -50,7 +53,7 @@ public class LoadPieceShooter extends Command {
     if (!initialSpeedSet && !shooter.getShooterIndexerBeambreak1()) {
       shooter.setIndexerPercentOutput(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
-      if(!collector.isStowed()) {
+      if (!collector.isStowed()) {
         collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
       }
       initialSpeedSet = true;
@@ -59,6 +62,9 @@ public class LoadPieceShooter extends Command {
 
     if (!beambreak1Tripped && shooter.getShooterIndexerBeambreak1()) {
       shooter.setIndexerPercentOutput(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
+
+      // when enabled, if only the first beambreak is tripped, this will be the only thing setting
+      // speeds on the indexer, and we need to have the indexer and the shooter indexer running then
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       collector.setIntakeCoastMode();
       beambreak1Tripped = true;

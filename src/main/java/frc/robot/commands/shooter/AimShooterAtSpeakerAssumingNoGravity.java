@@ -4,22 +4,19 @@
 
 package frc.robot.commands.shooter;
 
-import org.ejml.equation.MatrixConstructor;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.ShooterAimUtils;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
+import frc.robot.utils.ShooterAimUtils;
 
 public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   Shooter shooter;
@@ -59,7 +56,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   @Override
   public void execute() {
     Translation3d shooterPivot =
-        ShooterAimUtils.calculatePivotPositionFieldReletive(drivebase.getGyroAngle(),
+        ShooterAimUtils.calculatePivotPositionFieldRelative(drivebase.getGyroAngle(),
             Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()),
             drivebase.getRobotPose().getTranslation());
 
@@ -73,8 +70,9 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
             - Math.atan2(target.getZ() - shooterPivot.getZ(),
                 diffrenceInPosition.getNorm()
                     - Constants.Shooter.ROBOT_RELATIVE_PIVOT_POSITION.getX())
-            + Units.degreesToRadians(-3.25));
+            + Units.degreesToRadians(Constants.Shooter.AUTOAIMING_OFFSET));
 
+    //Ensures that setpoint is not outside the range of rotations the shooter pivot can make
     if (shooterRotation.getDegrees() >= 90.0) {
       shooterRotation = new Rotation2d(Math.PI / 2.0);
     } else if (shooterRotation.getDegrees() <= Constants.Shooter.SHOOTER_RESTING_POSITION
@@ -89,6 +87,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Aim Shooter at Speaker Command End");
     shooter.setFlywheelMotorCoastMode();
     drivebase.setFieldTarget(FieldTarget.NONE);
   }
