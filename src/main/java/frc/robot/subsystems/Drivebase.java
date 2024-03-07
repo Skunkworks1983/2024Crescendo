@@ -220,6 +220,9 @@ public class Drivebase extends SubsystemBase {
   @Override
   public void periodic() {
     updateOdometry();
+    SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
+    SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
+    SmartDashboard.putNumber("Odometry Rotation", odometry.getEstimatedPosition().getRotation().getDegrees());
   }
 
   public HeadingController getHeadingController() {
