@@ -165,6 +165,10 @@ public class Shooter extends SubsystemBase {
     flywheelSetpointMPS = flywheelSpeed;
   }
 
+  public double getFlywheelVelocity() {
+    return shootMotor1.getVelocity().getValueAsDouble() / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  }
+
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.getPIDController()

@@ -24,7 +24,7 @@ public class ShootWhenReady extends Command {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
     drivebase = Drivebase.getInstance();
-    //only reads the flywheel, so it doesn't require the flywheel
+    // only reads the flywheel, so it doesn't require the flywheel
     addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
 
@@ -47,11 +47,11 @@ public class ShootWhenReady extends Command {
     shooter.setIndexerMotorCoastMode();
     indexer.setIndexerCoastMode();
     Pose2d robotPose = drivebase.getRobotPose();
-    System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() 
-    + "position" + shooter.getShooterPivotRotationInDegrees() 
-    + "error" + shooter.getShooterPivotError());
-    System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint());
-    System.out.println("Shooter speed error: " + shooter.getFlywheelError());
+    System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() + ", position: "
+        + shooter.getShooterPivotRotationInDegrees() + ", error: "
+        + shooter.getShooterPivotError());
+    System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
+        + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
     System.out.println("Odometry position X: " + robotPose.getX());
     System.out.println("Odometry position Y: " + robotPose.getY());
     System.out.println("Odometry position Angle: " + robotPose.getRotation());
