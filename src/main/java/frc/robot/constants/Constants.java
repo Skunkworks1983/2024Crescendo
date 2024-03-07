@@ -64,10 +64,12 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
-    //button Ids
+    // button Ids
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int AMP_TARGETING_BUTTON = 1;
+    public static final int AMP_TARGETING_BUTTON = 3;
 
+    public static final int SMART_AIM = 2;
+    public static final int LINEAR_AIM = 3;
     public static final int SHOOT_WHEN_READY = 11;
     public static final int FLYWHEEL_SPINUP = 9;
 
@@ -85,7 +87,7 @@ public class Constants {
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    }
+  }
 
   public class Collector {
     // Collector Motor IDS
@@ -142,6 +144,22 @@ public class Constants {
   }
 
   public class Shooter {
+
+
+    public static final double AUTOAIMING_OFFSET = -3.25;
+    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
+    // in half.
+    public static final int ANGLE_SEARCH_DEPTH = 10;
+
+    // in m/s
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE = 1;
+
+    // 1 indicates aiming at the highest point. 0 indicates aiming at the lowest point. .3 would
+    // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
+    // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
+    // the hood have no way of getting in.
+    public static final double AUTO_AIM_ROTATION_RATIO = .3;
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
@@ -179,10 +197,14 @@ public class Constants {
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
         new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
+    // TODO: find more exact value
+    public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(7);
+
+
     // Set Flywheel speeds for Shooter in m/s
     public static final double STOW_FLYWHEEL_SPEED = 17;
     public static final double AMP_FLYWHEEL_SPEED = 20;
-    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -329,6 +351,9 @@ public class Constants {
   // wall.
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
+  // m/s^2
+  public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
+
   public class PhotonVision {
     public static final String CAMERA_2_NAME = "Side";
     public static final String CAMERA_1_NAME = "Forward";
@@ -348,7 +373,7 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 4;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
@@ -360,9 +385,17 @@ public class Constants {
   }
 
   public class Targeting {
+
     public enum FieldTarget {
-      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+      // SPEAKER uses middle part of goal for z value.
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
+          Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
+              new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
+                  Units.feetToMeters(6.0))), AMP(
+                      new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
+                          0)), SPEAKER_HOOD(
+                              new Translation3d(.47, SPEAKER.get().get().getY(),
+                                  Units.feetToMeters(7))), NONE();
 
       Translation3d target;
 
@@ -387,6 +420,9 @@ public class Constants {
         }
       }
     }
+
+    public static double distanceFromHoodToSpeaker =
+        FieldTarget.SPEAKER_HOOD.get().get().getX() - FieldTarget.SPEAKER.get().get().getX();
   }
 
   // pathplanner PID constants
