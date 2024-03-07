@@ -33,11 +33,11 @@ public class ShooterAimUtils {
         //Speaker
         double minimumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
         distanceToSpeakerH,
-            0.0, Math.PI, distanceToSpeakerZ, flywheelSpeed);
+            0.0, Math.PI/2.0, distanceToSpeakerZ, flywheelSpeed);
 
             //Hood
     double maximumAngle = hitPositionToMinAngle(Constants.Shooter.ANGLE_SEARCH_DEPTH,
-        distanceToSpeakerH - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI, distanceToSpeakerHoodZ,
+        distanceToSpeakerH - (Constants.Targeting.distanceFromHoodToSpeaker / Math.cos(robotAngle)), 0.0, Math.PI/2.0, distanceToSpeakerHoodZ,
         flywheelSpeed);
         
     double desiredAngle = (maximumAngle * (Constants.Shooter.AUTO_AIM_ROTATION_RATIO)
