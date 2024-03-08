@@ -320,7 +320,13 @@ public class Constants {
     }
   }
 
-  public static final int GYRO_MEASURMENTS_LIST_SIZE = 10;
+  public class GyroCrashDetection {
+    public enum Gyro {
+      MXP,
+      Onboard;
+    }
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 12;
+  }
 
   // Speed & Deadband
   public static final double X_JOY_DEADBAND = .1;

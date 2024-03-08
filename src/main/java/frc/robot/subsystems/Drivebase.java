@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -38,12 +38,16 @@ import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.Vision;
 import frc.robot.utils.VisionMeasurement;
+import frc.robot.constants.Constants.GyroCrashDetection;
 import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.constants.Constants.GyroCrashDetection.Gyro;
 
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  AHRS gyro = new AHRS(I2C.Port.kOnboard);
+  AHRS gyroOnboard = new AHRS(I2C.Port.kOnboard);
+  AHRS gyroMXP = new AHRS(I2C.Port.kMXP);
+  AHRS gyro = gyroMXP;
 
 
   // Shuffleboard/Glass visualizations of robot position on the field.
@@ -55,9 +59,10 @@ public class Drivebase extends SubsystemBase {
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
 
-  LinkedList<Double> gyroMeasurements = new LinkedList<>();
+  // Used for gyro failure detection
+  LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
+  LinkedList<Double> gyroI2CMeasurements = new LinkedList<>();
   int count = 0; 
-
 
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
@@ -169,16 +174,28 @@ public class Drivebase extends SubsystemBase {
 
   // Implements a rolling log of gyro measurments to check if gyro is dead. Gyro should have noise
   // if it is still functional.
-  public boolean isGyroDead() {
-    System.out.println("list size: " + gyroMeasurements.size());
+  public boolean isGyroDead(Gyro gyro) {
     boolean isDead = true;
-    if (gyroMeasurements.size() >= Constants.GYRO_MEASURMENTS_LIST_SIZE) {
-      for (int i = 1; i < gyroMeasurements.size(); i++) {
-        System.out.printf("%.6f", gyroMeasurements.get(i));
-        isDead = Math.abs(gyroMeasurements.get(i) - gyroMeasurements.get(i - 1)) < .0000000000001 && isDead;
-      }
+    if (gyro == Gyro.MXP) {
+      System.out.println("list size: " + gyroMXPMeasurements.size());
+      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
+          System.out.printf("%.6f", gyroMXPMeasurements.get(i));
+          isDead = Math.abs(gyroMXPMeasurements.get(i) - gyroMXPMeasurements.get(i - 1)) < .0000000000001 && isDead;
+        }
       System.out.println(" " + isDead + " ");
-    } 
+      } 
+    } else if (gyro == Gyro.Onboard) {
+      System.out.println("list size: " + gyroI2CMeasurements.size());
+      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        for (int i = 1; i < gyroI2CMeasurements.size(); i++) {
+          System.out.printf("%.6f", gyroI2CMeasurements.get(i));
+          isDead = Math.abs(gyroI2CMeasurements.get(i) - gyroI2CMeasurements.get(i - 1)) < .0000000000001 && isDead;
+        }
+      System.out.println(" " + isDead + " ");
+      } 
+    }
+   
     return isDead;
   }
 
@@ -283,16 +300,22 @@ public class Drivebase extends SubsystemBase {
         odometry.getEstimatedPosition().getRotation().getDegrees());
 
     if (count % 10 == 0) {  
-      gyroMeasurements.add(gyro.getAngle());
-      if (gyroMeasurements.size() > Constants.GYRO_MEASURMENTS_LIST_SIZE) {
-
-        gyroMeasurements.remove(0);
+      gyroMXPMeasurements.add(gyro.getAngle());
+      if (gyroMXPMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        gyroMXPMeasurements.remove(0);
+          if (isGyroDead(Gyro.Onboard)) {
+            gyro = gyroOnboard;
+            System.out.println("using I2C gyro");
+          } else {
+            gyro = gyroMXP;
+            System.out.println("using MXP gyro");
+          }
       }
 
-      SmartDashboard.putBoolean("is Gyro Dead", isGyroDead());
+      SmartDashboard.putBoolean("is MXP Gyro Dead", isGyroDead(Gyro.MXP));
     }
 
-    count++; 
+    count++;
   }
 
   public static Drivebase getInstance() {
