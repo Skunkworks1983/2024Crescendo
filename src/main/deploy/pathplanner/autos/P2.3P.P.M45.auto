@@ -26,8 +26,20 @@
                 "data": {
                   "name": "LowerCollector"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWhenReady"
           }
         },
         {
@@ -56,7 +68,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.75
+                  "waitTime": 3.91
                 }
               }
             ]
@@ -126,7 +138,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.15
+                  "waitTime": 3.77
                 }
               }
             ]
@@ -158,7 +170,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.77
+                  "waitTime": 3.89
                 }
               }
             ]
@@ -172,12 +184,6 @@
                 "type": "named",
                 "data": {
                   "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "CollectorStow"
                 }
               }
             ]
