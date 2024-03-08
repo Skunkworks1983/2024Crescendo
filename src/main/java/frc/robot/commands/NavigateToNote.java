@@ -15,46 +15,46 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PhotonVision;
+import frc.robot.subsystems.Drivebase;
 import frc.robot.vision.PieceData;
 import frc.robot.vision.Vision;
 
 public class NavigateToNote extends Command {
 
   Vision vision;
+  Drivebase drivebase;
+  Command pathToNote;
 
   public NavigateToNote() {
-
     vision = Vision.getInstance();
+    drivebase = Drivebase.getInstance();
   }
 
- 
-
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    Optional<PieceData> pieceData = vision.getPieceData(Constants.PhotonVision.PIECE_DETECTION_CAMERA_NAME);
+  public void initialize() {    
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Optional<PieceData> pieceData = vision.getPieceData(PhotonVision.PIECE_DETECTION_CAMERA_NAME);
 
     if (pieceData.isPresent()) {
-        Transform3d robotToPieceTransform = PhotonVision.ROBOT_TO_PIECE_DETECTION_CAMERA.plus(pieceData.get().bestCameraToTargetTransform);
-        
-    } else {}
+        Transform3d robotToPiece = PhotonVision.ROBOT_TO_PIECE_DETECTION_CAMERA.plus(pieceData.get().bestCameraToTargetTransform);
+        Pose2d noteFieldPosition = drivebase.getRobotPose().transformBy(new Pose2d(robotToPiece.getX(), robotToPiece.getY(), robotToPiece.getRotation().getDegrees())); 
+        pathToNote = drivebase.pathfindToPose(noteFieldPosition);
+    }
+
+    
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

@@ -320,11 +320,10 @@ public class Drivebase extends SubsystemBase {
   }
 
   public Command pathfindToPose (Pose2d targetPose) {
-    
     PathConstraints constraints = new PathConstraints(
         3.0, 4.0,
         Units.degreesToRadians(540), Units.degreesToRadians(720));
 
-    return AutoBuilder.pathfindToPose(targetPose, constraints); // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+    return AutoBuilder.pathfindToPose(targetPose, constraints);
   }
 }
