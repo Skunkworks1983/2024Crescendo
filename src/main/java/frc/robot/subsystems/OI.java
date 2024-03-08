@@ -16,6 +16,7 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -48,6 +49,7 @@ public class OI extends SubsystemBase {
   JoystickButton collectorStow;
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
+  JoystickButton resetCollector;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -90,6 +92,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
+    resetCollector = new JoystickButton(buttonStick, 8);
+
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
@@ -115,6 +119,7 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
+    resetCollector.whileTrue(new ResetCollector());
   }
 
   @Override
