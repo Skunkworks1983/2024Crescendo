@@ -34,6 +34,9 @@ public class OI extends SubsystemBase {
   Joystick leftJoystick;
   Joystick rightJoystick;
   Joystick buttonStick;
+
+  JoystickButton manualSwitch;
+
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
@@ -58,11 +61,13 @@ public class OI extends SubsystemBase {
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
 
+    manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
+
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
     targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
 
-    //Shooter Pivot Buttons
+    // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
 
@@ -82,7 +87,8 @@ public class OI extends SubsystemBase {
     manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
     manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
     manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
-    manualRightClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+    manualRightClimberDown =
+        new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -98,15 +104,16 @@ public class OI extends SubsystemBase {
     collectorStow.whileTrue(new CollectorStow());
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
+    manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
 
     smartClimb.onTrue(new ExtendClimber());
     smartClimb.onFalse(new SmartClimb());
 
-    manualLeftClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
-    manualLeftClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
-    manualRightClimberUp.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
-    manualRightClimberDown.whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
+    manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
+    manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
+    manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
+    manualRightClimberDown.and(manualSwitch)
+        .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
   }
 
