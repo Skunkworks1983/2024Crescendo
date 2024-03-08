@@ -29,7 +29,7 @@ public class ShooterToPodium extends Command {
   public void initialize() {
     shooter.setFlywheelSetpoint(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
     System.out.println(
-        "Shooter to Podium Command Initialize, going to " + shooterAngle.getDegrees() + " Degrees");
+        "Shooter to Podium Command Initialize");
   }
 
   @Override
@@ -42,7 +42,7 @@ public class ShooterToPodium extends Command {
     shooter.setFlywheelSetpoint(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
     shooter.setPivotMotorPercentOutput(0);
     System.out.println(
-        "Shooter to Podium Command End, going to " + shooterAngle.getDegrees() + " Degrees");
+        "Shooter to Podium Command End");
   }
 
   @Override
