@@ -74,7 +74,7 @@ public class SwerveTeleop extends Command {
     // If the targeting button is being pressed, than override all other heading
     // controls and use
     // targeting.
-    if (isTargeting) {      
+    if (isTargeting) {
       Translation2d targetPoint = drivebase.getFieldTarget().get();
 
       // Uses odometry position and the specified targeting point to calculate desired

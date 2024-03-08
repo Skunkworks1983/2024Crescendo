@@ -80,10 +80,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    // SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
-    // SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
-    // SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    // SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
+    SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
+    SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
   }
 
   @Override
