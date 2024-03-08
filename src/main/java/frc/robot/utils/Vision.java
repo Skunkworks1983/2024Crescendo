@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonVersion;
 import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -15,6 +16,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.PhotonVision;
 
 public class Vision {
     SkunkPhotonCamera[] cameras;
@@ -54,15 +56,25 @@ public class Vision {
                 // Calculate the uncertainty of the vision measurement based on the distance
                 // from the best AprilTag target.
                 EstimatedRobotPose pose = updatedVisualPose.get();
+                
                 double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
                         + Math.pow(distanceToTargetTransform.getY(), 2));
+
+                double distanceUncertainty = distanceToTarget * PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL;
+                double rotationalUncertainty = distanceToTarget * PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL;
+
+                if (distanceToTarget > PhotonVision.APRILTAG_DISTANCE_CUTOFF) {
+                    distanceUncertainty = PhotonVision.VERY_HIGH_UNCERTAINTY;
+                    rotationalUncertainty = PhotonVision.VERY_HIGH_UNCERTAINTY;
+                }
+
                 SmartDashboard.putNumber("Camera " + i + " distanceToTarget",
                         distanceToTarget);
+
                 Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
-                        distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-                        distanceToTarget * Constants.PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL,
-                        distanceToTarget
-                                * Constants.PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL }));
+                        distanceUncertainty,
+                        distanceUncertainty,
+                        rotationalUncertainty }));
 
                 visionMeasurements.add(new VisionMeasurement(pose, uncertainty));
             }

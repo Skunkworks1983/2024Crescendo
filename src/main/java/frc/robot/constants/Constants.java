@@ -66,7 +66,7 @@ public class Constants {
 
     // button Ids
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int AMP_TARGETING_BUTTON = 3;
+    public static final int AMP_TARGETING_BUTTON = 2;
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -380,10 +380,15 @@ public class Constants {
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 4;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 2;
 
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
+
+    // Meters
+    public static final double APRILTAG_DISTANCE_CUTOFF = 4.5;
+
+    public static final double VERY_HIGH_UNCERTAINTY = 9999999;
   }
 
   public class Targeting {

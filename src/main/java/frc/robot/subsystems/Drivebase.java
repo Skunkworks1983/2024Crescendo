@@ -105,7 +105,7 @@ public class Drivebase extends SubsystemBase {
 
     // The robot should have the same heading as the heading specified here on
     // startup.
-    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    resetOdometry(new Pose2d(Constants.FIELD_X_LENGTH / 2, Constants.FIELD_Y_LENGTH / 2, Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
@@ -252,10 +252,10 @@ public class Drivebase extends SubsystemBase {
   @Override
   public void periodic() {
     updateOdometry();
-    SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
-    SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Odometry Rotation",
-        odometry.getEstimatedPosition().getRotation().getDegrees());
+    // SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
+    // SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
+    // SmartDashboard.putNumber("Odometry Rotation",
+    //     odometry.getEstimatedPosition().getRotation().getDegrees());
   }
 
   public static Drivebase getInstance() {
