@@ -64,13 +64,12 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
-    //button Ids
-
-    public static final int MANUAL_SWITCH = 1;
-
+    // button Ids
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int AMP_TARGETING_BUTTON = 2;
+    public static final int AMP_TARGETING_BUTTON = 3;
 
+    public static final int SMART_AIM = 2;
+    public static final int LINEAR_AIM = 3;
     public static final int SHOOT_WHEN_READY = 11;
     public static final int FLYWHEEL_SPINUP = 9;
 
@@ -88,7 +87,7 @@ public class Constants {
     public static final int MANUAL_LEFT_CLIMBER_DOWN = 5;
     public static final int MANUAL_RIGHT_CLIMBER_UP = 3;
     public static final int MANUAL_RIGHT_CLIMBER_DOWN = 4;
-    }
+  }
 
   public class Collector {
     // Collector Motor IDS
@@ -101,9 +100,10 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 100;
+    public static final double COLLECTOR_FLOOR_POS = 106;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
+    public static final double REVERSE_COLLECTOR_SPEED = -.5;
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
@@ -144,6 +144,22 @@ public class Constants {
   }
 
   public class Shooter {
+
+
+    public static final double AUTOAIMING_OFFSET = -3.25;
+    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
+    // in half.
+    public static final int ANGLE_SEARCH_DEPTH = 10;
+
+    // in m/s
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
+    public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED_PER_METER_DISTANCE = 1;
+
+    // 1 indicates aiming at the highest point. 0 indicates aiming at the lowest point. .3 would
+    // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
+    // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
+    // the hood have no way of getting in.
+    public static final double AUTO_AIM_ROTATION_RATIO = .3;
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
@@ -174,16 +190,21 @@ public class Constants {
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
+    public static final double SHOOTER_MANUAL_INDEXER_BACKWARDS = -.5;
     public static final double SHOOTER_MANUAL_PIVOT_PERCENT_OUTPUT = 0.01;
 
     // z is the distance from the ground to the pivot.
     public static final Translation3d ROBOT_RELATIVE_PIVOT_POSITION =
         new Translation3d(Units.inchesToMeters(11.976378), 0, Units.inchesToMeters(24.586839));
 
+    // TODO: find more exact value
+    public static final double PIVOT_TO_FLYWHEEL_DISTANCE = Units.inchesToMeters(7);
+
+
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 13;
+    public static final double STOW_FLYWHEEL_SPEED = 17;
     public static final double AMP_FLYWHEEL_SPEED = 20;
-    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 1;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -286,8 +307,7 @@ public class Constants {
 
     public class ClimberPID {
 
-      // not tuned - swag
-      public static final double CLIMBER_KP = 0.2;
+      public static final double CLIMBER_KP = 0.4;
       public static final double CLIMBER_KI = 0;
       public static final double CLIMBER_KD = 0;
       public static final double CLIMBER_KF = 0;
@@ -312,6 +332,8 @@ public class Constants {
   // second.
   public static final double OI_TURN_SPEED_RATIO = 360;
 
+  public static final double TURNING_SPEED_CAP = 270;
+
   public static final double MAX_TRAJECTORY_SPEED = Units.feetToMeters(2.0);
   public static final double MAX_TRAJECTORY_ACCELERATION = Units.feetToMeters(30);
   public static final String CANIVORE_NAME = "1983 Comp Drivebase";
@@ -331,9 +353,12 @@ public class Constants {
   // wall.
   public static final double WIDTH_WITH_BUMPER = Units.feetToMeters(1.416667);
 
+  // m/s^2
+  public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
+
   public class PhotonVision {
-    public static final String CAMERA_2_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String CAMERA_1_NAME = "Arducam_OV9281_USB_Camera_2";
+    public static final String CAMERA_2_NAME = "Side";
+    public static final String CAMERA_1_NAME = "Forward";
 
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
@@ -350,21 +375,29 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 0.7;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 0.4;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 4;
 
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
   }
 
   public class Targeting {
+
     public enum FieldTarget {
-      SPEAKER(new Translation3d(0, Units.feetToMeters(18.520833), Units.feetToMeters(7))), AMP(
-          new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999), 0)), NONE();
+      // SPEAKER uses middle part of goal for z value.
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
+          Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
+              new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
+                  Units.feetToMeters(6.0))), AMP(
+                      new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
+                          0)), SPEAKER_HOOD(
+                              new Translation3d(.47, SPEAKER.get().get().getY(),
+                                  Units.feetToMeters(7))), NONE();
 
       Translation3d target;
 
@@ -389,6 +422,9 @@ public class Constants {
         }
       }
     }
+
+    public static double distanceFromHoodToSpeaker =
+        FieldTarget.SPEAKER_HOOD.get().get().getX() - FieldTarget.SPEAKER.get().get().getX();
   }
 
   // pathplanner PID constants
@@ -416,21 +452,18 @@ public class Constants {
 
     // Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
-    public static final double CLIMBER_ROTATIONS_TO_METERS =
-        (Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO;
-    public static final double CLIMBER_MOVEMENT = 0.431;
+    public static final double CLIMBER_METERS_TO_MOTOR_ROTATIONS = 1 / ((Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO);
 
-    // TODO: set these
-    public static final double MAX_POSITION = (CLIMBER_MOVEMENT - .1) / CLIMBER_ROTATIONS_TO_METERS;
-    public static final double MIN_POSITION = .02 / CLIMBER_ROTATIONS_TO_METERS;
+    public static final double MAX_POSITION = .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MIN_POSITION = .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
-    public static final double CLIMBER_POSITION_TOLERANCE = .03;
+    public static final double CLIMBER_MOTOR_POSITION_TOLERANCE = .5;
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 15;
-    public static final double BASE_PULL_SPEED = -.35;
+    public static final double BASE_PULL_SPEED = -.65;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
@@ -448,7 +481,7 @@ public class Constants {
     public static final double INDEXER_MOTOR_KD = 0;
     public static final double INDEXER_MOTOR_KF = 0;
     public static final double INDEXER_SPEED = 1;
-    public static final double REVERSE_INDEXER_SPEED = -1;
+    public static final double REVERSE_INDEXER_SPEED_PERCENT_OUTPUT = -.5;
     public static final boolean SET_INDEXER_SMART_PID = true;
     public static final double INDEXER_MANUAL_PERCENT_OUTPUT = 1;
   }

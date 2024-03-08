@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.5231757689978491,
+        "y": 6.391971257224957
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.34,
-        "y": 6.330506318758457
+        "x": 2.644344352301938,
+        "y": 5.554165769909148
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3796163622861606,
-        "y": 7.0
+        "x": 7.737592269077669,
+        "y": 7.467744197574909
       },
       "prevControl": {
-        "x": 1.405548718139948,
-        "y": 6.828245593301891
+        "x": 6.737592269077675,
+        "y": 7.467744197574909
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,21 +32,21 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.75,
-    "maxAcceleration": 5.5,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "GetMiddleNotesPathsPos1",
   "previewStartingState": {
-    "rotation": -179.60609296820724,
+    "rotation": 179.37040139158975,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

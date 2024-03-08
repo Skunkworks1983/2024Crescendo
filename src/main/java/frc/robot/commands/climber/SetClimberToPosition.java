@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
@@ -25,6 +26,7 @@ public class SetClimberToPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("SetClimberToPosition " + module, false);
     System.out.println("Set Climber to Position Command Initialize");
     climber.setClimberPosition(module, position);
 
@@ -48,14 +50,12 @@ public class SetClimberToPosition extends Command {
     System.out.println("Set Climber to Position Command End");
     climber.setClimberOutput(module, 0);
     climber.setBrakeMode(module);
+    SmartDashboard.putBoolean("SetClimberToPosition " + module, true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climber.atPositionSetpoint(module, position)) {
-      return true;
-    }
-    return false;
+    return climber.atPositionSetpoint(position, module);
   }
 }
