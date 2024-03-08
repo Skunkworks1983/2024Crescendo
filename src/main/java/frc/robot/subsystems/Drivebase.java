@@ -47,8 +47,6 @@ public class Drivebase extends SubsystemBase {
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
 
-  // private double gyroOffset;
-
   ChassisSpeeds speeds;
 
   // Position used for targeting.
@@ -143,7 +141,7 @@ public class Drivebase extends SubsystemBase {
 
   /** Used to get the angle reported by the gyro. */
   private double getGyroAngle() {
-    double angle = gyro.getAngle(); // + gyroOffset;
+    double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
     // Negative because gyro reads differently than wpilib.
@@ -225,7 +223,6 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    // gyroOffset = resetPose.getRotation().getDegrees();
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
