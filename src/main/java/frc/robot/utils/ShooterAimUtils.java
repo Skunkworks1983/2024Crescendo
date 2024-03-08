@@ -56,12 +56,6 @@ public class ShooterAimUtils {
   // Based on math from
   // https://www.chiefdelphi.com/t/angled-shooter-math-analysis/455087
   static double noteHitPosition(double theta, double distance, double velocity) {
-    /*double t = (distance - (Math.cos(theta) * Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE))
-        / (Math.cos(theta) * velocity);
-    return (-.5 * Constants.ACCELERATION_DUE_TO_GRAVITY * Math.pow(t, 2))
-        + (velocity * Math.sin(theta) * t)
-        + (Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE * Math.sin(theta));
-        */
     double t = (distance/(velocity*Math.cos(theta)))-(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)/velocity;
     return (-.5*Constants.ACCELERATION_DUE_TO_GRAVITY*
     Math.pow(t,2))+(velocity*Math.sin(theta)*t)+(Constants.Shooter.PIVOT_TO_FLYWHEEL_DISTANCE)*Math.sin(theta);
