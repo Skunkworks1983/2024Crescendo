@@ -103,7 +103,8 @@ public class Drivebase extends SubsystemBase {
 
     // The robot should have the same heading as the heading specified here on
     // startup.
-    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    resetOdometry(new Pose2d(Constants.FIELD_X_LENGTH / 2, Constants.FIELD_Y_LENGTH / 2,
+        Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
@@ -139,7 +140,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Used to get the angle reported by the gyro. */
-  public double getGyroAngle() {
+  private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -159,19 +160,21 @@ public class Drivebase extends SubsystemBase {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+          Rotation2d.fromDegrees(getRobotHeading()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
-     double Cx = speeds.vxMetersPerSecond;
-     double Cy = speeds.vyMetersPerSecond;
-     double Omega = speeds.omegaRadiansPerSecond;
-     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
-     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
+    double Cx = speeds.vxMetersPerSecond;
+    double Cy = speeds.vyMetersPerSecond;
+    double Omega = speeds.omegaRadiansPerSecond;
+    double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
+    double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
 
-    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
-    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI/2) * magnitudeSpeed;
+    speeds.vxMetersPerSecond =
+        Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond =
+        Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
@@ -184,7 +187,8 @@ public class Drivebase extends SubsystemBase {
   // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getGyroAngle());
+    degreesPerSecond = Math.min(Constants.TURNING_SPEED_CAP,
+        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getRobotHeading())));
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -203,6 +207,18 @@ public class Drivebase extends SubsystemBase {
   /** Returns the estimated position of the odometry */
   public Pose2d getRobotPose() {
     return odometry.getEstimatedPosition();
+  }
+
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
+   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
+  public double getRobotHeading() {
+    return getRobotPose().getRotation().getDegrees();
   }
 
   /** Reset the position of the odometry */
@@ -236,7 +252,7 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Odometry Rotation", odometry.getEstimatedPosition().getRotation().getDegrees());
+    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
   }
 
   public static Drivebase getInstance() {
@@ -270,7 +286,7 @@ public class Drivebase extends SubsystemBase {
 
     Optional<Translation2d> fieldTargetOptional;
 
-    if (fieldTarget == null) {
+    if (fieldTarget == null || fieldTarget == FieldTarget.NONE) {
       fieldTargetOptional = Optional.empty();
     } else {
       fieldTargetOptional = Optional
@@ -288,7 +304,6 @@ public class Drivebase extends SubsystemBase {
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
-
   }
 
   /**
@@ -318,7 +333,6 @@ public class Drivebase extends SubsystemBase {
           }
           return false;
         }, this);
-
   }
 
   public Command followPathCommand(String pathName) {

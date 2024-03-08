@@ -12,7 +12,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.CollectNote;
+import frc.robot.commands.CollectorStow;
+import frc.robot.commands.IntakeNoteToIndexer;
+import frc.robot.commands.IntakeNoteToIndexerAuto;
+import frc.robot.commands.LowerCollector;
+import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
+import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.WaitDuration;
+import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.LoadPieceShooter;
+import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShootWhenReady;
+import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
@@ -37,7 +49,30 @@ public class Robot extends TimedRobot {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
     collector = Collector.getInstance();
-    NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+
+  //wait times
+  NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+  NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
+
+  // Collector 
+  NamedCommands.registerCommand("LowerCollector", new LowerCollector());
+  NamedCommands.registerCommand("CollectorStow", new CollectorStow());
+  NamedCommands.registerCommand("CollectNote", new CollectNote());
+
+  // Shooter
+  NamedCommands.registerCommand("ShootNote",new Shoot());
+  NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
+  NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
+  NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
+  NamedCommands.registerCommand("LoadPieceShooter", new LoadPieceShooter());
+
+  //indexer
+  NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
+  NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
+
+  NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+
+
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -48,7 +83,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override

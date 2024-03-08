@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -81,15 +82,14 @@ public class SwerveTeleop extends Command {
       headingControllerSetpoint =
           Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      currentHeading = drivebase.getGyroAngle();
+      currentHeading = drivebase.getRobotHeading();
       lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;
       hasUpdated = false;
-
       // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
 
-      currentHeading = drivebase.getGyroAngle();
+      currentHeading = drivebase.getRobotHeading();
       lastSeconds = timer.getFPGATimestamp();
       hasUpdated = false;
 
@@ -99,7 +99,7 @@ public class SwerveTeleop extends Command {
       // Waits a second to allow extra turn momentum to dissipate.
       if (timer.getFPGATimestamp() - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL
           && !hasUpdated) {
-        currentHeading = drivebase.getGyroAngle();
+        currentHeading = drivebase.getRobotHeading();
         headingControllerSetpoint = currentHeading;
 
         // Ensures that the setpoint is only set once when maintaining heading.

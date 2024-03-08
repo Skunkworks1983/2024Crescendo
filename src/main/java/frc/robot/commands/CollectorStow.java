@@ -34,7 +34,6 @@ public class CollectorStow extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.setCollectorPivotVelocity(0);
     System.out.println("Collector Stow Command End");
   }
 

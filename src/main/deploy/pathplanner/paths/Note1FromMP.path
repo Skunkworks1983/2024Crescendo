@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.08,
+        "y": 6.08
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.6851660471768786,
+        "y": 6.057750537892933
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.100279788345837,
+        "y": 6.256194089996322
+      },
+      "prevControl": {
+        "x": 3.391527816778465,
+        "y": 6.212506885731428
+      },
+      "nextControl": {
+        "x": 2.2647279900157775,
+        "y": 6.381526859745831
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.3065055799322796,
+        "y": 6.987301913535124
+      },
+      "prevControl": {
+        "x": 2.212506002620149,
+        "y": 6.496415232016215
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "6PieceAutoWithOutCommandsPos1",
+  "previewStartingState": {
+    "rotation": -179.8124706735945,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

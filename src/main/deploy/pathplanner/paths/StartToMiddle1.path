@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.4187317942065913,
+        "y": 6.914191131181245
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2751723874949024,
+        "y": 6.4755264370579635
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.458051460632184,
+        "y": 6.151750115205065
+      },
+      "prevControl": {
+        "x": 3.4410027267891694,
+        "y": 6.0342506435649
+      },
+      "nextControl": {
+        "x": 5.475100194475197,
+        "y": 6.26924958684523
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.74,
+        "y": 7.47
+      },
+      "prevControl": {
+        "x": 6.74,
+        "y": 7.47
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "5PieceAutoAmpPos1",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

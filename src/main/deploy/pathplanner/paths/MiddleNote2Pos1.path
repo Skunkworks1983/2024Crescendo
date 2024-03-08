@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.74,
+        "y": 7.47
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.8613511086728565,
+        "y": 7.47
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.34563158567311,
+        "y": 6.628103815213842
+      },
+      "prevControl": {
+        "x": 7.34563158567311,
+        "y": 6.926624422770224
+      },
+      "nextControl": {
+        "x": 7.34563158567311,
+        "y": 6.329583207657459
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.74,
+        "y": 5.767688926682201
+      },
+      "prevControl": {
+        "x": 7.492325474096708,
+        "y": 5.767688926682201
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -177.96802590171674,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "GetMiddleNotesPathsPos1",
+  "previewStartingState": {
+    "rotation": -179.0100306582829,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

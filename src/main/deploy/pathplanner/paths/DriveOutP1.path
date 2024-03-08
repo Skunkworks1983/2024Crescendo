@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.39784299924834,
+        "y": 6.6321923992448495
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.526793822035483,
+        "y": 5.752609322012538
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.029831163988028,
+        "y": 6.371082462266705
+      },
+      "prevControl": {
+        "x": 3.365925948017664,
+        "y": 6.228216782880679
+      },
+      "nextControl": {
+        "x": 4.854938564838962,
+        "y": 6.548637219411841
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.609597341332088,
+        "y": 6.2457496925171965
+      },
+      "prevControl": {
+        "x": 5.609597341332088,
+        "y": 6.2457496925171965
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -4.830419958289862,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "DriveOuts",
+  "previewStartingState": {
+    "rotation": -136.24536426676838,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
