@@ -26,8 +26,8 @@ public class Vision {
     }
 
     /**
-     * Returns an ArrayList of VisionMeasurements. In drivebase, call
-     * addVisionMeasurements for each item in this list every loop.
+     * Returns an ArrayList of VisionMeasurements. In drivebase, call addVisionMeasurements for each
+     * item in this list every loop.
      */
     public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
         ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement>();
@@ -56,25 +56,27 @@ public class Vision {
                 // Calculate the uncertainty of the vision measurement based on the distance
                 // from the best AprilTag target.
                 EstimatedRobotPose pose = updatedVisualPose.get();
-                
+
                 double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
                         + Math.pow(distanceToTargetTransform.getY(), 2));
 
-                double distanceUncertainty = distanceToTarget * PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL;
-                double rotationalUncertainty = distanceToTarget * PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL;
+                double distanceUncertainty =
+                        distanceToTarget * PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL;
+                double rotationalUncertainty =
+                        distanceToTarget * PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL;
 
-                if (distanceToTarget > PhotonVision.APRILTAG_DISTANCE_CUTOFF) {
-                    distanceUncertainty = PhotonVision.VERY_HIGH_UNCERTAINTY;
-                    rotationalUncertainty = PhotonVision.VERY_HIGH_UNCERTAINTY;
+                if (pose.estimatedPose.toPose2d().getX() < 0.0
+                        || pose.estimatedPose.getX() > Constants.FIELD_X_LENGTH
+                        || pose.estimatedPose.getY() < 0.0
+                        || pose.estimatedPose.getY() > Constants.FIELD_Y_LENGTH
+                        || distanceToTarget > PhotonVision.APRILTAG_DISTANCE_CUTOFF) {
+                    continue;
                 }
 
-                SmartDashboard.putNumber("Camera " + i + " distanceToTarget",
-                        distanceToTarget);
+                SmartDashboard.putNumber("Camera " + i + " distanceToTarget", distanceToTarget);
 
                 Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
-                        distanceUncertainty,
-                        distanceUncertainty,
-                        rotationalUncertainty }));
+                        distanceUncertainty, distanceUncertainty, rotationalUncertainty}));
 
                 visionMeasurements.add(new VisionMeasurement(pose, uncertainty));
             }

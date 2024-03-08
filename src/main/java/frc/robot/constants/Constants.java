@@ -387,8 +387,6 @@ public class Constants {
 
     // Meters
     public static final double APRILTAG_DISTANCE_CUTOFF = 4.5;
-
-    public static final double VERY_HIGH_UNCERTAINTY = 9999999;
   }
 
   public class Targeting {
