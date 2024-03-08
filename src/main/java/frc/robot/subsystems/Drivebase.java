@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -43,6 +45,7 @@ public class Drivebase extends SubsystemBase {
   private static Drivebase drivebase;
   AHRS gyro = new AHRS(I2C.Port.kOnboard);
 
+
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
@@ -51,6 +54,10 @@ public class Drivebase extends SubsystemBase {
 
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
+
+  LinkedList<Double> gyroMeasurements = new LinkedList<>();
+  int count = 0; 
+
 
   double maxVelocity = 0;
   SmartPIDController headingController = new SmartPIDController(
@@ -99,7 +106,7 @@ public class Drivebase extends SubsystemBase {
   Vision vision;
 
   private Drivebase() {
-    gyro.reset();
+    resetGyroHeading();
 
     // The robot should have the same heading as the heading specified here on
     // startup.
@@ -153,6 +160,26 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("gyro roll", roll);
 
     return roll;
+  }
+
+  /** Resets the gyro's yaw to a heading of 0. */
+  public void resetGyroHeading() {
+    gyro.zeroYaw();
+  }
+
+  // Implements a rolling log of gyro measurments to check if gyro is dead. Gyro should have noise
+  // if it is still functional.
+  public boolean isGyroDead() {
+    System.out.println("list size: " + gyroMeasurements.size());
+    boolean isDead = true;
+    if (gyroMeasurements.size() >= Constants.GYRO_MEASURMENTS_LIST_SIZE) {
+      for (int i = 1; i < gyroMeasurements.size(); i++) {
+        System.out.printf("%.6f", gyroMeasurements.get(i));
+        isDead = Math.abs(gyroMeasurements.get(i) - gyroMeasurements.get(i - 1)) < .0000000000001 && isDead;
+      }
+      System.out.println(" " + isDead + " ");
+    } 
+    return isDead;
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -254,6 +281,18 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Odometry Rotation",
         odometry.getEstimatedPosition().getRotation().getDegrees());
+
+    if (count % 10 == 0) {  
+      gyroMeasurements.add(gyro.getAngle());
+      if (gyroMeasurements.size() > Constants.GYRO_MEASURMENTS_LIST_SIZE) {
+
+        gyroMeasurements.remove(0);
+      }
+
+      SmartDashboard.putBoolean("is Gyro Dead", isGyroDead());
+    }
+
+    count++; 
   }
 
   public static Drivebase getInstance() {
