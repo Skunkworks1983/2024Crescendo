@@ -74,7 +74,7 @@ public class SwerveTeleop extends Command {
     // If the targeting button is being pressed, than override all other heading
     // controls and use
     // targeting.
-    if (isTargeting) {      
+    if (isTargeting) {
       Translation2d targetPoint = drivebase.getFieldTarget().get();
 
       // Uses odometry position and the specified targeting point to calculate desired
@@ -82,14 +82,14 @@ public class SwerveTeleop extends Command {
       headingControllerSetpoint =
           Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
-      currentHeading = drivebase.getGyroAngle();
+      currentHeading = drivebase.getRobotHeading();
       lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;
       hasUpdated = false;
       // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
 
-      currentHeading = drivebase.getGyroAngle();
+      currentHeading = drivebase.getRobotHeading();
       lastSeconds = timer.getFPGATimestamp();
       hasUpdated = false;
 
@@ -99,7 +99,7 @@ public class SwerveTeleop extends Command {
       // Waits a second to allow extra turn momentum to dissipate.
       if (timer.getFPGATimestamp() - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL
           && !hasUpdated) {
-        currentHeading = drivebase.getGyroAngle();
+        currentHeading = drivebase.getRobotHeading();
         headingControllerSetpoint = currentHeading;
 
         // Ensures that the setpoint is only set once when maintaining heading.
