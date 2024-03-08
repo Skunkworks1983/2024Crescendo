@@ -65,6 +65,7 @@ public class Constants {
     public static final int BUTTON_STICK = 2;
 
     // button Ids
+    public static final int MANUAL_SWITCH = 1;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int AMP_TARGETING_BUTTON = 3;
 
