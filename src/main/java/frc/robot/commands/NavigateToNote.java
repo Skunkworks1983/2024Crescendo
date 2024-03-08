@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import java.util.List;
 import java.util.Optional;
-
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PhotonVision;
@@ -30,6 +31,8 @@ public class NavigateToNote extends Command {
     vision = Vision.getInstance();
   }
 
+ 
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -44,7 +47,7 @@ public class NavigateToNote extends Command {
     if (pieceData.isPresent()) {
         Transform3d robotToPieceTransform = PhotonVision.ROBOT_TO_PIECE_DETECTION_CAMERA.plus(pieceData.get().bestCameraToTargetTransform);
         
-    } else 
+    } else {}
   }
 
   // Called once the command ends or is interrupted.
