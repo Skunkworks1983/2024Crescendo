@@ -140,7 +140,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Used to get the angle reported by the gyro. */
-  private double getGyroAngle() {
+  public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
