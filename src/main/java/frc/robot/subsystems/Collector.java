@@ -35,6 +35,7 @@ public class Collector extends SubsystemBase {
   private static SmartPIDControllerCANSparkMax topIntakeMotorSpeedController;
   private static ProfiledPIDController pivotMotorController;
   private static Collector collector;
+  private boolean pivotToPosition;
 
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
@@ -74,6 +75,7 @@ public class Collector extends SubsystemBase {
     config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .75;
     rightPivotMotor.getConfigurator().apply(config);
     leftPivotMotor.getConfigurator().apply(config);
+    pivotToPosition = true;
 
     pivotMotorController = new ProfiledPIDController(Constants.PIDControllers.CollectorPivotPID.KP,
         Constants.PIDControllers.CollectorPivotPID.KI,
@@ -110,6 +112,7 @@ public class Collector extends SubsystemBase {
 
   public void setCollectorGoal(double angle) {
     pivotMotorController.setGoal(angle);
+    pivotToPosition = true;
   }
 
   public void setIntakeCoastMode() {
@@ -126,17 +129,25 @@ public class Collector extends SubsystemBase {
     if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
       calculateOutput = Math.max(calculateOutput, 0);
     }
-    rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
-
-  }
-
-  public void setCollectorPivotVelocity(double speed) {
-    rightPivotMotor.setControl(velocityVoltage.withVelocity(speed));
+    if(pivotToPosition)
+    {
+      rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
+    }
   }
 
   public void setPercentOutput(double percent) {
     topIntakeMotor.set(percent);
     bottomIntakeMotor.set(percent);
+  }
+
+  public void setCollectorPivotPercentoutput(double percent) {
+    rightPivotMotor.set(percent);
+    pivotToPosition = false;
+  }
+
+  public void resetCollectorAngle(double angleDegrees) {
+    rightPivotMotor.setPosition(angleDegrees * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS);
+    pivotMotorController.reset(angleDegrees, 0);
   }
 
   public double getCollectorPos() {

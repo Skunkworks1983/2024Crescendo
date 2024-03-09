@@ -104,7 +104,7 @@ public class Constants {
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 46.6667;
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
-    public static final double COLLECTOR_FLOOR_POS = 106;
+    public static final double COLLECTOR_FLOOR_POS = 110;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
     public static final double DEGREES_TO_PIVOT_MOTOR_ROTATIONS = PIVOT_GEAR_RATIO / 360;
     public static final double REVERSE_COLLECTOR_SPEED = -.5;
@@ -209,6 +209,9 @@ public class Constants {
     public static final double STOW_FLYWHEEL_SPEED = 17;
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
+    public static final double PODIUM_FLYWHEEL_SPEED = 27;
+
+    public static final double PODIUM_ANGLE_DEGREES = 50;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -302,8 +305,8 @@ public class Constants {
       public static final double FF = 0;
 
       // IN DEGREES
-      public static final double MAX_VELOCITY = 400;
-      public static final double MAX_ACCELERATION = 200;
+      public static final double MAX_VELOCITY = 350;
+      public static final double MAX_ACCELERATION = 180;
 
 
       public static final boolean SMART_PID_ACTIVE = false;

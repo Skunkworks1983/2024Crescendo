@@ -10,12 +10,11 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
-public class CollectorStow extends Command {
+public class ResetCollector extends Command {
   private final Collector collector;
 
-  /** Creates a new CollectorStow. */
-  public CollectorStow() {
-    this.collector = Collector.getInstance();
+  public ResetCollector() {
+    collector = Collector.getInstance();
 
     addRequirements(SubsystemGroups.getInstance(Subsystems.COLLECTOR_PIVOT));
   }
@@ -23,8 +22,7 @@ public class CollectorStow extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorGoal(Constants.Collector.COLLECTOR_STOW_POS);
-    System.out.println("Collector Stow Command Initialize");
+    collector.setCollectorPivotPercentoutput(-0.05);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,12 +32,13 @@ public class CollectorStow extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Collector Stow Command End");
+    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
+    collector.setCollectorGoal(Constants.Collector.COLLECTOR_STOW_POS);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return collector.isStowed();
+    return false;
   }
 }
