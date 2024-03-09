@@ -370,13 +370,13 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(0)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
         new Transform3d(Units.inchesToMeters(6.261 - .875), Units.inchesToMeters(5.901),
             Units.inchesToMeters(11.077 + 2.088 - 0.175),
-            new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+            new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(90)));
 
 
     // Multplying distance to target by this constant to get X and Y uncertainty
