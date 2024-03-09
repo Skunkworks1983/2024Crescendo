@@ -115,6 +115,13 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
+
+    // Calling this command for both buttons to elimate confusion about which button needs to be
+    // pressed first.
+    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
   }
 
   @Override
