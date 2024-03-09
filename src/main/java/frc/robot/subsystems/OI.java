@@ -137,6 +137,7 @@ public class OI extends SubsystemBase {
         resetGyroHeadingRight::getAsBoolean));
     resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
+        
     resetCollector.whileTrue(new ResetCollector());
   }
 
