@@ -16,6 +16,7 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.ResetGyroHeading;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
