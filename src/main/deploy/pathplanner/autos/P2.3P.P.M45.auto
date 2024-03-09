@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7294015605842922,
-      "y": 4.438868928628442
+      "x": 0.67,
+      "y": 4.41
     },
     "rotation": 120.06858282186239
   },
@@ -26,18 +26,18 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "LowerCollector"
+                      }
+                    },
+                    {
                       "type": "wait",
                       "data": {
                         "waitTime": 1.5
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LowerCollector"
                 }
               }
             ]
