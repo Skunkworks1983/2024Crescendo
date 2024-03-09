@@ -155,6 +155,11 @@ public class Drivebase extends SubsystemBase {
     return roll;
   }
 
+  /** Resets the gyro's yaw to a heading of 0. */
+  public void resetGyroHeading() {
+    gyro.zeroYaw();
+  }
+
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
