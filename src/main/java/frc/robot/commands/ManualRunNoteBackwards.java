@@ -40,7 +40,7 @@ public class ManualRunNoteBackwards extends Command {
   public void execute() {
     if(collector.isAtFloor()) {
       collector.setPercentOutput(Constants.Collector.REVERSE_COLLECTOR_SPEED);
-    }
+      }
   
   }
 

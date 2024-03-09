@@ -16,6 +16,8 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.ResetGyroHeading;
+import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -23,6 +25,7 @@ import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -48,6 +51,7 @@ public class OI extends SubsystemBase {
   JoystickButton collectorStow;
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
+  JoystickButton resetCollector;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -55,6 +59,9 @@ public class OI extends SubsystemBase {
   JoystickButton manualLeftClimberDown;
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
+
+  JoystickButton resetGyroHeadingLeft;
+  JoystickButton resetGyroHeadingRight;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -90,13 +97,18 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
+    resetCollector = new JoystickButton(buttonStick, 8);
+
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
-    shooterToSpeaker.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
+    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+
+    shooterToSpeaker.whileTrue(new ShooterToPodium());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
@@ -115,6 +127,15 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
+
+    // Calling this command for both buttons to elimate confusion about which button needs to be
+    // pressed first.
+    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
+
+    resetCollector.whileTrue(new ResetCollector());
   }
 
   @Override
