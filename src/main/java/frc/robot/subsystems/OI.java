@@ -16,6 +16,7 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.ResetGyroHeading;
 import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
@@ -59,6 +60,9 @@ public class OI extends SubsystemBase {
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
 
+  JoystickButton resetGyroHeadingLeft;
+  JoystickButton resetGyroHeadingRight;
+
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
@@ -101,6 +105,9 @@ public class OI extends SubsystemBase {
     shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
+    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+
     shooterToSpeaker.whileTrue(new ShooterToPodium());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
@@ -119,6 +126,14 @@ public class OI extends SubsystemBase {
     manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
+
+
+    // Calling this command for both buttons to elimate confusion about which button needs to be
+    // pressed first.
+    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
 
     resetCollector.whileTrue(new ResetCollector());
   }
