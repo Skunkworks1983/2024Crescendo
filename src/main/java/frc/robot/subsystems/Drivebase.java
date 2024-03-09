@@ -140,7 +140,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Used to get the angle reported by the gyro. */
-  private double getGyroAngle() {
+  public double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -153,6 +153,11 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("gyro roll", roll);
 
     return roll;
+  }
+
+  /** Resets the gyro's yaw to a heading of 0. */
+  public void resetGyroHeading() {
+    gyro.zeroYaw();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -252,8 +257,7 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Odometry Rotation",
-        odometry.getEstimatedPosition().getRotation().getDegrees());
+    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
   }
 
   public static Drivebase getInstance() {
