@@ -56,6 +56,9 @@ public class OI extends SubsystemBase {
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
 
+  JoystickButton resetGyroHeadingLeft;
+  JoystickButton resetGyroHeadingRight;
+
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
