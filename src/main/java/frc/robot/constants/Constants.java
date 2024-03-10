@@ -210,8 +210,10 @@ public class Constants {
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
     public static final double PODIUM_FLYWHEEL_SPEED = 27;
+    public static final double PASS_FLYWHEEL_SPEED = 21.6;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
+    public static final double PASS_ANGLE_DEGREES = 50;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
