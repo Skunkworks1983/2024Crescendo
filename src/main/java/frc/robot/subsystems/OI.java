@@ -28,6 +28,7 @@ import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
+import frc.robot.commands.shooter.untested.ShooterToPassAngle;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -53,6 +54,7 @@ public class OI extends SubsystemBase {
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
+  JoystickButton shooterToPass;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -82,6 +84,7 @@ public class OI extends SubsystemBase {
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
+    shooterToPass = new JoystickButton(buttonStick, 0); //TODO set this
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 
@@ -111,6 +114,7 @@ public class OI extends SubsystemBase {
 
     shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
+    shooterToPass.whileTrue(new ShooterToPassAngle());
 
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
