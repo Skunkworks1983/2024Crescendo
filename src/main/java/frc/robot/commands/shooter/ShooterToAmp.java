@@ -15,6 +15,7 @@ public class ShooterToAmp extends Command {
 
   private Shooter shooter;
   Rotation2d shooterAngle;
+  boolean isTurning;
 
   public ShooterToAmp() {
     shooter = Shooter.getInstance();
@@ -24,9 +25,15 @@ public class ShooterToAmp extends Command {
   @Override
   public void initialize() {
     shooterAngle = Constants.Shooter.SHOOTER_MAX_POSITION;
-
-    shooter.setPivotAngleAndSpeed(shooterAngle);
     shooter.setFlywheelSetpoint(Constants.Shooter.AMP_FLYWHEEL_SPEED);
+    if(shooter.getShooterIndexerBeambreak1() || shooter.getShooterIndexerBeambreak2()) {
+      isTurning = true;
+      shooter.setPivotAngleAndSpeed(shooterAngle);
+    }
+    else {
+      isTurning = false;
+    }
+
     System.out.println("Shooter to Amp Command Initialize");
   }
 
@@ -35,10 +42,11 @@ public class ShooterToAmp extends Command {
     if (shooter.getShooterPivotRotationInDegrees() >= Constants.Shooter.SHOOTER_MAX_POSITION
         .getDegrees()) {
       shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
-      shooter.setFlywheelSetpoint(Constants.Shooter.AMP_FLYWHEEL_SPEED);
-    } else {
+    } else if (!isTurning && shooter.getShooterIndexerBeambreak1() || shooter.getShooterIndexerBeambreak2()) {
       shooter.setPivotAngleAndSpeed(shooterAngle);
-      shooter.setFlywheelSetpoint(Constants.Shooter.AMP_FLYWHEEL_SPEED);
+      isTurning = true;
+    } else if (isTurning) {
+      shooter.setPivotAngleAndSpeed(shooterAngle);
     }
   }
 

@@ -28,13 +28,25 @@ public class ShooterToPodium extends Command {
   @Override
   public void initialize() {
     shooter.setFlywheelSetpoint(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
+    if(shooter.getShooterIndexerBeambreak1() || shooter.getShooterIndexerBeambreak2()) {
+      isTurning = true;
+      shooter.setPivotAngleAndSpeed(shooterAngle);
+    }
+    else {
+      isTurning = false;
+    }
     System.out.println(
         "Shooter to Podium Command Initialize");
   }
 
   @Override
   public void execute() {
-    shooter.setPivotAngleAndSpeed(shooterAngle);
+    if (!isTurning && shooter.getShooterIndexerBeambreak1() || shooter.getShooterIndexerBeambreak2()) {
+      shooter.setPivotAngleAndSpeed(shooterAngle);
+      isTurning = true;
+    } else if (isTurning) {
+      shooter.setPivotAngleAndSpeed(shooterAngle);
+    }
   }
 
   @Override
