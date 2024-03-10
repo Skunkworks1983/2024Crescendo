@@ -22,7 +22,7 @@ public class ResetCollector extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorPivotPercentoutput(-0.05);
+    collector.setCollectorPivotPercentoutput(0.05);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,8 +32,8 @@ public class ResetCollector extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
-    collector.setCollectorGoal(Constants.Collector.COLLECTOR_STOW_POS);
+    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_FLOOR_POS);
+    collector.setCollectorGoal(Constants.Collector.COLLECTOR_FLOOR_POS);
   }
 
   // Returns true when the command should end.
