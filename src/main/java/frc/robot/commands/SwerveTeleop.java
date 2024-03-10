@@ -60,7 +60,7 @@ public class SwerveTeleop extends Command {
     } else {
       fieldOrientationMultiplier = 1;
     }
-
+    drivebase.setFieldRelitive();
     System.out.println("Swerve Teleop Command Initialize");
   }
 
@@ -120,7 +120,7 @@ public class SwerveTeleop extends Command {
               * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
               * Constants.OI_TURN_SPEED_RATIO,
-          true);
+          drivebase.getFieldRelative());
 
       // Otherwise, set the heading controller to the desired setpoint.
     } else {
@@ -130,7 +130,7 @@ public class SwerveTeleop extends Command {
               * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
               * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
-          true);
+          drivebase.getFieldRelative());
     }
   }
 

@@ -48,6 +48,7 @@ public class Drivebase extends SubsystemBase {
   private final Field2d visualOdometryPrint = new Field2d();
 
   ChassisSpeeds speeds;
+  public boolean isRobotRelitive;
 
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
@@ -100,7 +101,7 @@ public class Drivebase extends SubsystemBase {
 
   private Drivebase() {
     gyro.reset();
-
+    isRobotRelitive = false;
     // The robot should have the same heading as the heading specified here on
     // startup.
     resetOdometry(new Pose2d(Constants.FIELD_X_LENGTH / 2, Constants.FIELD_Y_LENGTH / 2,
@@ -223,7 +224,22 @@ public class Drivebase extends SubsystemBase {
    *         Measurement is 0-360 degrees instead of continuous.
    */
   public double getRobotHeading() {
-    return getRobotPose().getRotation().getDegrees();
+    if(!isRobotRelitive) {
+      return getRobotPose().getRotation().getDegrees();
+    }
+    return 0;
+  }
+
+  public void setRobotRelitive() {
+    isRobotRelitive = true;
+  }
+
+  public void setFieldRelitive() {
+    isRobotRelitive = false;
+  }
+
+  public boolean getFieldRelative() {
+    return !isRobotRelitive;
   }
 
   /** Reset the position of the odometry */
@@ -258,6 +274,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    SmartDashboard.putBoolean("is Robot Relitive", isRobotRelitive);
   }
 
   public static Drivebase getInstance() {

@@ -19,6 +19,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroHeading;
 import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
+import frc.robot.commands.SetRobotRelitiveSwerve;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
@@ -60,6 +61,8 @@ public class OI extends SubsystemBase {
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
 
+  JoystickButton setRobotRelitive;
+
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
 
@@ -69,6 +72,8 @@ public class OI extends SubsystemBase {
     buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
 
     manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
+
+    setRobotRelitive = new JoystickButton(rightJoystick, 5);
 
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
@@ -98,6 +103,8 @@ public class OI extends SubsystemBase {
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
     resetCollector = new JoystickButton(buttonStick, 8);
+
+    setRobotRelitive.whileTrue(new SetRobotRelitiveSwerve());
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
