@@ -45,6 +45,7 @@ public class ManualMoveClimber extends Command {
   @Override
   public void end(boolean interrupted) {
     climber.setClimberOutput(module, 0);
+    climber.setBrakeMode(module);
     System.out.println("Manual Move Climber Command End");
   }
 
