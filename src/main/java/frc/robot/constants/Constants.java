@@ -123,6 +123,7 @@ public class Constants {
 
     public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
     public static final int COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 2;
+    public static final double RESET_COLLECTOR_PIVOT_PERCENT_OUTPUT_SPEED = .03;
   }
 
   public class DrivebaseInfo {
