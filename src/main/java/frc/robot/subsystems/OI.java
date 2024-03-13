@@ -84,7 +84,7 @@ public class OI extends SubsystemBase {
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
-    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS); // TODO set this
+    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 

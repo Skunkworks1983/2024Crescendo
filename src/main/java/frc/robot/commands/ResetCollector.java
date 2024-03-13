@@ -22,7 +22,8 @@ public class ResetCollector extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collector.setCollectorPivotPercentoutput(0.03);
+    collector.setCollectorPivotPercentoutput(
+        Constants.Collector.RESET_COLLECTOR_PIVOT_PERCENT_OUTPUT_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
