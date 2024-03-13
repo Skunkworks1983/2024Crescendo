@@ -84,7 +84,7 @@ public class OI extends SubsystemBase {
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
-    shooterToPass = new JoystickButton(buttonStick, 24); //TODO set this
+    shooterToPass = new JoystickButton(buttonStick, 24); // TODO set this
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 
@@ -113,7 +113,8 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).and(shooterToPass.negate()).whileTrue(new ShooterToStow());
+    shooterToAmp.negate().and(shooterToSpeaker.negate()).and(shooterToPass.negate())
+        .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
