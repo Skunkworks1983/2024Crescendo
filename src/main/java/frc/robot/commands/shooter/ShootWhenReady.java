@@ -48,15 +48,19 @@ public class ShootWhenReady extends Command {
     shooter.setIndexerMotorCoastMode();
     indexer.setIndexerCoastMode();
     Pose2d robotPose = drivebase.getRobotPose();
-    System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() + ", position: "
-        + shooter.getShooterPivotRotationInDegrees() + ", error: "
-        + shooter.getShooterPivotError());
-    System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
-        + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
-    System.out.println("Odometry position X: " + robotPose.getX());
-    System.out.println("Odometry position Y: " + robotPose.getY());
-    System.out.println("Odometry position Angle: " + robotPose.getRotation());
-    System.out.println("Shoot When Ready Command End");
+    // "*" indicates data to be put in a csv.
+    System.out.println(
+      "*,Shooter angle setpoint," + shooter.getShooterSetpoint() + 
+    "\n*, position, "
+        + shooter.getShooterPivotRotationInDegrees() + 
+        "\n*,error: "+ shooter.getShooterPivotError()+
+        "\n*,Shooter speed setpoint," + shooter.getFlywheelSetpoint() + 
+    "\n *, velocity, "+ shooter.getFlywheelVelocity() + ", error," + shooter.getFlywheelError() + 
+    "\n*,Odometry position X, " + robotPose.getX()+
+    "\n*,Odometry position Y," + robotPose.getY() +
+    "\n*,Odometry position Angle," + robotPose.getRotation() +
+    "\n*,Shoot When Ready Command End"+
+    "\n*,NEXT");
   }
 
   @Override
