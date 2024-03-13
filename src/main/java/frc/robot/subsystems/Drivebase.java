@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.LinkedList;
 import java.util.Optional;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -55,6 +56,11 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+
+  // Used for gyro failure detection
+  LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
+  LinkedList<Double> gyroI2CMeasurements = new LinkedList<>();
+  int count = 0; 
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -162,7 +168,7 @@ public class Drivebase extends SubsystemBase {
   // if it is still functional.
   public boolean isGyroDead(Gyro gyro) {
     boolean isDead = true;
-    if (gyro == GyroCrashDetection.Gyro.MXP) {
+    if (gyro == Gyro.MXP) {
       if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
         for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
           System.out.printf("%.6f", gyroMXPMeasurements.get(i));
@@ -170,7 +176,7 @@ public class Drivebase extends SubsystemBase {
         }
       System.out.println(" " + isDead + " ");
       } 
-    } else if (gyro == Gyro.Onboard) {
+    } else if (gyro == Gyro.ONBOARD) {
       System.out.println("list size: " + gyroI2CMeasurements.size());
       if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
         for (int i = 1; i < gyroI2CMeasurements.size(); i++) {
@@ -182,6 +188,32 @@ public class Drivebase extends SubsystemBase {
     }
    
     return isDead;
+  }
+
+  public void updateGyroMeasurments() {
+    if (count % 10 == 0) {  
+      gyroMXPMeasurements.add(gyro.getAngle());
+      
+      if (gyroMXPMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+
+        gyroMXPMeasurements.remove(0);
+        
+          if (isGyroDead(Gyro.ONBOARD)) {
+
+            gyro = gyroOnboard;
+            
+            System.out.println("using I2C gyro");
+
+          } else {
+
+              gyro = gyroMXP;
+              System.out.println("using MXP gyro");
+          }
+      }
+        SmartDashboard.putBoolean("is MXP Gyro Dead", isGyroDead(Gyro.MXP));
+      }
+    
+      count++;
   }
 
 
@@ -284,6 +316,9 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Odometry Rotation",
         odometry.getEstimatedPosition().getRotation().getDegrees());
+
+    
+    
   }
 
   public static Drivebase getInstance() {
