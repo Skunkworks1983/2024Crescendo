@@ -30,6 +30,7 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.OI;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Collector.LimitSwitch;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -83,7 +84,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
@@ -97,6 +97,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
     SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    SmartDashboard.putNumber("Shooter Angle", shooter.getShooterPivotRotationInDegrees());
+    SmartDashboard.putBoolean("Shooter Limit Forward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Backward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Collector Limit Forward", collector.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Collector Limit Backward", collector.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putNumber("Gyro angle", drivebase.getGyroAngle());
   }
 
   @Override

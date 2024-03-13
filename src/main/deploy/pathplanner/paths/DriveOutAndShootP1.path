@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.39784299924834,
-        "y": 6.6321923992448495
+        "x": 0.7085127656260409,
+        "y": 6.673969989161352
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1289508227871425,
-        "y": 6.057750537892933
+        "x": 1.4396205891648424,
+        "y": 6.099528127809436
       },
       "isLocked": false,
       "linkedName": null
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 5.189159284170986,
-        "y": 7.425966607658406
+        "x": 5.178714886691861,
+        "y": 7.519966184970539
       },
       "prevControl": {
-        "x": 4.8758273597972135,
-        "y": 7.049968298409879
+        "x": 4.95938253963022,
+        "y": 7.19618986311764
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -164.6667152069464,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "DriveOuts",
+  "folder": "DriveOutAndShoots",
   "previewStartingState": {
-    "rotation": 1.7357045889283862,
+    "rotation": -121.18497465873833,
     "velocity": 0
   },
   "useDefaultConstraints": true

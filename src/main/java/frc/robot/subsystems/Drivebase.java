@@ -47,8 +47,6 @@ public class Drivebase extends SubsystemBase {
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
 
-  private double gyroOffset;
-
   ChassisSpeeds speeds;
 
   // Position used for targeting.
@@ -105,7 +103,8 @@ public class Drivebase extends SubsystemBase {
 
     // The robot should have the same heading as the heading specified here on
     // startup.
-    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    resetOdometry(new Pose2d(Constants.FIELD_X_LENGTH / 2, Constants.FIELD_Y_LENGTH / 2,
+        Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
@@ -142,7 +141,7 @@ public class Drivebase extends SubsystemBase {
 
   /** Used to get the angle reported by the gyro. */
   public double getGyroAngle() {
-    double angle = gyro.getAngle() + gyroOffset;
+    double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
     // Negative because gyro reads differently than wpilib.
@@ -156,12 +155,17 @@ public class Drivebase extends SubsystemBase {
     return roll;
   }
 
+  /** Resets the gyro's yaw to a heading of 0. */
+  public void resetGyroHeading() {
+    gyro.zeroYaw();
+  }
+
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getGyroAngle()));
+          Rotation2d.fromDegrees(getRobotHeading()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -189,7 +193,7 @@ public class Drivebase extends SubsystemBase {
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = Math.min(Constants.TURNING_SPEED_CAP,
-        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getGyroAngle())));
+        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getRobotHeading())));
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -210,9 +214,20 @@ public class Drivebase extends SubsystemBase {
     return odometry.getEstimatedPosition();
   }
 
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
+   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
+  public double getRobotHeading() {
+    return getRobotPose().getRotation().getDegrees();
+  }
+
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    gyroOffset = resetPose.getRotation().getDegrees();
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
@@ -242,8 +257,7 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Odometry Rotation",
-        odometry.getEstimatedPosition().getRotation().getDegrees());
+    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
   }
 
   public static Drivebase getInstance() {
@@ -324,7 +338,6 @@ public class Drivebase extends SubsystemBase {
           }
           return false;
         }, this);
-
   }
 
   public Command followPathCommand(String pathName) {
