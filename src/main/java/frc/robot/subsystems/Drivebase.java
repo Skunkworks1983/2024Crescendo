@@ -53,6 +53,9 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+
+  boolean isHeadingReliable = false;
+
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
@@ -140,7 +143,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Used to get the angle reported by the gyro. */
-  public double getGyroAngle() {
+  private double getGyroAngle() {
     double angle = gyro.getAngle();
     SmartDashboard.putNumber("gyro", -angle);
 
@@ -155,9 +158,8 @@ public class Drivebase extends SubsystemBase {
     return roll;
   }
 
-  /** Resets the gyro's yaw to a heading of 0. */
-  public void resetGyroHeading() {
-    gyro.zeroYaw();
+  public boolean isGyroReliable(AHRS gyro) {
+    return true;
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -257,7 +259,8 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    SmartDashboard.putNumber("Odometry Rotation",
+        odometry.getEstimatedPosition().getRotation().getDegrees());
   }
 
   public static Drivebase getInstance() {
