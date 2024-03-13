@@ -483,14 +483,9 @@ public class Constants {
   }
 
   public class GyroCrashDetection {
-
     public static final int GYRO_MEASURMENTS_LIST_SIZE = 10;
-     
-
-    public enum Gyro {
-      MXP,
-      ONBOARD;
-    }
+    public static final double GYRO_NOISE_TOLERANCE = .0000000000001;
+    public static final int COUNT_STEP_NUMBER = 10;
   }
 
   public class IndexerConstants {
