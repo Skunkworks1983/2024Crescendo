@@ -32,6 +32,7 @@ public class Constants {
   // Motor, Encoder, & Joystick IDS
   public class IDS {
 
+
     // Climber Motor IDS
     // stub
     public static final int LEFT_CLIMBER_MOTOR = 41;
@@ -64,10 +65,16 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
+
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int AMP_TARGETING_BUTTON = 2;
+    public static final int SET_ROBOT_RELATIVE = 5;
+    public static final int SHOOTER_TO_PASS = 24;
+    public static final int REVERSE_NOTE_BACKWARDS = 16;
+    public static final int RESET_COLLECTOR = 8;
+    
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
