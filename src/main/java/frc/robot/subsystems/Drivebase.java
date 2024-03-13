@@ -36,6 +36,8 @@ import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.Vision;
 import frc.robot.utils.VisionMeasurement;
+import frc.robot.constants.Constants.GyroCrashDetection;
+import frc.robot.constants.Constants.GyroCrashDetection.Gyro;
 import frc.robot.constants.Constants.PhotonVision;
 
 public class Drivebase extends SubsystemBase {
@@ -53,8 +55,6 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
-
-  boolean isHeadingReliable = false;
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -158,9 +158,32 @@ public class Drivebase extends SubsystemBase {
     return roll;
   }
 
-  public boolean isGyroReliable(AHRS gyro) {
-    return true;
+  // Implements a rolling log of gyro measurments to check if gyro is dead. Gyro should have noise
+  // if it is still functional.
+  public boolean isGyroDead(Gyro gyro) {
+    boolean isDead = true;
+    if (gyro == GyroCrashDetection.Gyro.MXP) {
+      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
+          System.out.printf("%.6f", gyroMXPMeasurements.get(i));
+          isDead = Math.abs(gyroMXPMeasurements.get(i) - gyroMXPMeasurements.get(i - 1)) < .0000000000001 && isDead;
+        }
+      System.out.println(" " + isDead + " ");
+      } 
+    } else if (gyro == Gyro.Onboard) {
+      System.out.println("list size: " + gyroI2CMeasurements.size());
+      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        for (int i = 1; i < gyroI2CMeasurements.size(); i++) {
+          System.out.printf("%.6f", gyroI2CMeasurements.get(i));
+          isDead = Math.abs(gyroI2CMeasurements.get(i) - gyroI2CMeasurements.get(i - 1)) < .0000000000001 && isDead;
+        }
+      System.out.println(" " + isDead + " ");
+      } 
+    }
+   
+    return isDead;
   }
+
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {

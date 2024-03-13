@@ -482,6 +482,17 @@ public class Constants {
     }
   }
 
+  public class GyroCrashDetection {
+
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 10;
+     
+
+    public enum Gyro {
+      MXP,
+      ONBOARD;
+    }
+  }
+
   public class IndexerConstants {
     public static final int INDEXER_MOTOR = 33;
     public static final int INDEXER_BEAM_BREAK = 9;
