@@ -48,7 +48,7 @@ public class Drivebase extends SubsystemBase {
   AHRS gyroMXP = new AHRS(I2C.Port.kMXP);
 
   // The backup gyro
-  AHRS gyroOnboard = new AHRS(I2C.Port.kMXP);
+  AHRS gyroOnboard = new AHRS(I2C.Port.kMXP); // Temporarily setting to mxp for testing
 
   // The gyro to use
   AHRS gyro;
@@ -174,6 +174,11 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("gyro roll", roll);
 
     return roll;
+  }
+
+  /** Resets the gyro's yaw to a heading of 0. */
+  public void resetGyroHeading() {
+    gyro.zeroYaw();
   }
 
   /**
