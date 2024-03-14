@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -123,14 +124,16 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
-    // Calling this command for both buttons to elimate confusion about which button needs to be pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft.getAsBoolean(), resetGyroHeadingRight.getAsBoolean()));
-    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft.getAsBoolean(), resetGyroHeadingRight.getAsBoolean()));
+    // Calling this command for both buttons to elimate confusion about which button needs to be
+    // pressed first.
+    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+        resetGyroHeadingRight::getAsBoolean));
   }
 
   @Override
-  public void periodic() {
-  }
+  public void periodic() {}
 
   // Used to control the x field relative speed of the robot in SwerveTeleop.
   public double getLeftX() {

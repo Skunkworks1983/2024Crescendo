@@ -4,29 +4,33 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.OI;
 
-public class ResetGyroHeading extends Command {
-  /** Creates a new ResetGyroHeading. */
-  public ResetGyroHeading() {
-    // Use addRequirements() here to declare subsystem dependencies.
+/**
+ * The reset gyro button must be pressed on both joysticks simaltenously in order to reset the
+ * robots heading. This makes it more challenging to reset the robot's heading by accident.
+ */
+public class ResetGyroHeading extends InstantCommand {
+
+  Drivebase drivebase;
+  OI oi;
+  Supplier<Boolean> isLeftButtonPressed, isRightButtonPressed;
+
+  public ResetGyroHeading(Supplier<Boolean> isLeftButtonPressed, Supplier<Boolean> isRightButtonPressed) {
+    this.isLeftButtonPressed = isLeftButtonPressed;
+    this.isRightButtonPressed = isRightButtonPressed;
+    drivebase = Drivebase.getInstance();
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+  public void initialize() {
+    System.out.println("Reset Gyro Heading Command Started");
+    if (isLeftButtonPressed.get() && isRightButtonPressed.get()) {
+      System.out.println("reset gyro block running");
+      drivebase.resetGyroHeading();
+    }
   }
 }
