@@ -7,18 +7,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivebase;
 
-public class SetRobotRelitiveSwerve extends Command {
+public class SetRobotRelativeSwerve extends Command {
   /** Creates a new SetRobotRelitiveSwerve. */
   Drivebase drivebase;
 
-  public SetRobotRelitiveSwerve() {
+  public SetRobotRelativeSwerve() {
     drivebase = Drivebase.getInstance();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.setRobotRelitive();
+    drivebase.setRobotRelative();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,7 +28,7 @@ public class SetRobotRelitiveSwerve extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivebase.setFieldRelitive();
+    drivebase.setFieldRelative();
   }
 
   // Returns true when the command should end.

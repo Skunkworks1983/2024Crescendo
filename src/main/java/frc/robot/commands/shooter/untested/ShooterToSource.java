@@ -44,7 +44,6 @@ public class ShooterToSource extends Command {
 
   @Override
   public boolean isFinished() {
-
     return false;
   }
 }
