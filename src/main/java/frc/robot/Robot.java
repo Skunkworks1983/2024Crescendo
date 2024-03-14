@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Shooter Limit Backward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
     SmartDashboard.putBoolean("Collector Limit Forward", collector.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
     SmartDashboard.putBoolean("Collector Limit Backward", collector.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
-    SmartDashboard.putNumber("Gyro angle", drivebase.getGyroAngle());
+    SmartDashboard.putNumber("Robot Heading", drivebase.getRobotHeading());
   }
 
   @Override

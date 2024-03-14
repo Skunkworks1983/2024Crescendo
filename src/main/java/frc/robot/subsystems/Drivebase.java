@@ -48,10 +48,16 @@ public class Drivebase extends SubsystemBase {
   AHRS gyroMXP = new AHRS(I2C.Port.kMXP);
 
   // The backup gyro
-  AHRS gyroOnboard = new AHRS(I2C.Port.kOnboard);
+  AHRS gyroOnboard = new AHRS(I2C.Port.kMXP);
 
   // The gyro to use
-  AHRS gyro = gyroMXP;
+  AHRS gyro;
+
+  // Used for gyro failure detection
+  LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
+  LinkedList<Double> gyroOnboardMeasurements = new LinkedList<>();
+  int gyroMXPCount = 0;
+  int gyroOnboardCount = 0;
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -63,11 +69,6 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
-
-  // Used for gyro failure detection
-  LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
-  LinkedList<Double> gyroI2CMeasurements = new LinkedList<>();
-  int count = 0;
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -115,6 +116,10 @@ public class Drivebase extends SubsystemBase {
   Vision vision;
 
   private Drivebase() {
+
+    // Setting the gyro to use to the MXP gyro
+    gyro = gyroMXP;
+
     gyro.reset();
 
     // The robot should have the same heading as the heading specified here on
@@ -176,11 +181,9 @@ public class Drivebase extends SubsystemBase {
    * should have noise if it is still functional.
    */
   public boolean isGyroDead(AHRS gyro) {
-
     boolean isDead = true;
 
     if (gyro == gyroMXP) {
-
       if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
 
         // Iterate through each element in the list of gyro measurments. Setting i to 1 to prevent
@@ -188,23 +191,24 @@ public class Drivebase extends SubsystemBase {
         for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
 
           // System.out.printf("%.6f", gyroMXPMeasurements.get(i));
-          isDead =
-              Math.abs(gyroMXPMeasurements.get(i) - gyroMXPMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-                  && isDead;
+          isDead = Math
+              .abs(gyroMXPMeasurements.get(i)
+                  - gyroMXPMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
+              && isDead;
         }
       }
 
     } else if (gyro == gyroOnboard) {
 
-      System.out.println("list size: " + gyroI2CMeasurements.size());
+      System.out.println("list size: " + gyroOnboardMeasurements.size());
 
-      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-
-        for (int i = 1; i < gyroI2CMeasurements.size(); i++) {
-          System.out.printf("%.6f", gyroI2CMeasurements.get(i));
-          isDead =
-              Math.abs(gyroI2CMeasurements.get(i) - gyroI2CMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-                  && isDead;
+      if (gyroOnboardMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+        for (int i = 1; i < gyroOnboardMeasurements.size(); i++) {
+          System.out.printf("%.6f", gyroOnboardMeasurements.get(i));
+          isDead = Math
+              .abs(gyroOnboardMeasurements.get(i)
+                  - gyroOnboardMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
+              && isDead;
         }
 
         System.out.println(" " + isDead + " ");
@@ -214,19 +218,38 @@ public class Drivebase extends SubsystemBase {
     return isDead;
   }
 
-  /** Updates the rolling list of the gyro that is currently running. */
+  /**
+   * Updates the rolling list of the gyro that is currently running. Call this method every loop in
+   * periodic.
+   */
   public void updateGyroMeasurments() {
 
-    // Iterating by a step number (less measurments, reduces processing time)
-    if (count % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
-      gyroMXPMeasurements.add(gyro.getAngle());
+    if (gyro == gyroMXP) {
 
-      if (gyroMXPMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-        gyroMXPMeasurements.remove(0);
+      // Iterating by a step number (less measurments, reduces processing time)
+      if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+        gyroMXPMeasurements.add(gyro.getAngle());
+
+        if (gyroMXPMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+          gyroMXPMeasurements.remove(0);
+        }
       }
-    }
 
-    count++;  
+      gyroMXPCount++;
+
+    } else if (gyro == gyroOnboard) {
+      // Iterating by a step number (less measurments, reduces processing time)
+      if (gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+        gyroOnboardMeasurements.add(gyro.getAngle());
+
+        if (gyroOnboardMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+          gyroOnboardMeasurements.remove(0);
+        }
+      }
+
+      gyroOnboardCount++;
+    }
+    
   }
 
 
@@ -335,9 +358,11 @@ public class Drivebase extends SubsystemBase {
 
     // Check if the gyro is dead; if so, switch to the backup gyro.
     if (isGyroDead(gyroMXP)) {
-          gyro = gyroOnboard;
+      gyro = gyroOnboard;
+      SmartDashboard.putString("gyroInUse", "primary gyro");
     } else {
-          gyro = gyroMXP;
+      gyro = gyroMXP;
+      SmartDashboard.putString("gyroInUse", "backup gyro");
     }
   }
 
