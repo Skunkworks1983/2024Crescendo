@@ -43,7 +43,7 @@ public class LoadPieceShooter extends Command {
   @Override
   public void execute() {
     if (!canLoadPiece) {
-      canLoadPiece = true;
+      canLoadPiece = shooter.canLoadPiece();
     }
 
     if (!canLoadPiece) {
