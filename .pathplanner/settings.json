@@ -7,18 +7,21 @@
     "5PieceAutoAmpPos1",
     "5PieceAutoWithoutCommands",
     "6PieceAutoWithOutCommandsPos1",
+    "DriveOutAndShoots",
     "DriveOuts",
     "GetMiddleNotesPathsPos1",
     "GetMiddleNotesPos3",
-    "DriveOutAndShoots",
-    "P1.4P.P.W123new",
+    "S2.4P.P.W213new",
     "P1.4P.W123",
     "P2.3P.P.M45"
   ],
   "autoFolders": [
+    "SpeakerSide2",
+    "SpeakerSide1",
+    "SpeakerSide3",
     "StartingPos1",
-    "StartingPos3",
-    "StartingPos2"
+    "StartingPos2",
+    "StartingPos3"
   ],
   "defaultMaxVel": 3.6,
   "defaultMaxAccel": 7.0,

@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 2.42,
-        "y": 6.997746311014251
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.0696422262806506,
-        "y": 6.498567708094307
+        "y": 6.500821397080056
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "WingNote1"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SpeakerSide2"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": "S2.4P.P.W213new",
   "previewStartingState": {
     "rotation": 179.14115603768994,
     "velocity": 0

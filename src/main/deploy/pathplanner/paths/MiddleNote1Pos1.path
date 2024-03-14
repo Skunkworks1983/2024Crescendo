@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5231757689978491,
-        "y": 6.391971257224957
+        "x": 0.8108009573077279,
+        "y": 6.660923784481021
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.644344352301938,
-        "y": 5.554165769909148
+        "x": 1.867840885808999,
+        "y": 6.5486372194118445
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.737592269077669,
-        "y": 7.467744197574909
+        "x": 4.207385921133167,
+        "y": 6.277082884954575
       },
       "prevControl": {
-        "x": 6.737592269077675,
-        "y": 7.467744197574909
+        "x": 2.910916050041077,
+        "y": 5.96944596639035
+      },
+      "nextControl": {
+        "x": 5.439824823670004,
+        "y": 6.569526014370095
+      },
+      "isLocked": false,
+      "linkedName": "SpeakerSide1"
+    },
+    {
+      "anchor": {
+        "x": 7.862925038827178,
+        "y": 7.384189017741904
+      },
+      "prevControl": {
+        "x": 6.620300392763636,
+        "y": 7.056844503155924
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleNote1"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -163.61551065812907,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "GetMiddleNotesPathsPos1",
   "previewStartingState": {
-    "rotation": 179.37040139158975,
+    "rotation": -119.6237487511738,
     "velocity": 0
   },
   "useDefaultConstraints": true
