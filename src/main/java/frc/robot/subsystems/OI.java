@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
@@ -17,7 +18,6 @@ import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroHeading;
-import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -25,7 +25,6 @@ import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToAngle;
-import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -51,7 +50,6 @@ public class OI extends SubsystemBase {
   JoystickButton collectorStow;
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
-  JoystickButton resetCollector;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -78,7 +76,7 @@ public class OI extends SubsystemBase {
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
 
-    linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
+    // linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -97,7 +95,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
-    resetCollector = new JoystickButton(buttonStick, 8);
+    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
@@ -105,10 +104,7 @@ public class OI extends SubsystemBase {
     shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
-    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
-    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
-
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    shooterToSpeaker.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
@@ -127,19 +123,14 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
-
-    // Calling this command for both buttons to elimate confusion about which button needs to be
-    // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
-
-    resetCollector.whileTrue(new ResetCollector());
+    // Calling this command for both buttons to elimate confusion about which button needs to be pressed first.
+    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft.getAsBoolean(), resetGyroHeadingRight.getAsBoolean()));
+    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft.getAsBoolean(), resetGyroHeadingRight.getAsBoolean()));
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 
   // Used to control the x field relative speed of the robot in SwerveTeleop.
   public double getLeftX() {
