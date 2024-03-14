@@ -60,7 +60,7 @@ public class SwerveTeleop extends Command {
     } else {
       fieldOrientationMultiplier = 1;
     }
-    drivebase.setFieldRelitive();
+    drivebase.setFieldRelative();
     System.out.println("Swerve Teleop Command Initialize");
   }
 
