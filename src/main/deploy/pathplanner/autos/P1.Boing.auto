@@ -1,0 +1,147 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.52,
+      "y": 6.39
+    },
+    "rotation": -151.88563821030507
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlywheel"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MiddleNote1Pos1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LowerCollector"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNoteToIndexer"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LoadPieceShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote2Pos1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNotes"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote3Pos1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote4Pos1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleNote5Pos1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectorStow"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos1",
+  "choreoAuto": false
+}
