@@ -3,48 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7189571631051666,
-        "y": 6.694858784119604
+        "x": 7.8,
+        "y": 5.767688926682201
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.337838772369659,
-        "y": 6.151750115205065
+        "x": 7.173594805212206,
+        "y": 6.41286005218757
       },
       "isLocked": false,
-      "linkedName": "SpeakerSide1"
+      "linkedName": "MiddleNote2"
     },
     {
       "anchor": {
-        "x": 4.155163933743386,
-        "y": 6.350193667309132
+        "x": 4.228274716098745,
+        "y": 7.68707654464091
       },
       "prevControl": {
-        "x": 2.9134580988332637,
-        "y": 6.267413278315123
+        "x": 6.066488672424876,
+        "y": 7.613965762287031
       },
       "nextControl": {
-        "x": 5.4084916312384745,
-        "y": 6.433748847142139
+        "x": 2.338932441414823,
+        "y": 7.762220839656747
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.862925038827178,
-        "y": 7.384189017741904
+        "x": 0.7189571631051666,
+        "y": 6.694858784119604
       },
       "prevControl": {
-        "x": 6.620300392763636,
-        "y": 7.056844503155924
+        "x": 1.9200628732046277,
+        "y": 7.342411427825401
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleNote1"
+      "linkedName": "SpeakerSide1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.15,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -55,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -163.61551065812907,
-    "rotateFast": true
+    "rotation": -122.15229514076708,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "GetMiddleNotesPathsPos1",
+  "folder": "S1.3P.P.M12",
   "previewStartingState": {
-    "rotation": -119.6237487511738,
+    "rotation": 178.5283888963191,
     "velocity": 0
   },
   "useDefaultConstraints": true

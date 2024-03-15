@@ -5,7 +5,7 @@
       "x": 0.7189571631051666,
       "y": 6.694858784119604
     },
-    "rotation": -121.95279077658435
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -16,9 +16,22 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "SpinUpFlywheel"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "LowerCollector"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinUpFlywheel"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -33,7 +46,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootWhenReady"
           }
         },
         {
@@ -47,13 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "MiddleNote1Pos1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LowerCollector"
+                        "pathName": "Copy of SpeakerSide1ToMiddleNote1"
                       }
                     },
                     {
@@ -68,7 +75,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.0
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -85,45 +92,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "MiddleNote2Pos1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LoadPieceShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShootWhenReady"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeNoteToIndexer"
+                        "pathName": "Copy of MiddleNote1ToSpeakerSide1"
                       }
                     },
                     {
@@ -138,7 +107,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -147,7 +116,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootWhenReady"
           }
         },
         {
@@ -161,7 +130,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "MiddleNote3Pos1"
+                        "pathName": "SSide1ToMNote2"
                       }
                     },
                     {
@@ -176,7 +145,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.0
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -190,48 +159,48 @@
                 "type": "parallel",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "MNote2ToSSide1"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "LoadPieceShooter"
                       }
-                    },
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
                     {
                       "type": "named",
                       "data": {
                         "name": "ShootWhenReady"
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "MiddleNote4Pos1"
-                      }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "IntakeNoteToIndexer"
+                        "name": "CollectorStow"
                       }
                     }
                   ]
@@ -240,80 +209,10 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.0
+                  "waitTime": 1.5
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LoadPieceShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShootWhenReady"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "MiddleNote5Pos1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeNoteToIndexer"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectorStow"
           }
         }
       ]

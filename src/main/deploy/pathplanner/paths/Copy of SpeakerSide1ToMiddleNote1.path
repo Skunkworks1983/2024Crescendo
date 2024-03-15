@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.337838772369659,
-        "y": 6.151750115205065
+        "x": 0.9487339076459329,
+        "y": 7.885520096739939
       },
       "isLocked": false,
       "linkedName": "SpeakerSide1"
     },
     {
       "anchor": {
-        "x": 4.155163933743386,
-        "y": 6.350193667309132
+        "x": 4.071608753904531,
+        "y": 7.582632569845292
       },
       "prevControl": {
-        "x": 2.9134580988332637,
-        "y": 6.267413278315123
+        "x": 2.8278490729448014,
+        "y": 7.624439617944779
       },
       "nextControl": {
-        "x": 5.4084916312384745,
-        "y": 6.433748847142139
+        "x": 5.314492053920496,
+        "y": 7.540854979928789
       },
       "isLocked": false,
       "linkedName": null
@@ -36,15 +36,21 @@
         "y": 7.384189017741904
       },
       "prevControl": {
-        "x": 6.620300392763636,
-        "y": 7.056844503155924
+        "x": 7.069150830413621,
+        "y": 6.809747156389987
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "MiddleNote1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -59,7 +65,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "GetMiddleNotesPathsPos1",
+  "folder": "S1.3P.P.M12",
   "previewStartingState": {
     "rotation": -119.6237487511738,
     "velocity": 0

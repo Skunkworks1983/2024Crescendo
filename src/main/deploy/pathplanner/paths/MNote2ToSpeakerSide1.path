@@ -3,48 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7189571631051666,
-        "y": 6.694858784119604
+        "x": 7.8,
+        "y": 5.767688926682201
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.337838772369659,
-        "y": 6.151750115205065
+        "x": 5.94115590266804,
+        "y": 6.600859206807472
       },
       "isLocked": false,
-      "linkedName": "SpeakerSide1"
+      "linkedName": "MiddleNote2"
     },
     {
       "anchor": {
-        "x": 4.155163933743386,
-        "y": 6.350193667309132
+        "x": 3.726943637093382,
+        "y": 6.297971679912826
       },
       "prevControl": {
-        "x": 2.9134580988332637,
-        "y": 6.267413278315123
+        "x": 4.831471002253025,
+        "y": 6.412562362405652
       },
       "nextControl": {
-        "x": 5.4084916312384745,
-        "y": 6.433748847142139
+        "x": 2.6194362819013657,
+        "y": 6.183071834331423
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.862925038827178,
-        "y": 7.384189017741904
+        "x": 0.7189571631051666,
+        "y": 6.694858784119604
       },
       "prevControl": {
-        "x": 6.620300392763636,
-        "y": 7.056844503155924
+        "x": 1.2516214345405796,
+        "y": 6.6321923992448495
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleNote1"
+      "linkedName": "SpeakerSide1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.2,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -55,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -163.61551065812907,
-    "rotateFast": true
+    "rotation": -125.47533202821,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "GetMiddleNotesPathsPos1",
+  "folder": "S1.5P.P.M12.W12",
   "previewStartingState": {
-    "rotation": -119.6237487511738,
+    "rotation": 177.0600699266675,
     "velocity": 0
   },
   "useDefaultConstraints": true
