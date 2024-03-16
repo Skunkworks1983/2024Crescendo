@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
+import frc.robot.commands.ShooterFromSmartDashboardSetting;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.RetractClimber;
 import frc.robot.commands.climber.SmartClimb;
@@ -55,6 +56,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
+  JoystickButton shooterFromSmartDashboard;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -87,6 +89,7 @@ public class OI extends SubsystemBase {
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
+    shooterFromSmartDashboard = new JoystickButton(leftJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -121,6 +124,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
 
     shooterToSpeaker.whileTrue(new ShooterToPodium());
+    shooterFromSmartDashboard.whileTrue(new ShooterFromSmartDashboardSetting());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 

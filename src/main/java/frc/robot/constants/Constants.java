@@ -67,6 +67,7 @@ public class Constants {
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
+    public static final int SMART_DASHBOARD_AIM = 3;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
     public static final int SHOOTER_TO_PASS = 24;
