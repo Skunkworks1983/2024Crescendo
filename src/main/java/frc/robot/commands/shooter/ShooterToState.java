@@ -11,15 +11,17 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
-public class ShooterToAngle extends Command {
+public class ShooterToState extends Command {
 
   private Shooter shooter;
   boolean isTurning;
   Rotation2d shooterAngle;
+  double flywheelSpeed;
 
-  public ShooterToAngle(double angleDegrees) {
+  public ShooterToState(double angleDegrees, double flywheelspeed) {
     shooter = Shooter.getInstance();
     isTurning = false;
+    this.flywheelSpeed = flywheelspeed;
     shooterAngle = new Rotation2d(Units.degreesToRadians(angleDegrees));
     addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
   }
@@ -28,6 +30,7 @@ public class ShooterToAngle extends Command {
   public void initialize() {
     System.out.println(
         "Shooter to Angle Command Initialize, going to " + shooterAngle.getDegrees() + " Degrees");
+    shooter.setFlywheelSetpoint(flywheelSpeed);
   }
 
   @Override
@@ -44,7 +47,6 @@ public class ShooterToAngle extends Command {
 
   @Override
   public boolean isFinished() {
-
     return false;
   }
 }

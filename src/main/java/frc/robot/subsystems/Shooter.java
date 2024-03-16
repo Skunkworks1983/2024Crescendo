@@ -41,6 +41,7 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
+  public double pivotRotationSetpoint = 0.0;
 
   public enum LimitSwitch {
     FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
@@ -136,6 +137,7 @@ public class Shooter extends SubsystemBase {
 
   // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
+    pivotRotationSetpoint = desiredRotation.getDegrees();
     double controllerCalculation =
         pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees())
             + pivotKf;

@@ -12,12 +12,8 @@ import frc.robot.subsystems.Collector;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class NoteFloorToShooter extends SequentialCommandGroup {
-  private final Collector collector;
-
   /** Creates a new NoteFloorToShooter. */
   public NoteFloorToShooter() {
-    this.collector = Collector.getInstance();
-
     addCommands(new IntakeNoteToIndexer(), new LoadPieceShooter());
   }
 }

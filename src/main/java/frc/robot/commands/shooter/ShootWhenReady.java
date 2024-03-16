@@ -19,6 +19,9 @@ public class ShootWhenReady extends Command {
   private Indexer indexer;
   private Drivebase drivebase;
   double angleError;
+  int flywheelTicks;
+  int pivotTicks;
+  int ticksToShoot = 15;//move to constants
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
@@ -32,12 +35,28 @@ public class ShootWhenReady extends Command {
   public void initialize() {
     shooter.setFlywheelSpeed(shooter.flywheelSetpointMPS);
     System.out.println("Shoot When Ready Command Initialize");
+    flywheelTicks=0;
+    pivotTicks=0;
   }
 
   @Override
   public void execute() {
-    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR
-        && shooter.isFlywheelSpiningWithSetpoint) {
+
+    if ((Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR)){
+      flywheelTicks++;
+    }
+    else{
+      flywheelTicks=0;
+    }
+
+    if(shooter.isFlywheelSpiningWithSetpoint && (Math.abs(shooter.getShooterPivotRotationInDegrees()
+    - shooter.pivotRotationSetpoint) <= Constants.Shooter.MAX_SHOOTER_PIVOT_ANGLE_ERROR)){
+      pivotTicks++;
+    }else{
+      pivotTicks=0;
+    }
+
+    if(pivotTicks>=ticksToShoot && flywheelTicks>=ticksToShoot){
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
