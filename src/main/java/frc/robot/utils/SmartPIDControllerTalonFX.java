@@ -46,7 +46,7 @@ public class SmartPIDControllerTalonFX {
         SmartDashboard.putNumber(name + " kp Value", kp);
         SmartDashboard.putNumber(name + " ki Value", ki);
         SmartDashboard.putNumber(name + " kd Value", kd);
-        SmartDashboard.putNumber(name + " kf Value", kd);
+        SmartDashboard.putNumber(name + " kf Value", kf);
     }
 
     public void updatePID() {
