@@ -67,7 +67,7 @@ public class Constants {
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int SMART_DASHBOARD_AIM = 3;
+    public static final int SMART_DASHBOARD_AIM = 10;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
     public static final int SHOOTER_TO_PASS = 24;
@@ -418,7 +418,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
+      SPEAKER(new Translation3d(-0.2, Units.feetToMeters(17.020833 /*-1.1 for blue side not red*/),
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(

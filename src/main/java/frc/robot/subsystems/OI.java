@@ -91,7 +91,7 @@ public class OI extends SubsystemBase {
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
-    shooterFromSmartDashboard = new JoystickButton(leftJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
+    shooterFromSmartDashboard = new JoystickButton(rightJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
