@@ -99,43 +99,43 @@ public class OI extends SubsystemBase {
 
     resetCollector = new JoystickButton(buttonStick, 8);
 
-    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    //targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    //targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
-    shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
+    //shooterToAmp.whileTrue(new ShooterToAmp());
+    //shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
 
-    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
-    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    //resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    //resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
 
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    //shooterToSpeaker.whileTrue(new ShooterToPodium());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
-    collectorDown.whileTrue(new LowerCollector());
-    collectorStow.whileTrue(new CollectorStow());
+    //collectorDown.whileTrue(new LowerCollector());
+    //collectorStow.whileTrue(new CollectorStow());
 
-    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
+    //noteFloorToShooter.whileTrue(new NoteFloorToShooter());
+    //manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
 
-    smartClimb.onTrue(new ExtendClimber());
-    smartClimb.onFalse(new SmartClimb());
+    //smartClimb.onTrue(new ExtendClimber());
+    //smartClimb.onFalse(new SmartClimb());
 
-    manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
-    manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
-    manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
-    manualRightClimberDown.and(manualSwitch)
-        .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
+    //manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
+    //manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
+    //manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
+    //manualRightClimberDown.and(manualSwitch)
+    //    .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
 
 
     // Calling this command for both buttons to elimate confusion about which button needs to be
     // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
+    //resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+    //    resetGyroHeadingRight::getAsBoolean));
+    //resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+    //    resetGyroHeadingRight::getAsBoolean));
 
-    resetCollector.whileTrue(new ResetCollector());
+    //resetCollector.whileTrue(new ResetCollector());
   }
 
   @Override
