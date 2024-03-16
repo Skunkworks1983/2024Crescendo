@@ -229,6 +229,7 @@ public class Constants {
 
     // maximum error for flywheel spinup to consider shooting
     public static final double MAX_FLYWHEEL_ERROR = 0.25;
+    public static final double MAX_SHOOTER_PIVOT_ANGLE_ERROR=.5;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
