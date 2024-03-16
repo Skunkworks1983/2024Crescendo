@@ -237,7 +237,7 @@ public class Constants {
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
 
     public static final double SHOOTER_PIVOT_TESTING_ANGLE = 90;
-    public static final double SHOOTER_PIVOT_TOLARENCE_DEGREES = 0.5;
+    public static final double SHOOTER_PIVOT_TOLARENCE_DEGREES = 0.4;
     public static final double SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS = 5;
 
     public static final double SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS = 15;
