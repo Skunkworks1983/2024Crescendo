@@ -29,6 +29,8 @@ import frc.robot.commands.shooter.ShooterToAngle;
 import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
+import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
+import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -129,6 +131,9 @@ public class OI extends SubsystemBase {
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
     manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
+
+    smartClimb.onTrue(new ExtendClimber());
+    smartClimb.onFalse(new SmartClimb());
 
     manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
     manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
