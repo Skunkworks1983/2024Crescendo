@@ -122,17 +122,22 @@ public class Collector extends SubsystemBase {
 
   public void periodic() {
     // This method will be called once per scheduler run
-    double calculateOutput = pivotMotorController.calculate(getCollectorPos());
+    double calculateOutput = pivotMotorController.calculate(getCollectorPos())
+        + Constants.PIDControllers.CollectorPivotPID.FF
+            * pivotMotorController.getSetpoint().velocity;
     if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) {
       calculateOutput = Math.min(calculateOutput, 0);
     }
     if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
       calculateOutput = Math.max(calculateOutput, 0);
     }
-    if(pivotToPosition)
-    {
+    if (pivotToPosition) {
       rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
     }
+    SmartDashboard.putNumber("collector calculation", pivotMotorController.getSetpoint().velocity);
+    SmartDashboard.putNumber("collector calculation error",
+        pivotMotorController.getPositionError());
+
   }
 
   public void setPercentOutput(double percent) {
@@ -146,7 +151,8 @@ public class Collector extends SubsystemBase {
   }
 
   public void resetCollectorAngle(double angleDegrees) {
-    rightPivotMotor.setPosition(angleDegrees * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS);
+    rightPivotMotor
+        .setPosition(angleDegrees * Constants.Collector.DEGREES_TO_PIVOT_MOTOR_ROTATIONS);
     pivotMotorController.reset(angleDegrees, 0);
   }
 

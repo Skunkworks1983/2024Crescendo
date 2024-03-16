@@ -51,9 +51,9 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  SmartPIDControllerTalonFX shootingController;
-  SmartPIDControllerCANSparkMax indexerController;
-  SmartPIDController pivotController;
+  public SmartPIDControllerTalonFX shootingController;
+  public SmartPIDControllerCANSparkMax indexerController;
+  public SmartPIDController pivotController;
   double pivotKf = 0.0;
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
@@ -128,7 +128,7 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
+    SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));

@@ -21,6 +21,7 @@ import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
+import frc.robot.commands.shooter.FlywheelPIDTuning;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
@@ -29,6 +30,7 @@ import frc.robot.commands.shooter.ShooterToAngle;
 import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
+import frc.robot.commands.shooter.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -120,8 +122,8 @@ public class OI extends SubsystemBase {
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
 
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
-    flywheelSpinup.whileTrue(new FlywheelSpinup());
+    shooterToSpeaker.whileTrue(new shooterPivotTuneCommand());
+    flywheelSpinup.whileTrue(new FlywheelPIDTuning());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
     collectorDown.whileTrue(new LowerCollector());
