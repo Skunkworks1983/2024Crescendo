@@ -31,7 +31,6 @@ public class Constants {
 
   // Motor, Encoder, & Joystick IDS
   public class IDS {
-
     // Climber Motor IDS
     // stub
     public static final int LEFT_CLIMBER_MOTOR = 41;
@@ -64,10 +63,16 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
+
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int AMP_TARGETING_BUTTON = 2;
+    public static final int SET_ROBOT_RELATIVE = 5;
+    public static final int SHOOTER_TO_PASS = 24;
+    public static final int REVERSE_NOTE_BACKWARDS = 16;
+    public static final int RESET_COLLECTOR = 8;
+    
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -102,7 +107,7 @@ public class Constants {
     public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
-    public static final double PIVOT_GEAR_RATIO = 46.6667;
+    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0/24.0);
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 110;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
@@ -116,6 +121,7 @@ public class Constants {
 
     public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
     public static final int COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 2;
+    public static final double RESET_COLLECTOR_PIVOT_PERCENT_OUTPUT_SPEED = .03;
   }
 
   public class DrivebaseInfo {
@@ -178,7 +184,7 @@ public class Constants {
     public static final double INDEXER_ROTATIONS_PER_METER =
         INDEXER_MOTOR_GEAR_RATIO / (ROLLER_DIAMETER * Math.PI);
     // used for the stow command, a variable for how far away from stow it does a slow speed
-    public static final double PIVOT_STOW_OFFSET = 10;
+    public static final double PIVOT_STOW_OFFSET = 5;
     // assuming backwards on the robot is 0 and straight up is 180, double check
     // messurements on
     // real robot
@@ -190,7 +196,9 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(27.8));
     public static final Rotation2d SHOOTER_MAX_POSITION =
         new Rotation2d(Units.degreesToRadians(119.5));
-    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.087; // 5 degrees per second
+    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.1;
+    public static final double SHOOTER_PIVOT_FAST_SPEED = -0.45;
+    public static final double SHOOTER_PIVOT_SLOW_DOWN_LOAD_PEICE = -0.05;
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;
@@ -210,8 +218,10 @@ public class Constants {
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
     public static final double PODIUM_FLYWHEEL_SPEED = 27;
+    public static final double PASS_FLYWHEEL_SPEED = 23;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
+    public static final double PASS_ANGLE_DEGREES = 50;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -223,6 +233,12 @@ public class Constants {
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
+
+    public static final double SHOOTER_PIVOT_TESTING_ANGLE = 90;
+    public static final double SHOOTER_PIVOT_TOLARENCE_DEGREES = 0.5;
+    public static final double SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS = 5;
+
+    public static final double SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS = 15;
   }
 
   public class PIDControllers {
@@ -239,7 +255,7 @@ public class Constants {
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class DrivePID {
@@ -249,7 +265,7 @@ public class Constants {
       public static final double KD = 0.000;
       public static final double KF = .1;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class HeadingControlPID {
@@ -280,7 +296,7 @@ public class Constants {
 
     public class ShooterPivotPID {
 
-      public static final double KP = .02;
+      public static final double KP = .025;
       public static final double KI = 0;
       public static final double KD = 0.00025;
 
@@ -299,14 +315,14 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.05;
+      public static final double KP = 0.035;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double FF = 0;
+      public static final double FF = 0.005;
 
       // IN DEGREES
-      public static final double MAX_VELOCITY = 350;
-      public static final double MAX_ACCELERATION = 180;
+      public static final double MAX_VELOCITY = 500;
+      public static final double MAX_ACCELERATION = 600;
 
 
       public static final boolean SMART_PID_ACTIVE = false;
@@ -377,13 +393,13 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(0)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
-        new Transform3d(Units.inchesToMeters(6.261 - .875), Units.inchesToMeters(5.901),
-            Units.inchesToMeters(11.077 + 2.088 - 0.175),
-            new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+        new Transform3d(Units.inchesToMeters(6.261 - .875 + 0.5), Units.inchesToMeters(5.901),
+            Units.inchesToMeters(11.077 + 2.088 - 0.175 - 0.2),
+            new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(90)));
 
 
     // Multplying distance to target by this constant to get X and Y uncertainty
