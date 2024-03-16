@@ -172,6 +172,7 @@ public class GyroSystem {
         return gyroRoll;
     }
 
+    /** Reset the gyros and zero the yaw. */
     public void resetGyros() {
         gyroMXP.reset();
         gyroOnboard.reset();
