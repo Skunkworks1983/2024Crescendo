@@ -40,6 +40,7 @@ public class ShootWhenReady extends Command {
         && shooter.isFlywheelSpiningWithSetpoint) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
+      System.out.println("running shooter kicker");
     }
   }
 

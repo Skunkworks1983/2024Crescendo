@@ -131,7 +131,7 @@ public class Collector extends SubsystemBase {
     }
     if(pivotToPosition)
     {
-      //rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
+      rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
     }
   }
 

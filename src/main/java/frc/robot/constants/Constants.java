@@ -102,7 +102,7 @@ public class Constants {
     public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
-    public static final double PIVOT_GEAR_RATIO = 46.6667;
+    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0/24.0);
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 110;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
