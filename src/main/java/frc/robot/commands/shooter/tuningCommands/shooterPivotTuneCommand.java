@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.shooter.tuningCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -13,53 +13,53 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
-public class FlywheelPIDTuning extends Command {
-  /** Creates a new FlywheelPIDTuning. */
-  private Shooter shooter;
-  double shooterSetpoint;
-  double toleranceTicks;
-  double timeAtInit;
-  Timer timer;
+public class shooterPivotTuneCommand extends Command {
+  /** Creates a new shooterPivotTuneCommand. */
+    private Shooter shooter;
+    Rotation2d shooterAngle;
+    double toleranceTicks;
+    double timeAtInit;
+    Timer timer;
 
-  public FlywheelPIDTuning() {
+  public shooterPivotTuneCommand() {
     shooter = Shooter.getInstance();
-    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL));
-    shooterSetpoint = Constants.Shooter.PODIUM_FLYWHEEL_SPEED;
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
+    shooterAngle = new Rotation2d(Units.degreesToRadians(90));
     timer = new Timer();
-    toleranceTicks = 0;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setFlywheelSpeed(shooterSetpoint);
-    timeAtInit = Timer.getFPGATimestamp();
-    toleranceTicks = 0;
+    System.out.println("pivot tuning command init");
+    timeAtInit = timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    shooter.setPivotAngleAndSpeed(shooterAngle);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setFlywheelMotorCoastMode();
-    System.out.println("flywheel tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit) + " Velocity: " + shooter.shootMotor1.getVelocity().getValueAsDouble() + " Error: " + shooter.getFlywheelError());
+        System.out.println("pivot tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit) + " Kp: " + shooter.pivotController.getP());
+    shooter.setPivotMotorPercentOutput(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(shooter.getFlywheelError()) < Constants.Shooter.MAX_FLYWHEEL_ERROR) {
+    if(Math.abs(shooter.getShooterPivotRotationInDegrees()-90) < 0.5) {
       toleranceTicks++;
     }
     else {
       toleranceTicks = 0;
     }
-    if(toleranceTicks >= 15)
+    if(toleranceTicks >= 5)
     {
-      return true;
+    return true;
     }
     return false;
   }
