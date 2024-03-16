@@ -16,7 +16,6 @@ import frc.robot.subsystems.SubsystemGroups.Subsystems;
 public class ShooterToStow extends Command {
 
     private Shooter shooter;
-    private Rotation2d shooterAngle;
 
     public ShooterToStow() {
         shooter = Shooter.getInstance();
@@ -28,10 +27,8 @@ public class ShooterToStow extends Command {
         // this is the target position for the pidcontroller, which is the resting angle plus 5
         // degrees. Since we cut off 10 degrees before the resting position, we will go downward
         // fast with the shooter, then switch over to percent output for the last bit of the way
-        shooterAngle = new Rotation2d(Constants.Shooter.SHOOTER_RESTING_POSITION.getRadians()
-                + Units.degreesToRadians(Constants.Shooter.PIVOT_STOW_OFFSET - 5));
 
-        shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
+        shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_FAST_SPEED);
         System.out.println("Shooter to Stow Command Initialize");
     }
 
@@ -41,9 +38,6 @@ public class ShooterToStow extends Command {
         if (shooter.getShooterPivotRotationInDegrees() <= Constants.Shooter.SHOOTER_RESTING_POSITION
                 .getDegrees() + Constants.Shooter.PIVOT_STOW_OFFSET) {
             shooter.setPivotMotorPercentOutput(-Constants.Shooter.SHOOTER_PIVOT_SLOW_SPEED);
-            shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-        } else {
-            shooter.setPivotAngleAndSpeed(shooterAngle);
         }
     }
 

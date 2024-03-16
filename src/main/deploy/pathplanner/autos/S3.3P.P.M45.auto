@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7294015605842922,
-      "y": 4.438868928628442
+      "x": 0.67,
+      "y": 4.41
     },
     "rotation": 120.06858282186239
   },
@@ -12,25 +12,32 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LowerCollector"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpinUpFlywheel"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "LowerCollector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -68,7 +75,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.91
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -100,7 +107,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.75
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -138,7 +145,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.77
+                  "waitTime": 6.0
                 }
               }
             ]
@@ -170,7 +177,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.89
+                  "waitTime": 6.0
                 }
               }
             ]

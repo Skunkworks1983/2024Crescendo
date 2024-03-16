@@ -24,22 +24,21 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "parallel",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "LowerCollector"
-                                  }
-                                }
-                              ]
+                              "name": "LowerCollector"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "SpinUpFlywheel"
                             }
                           },
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 1.0
+                              "waitTime": 1.5
                             }
                           }
                         ]
@@ -53,12 +52,6 @@
                             "type": "named",
                             "data": {
                               "name": "ShootWhenReady"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
                             }
                           }
                         ]
