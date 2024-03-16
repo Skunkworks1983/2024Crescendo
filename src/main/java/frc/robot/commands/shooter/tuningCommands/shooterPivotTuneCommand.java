@@ -45,8 +45,7 @@ public class shooterPivotTuneCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("pivot tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit)
-        + " Kp: " + shooter.pivotController.getP());
+    System.out.println("pivot tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit));
     shooter.setPivotMotorPercentOutput(0);
   }
 
