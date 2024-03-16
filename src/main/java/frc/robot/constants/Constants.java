@@ -363,6 +363,13 @@ public class Constants {
   // m/s^2
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
 
+  
+  public class GyroCrashDetection {
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
+    public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
+    public static final int COUNT_STEP_NUMBER = 3;
+  }
+
   public class PhotonVision {
     public static final String CAMERA_2_NAME = "Side";
     public static final String CAMERA_1_NAME = "Forward";
@@ -480,12 +487,6 @@ public class Constants {
     public enum ClimbModule {
       LEFT, RIGHT;
     }
-  }
-
-  public class GyroCrashDetection {
-    public static final int GYRO_MEASURMENTS_LIST_SIZE = 10;
-    public static final double GYRO_NOISE_TOLERANCE = .0000000000001;
-    public static final int COUNT_STEP_NUMBER = 10;
   }
 
   public class IndexerConstants {

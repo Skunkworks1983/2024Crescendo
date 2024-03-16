@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import java.util.LinkedList;
 import java.util.Optional;
-import com.kauailabs.navx.frc.AHRS;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -24,12 +23,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.GyroSystem;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -37,27 +36,13 @@ import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
 import frc.robot.utils.Vision;
 import frc.robot.utils.VisionMeasurement;
-import frc.robot.constants.Constants.GyroCrashDetection;
 import frc.robot.constants.Constants.PhotonVision;
 
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  // The primary gyro
-  AHRS gyroMXP = new AHRS(I2C.Port.kMXP);
-
-  // The backup gyro
-  AHRS gyroOnboard = new AHRS(I2C.Port.kMXP); // Temporarily setting to mxp for testing
-
-  // The gyro to use
-  AHRS gyro;
-
-  // Used for gyro failure detection
-  LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
-  LinkedList<Double> gyroOnboardMeasurements = new LinkedList<>();
-  int gyroMXPCount = 0;
-  int gyroOnboardCount = 0;
+  GyroSystem gyroSystem = GyroSystem.getInstance();
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -76,51 +61,38 @@ public class Drivebase extends SubsystemBase {
       Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
-  Translation2d leftFrontLocation =
-      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightFrontLocation =
-      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d leftBackLocation =
-      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightBackLocation =
-      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  SwerveModule frontLeft =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
+  SwerveModule frontLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
 
-  SwerveModule frontRight =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
+  SwerveModule frontRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
 
-  SwerveModule backLeft =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
+  SwerveModule backLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
 
-  SwerveModule backRight =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
+  SwerveModule backRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry =
-      new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
-          new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-              backLeft.getPosition(), backRight.getPosition()},
-          new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+      new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+          backLeft.getPosition(), backRight.getPosition() },
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
 
   private Drivebase() {
-
-    // Setting the gyro to use to the MXP gyro
-    gyro = gyroMXP;
-
-    gyro.reset();
+    gyroSystem.resetGyros();
 
     // The robot should have the same heading as the heading specified here on
     // startup.
@@ -146,7 +118,7 @@ public class Drivebase extends SubsystemBase {
     try {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
+          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
     } catch (Exception e) {
       System.out.println("Exception creating cameras: " + e.toString());
@@ -159,103 +131,6 @@ public class Drivebase extends SubsystemBase {
   public void setSwerveAsDefaultCommand() {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
-
-  /** Used to get the angle reported by the gyro. */
-  private double getGyroAngle() {
-    double angle = gyro.getAngle();
-    SmartDashboard.putNumber("gyro", -angle);
-
-    // Negative because gyro reads differently than wpilib.
-    return -angle;
-  }
-
-  public double getGyroRoll() {
-    double roll = gyro.getRoll();
-    SmartDashboard.putNumber("gyro roll", roll);
-
-    return roll;
-  }
-
-  /** Resets the gyro's yaw to a heading of 0. */
-  public void resetGyroHeading() {
-    gyro.zeroYaw();
-  }
-
-  /**
-   * Implements a rolling list of gyro measurments to check if the specified gyro is dead. Gyro
-   * should have noise if it is still functional.
-   */
-  public boolean isGyroDead(AHRS gyro) {
-    boolean isDead = true;
-
-    if (gyro == gyroMXP) {
-      if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-
-        // Iterate through each element in the list of gyro measurments. Setting i to 1 to prevent
-        // indexOutOfBounds.
-        for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
-
-          // System.out.printf("%.6f", gyroMXPMeasurements.get(i));
-          isDead = Math
-              .abs(gyroMXPMeasurements.get(i)
-                  - gyroMXPMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-              && isDead;
-        }
-      }
-
-    } else if (gyro == gyroOnboard) {
-
-      System.out.println("list size: " + gyroOnboardMeasurements.size());
-
-      if (gyroOnboardMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-        for (int i = 1; i < gyroOnboardMeasurements.size(); i++) {
-          System.out.printf("%.6f", gyroOnboardMeasurements.get(i));
-          isDead = Math
-              .abs(gyroOnboardMeasurements.get(i)
-                  - gyroOnboardMeasurements.get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-              && isDead;
-        }
-
-        System.out.println(" " + isDead + " ");
-      }
-    }
-
-    return isDead;
-  }
-
-  /**
-   * Updates the rolling list of the gyro that is currently running. Call this method every loop in
-   * periodic.
-   */
-  public void updateGyroMeasurments() {
-
-    if (gyro == gyroMXP) {
-
-      // Iterating by a step number (less measurments, reduces processing time)
-      if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
-        gyroMXPMeasurements.add(gyro.getAngle());
-
-        if (gyroMXPMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-          gyroMXPMeasurements.remove(0);
-        }
-      }
-
-      gyroMXPCount++;
-
-    } else if (gyro == gyroOnboard) {
-      // Iterating by a step number (less measurments, reduces processing time)
-      if (gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
-        gyroOnboardMeasurements.add(gyro.getAngle());
-
-        if (gyroOnboardMeasurements.size() > Constants.GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-          gyroOnboardMeasurements.remove(0);
-        }
-      }
-
-      gyroOnboardCount++;
-    }
-  }
-
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
@@ -273,10 +148,8 @@ public class Drivebase extends SubsystemBase {
     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
 
-    speeds.vxMetersPerSecond =
-        Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
-    speeds.vyMetersPerSecond =
-        Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
@@ -312,11 +185,14 @@ public class Drivebase extends SubsystemBase {
   }
 
   /**
-   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
-   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * Call this method instead of getGyroAngle(). This method returns the robot's
+   * heading according
+   * to the integrated odometry. This allows for an accurate heading measurement,
+   * even if the gyro
    * is inaccurate.
    * 
-   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   * @return The heading of the robot according to the integrated odometry, in
+   *         degrees. Note:
    *         Measurement is 0-360 degrees instead of continuous.
    */
   public double getRobotHeading() {
@@ -325,9 +201,9 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition()},
+    odometry.resetPosition(Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition() },
         resetPose);
   }
 
@@ -335,9 +211,9 @@ public class Drivebase extends SubsystemBase {
   public void updateOdometry() {
 
     // Update the mechanical odometry
-    odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition()});
+    odometry.update(Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition() });
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
@@ -357,17 +233,9 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Rotation",
         odometry.getEstimatedPosition().getRotation().getDegrees());
 
-
-    updateGyroMeasurments();
-
-    // Check if the gyro is dead; if so, switch to the backup gyro.
-    if (isGyroDead(gyroMXP)) {
-      gyro = gyroOnboard;
-      SmartDashboard.putString("gyroInUse", "primary gyro");
-    } else {
-      gyro = gyroMXP;
-      SmartDashboard.putString("gyroInUse", "backup gyro");
-    }
+    // Calling this method to update the gyro system. If this is not updated, then
+    // gyro measurments will not be accurate.
+    gyroSystem.update();
   }
 
   public static Drivebase getInstance() {

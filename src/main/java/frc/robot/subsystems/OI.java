@@ -18,7 +18,7 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualIntakeNotes;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
-import frc.robot.commands.ResetGyroHeading;
+import frc.robot.commands.ResetGyros;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -126,9 +126,9 @@ public class OI extends SubsystemBase {
 
     // Calling this command for both buttons to elimate confusion about which button needs to be
     // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+    resetGyroHeadingLeft.onTrue(new ResetGyros(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
+    resetGyroHeadingRight.onTrue(new ResetGyros(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
   }
 
