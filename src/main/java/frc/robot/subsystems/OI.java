@@ -19,12 +19,14 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroHeading;
 import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
+import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
@@ -52,6 +54,7 @@ public class OI extends SubsystemBase {
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
+  JoystickButton shooterToPass;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -59,6 +62,8 @@ public class OI extends SubsystemBase {
   JoystickButton manualLeftClimberDown;
   JoystickButton manualRightClimberUp;
   JoystickButton manualRightClimberDown;
+
+  JoystickButton setRobotRelitive;
 
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
@@ -70,6 +75,8 @@ public class OI extends SubsystemBase {
 
     manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
 
+    setRobotRelitive = new JoystickButton(rightJoystick, Constants.IDS.SET_ROBOT_RELATIVE);
+
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
     targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
@@ -77,6 +84,7 @@ public class OI extends SubsystemBase {
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
+    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
 
@@ -87,7 +95,7 @@ public class OI extends SubsystemBase {
     collectorStow = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_STOW);
 
     noteFloorToShooter = new JoystickButton(buttonStick, Constants.IDS.NOTE_FLOOR_TO_SHOOTER);
-    manualExpelBackwards = new JoystickButton(buttonStick, 16);
+    manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
 
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
@@ -97,13 +105,17 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
-    resetCollector = new JoystickButton(buttonStick, 8);
+    resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
+
+    setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).whileTrue(new ShooterToStow());
+    shooterToAmp.negate().and(shooterToSpeaker.negate()).and(shooterToPass.negate())
+        .whileTrue(new ShooterToStow());
+    shooterToPass.whileTrue(new ShooterToPassAngle());
 
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
@@ -117,9 +129,6 @@ public class OI extends SubsystemBase {
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
     manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
-
-    smartClimb.onTrue(new ExtendClimber());
-    smartClimb.onFalse(new SmartClimb());
 
     manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
     manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));

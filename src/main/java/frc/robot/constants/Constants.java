@@ -31,7 +31,6 @@ public class Constants {
 
   // Motor, Encoder, & Joystick IDS
   public class IDS {
-
     // Climber Motor IDS
     // stub
     public static final int LEFT_CLIMBER_MOTOR = 41;
@@ -64,10 +63,16 @@ public class Constants {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int BUTTON_STICK = 2;
 
+
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int AMP_TARGETING_BUTTON = 2;
+    public static final int SET_ROBOT_RELATIVE = 5;
+    public static final int SHOOTER_TO_PASS = 24;
+    public static final int REVERSE_NOTE_BACKWARDS = 16;
+    public static final int RESET_COLLECTOR = 8;
+    
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -116,6 +121,7 @@ public class Constants {
 
     public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
     public static final int COLLECTOR_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 2;
+    public static final double RESET_COLLECTOR_PIVOT_PERCENT_OUTPUT_SPEED = .03;
   }
 
   public class DrivebaseInfo {
@@ -210,8 +216,10 @@ public class Constants {
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
     public static final double PODIUM_FLYWHEEL_SPEED = 27;
+    public static final double PASS_FLYWHEEL_SPEED = 23;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
+    public static final double PASS_ANGLE_DEGREES = 50;
 
     // Indexer speeds for the robot:
     public static final double LOADING_INDEXER_SPEED = 1;
@@ -370,13 +378,13 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(0)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
         new Transform3d(Units.inchesToMeters(6.261 - .875), Units.inchesToMeters(5.901),
             Units.inchesToMeters(11.077 + 2.088 - 0.175),
-            new Rotation3d(0, Units.degreesToRadians(5.427), Units.degreesToRadians(90)));
+            new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(90)));
 
 
     // Multplying distance to target by this constant to get X and Y uncertainty
