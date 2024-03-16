@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
@@ -56,6 +59,8 @@ public class ShooterFromSmartDashboardSetting extends Command {
     shooter.setPivotMotorPercentOutput(0.0);
     System.out.println("Shooter from smart dashboard setting Command End");
     System.out.println("Command took " + (Timer.getFPGATimestamp()-timeAtStart)+" seconds.");
+    Pose2d a = Drivebase.getInstance().getRobotPose();
+    System.out.println("Robot thought it was at the position: " + a.getX() + "," + a.getY());
   }
 
   @Override
