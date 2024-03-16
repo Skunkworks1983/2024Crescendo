@@ -28,7 +28,7 @@ public class ShooterToStow extends Command {
         // degrees. Since we cut off 10 degrees before the resting position, we will go downward
         // fast with the shooter, then switch over to percent output for the last bit of the way
 
-        shooter.setPivotMotorPercentOutput(-0.45);
+        shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SPEED);
         System.out.println("Shooter to Stow Command Initialize");
     }
 

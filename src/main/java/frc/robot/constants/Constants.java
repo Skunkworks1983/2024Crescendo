@@ -196,7 +196,9 @@ public class Constants {
         new Rotation2d(Units.degreesToRadians(27.8));
     public static final Rotation2d SHOOTER_MAX_POSITION =
         new Rotation2d(Units.degreesToRadians(119.5));
-    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.1; // 5 degrees per second
+    public static final double SHOOTER_PIVOT_SLOW_SPEED = 0.1;
+    public static final double SHOOTER_PIVOT_SPEED = 0.45;
+    public static final double SHOOTER_PIVOT_SLOW_DOWN_LOAD_PEICE = -0.05;
 
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT = 1;
     public static final double SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW = 0.1;

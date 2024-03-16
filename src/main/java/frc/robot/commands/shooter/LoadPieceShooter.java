@@ -51,7 +51,7 @@ public class LoadPieceShooter extends Command {
     }
 
     if (!initialSpeedSet && !shooter.getShooterIndexerBeambreak1()) {
-      shooter.setPivotMotorPercentOutput(-0.05);
+      shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_DOWN_LOAD_PEICE);
       shooter.setIndexerPercentOutput(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       if (!collector.isStowed()) {
@@ -62,7 +62,7 @@ public class LoadPieceShooter extends Command {
     }
 
     if (!beambreak1Tripped && shooter.getShooterIndexerBeambreak1()) {
-      shooter.setPivotMotorPercentOutput(-0.05);
+      shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_DOWN_LOAD_PEICE);
       shooter.setIndexerPercentOutput(Constants.Shooter.BEAMBREAK1_INDEXER_SPEED);
 
       // when enabled, if only the first beambreak is tripped, this will be the only thing setting
