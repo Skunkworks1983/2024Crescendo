@@ -122,8 +122,8 @@ public class OI extends SubsystemBase {
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
 
-    shooterToSpeaker.whileTrue(new shooterPivotTuneCommand());
-    flywheelSpinup.whileTrue(new FlywheelPIDTuning());
+    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
     collectorDown.whileTrue(new LowerCollector());
