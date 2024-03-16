@@ -243,7 +243,7 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = true;
+    public static final boolean SMART_PID_ACTIVE = false;
 
     public class TurnPID {
       // Turning Motor PID Constants
@@ -265,7 +265,7 @@ public class Constants {
       public static final double KD = 0.000;
       public static final double KF = .1;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class HeadingControlPID {
@@ -282,7 +282,7 @@ public class Constants {
       public static final double KD = 0;
       public static final double KF = 0.12;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class ShooterIndexerPID {
@@ -300,7 +300,7 @@ public class Constants {
       public static final double KI = 0;
       public static final double KD = 0.00025;
 
-      public static final boolean SMART_PID_ACTIVE = true;
+      public static final boolean SMART_PID_ACTIVE = false;
     }
 
     public class TopCollectorIntakePID {
