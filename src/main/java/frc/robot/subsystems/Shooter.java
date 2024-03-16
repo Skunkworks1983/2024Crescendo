@@ -51,9 +51,9 @@ public class Shooter extends SubsystemBase {
 
   private static Shooter shooter;
 
-  public SmartPIDControllerTalonFX shootingController;
-  public SmartPIDControllerCANSparkMax indexerController;
-  public SmartPIDController pivotController;
+  SmartPIDControllerTalonFX shootingController;
+  SmartPIDControllerCANSparkMax indexerController;
+  SmartPIDController pivotController;
   double pivotKf = 0.0;
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);

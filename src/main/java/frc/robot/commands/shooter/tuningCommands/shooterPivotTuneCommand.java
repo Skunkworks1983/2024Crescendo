@@ -15,16 +15,17 @@ import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class shooterPivotTuneCommand extends Command {
   /** Creates a new shooterPivotTuneCommand. */
-    private Shooter shooter;
-    Rotation2d shooterAngle;
-    double toleranceTicks;
-    double timeAtInit;
-    Timer timer;
+  private Shooter shooter;
+  Rotation2d shooterAngle;
+  double toleranceTicks;
+  double timeAtInit;
+  Timer timer;
 
   public shooterPivotTuneCommand() {
     shooter = Shooter.getInstance();
     addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
-    shooterAngle = new Rotation2d(Units.degreesToRadians(90));
+    shooterAngle =
+        new Rotation2d(Units.degreesToRadians(Constants.Shooter.SHOOTER_PIVOT_TESTING_ANGLE));
     timer = new Timer();
   }
 
@@ -44,22 +45,22 @@ public class shooterPivotTuneCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-        System.out.println("pivot tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit) + " Kp: " + shooter.pivotController.getP());
+    System.out.println("pivot tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit)
+        + " Kp: " + shooter.pivotController.getP());
     shooter.setPivotMotorPercentOutput(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(shooter.getShooterPivotRotationInDegrees()-90) < 0.5) {
+    if (Math.abs(shooter.getShooterPivotRotationInDegrees()
+        - Constants.Shooter.SHOOTER_PIVOT_TESTING_ANGLE) < Constants.Shooter.SHOOTER_PIVOT_TOLARENCE_DEGREES) {
       toleranceTicks++;
-    }
-    else {
+    } else {
       toleranceTicks = 0;
     }
-    if(toleranceTicks >= 5)
-    {
-    return true;
+    if (toleranceTicks >= Constants.Shooter.SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS) {
+      return true;
     }
     return false;
   }

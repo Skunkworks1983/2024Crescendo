@@ -45,7 +45,10 @@ public class FlywheelPIDTuning extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.setFlywheelMotorCoastMode();
-    System.out.println("flywheel tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit) + " Velocity: " + shooter.shootMotor1.getVelocity().getValueAsDouble() + " Error: " + shooter.getFlywheelError());
+    System.out
+        .println("flywheel tuning command end, time: " + (timer.getFPGATimestamp() - timeAtInit)
+            + " Velocity: " + shooter.shootMotor1.getVelocity().getValueAsDouble() + " Error: "
+            + shooter.getFlywheelError());
   }
 
   // Returns true when the command should end.
@@ -53,12 +56,10 @@ public class FlywheelPIDTuning extends Command {
   public boolean isFinished() {
     if (Math.abs(shooter.getFlywheelError()) < Constants.Shooter.MAX_FLYWHEEL_ERROR) {
       toleranceTicks++;
-    }
-    else {
+    } else {
       toleranceTicks = 0;
     }
-    if(toleranceTicks >= 15)
-    {
+    if (toleranceTicks >= Constants.Shooter.SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS) {
       return true;
     }
     return false;
