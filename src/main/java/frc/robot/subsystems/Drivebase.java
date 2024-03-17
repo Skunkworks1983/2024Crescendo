@@ -290,19 +290,22 @@ public class Drivebase extends SubsystemBase {
         false);
   }
 
-  //sets the back right module pos
+  //sets the back right module pos for tuning 
   public void setBackRightModuleTurnPos(double angleDegrees) {
     backRight.setTurnMotorAngle(angleDegrees);
   }
 
+   //returning the back right turn pos for tunning 
   public double getBackRightModuleTurnPos() {
     return backRight.getSwerveState().angle.getDegrees();
   }
 
+   //returning the back right turn error for tunning 
   public double getBackRightModuleTurnError() {
     return backRight.getTurnError();
   }
 
+  //returning the back right turn speed for tunning 
   public double getBackRightModuleTurnVelocity() {
     return backRight.getTurnMotorVelocity();
   }
