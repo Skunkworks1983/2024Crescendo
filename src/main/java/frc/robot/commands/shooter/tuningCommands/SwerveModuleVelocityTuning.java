@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
 
 public class SwerveModuleVelocityTuning extends Command {
@@ -49,7 +50,7 @@ public class SwerveModuleVelocityTuning extends Command {
   @Override
   public boolean isFinished() 
   {
-    if (Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - speed) < 0.05) {
+    if (Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - speed) < Constants.DRIVEBASE_TUNING_VELOCITY_TOLERANCE) {
       toleranceTicks++;
     } else {
       toleranceTicks = 0;

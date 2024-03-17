@@ -302,23 +302,6 @@ public class Drivebase extends SubsystemBase {
         // path planner uses robot reletive drive command.
         false);
   }
-/* 
-  public void setFrontLeftModuleTurnPos(double angleDegrees) {
-    frontLeft.setTurnMotorAngle(angleDegrees);
-  }
-
-  public double getFrontLeftModuleTurnPos() {
-    return frontLeft.getSwerveState().angle.getDegrees();
-  }
-
-  public double getFrontLeftModuleTurnError() {
-    return frontLeft.getTurnError();
-  }
-
-  public double getFrontLeftModuleTurnVelocity() {
-    return frontLeft.getTurnMotorVelocity();
-  }
-  */
 
   public void setBackRightModuleTurnPos(double angleDegrees) {
     backRight.setTurnMotorAngle(angleDegrees);

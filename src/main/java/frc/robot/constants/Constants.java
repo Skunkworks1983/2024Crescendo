@@ -243,7 +243,7 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = true;
+    public static final boolean SMART_PID_ACTIVE = false;
 
     public class TurnPID {
       // Turning Motor PID Constants
@@ -514,4 +514,12 @@ public class Constants {
   }
 
   public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;
+
+  public static final double DRIVEBASE_TUNING_TURNING_ANGLE_ONE = 90;
+  public static final double DRIVEBASE_TUNING_TURNING_ANGLE_TWO = 180;
+  public static final double DRIVEBASE_TUNING_TURNING_TOLERANCE = 0.5;
+  public static final double DRIVEBASE_TUNING_TURNING_TOLERANCE_POWER = 0.1;
+  public static final double DRIVEBASE_TUNING_TICK_COUNT = 5;
+
+  public static final double DRIVEBASE_TUNING_VELOCITY_TOLERANCE = 0.05;
 }

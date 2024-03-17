@@ -35,24 +35,24 @@ public class SwerveModuleTurnTune extends Command {
   public void initialize() {
     timeAtInit = 0;
     passed90Degrees = false;
-    turnAngle = 90;
+    turnAngle = Constants.DRIVEBASE_TUNING_TURNING_ANGLE_ONE;
     System.out.println("modual tuning command init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(drivebase.getBackRightModuleTurnPos() - 90) > 0.5 && !passed90Degrees && Math.abs(drivebase.getBackRightModuleTurnVelocity()) > 0.1) {
+    if(Math.abs(drivebase.getBackRightModuleTurnPos() - Constants.DRIVEBASE_TUNING_TURNING_ANGLE_ONE) > Constants.DRIVEBASE_TUNING_TURNING_TOLERANCE_POWER) {
       passed90Degrees = true;
       timeAtInit = timer.getFPGATimestamp();
-      System.out.println("switiching to turning 90");
+      System.out.println("switiching to turning " + (-Constants.DRIVEBASE_TUNING_TURNING_ANGLE_ONE + Constants.DRIVEBASE_TUNING_TURNING_ANGLE_TWO));
     }
     else if (!passed90Degrees) {
-      drivebase.setBackRightModuleTurnPos(90);
+      drivebase.setBackRightModuleTurnPos(Constants.DRIVEBASE_TUNING_TURNING_ANGLE_ONE);
     }
 
     if(passed90Degrees) {
-      drivebase.setBackRightModuleTurnPos(180);
+      drivebase.setBackRightModuleTurnPos(Constants.DRIVEBASE_TUNING_TURNING_ANGLE_TWO);
     }
 
     SmartDashboard.putNumber("frontRight turn pos", drivebase.getBackRightModuleTurnPos());
@@ -67,12 +67,12 @@ public class SwerveModuleTurnTune extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(drivebase.getBackRightModuleTurnError()) < 0.5) {
+    if (Math.abs(drivebase.getBackRightModuleTurnError()) < Constants.DRIVEBASE_TUNING_TURNING_TOLERANCE) {
       toleranceTicks++;
     } else {
       toleranceTicks = 0;
     }
-    if (toleranceTicks >= 5) {
+    if (toleranceTicks >= Constants.DRIVEBASE_TUNING_TICK_COUNT) {
       return true;
     }
     return false;
