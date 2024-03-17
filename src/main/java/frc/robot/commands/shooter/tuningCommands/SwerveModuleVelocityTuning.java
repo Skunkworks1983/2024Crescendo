@@ -15,6 +15,7 @@ public class SwerveModuleVelocityTuning extends Command {
   private Drivebase drivebase;
   double toleranceTicks;
   double timeAtInit;
+  double speed = 4.5;
   /** Creates a new SwerveModuleVelocityTuning. */
   public SwerveModuleVelocityTuning() {
     drivebase = Drivebase.getInstance();
@@ -33,8 +34,8 @@ public class SwerveModuleVelocityTuning extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Velocity Errrorrrrr", Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - 0.5));
-    drivebase.setDrive(Units.metersToFeet(0.5),0,0,true);
+    SmartDashboard.putNumber("Velocity Eror", Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - speed));
+    drivebase.setDrive(Units.metersToFeet(speed),0,0,true);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +49,15 @@ public class SwerveModuleVelocityTuning extends Command {
   @Override
   public boolean isFinished() 
   {
-    return Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - 0.5) < 0.01;
+    if (Math.abs(drivebase.getFieldRelativeSpeeds().vxMetersPerSecond - speed) < 0.05) {
+      toleranceTicks++;
+    } else {
+      toleranceTicks = 0;
+    }
+
+    if (toleranceTicks >= 5) {
+      return true;
+    }
+    return false;
   }
 }

@@ -68,7 +68,7 @@ public class SwerveModule extends SubsystemBase {
     turnMotor.getConfigurator().apply(turnConfig);
     driveController = new SmartPIDControllerTalonFX(Constants.PIDControllers.DrivePID.KP,
         Constants.PIDControllers.DrivePID.KI, Constants.PIDControllers.DrivePID.KD,
-        Constants.PIDControllers.DrivePID.KF, modulePosition + " Drive",
+        Constants.PIDControllers.DrivePID.KF, "Drive",
         Constants.PIDControllers.DrivePID.SMART_PID_ACTIVE, driveMotor);
 
     velocityController.Slot = 0;

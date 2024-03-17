@@ -263,9 +263,9 @@ public class Constants {
       public static final double KP = 0.01;
       public static final double KI = .000;
       public static final double KD = 0.000;
-      public static final double KF = .14 * .8;
+      public static final double KF = .1160;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class HeadingControlPID {
@@ -343,13 +343,13 @@ public class Constants {
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.2);
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.76);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
   // per second.
   // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 14.2;
+  public static final double OI_DRIVE_SPEED_RATIO = 14.76;
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
