@@ -278,12 +278,36 @@ public class Drivebase extends SubsystemBase {
     return chassisSpeeds;
   }
 
+  public ChassisSpeeds getFieldRelativeSpeeds(){
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeeds(), Rotation2d.fromDegrees(getRobotHeading()));
+  }
+
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setDrive(Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
         Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  //sets the back right module pos for tuning 
+  public void setBackRightModuleTurnPos(double angleDegrees) {
+    backRight.setTurnMotorAngle(angleDegrees);
+  }
+
+   //returning the back right turn pos for tunning 
+  public double getBackRightModuleTurnPos() {
+    return backRight.getSwerveState().angle.getDegrees();
+  }
+
+   //returning the back right turn error for tunning 
+  public double getBackRightModuleTurnError() {
+    return backRight.getTurnError();
+  }
+
+  //returning the back right turn speed for tunning 
+  public double getBackRightModuleTurnVelocity() {
+    return backRight.getTurnMotorVelocity();
   }
 
   /**
