@@ -26,6 +26,7 @@ public class ResetGyroSystem extends InstantCommand {
     this.isLeftButtonPressed = isLeftButtonPressed;
     this.isRightButtonPressed = isRightButtonPressed;
     drivebase = Drivebase.getInstance();
+    gyroSystem = drivebase.getGyroSystem();
   }
 
   @Override
