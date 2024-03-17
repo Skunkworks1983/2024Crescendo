@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants.GyroCrashDetection;
 
-/**
- * System with gyro failure detection. Remember to call update() every loop in
- * periodic.
- */
+/** Gyro failure detection system. */
 public class GyroSystem {
 
     private static GyroSystem gyroSystem;
@@ -24,7 +21,7 @@ public class GyroSystem {
     // The backup gyro.
     AHRS gyroOnboard = new AHRS(Port.kOnboard);
 
-    // The gyro to use. Setting this to the primary gyro.
+    // The gyro to use. Setting this to the primary gyro to start.
     AHRS gyro = gyroMXP;
 
     boolean gyroMXPHasDied = false;
@@ -35,7 +32,7 @@ public class GyroSystem {
     int gyroOnboardTimer = 0;
 
     // Used to keep a log of gyro measurement to check if there is noise in the
-    // measurements (the gyro is alive).
+    // measurements (if there is noise, the gyro is alive).
     LinkedList<Double> gyroMXPMeasurements = new LinkedList<>();
     LinkedList<Double> gyroOnboardMeasurements = new LinkedList<>();
 
@@ -44,15 +41,12 @@ public class GyroSystem {
 
     private GyroSystem() {
         resetGyros();
-        SmartDashboard.putNumber("Type in 1 to reset the gyros", 0.0);
+        SmartDashboard.putNumber("Reset the gyro system (1)", 0);
     }
 
     /**
      * Implements a rolling list of gyro measurments to check if the specified gyro
-     * is dead. Gyro
-     * should have noise if it is still functional. Returns true if no gyro with the
-     * name is
-     * specified. Note
+     * is dead. Gyro should have noise if it is still functional.
      */
     private boolean isGyroDead(AHRS gyroToCheck) {
         boolean isDead = true;
@@ -61,10 +55,6 @@ public class GyroSystem {
 
             if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
 
-                // Iterate through each element in the list of gyro measurments. Setting i to 1
-                // to
-                // prevent
-                // indexOutOfBounds.
                 for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
 
                     isDead = Math
@@ -91,12 +81,13 @@ public class GyroSystem {
     }
 
     /**
-     * Remember to call this method every loop in periodic; if you don't, the gyro
-     * angle won't update.
+     * Remember to call this method every loop in periodic to update the list of
+     * gyro
+     * measurments and figure out which gyros are still functional.
      */
     public void update() {
 
-        // Iterating by a step number (less measurments, reduces processing time)
+        // Update the list of gyro measurments.
         if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
             gyroMXPMeasurements.add(gyroMXP.getAngle());
 
@@ -120,6 +111,7 @@ public class GyroSystem {
 
         gyroOnboardCount++;
 
+        // Update the gyro variable to the gyro that is still alive.
         if (!hasBothDied) {
             if (!isGyroDead(gyroMXP) && !gyroMXPHasDied) {
                 gyro = gyroMXP;
@@ -155,24 +147,23 @@ public class GyroSystem {
         SmartDashboard.putBoolean("Gyro MXP Has Died", gyroMXPHasDied);
         SmartDashboard.putBoolean("Gyro Onboard Has Died", gyroOnboardHasDied);
 
-        if (SmartDashboard.getNumber("Type in 1 to reset the gyros", 0) == 1) {
+        if (SmartDashboard.getNumber("Reset the gyro system (1)", 0) == 1) {
             resetGyros();
-            SmartDashboard.putNumber("Type in 1 to reset the gyros", 0.0);
+            SmartDashboard.putNumber("Reset the gyro system (1)", 0);
         }
     }
 
-    /** Get the yaw angle reported by the gyro */
     public double getAngle() {
 
         if (!hasBothDied) {
-            // Negative because the gyro reads differently than wpilib.
+
+            // Negative because the gyro yaw reads differently than wpilib.
             return -gyro.getAngle();
         } else {
             return 0.0;
         }
     }
 
-    /** Get the roll reported by the gyro (side to side rotation). */
     public double getRoll() {
 
         if (!hasBothDied) {

@@ -11,8 +11,10 @@ import frc.robot.GyroSystem;
 import frc.robot.subsystems.Drivebase;
 
 /**
- * The reset gyro button must be pressed on both joysticks simaltenously in order to reset the
- * robots heading. This makes it more challenging to reset the robot's heading by accident.
+ * The reset gyro button must be pressed on both joysticks simaltenously in
+ * order to reset the
+ * robots heading. This makes it more challenging to reset the robot's heading
+ * by accident.
  */
 public class ResetGyroSystem extends InstantCommand {
 

@@ -132,10 +132,7 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  public void fullResetHeading () {
-    headingController.setSetpoint(0.0);
-  }
-
+  /** Get an instance of the gyro system for use in commands. */
   public GyroSystem getGyroSystem() {
     return GyroSystem.getInstance();
   }
@@ -207,6 +204,7 @@ public class Drivebase extends SubsystemBase {
     if(!isRobotRelative) {
       return getRobotPose().getRotation().getDegrees();
     }
+    
     return 0.0;
   }
 
@@ -256,14 +254,13 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getPitch());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
 
-    // Calling this method to update the gyro system. If this is not updated, then
-    // gyro measurments will not be accurate.
     gyroSystem.update();
 
-    if (!gyroSystem.areBothGyrosDead()) {
-      isRobotRelative = false;
-    } else {
+    // If both gyros are dead, switch to robot relative control.
+    if (gyroSystem.areBothGyrosDead()) {
       isRobotRelative = true;
+    } else {
+      isRobotRelative = false;
     }
   }
 
