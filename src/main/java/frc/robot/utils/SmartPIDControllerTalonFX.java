@@ -78,7 +78,6 @@ public class SmartPIDControllerTalonFX {
             slot0Configs.kV = lastKfValue;
 
             motor.getConfigurator().apply(slot0Configs);
-            System.out.println("updated pid controller");
         }
 
         SmartDashboard.putNumber(name + " Error", motor.getClosedLoopError().getValueAsDouble());
