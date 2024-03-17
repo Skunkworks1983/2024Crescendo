@@ -14,19 +14,15 @@ import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
-import frc.robot.commands.ResetGyros;
+import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
-import frc.robot.commands.shooter.ShooterToAngle;
 import frc.robot.commands.shooter.ShooterToPassAngle;
-import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
-import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
-import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -138,9 +134,9 @@ public class OI extends SubsystemBase {
 
     // Calling this command for both buttons to elimate confusion about which button needs to be
     // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyros(resetGyroHeadingLeft::getAsBoolean,
+    resetGyroHeadingLeft.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyros(resetGyroHeadingLeft::getAsBoolean,
+    resetGyroHeadingRight.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
   }
 

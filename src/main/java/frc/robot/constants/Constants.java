@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 
 public class Constants {
 
@@ -384,6 +383,7 @@ public class Constants {
     public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
     public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
     public static final int COUNT_STEP_NUMBER = 3;
+    public static final double ISDEAD_TIME_LIMIT = 180;
   }
 
   public class PhotonVision {

@@ -42,7 +42,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  GyroSystem gyroSystem = GyroSystem.getInstance();
+  GyroSystem gyroSystem = getGyroSystem();
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -85,7 +85,7 @@ public class Drivebase extends SubsystemBase {
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyroSystem.getAngle()),
       new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
           backLeft.getPosition(), backRight.getPosition() },
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
@@ -93,7 +93,6 @@ public class Drivebase extends SubsystemBase {
   Vision vision;
 
   private Drivebase() {
-    gyroSystem.resetGyros();
     isRobotRelative = false;
     // The robot should have the same heading as the heading specified here on
     // startup.
@@ -131,6 +130,14 @@ public class Drivebase extends SubsystemBase {
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
+  }
+
+  public void fullResetHeading () {
+    headingController.setSetpoint(0.0);
+  }
+
+  public GyroSystem getGyroSystem() {
+    return GyroSystem.getInstance();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -200,7 +207,7 @@ public class Drivebase extends SubsystemBase {
     if(!isRobotRelative) {
       return getRobotPose().getRotation().getDegrees();
     }
-    return 0;
+    return 0.0;
   }
 
   public void setRobotRelative() {
@@ -217,7 +224,7 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+    odometry.resetPosition(Rotation2d.fromDegrees(gyroSystem.getAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() },
         resetPose);
@@ -227,7 +234,7 @@ public class Drivebase extends SubsystemBase {
   public void updateOdometry() {
 
     // Update the mechanical odometry
-    odometry.update(Rotation2d.fromDegrees(gyroSystem.getGyroAngle()),
+    odometry.update(Rotation2d.fromDegrees(gyroSystem.getAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() });
 
@@ -246,12 +253,18 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getGyroPitch());
+    SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getPitch());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
 
     // Calling this method to update the gyro system. If this is not updated, then
     // gyro measurments will not be accurate.
     gyroSystem.update();
+
+    if (!gyroSystem.areBothGyrosDead()) {
+      isRobotRelative = false;
+    } else {
+      isRobotRelative = true;
+    }
   }
 
   public static Drivebase getInstance() {

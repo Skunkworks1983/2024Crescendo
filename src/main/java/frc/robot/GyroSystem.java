@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants.GyroCrashDetection;
 
-/** System with gyro failure detection. Remember to call update() every loop in periodic. */
+/**
+ * System with gyro failure detection. Remember to call update() every loop in
+ * periodic.
+ */
 public class GyroSystem {
 
     private static GyroSystem gyroSystem;
@@ -30,9 +33,6 @@ public class GyroSystem {
 
     int gyroMXPTimer = 0;
     int gyroOnboardTimer = 0;
-
-    double gyroAngle = 0;
-    double gyroRoll = 0;
 
     // Used to keep a log of gyro measurement to check if there is noise in the
     // measurements (the gyro is alive).
@@ -90,7 +90,10 @@ public class GyroSystem {
         return isDead;
     }
 
-    /** Remember to call this method every loop in periodic; if you don't, the gyro angle won't update. */
+    /**
+     * Remember to call this method every loop in periodic; if you don't, the gyro
+     * angle won't update.
+     */
     public void update() {
 
         // Iterating by a step number (less measurments, reduces processing time)
@@ -121,23 +124,21 @@ public class GyroSystem {
             if (!isGyroDead(gyroMXP) && !gyroMXPHasDied) {
                 gyro = gyroMXP;
                 gyroMXPTimer = 0;
-                gyroAngle = gyro.getAngle();
             } else {
 
                 gyroMXPTimer += 1;
 
-                if (gyroMXPTimer > 120) {
+                if (gyroMXPTimer > GyroCrashDetection.ISDEAD_TIME_LIMIT) {
                     gyroMXPHasDied = true;
                 }
 
                 if (!isGyroDead(gyroOnboard) && !gyroOnboardHasDied) {
                     gyro = gyroOnboard;
                     gyroOnboardTimer = 0;
-                    gyroAngle = gyro.getAngle();
                 } else {
                     gyroOnboardTimer += 1;
 
-                    if (gyroOnboardTimer > 120) {
+                    if (gyroOnboardTimer > GyroCrashDetection.ISDEAD_TIME_LIMIT) {
                         gyroOnboardHasDied = true;
                     }
                 }
@@ -148,7 +149,7 @@ public class GyroSystem {
             hasBothDied = true;
         }
 
-        SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+        SmartDashboard.putNumber("Gyro Angle", getAngle());
         SmartDashboard.putNumber("Gyro MXP Angle", gyroMXP.getAngle());
         SmartDashboard.putNumber("Gyro Onboard Angle", gyroOnboard.getAngle());
         SmartDashboard.putBoolean("Gyro MXP Has Died", gyroMXPHasDied);
@@ -161,15 +162,33 @@ public class GyroSystem {
     }
 
     /** Get the yaw angle reported by the gyro */
-    public double getGyroAngle() {
+    public double getAngle() {
 
-        // Negative because the gyro reads differently than wpilib.
-        return -gyroAngle;
+        if (!hasBothDied) {
+            // Negative because the gyro reads differently than wpilib.
+            return -gyro.getAngle();
+        } else {
+            return 0.0;
+        }
     }
 
     /** Get the roll reported by the gyro (side to side rotation). */
-    public double getGyroRoll() {
-        return gyroRoll;
+    public double getRoll() {
+
+        if (!hasBothDied) {
+            return gyro.getRoll();
+        } else {
+            return 0.0;
+        }
+    }
+
+    public double getPitch() {
+
+        if (!hasBothDied) {
+            return gyro.getPitch();
+        } else {
+            return 0.0;
+        }
     }
 
     /** Reset the gyros and zero the yaw. */
@@ -181,8 +200,12 @@ public class GyroSystem {
         gyroMXPHasDied = false;
         gyroOnboardHasDied = false;
         hasBothDied = false;
+        System.out.println("Gyro system has been reset");
     }
 
+    public boolean areBothGyrosDead() {
+        return hasBothDied;
+    }
 
     /** This method should only be used in drivebase in getGyroSystem method. */
     public static GyroSystem getInstance() {
