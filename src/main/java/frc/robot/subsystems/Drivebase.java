@@ -299,6 +299,10 @@ public class Drivebase extends SubsystemBase {
         false);
   }
 
+  public void setFrontLeftModuleTurnPos(double angleDegrees) {
+    frontLeft.setTurnMotorAngle(frontLeft.getSwerveState().angle.getDegrees() + angleDegrees);
+  }
+
   /**
    * Sets the current target point used for targeting.
    * 
