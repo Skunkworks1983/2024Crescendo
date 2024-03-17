@@ -260,10 +260,10 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = 0.02;
+      public static final double KP = 0.01;
       public static final double KI = .000;
       public static final double KD = 0.000;
-      public static final double KF = .1;
+      public static final double KF = .14 * .8;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }

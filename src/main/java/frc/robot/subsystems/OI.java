@@ -31,6 +31,7 @@ import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleTurnTune;
+import frc.robot.commands.shooter.tuningCommands.SwerveModuleVelocityTuning;
 import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -150,7 +151,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
 
-    resetCollector.whileTrue(new SwerveModuleTurnTune());
+    resetCollector.whileTrue(new SwerveModuleVelocityTuning());
   }
 
   @Override
