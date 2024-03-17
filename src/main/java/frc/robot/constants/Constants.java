@@ -243,19 +243,19 @@ public class Constants {
 
   public class PIDControllers {
 
-    public static final boolean SMART_PID_ACTIVE = false;
+    public static final boolean SMART_PID_ACTIVE = true;
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .0075;
+      public static final double KP = .0145;
       public static final double KI = 0;
-      public static final double KD = .0001;
+      public static final double KD = .00017;
       public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
       public static final double TURN_PID_TOLERANCE = .5;
 
-      public static final boolean SMART_PID_ACTIVE = false;
+      public static final boolean SMART_PID_ACTIVE = true;
     }
 
     public class DrivePID {

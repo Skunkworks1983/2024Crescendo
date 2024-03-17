@@ -150,7 +150,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight.onTrue(new ResetGyroHeading(resetGyroHeadingLeft::getAsBoolean,
         resetGyroHeadingRight::getAsBoolean));
 
-    resetCollector.onTrue(new SwerveModuleTurnTune());
+    resetCollector.whileTrue(new SwerveModuleTurnTune());
   }
 
   @Override
