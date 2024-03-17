@@ -137,7 +137,7 @@ public class Drivebase extends SubsystemBase {
 
   /** run in teleop init to set swerve as default teleop command */
   public void setSwerveAsDefaultCommand() {
-    setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
+    //setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
   /** Used to get the angle reported by the gyro. */
@@ -300,7 +300,15 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void setFrontLeftModuleTurnPos(double angleDegrees) {
-    frontLeft.setTurnMotorAngle(frontLeft.getSwerveState().angle.getDegrees() + angleDegrees);
+    frontLeft.setTurnMotorAngle(angleDegrees);
+  }
+
+  public double getFrontLeftModuleTurnPos() {
+    return frontLeft.getSwerveState().angle.getDegrees();
+  }
+
+  public double getFrontLeftModuleTurnVelocity() {
+    return frontLeft.getTurnMotorVelocity();
   }
 
   /**

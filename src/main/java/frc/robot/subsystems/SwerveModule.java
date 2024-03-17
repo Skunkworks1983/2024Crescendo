@@ -95,6 +95,10 @@ public class SwerveModule extends SubsystemBase {
     turnController.setSetpoint(angleDegrees);
   }
 
+  public double getTurnMotorVelocity() {
+    return turnMotor.getVelocity().getValueAsDouble();
+  }
+
   // gets drive encoder as distance traveled in feet
   public double getDriveEncoderPosition() {
 
