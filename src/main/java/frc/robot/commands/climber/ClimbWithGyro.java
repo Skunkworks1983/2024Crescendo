@@ -6,6 +6,7 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.GyroSystem;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.subsystems.Climber;
@@ -17,11 +18,13 @@ public class ClimbWithGyro extends Command {
   /** Creates a new ClimbWithGyro. */
   Climber climber;
   Drivebase drivebase;
+  GyroSystem gyroSystem;
   double leftOutput, rightOutput;
 
   public ClimbWithGyro() {
     climber = Climber.getInstance();
     drivebase = Drivebase.getInstance();
+    gyroSystem = drivebase.getGyroSystem();
     leftOutput = 0;
     rightOutput = 0;
   }
@@ -39,7 +42,7 @@ public class ClimbWithGyro extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double roll = drivebase.getGyroRoll();
+    double roll = gyroSystem.getRoll();
 
     leftOutput =
         ClimberConstants.BASE_PULL_SPEED - (roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT);

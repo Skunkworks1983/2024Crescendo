@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 
 public class Constants {
 
@@ -378,6 +377,15 @@ public class Constants {
 
   // m/s^2
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
+
+  
+  public class GyroCrashDetection {
+    public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
+    public static final int COUNT_STEP_NUMBER = 3;
+    public static final double HAS_DIED_TIME_LIMIT_IF_ENABLED = 160;
+    public static final double HAS_DIED_TIME_LIMIT_IF_DISABLED = 250;
+  }
 
   public class PhotonVision {
     public static final String CAMERA_2_NAME = "Side";
