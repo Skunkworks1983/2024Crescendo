@@ -22,6 +22,7 @@ import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToPassAngle;
+import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -80,8 +81,6 @@ public class OI extends SubsystemBase {
     shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
-    // linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
-
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
 
@@ -113,7 +112,7 @@ public class OI extends SubsystemBase {
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    shooterToSpeaker.whileTrue(new AimShooterAtSpeakerAssumingNoGravity());
+    shooterToSpeaker.whileTrue(new ShooterToPodium());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 

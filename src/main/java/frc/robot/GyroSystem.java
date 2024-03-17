@@ -48,32 +48,17 @@ public class GyroSystem {
      * Implements a rolling list of gyro measurments to check if the specified gyro
      * is dead. Gyro should have noise if it is still functional.
      */
-    private boolean isGyroDead(AHRS gyroToCheck) {
+    private boolean isGyroDead(LinkedList<Double> gyroMeasurements) {
         boolean isDead = true;
 
-        if (gyroToCheck == gyroMXP) {
+        if (gyroMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
 
-            if (gyroMXPMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+            for (int i = 1; i < gyroMeasurements.size(); i++) {
 
-                for (int i = 1; i < gyroMXPMeasurements.size(); i++) {
-
-                    isDead = Math
-                            .abs(gyroMXPMeasurements.get(i) - gyroMXPMeasurements
-                                    .get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-                            && isDead;
-                }
-            }
-
-        } else if (gyroToCheck == gyroOnboard) {
-
-            if (gyroOnboardMeasurements.size() >= GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-
-                for (int i = 1; i < gyroOnboardMeasurements.size(); i++) {
-                    isDead = Math
-                            .abs(gyroOnboardMeasurements.get(i) - gyroOnboardMeasurements
-                                    .get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
-                            && isDead;
-                }
+                isDead = Math
+                        .abs(gyroMeasurements.get(i) - gyroMeasurements
+                                .get(i - 1)) < GyroCrashDetection.GYRO_NOISE_TOLERANCE
+                        && isDead;
             }
         }
 
@@ -113,7 +98,7 @@ public class GyroSystem {
 
         // Update the gyro variable to the gyro that is still alive.
         if (!hasBothDied) {
-            if (!isGyroDead(gyroMXP) && !gyroMXPHasDied) {
+            if (!isGyroDead(gyroMXPMeasurements) && !gyroMXPHasDied) {
                 gyro = gyroMXP;
                 gyroMXPTimer = 0;
             } else {
@@ -124,7 +109,7 @@ public class GyroSystem {
                     gyroMXPHasDied = true;
                 }
 
-                if (!isGyroDead(gyroOnboard) && !gyroOnboardHasDied) {
+                if (!isGyroDead(gyroOnboardMeasurements) && !gyroOnboardHasDied) {
                     gyro = gyroOnboard;
                     gyroOnboardTimer = 0;
                 } else {
