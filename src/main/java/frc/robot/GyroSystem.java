@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.LinkedList;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants.GyroCrashDetection;
@@ -67,11 +69,16 @@ public class GyroSystem {
 
     /**
      * Remember to call this method every loop in periodic to update the list of
-     * gyro
-     * measurments and figure out which gyros are still functional.
+     * gyro measurments and figure out which gyros are still functional.
      */
     public void update() {
+        boolean isEnabled = DriverStation.isEnabled();
+        double hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_ENABLED;
 
+        if (!isEnabled) {
+            hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_DISABLED;
+        }
+        
         // Update the list of gyro measurments.
         if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
             gyroMXPMeasurements.add(gyroMXP.getAngle());
@@ -105,7 +112,7 @@ public class GyroSystem {
 
                 gyroMXPTimer += 1;
 
-                if (gyroMXPTimer > GyroCrashDetection.ISDEAD_TIME_LIMIT) {
+                if (gyroMXPTimer > hasDiedTimeLimit) {
                     gyroMXPHasDied = true;
                 }
 
@@ -115,7 +122,7 @@ public class GyroSystem {
                 } else {
                     gyroOnboardTimer += 1;
 
-                    if (gyroOnboardTimer > GyroCrashDetection.ISDEAD_TIME_LIMIT) {
+                    if (gyroOnboardTimer > hasDiedTimeLimit) {
                         gyroOnboardHasDied = true;
                     }
                 }
@@ -126,6 +133,9 @@ public class GyroSystem {
             hasBothDied = true;
         }
 
+        SmartDashboard.putNumber("Gyro Wait Time", hasDiedTimeLimit);
+        SmartDashboard.putNumber("Gyro MXP Timer", gyroMXPTimer);
+        SmartDashboard.putNumber("Gyro Onboard Timer", gyroOnboardTimer);
         SmartDashboard.putNumber("Gyro Angle", getAngle());
         SmartDashboard.putNumber("Gyro MXP Angle", gyroMXP.getAngle());
         SmartDashboard.putNumber("Gyro Onboard Angle", gyroOnboard.getAngle());
@@ -176,6 +186,8 @@ public class GyroSystem {
         gyroMXPHasDied = false;
         gyroOnboardHasDied = false;
         hasBothDied = false;
+        gyroMXPTimer = 0;
+        gyroOnboardTimer = 0;
         System.out.println("Gyro system has been reset");
     }
 

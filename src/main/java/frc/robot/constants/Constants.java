@@ -380,10 +380,11 @@ public class Constants {
 
   
   public class GyroCrashDetection {
-    public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
     public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
     public static final int COUNT_STEP_NUMBER = 3;
-    public static final double ISDEAD_TIME_LIMIT = 180;
+    public static final double HAS_DIED_TIME_LIMIT_IF_ENABLED = 160;
+    public static final double HAS_DIED_TIME_LIMIT_IF_DISABLED = 250;
   }
 
   public class PhotonVision {
