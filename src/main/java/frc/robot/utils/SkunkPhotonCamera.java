@@ -12,8 +12,10 @@ public class SkunkPhotonCamera {
     PhotonCamera camera;
     PhotonPoseEstimator poseEstimator;
     AprilTagFieldLayout aprilTagFieldLayout;
+    public String cameraName;
 
     public SkunkPhotonCamera(String cameraName, Transform3d transform3d) {
+        this.cameraName = cameraName;
         try {
             aprilTagFieldLayout = AprilTagFieldLayout
                     .loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);

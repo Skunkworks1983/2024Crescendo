@@ -6,10 +6,13 @@ package frc.robot.utils;
 
 import java.util.ArrayList;
 import java.util.Optional;
+
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonVersion;
+import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
@@ -23,6 +26,23 @@ public class Vision {
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
+    }
+
+    public Optional<Transform3d> getRobotToTargetTransform(String cameraName) {
+        for (SkunkPhotonCamera camera : cameras) {
+            if (camera.cameraName == cameraName) {
+                PhotonCamera cameraToUse = camera.camera;
+                PhotonPipelineResult result = cameraToUse.getLatestResult();
+
+                if (result.hasTargets()) {
+                    PhotonTrackedTarget target = result.getBestTarget();
+                    Transform3d cameraToTargetTransform = target.getBestCameraToTarget();
+                    return Optional.of(cameraToTargetTransform);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**
