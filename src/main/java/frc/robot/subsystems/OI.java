@@ -124,7 +124,7 @@ public class OI extends SubsystemBase {
     collectorStow.whileTrue(new CollectorStow());
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
+    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
 
     smartClimb.onTrue(new ExtendClimber());
     smartClimb.onFalse(new SmartClimb());

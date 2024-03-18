@@ -253,6 +253,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getPitch());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
+    SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
 
     gyroSystem.update();
 

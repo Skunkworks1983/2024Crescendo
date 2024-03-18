@@ -42,7 +42,7 @@ public class GyroSystem {
     int gyroOnboardCount = 0;
 
     private GyroSystem() {
-        resetGyros();
+        //resetGyros();
         SmartDashboard.putNumber("Reset the gyro system (1)", 0);
     }
 
@@ -74,13 +74,22 @@ public class GyroSystem {
     public void update() {
         boolean isEnabled = DriverStation.isEnabled();
         double hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_ENABLED;
+        boolean isGyroMXPConnected = gyroMXP.isConnected();
+        boolean isGyroOnboardConnected = gyroOnboard.isConnected();
+
+        if((isGyroOnboardConnected && gyroOnboard.isCalibrating()) && (isGyroMXPConnected && gyroMXP.isCalibrating())) {
+            SmartDashboard.putBoolean("Both Gyro Calibrating", true);
+            return;
+        } else {
+            SmartDashboard.putBoolean("Both Gyro Calibrating", false);
+        }
 
         if (!isEnabled) {
             hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_DISABLED;
         }
         
         // Update the list of gyro measurments.
-        if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+        if (isGyroMXPConnected && gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
             gyroMXPMeasurements.add(gyroMXP.getAngle());
 
             if (gyroMXPMeasurements
@@ -92,7 +101,7 @@ public class GyroSystem {
         gyroMXPCount++;
 
         // Same thing for the backup gyro
-        if (gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+        if (isGyroOnboardConnected && gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
             gyroOnboardMeasurements.add(gyroOnboard.getAngle());
 
             if (gyroOnboardMeasurements
@@ -105,7 +114,7 @@ public class GyroSystem {
 
         // Update the gyro variable to the gyro that is still alive.
         if (!hasBothDied) {
-            if (!isGyroDead(gyroMXPMeasurements) && !gyroMXPHasDied) {
+            if (isGyroMXPConnected && !isGyroDead(gyroMXPMeasurements) && !gyroMXPHasDied) {
                 gyro = gyroMXP;
                 gyroMXPTimer = 0;
             } else {
@@ -116,7 +125,7 @@ public class GyroSystem {
                     gyroMXPHasDied = true;
                 }
 
-                if (!isGyroDead(gyroOnboardMeasurements) && !gyroOnboardHasDied) {
+                if (isGyroOnboardConnected && !isGyroDead(gyroOnboardMeasurements) && !gyroOnboardHasDied) {
                     gyro = gyroOnboard;
                     gyroOnboardTimer = 0;
                 } else {
@@ -141,6 +150,9 @@ public class GyroSystem {
         SmartDashboard.putNumber("Gyro Onboard Angle", gyroOnboard.getAngle());
         SmartDashboard.putBoolean("Gyro MXP Has Died", gyroMXPHasDied);
         SmartDashboard.putBoolean("Gyro Onboard Has Died", gyroOnboardHasDied);
+        SmartDashboard.putBoolean("Is Gyro MXP Connected", isGyroMXPConnected);
+        SmartDashboard.putBoolean("Is Gyro Onboard Connected", isGyroOnboardConnected);
+
 
         if (SmartDashboard.getNumber("Reset the gyro system (1)", 0) == 1) {
             resetGyros();
@@ -179,8 +191,8 @@ public class GyroSystem {
 
     /** Reset the gyros and zero the yaw. */
     public void resetGyros() {
-        gyroMXP.reset();
-        gyroOnboard.reset();
+        //gyroMXP.reset();
+        //gyroOnboard.reset();
         gyroMXP.zeroYaw();
         gyroOnboard.zeroYaw();
         gyroMXPHasDied = false;
