@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
-
+import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -24,11 +24,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.GyroSystem;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -42,7 +42,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  GyroSystem gyroSystem = getGyroSystem();
+  AHRS gyro = new AHRS(Port.kMXP);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -85,7 +85,7 @@ public class Drivebase extends SubsystemBase {
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyroSystem.getAngle()),
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyro.getAngle()),
       new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
           backLeft.getPosition(), backRight.getPosition() },
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
@@ -133,9 +133,6 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Get an instance of the gyro system for use in commands. */
-  public GyroSystem getGyroSystem() {
-    return GyroSystem.getInstance();
-  }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
@@ -222,7 +219,7 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(Rotation2d.fromDegrees(gyroSystem.getAngle()),
+    odometry.resetPosition(Rotation2d.fromDegrees(gyro.getAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() },
         resetPose);
@@ -232,7 +229,7 @@ public class Drivebase extends SubsystemBase {
   public void updateOdometry() {
 
     // Update the mechanical odometry
-    odometry.update(Rotation2d.fromDegrees(gyroSystem.getAngle()),
+    odometry.update(Rotation2d.fromDegrees(gyro.getAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() });
 
@@ -251,14 +248,12 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getPitch());
+    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
 
-    gyroSystem.update();
-
     // If both gyros are dead, switch to robot relative control.
-    if (gyroSystem.areBothGyrosDead()) {
+    if (false) { //!gyro.isConnected()
       isRobotRelative = true;
     } else {
       isRobotRelative = false;

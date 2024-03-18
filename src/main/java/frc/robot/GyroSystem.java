@@ -18,10 +18,10 @@ public class GyroSystem {
     private static GyroSystem gyroSystem;
 
     // The primary gyro.
-    AHRS gyroMXP = new AHRS(Port.kMXP);
+    AHRS gyroMXP;
 
     // The backup gyro.
-    AHRS gyroOnboard = new AHRS(Port.kOnboard);
+    AHRS gyroOnboard;
 
     // The gyro to use. Setting this to the primary gyro to start.
     AHRS gyro = gyroMXP;
