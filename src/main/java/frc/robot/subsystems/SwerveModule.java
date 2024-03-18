@@ -80,6 +80,9 @@ public class SwerveModule extends SubsystemBase {
     driveController.updatePID();
   }
 
+  public double getTurnError(){
+    return turnController.getPositionError();
+  }
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
@@ -89,6 +92,14 @@ public class SwerveModule extends SubsystemBase {
 
   public void setTurnMotorSpeed(double speed) {
     turnMotor.set(speed);
+  }
+
+  public void setTurnMotorAngle(double angleDegrees) {
+    turnController.setSetpoint(angleDegrees);
+  }
+
+  public double getTurnMotorVelocity() {
+    return turnMotor.getVelocity().getValueAsDouble();
   }
 
   // gets drive encoder as distance traveled in feet

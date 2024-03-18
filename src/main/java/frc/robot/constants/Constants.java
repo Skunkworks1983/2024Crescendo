@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 
 public class Constants {
 
@@ -247,9 +246,9 @@ public class Constants {
 
     public class TurnPID {
       // Turning Motor PID Constants
-      public static final double KP = .0075;
+      public static final double KP = .0145;
       public static final double KI = 0;
-      public static final double KD = .0001;
+      public static final double KD = .00017;
       public static final double KF = 0;
       public static final double PID_LOW_LIMIT = -.8;
       public static final double PID_HIGH_LIMIT = .8;
@@ -260,10 +259,10 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = 0.02;
+      public static final double KP = 0.01;
       public static final double KI = .000;
       public static final double KD = 0.000;
-      public static final double KF = .1;
+      public static final double KF = .1160;
 
       public static final boolean SMART_PID_ACTIVE = false;
     }
@@ -343,13 +342,13 @@ public class Constants {
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
   public static final double ROT_JOY_DEADBAND = .2;
-  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.2);
+  public static final double MAX_MODULE_SPEED = Units.feetToMeters(14.76);
 
   // Multiplying joystick output by this value in SwerveTeleop to get x and y feet
   // per second.
   // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 14.2;
+  public static final double OI_DRIVE_SPEED_RATIO = 14.76;
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
@@ -378,6 +377,15 @@ public class Constants {
 
   // m/s^2
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
+
+  
+  public class GyroCrashDetection {
+    public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
+    public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
+    public static final int COUNT_STEP_NUMBER = 3;
+    public static final double HAS_DIED_TIME_LIMIT_IF_ENABLED = 160;
+    public static final double HAS_DIED_TIME_LIMIT_IF_DISABLED = 250;
+  }
 
   public class PhotonVision {
     public static final String CAMERA_2_NAME = "Side";
@@ -514,4 +522,12 @@ public class Constants {
   }
 
   public static final double SECONDS_TO_MINUTES = 1.0 / 60.0;
+
+  public static final double DRIVEBASE_TUNING_TURNING_ANGLE_ONE = 90;
+  public static final double DRIVEBASE_TUNING_TURNING_ANGLE_TWO = 180;
+  public static final double DRIVEBASE_TUNING_TURNING_TOLERANCE = 0.5;
+  public static final double DRIVEBASE_TUNING_TURNING_TOLERANCE_POWER = 0.1;
+  public static final double DRIVEBASE_TUNING_TICK_COUNT = 5;
+
+  public static final double DRIVEBASE_TUNING_VELOCITY_TOLERANCE = 0.05;
 }

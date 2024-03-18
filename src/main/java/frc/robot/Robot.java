@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
-import frc.robot.commands.IntakeNoteToIndexer;
 import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;

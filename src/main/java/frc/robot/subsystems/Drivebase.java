@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
-import com.kauailabs.navx.frc.AHRS;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -23,12 +23,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.GyroSystem;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -41,7 +41,8 @@ import frc.robot.constants.Constants.PhotonVision;
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  AHRS gyro = new AHRS(I2C.Port.kOnboard);
+
+  GyroSystem gyroSystem = getGyroSystem();
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -54,53 +55,44 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
       Constants.PIDControllers.HeadingControlPID.SMART_PID_ACTIVE);
 
   // locations of the modules, x positive forward y positive left
-  Translation2d leftFrontLocation =
-      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightFrontLocation =
-      new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightFrontLocation = new Translation2d(Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d leftBackLocation =
-      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d leftBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  Translation2d rightBackLocation =
-      new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
-          Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
+  Translation2d rightBackLocation = new Translation2d(Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_X),
+      Units.feetToMeters(-Constants.DrivebaseInfo.TRANSLATION_Y));
 
-  SwerveModule frontLeft =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
+  SwerveModule frontLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_LEFT_MODULE);
 
-  SwerveModule frontRight =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
+  SwerveModule frontRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.FRONT_RIGHT_MODULE);
 
-  SwerveModule backLeft =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
+  SwerveModule backLeft = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_LEFT_MODULE);
 
-  SwerveModule backRight =
-      new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
+  SwerveModule backRight = new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry =
-      new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
-          new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-              backLeft.getPosition(), backRight.getPosition()},
-          new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyroSystem.getAngle()),
+      new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+          backLeft.getPosition(), backRight.getPosition() },
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
 
   private Drivebase() {
-    gyro.reset();
     isRobotRelative = false;
     // The robot should have the same heading as the heading specified here on
     // startup.
@@ -126,7 +118,7 @@ public class Drivebase extends SubsystemBase {
     try {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
+          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2) });
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
     } catch (Exception e) {
       System.out.println("Exception creating cameras: " + e.toString());
@@ -140,25 +132,9 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  /** Used to get the angle reported by the gyro. */
-  public double getGyroAngle() {
-    double angle = gyro.getAngle();
-    SmartDashboard.putNumber("gyro", -angle);
-
-    // Negative because gyro reads differently than wpilib.
-    return -angle;
-  }
-
-  public double getGyroRoll() {
-    double roll = gyro.getRoll();
-    SmartDashboard.putNumber("gyro roll", roll);
-
-    return roll;
-  }
-
-  /** Resets the gyro's yaw to a heading of 0. */
-  public void resetGyroHeading() {
-    gyro.zeroYaw();
+  /** Get an instance of the gyro system for use in commands. */
+  public GyroSystem getGyroSystem() {
+    return GyroSystem.getInstance();
   }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
@@ -177,10 +153,8 @@ public class Drivebase extends SubsystemBase {
     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
 
-    speeds.vxMetersPerSecond =
-        Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
-    speeds.vyMetersPerSecond =
-        Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
@@ -216,18 +190,22 @@ public class Drivebase extends SubsystemBase {
   }
 
   /**
-   * Call this method instead of getGyroAngle(). This method returns the robot's heading according
-   * to the integrated odometry. This allows for an accurate heading measurement, even if the gyro
+   * Call this method instead of getGyroAngle(). This method returns the robot's
+   * heading according
+   * to the integrated odometry. This allows for an accurate heading measurement,
+   * even if the gyro
    * is inaccurate.
    * 
-   * @return The heading of the robot according to the integrated odometry, in degrees. Note:
+   * @return The heading of the robot according to the integrated odometry, in
+   *         degrees. Note:
    *         Measurement is 0-360 degrees instead of continuous.
    */
   public double getRobotHeading() {
     if(!isRobotRelative) {
       return getRobotPose().getRotation().getDegrees();
     }
-    return 0;
+    
+    return 0.0;
   }
 
   public void setRobotRelative() {
@@ -244,9 +222,9 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition()},
+    odometry.resetPosition(Rotation2d.fromDegrees(gyroSystem.getAngle()),
+        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition() },
         resetPose);
   }
 
@@ -254,9 +232,9 @@ public class Drivebase extends SubsystemBase {
   public void updateOdometry() {
 
     // Update the mechanical odometry
-    odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition()});
+    odometry.update(Rotation2d.fromDegrees(gyroSystem.getAngle()),
+        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
+            backLeft.getPosition(), backRight.getPosition() });
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
@@ -273,8 +251,17 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    SmartDashboard.putNumber("Gyro Pitch", gyroSystem.getPitch());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
+
+    gyroSystem.update();
+
+    // If both gyros are dead, switch to robot relative control.
+    if (gyroSystem.areBothGyrosDead()) {
+      isRobotRelative = true;
+    } else {
+      isRobotRelative = false;
+    }
   }
 
   public static Drivebase getInstance() {
@@ -291,12 +278,36 @@ public class Drivebase extends SubsystemBase {
     return chassisSpeeds;
   }
 
+  public ChassisSpeeds getFieldRelativeSpeeds(){
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeeds(), Rotation2d.fromDegrees(getRobotHeading()));
+  }
+
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setDrive(Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
         Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  //sets the back right module pos for tuning 
+  public void setBackRightModuleTurnPos(double angleDegrees) {
+    backRight.setTurnMotorAngle(angleDegrees);
+  }
+
+   //returning the back right turn pos for tunning 
+  public double getBackRightModuleTurnPos() {
+    return backRight.getSwerveState().angle.getDegrees();
+  }
+
+   //returning the back right turn error for tunning 
+  public double getBackRightModuleTurnError() {
+    return backRight.getTurnError();
+  }
+
+  //returning the back right turn speed for tunning 
+  public double getBackRightModuleTurnVelocity() {
+    return backRight.getTurnMotorVelocity();
   }
 
   /**
