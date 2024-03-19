@@ -6,8 +6,10 @@ package frc.robot;
 
 import java.util.LinkedList;
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants.GyroCrashDetection;
@@ -22,6 +24,7 @@ public class GyroSystem {
 
     // The backup gyro.
     AHRS gyroOnboard = new AHRS(Port.kOnboard);
+    // AHRS gyroOnboard = new AHRS(SerialPort.Port.kUSB1);
 
     // The gyro to use. Setting this to the primary gyro to start.
     AHRS gyro = gyroMXP;
@@ -42,8 +45,10 @@ public class GyroSystem {
     int gyroOnboardCount = 0;
 
     private GyroSystem() {
-        resetGyros();
+        gyroMXP.reset();
+        gyroOnboard.reset();
         SmartDashboard.putNumber("Reset the gyro system (1)", 0);
+
     }
 
     /**
@@ -72,80 +77,94 @@ public class GyroSystem {
      * gyro measurments and figure out which gyros are still functional.
      */
     public void update() {
-        boolean isEnabled = DriverStation.isEnabled();
-        double hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_ENABLED;
-
-        if (!isEnabled) {
-            hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_DISABLED;
-        }
         
-        // Update the list of gyro measurments.
-        if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
-            gyroMXPMeasurements.add(gyroMXP.getAngle());
+ 
+            boolean isEnabled = DriverStation.isEnabled();
+            double hasDiedTimeLimit;
 
-            if (gyroMXPMeasurements
-                    .size() > GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-                gyroMXPMeasurements.remove(0);
-            }
-        }
-
-        gyroMXPCount++;
-
-        // Same thing for the backup gyro
-        if (gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
-            gyroOnboardMeasurements.add(gyroOnboard.getAngle());
-
-            if (gyroOnboardMeasurements
-                    .size() > GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
-                gyroOnboardMeasurements.remove(0);
-            }
-        }
-
-        gyroOnboardCount++;
-
-        // Update the gyro variable to the gyro that is still alive.
-        if (!hasBothDied) {
-            if (!isGyroDead(gyroMXPMeasurements) && !gyroMXPHasDied) {
-                gyro = gyroMXP;
-                gyroMXPTimer = 0;
+            if (!isEnabled) {
+                hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_DISABLED;
             } else {
+                hasDiedTimeLimit = GyroCrashDetection.HAS_DIED_TIME_LIMIT_IF_ENABLED;
 
-                gyroMXPTimer += 1;
-
-                if (gyroMXPTimer > hasDiedTimeLimit) {
+                if (gyroMXP.isCalibrating()) {
                     gyroMXPHasDied = true;
                 }
 
-                if (!isGyroDead(gyroOnboardMeasurements) && !gyroOnboardHasDied) {
-                    gyro = gyroOnboard;
-                    gyroOnboardTimer = 0;
-                } else {
-                    gyroOnboardTimer += 1;
+                if (gyroOnboard.isCalibrating()) {
+                    gyroOnboardHasDied = true;
+                }
+            }
 
-                    if (gyroOnboardTimer > hasDiedTimeLimit) {
-                        gyroOnboardHasDied = true;
+            // Update the list of gyro measurments.
+            if (gyroMXPCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+                gyroMXPMeasurements.add(gyroMXP.getAngle());
+
+                if (gyroMXPMeasurements
+                        .size() > GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+                    gyroMXPMeasurements.remove(0);
+                }
+            }
+
+            gyroMXPCount++;
+
+            // Same thing for the backup gyro
+            if (gyroOnboardCount % GyroCrashDetection.COUNT_STEP_NUMBER == 0) {
+                gyroOnboardMeasurements.add(gyroOnboard.getAngle());
+
+                if (gyroOnboardMeasurements
+                        .size() > GyroCrashDetection.GYRO_MEASURMENTS_LIST_SIZE) {
+                    gyroOnboardMeasurements.remove(0);
+                }
+            }
+
+            gyroOnboardCount++;
+
+            // Update the gyro variable to the gyro that is still alive.
+            if (!hasBothDied) {
+                if (!isGyroDead(gyroMXPMeasurements) && !gyroMXPHasDied) {
+                    gyro = gyroMXP;
+                    gyroMXPTimer = 0;
+                } else {
+                    gyroMXPTimer += 1;
+
+                    if (gyroMXPTimer > hasDiedTimeLimit) {
+                        gyroMXPHasDied = true;
+                    }
+
+                    if (!isGyroDead(gyroOnboardMeasurements) && !gyroOnboardHasDied) {
+                        gyro = gyroOnboard;
+                        gyroOnboardTimer = 0;
+
+                    } else {
+
+                        gyroOnboardTimer += 1;
+
+                        if (gyroOnboardTimer > hasDiedTimeLimit) {
+                            gyroOnboardHasDied = true;
+                        }
                     }
                 }
             }
-        }
 
-        if (gyroMXPHasDied && gyroOnboardHasDied) {
-            hasBothDied = true;
-        }
+            if (gyroMXPHasDied && gyroOnboardHasDied) {
+                hasBothDied = true;
+            }
 
-        SmartDashboard.putNumber("Gyro Wait Time", hasDiedTimeLimit);
-        SmartDashboard.putNumber("Gyro MXP Timer", gyroMXPTimer);
-        SmartDashboard.putNumber("Gyro Onboard Timer", gyroOnboardTimer);
-        SmartDashboard.putNumber("Gyro Angle", getAngle());
-        SmartDashboard.putNumber("Gyro MXP Angle", gyroMXP.getAngle());
-        SmartDashboard.putNumber("Gyro Onboard Angle", gyroOnboard.getAngle());
-        SmartDashboard.putBoolean("Gyro MXP Has Died", gyroMXPHasDied);
-        SmartDashboard.putBoolean("Gyro Onboard Has Died", gyroOnboardHasDied);
+            SmartDashboard.putBoolean("Gyro MXP isCalibrating", gyroMXP.isCalibrating());
+            SmartDashboard.putBoolean("Gyro Onboard isCalibrating", gyroOnboard.isCalibrating());
+            SmartDashboard.putNumber("Gyro MXP Timer", gyroMXPTimer);
+            SmartDashboard.putNumber("Gyro Onboard Timer", gyroOnboardTimer);
+            SmartDashboard.putNumber("Gyro Angle", getAngle());
+            SmartDashboard.putNumber("Gyro MXP Angle", gyroMXP.getAngle());
+            SmartDashboard.putNumber("Gyro Onboard Angle", gyroOnboard.getAngle());
+            SmartDashboard.putBoolean("Gyro MXP Has Died", gyroMXPHasDied);
+            SmartDashboard.putBoolean("Gyro Onboard Has Died", gyroOnboardHasDied);
 
-        if (SmartDashboard.getNumber("Reset the gyro system (1)", 0) == 1) {
-            resetGyros();
-            SmartDashboard.putNumber("Reset the gyro system (1)", 0);
-        }
+            if (SmartDashboard.getNumber("Reset the gyro system (1)", 0) == 1) {
+                resetGyros();
+                SmartDashboard.putNumber("Reset the gyro system (1)", 0);
+            }
     }
 
     public double getAngle() {

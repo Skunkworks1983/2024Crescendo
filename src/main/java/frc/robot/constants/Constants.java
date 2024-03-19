@@ -384,7 +384,7 @@ public class Constants {
     public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
     public static final int COUNT_STEP_NUMBER = 3;
     public static final double HAS_DIED_TIME_LIMIT_IF_ENABLED = 160;
-    public static final double HAS_DIED_TIME_LIMIT_IF_DISABLED = 250;
+    public static final double HAS_DIED_TIME_LIMIT_IF_DISABLED = 300;
   }
 
   public class PhotonVision {
