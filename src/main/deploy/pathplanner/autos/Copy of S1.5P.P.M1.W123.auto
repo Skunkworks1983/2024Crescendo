@@ -16,22 +16,9 @@
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LowerCollector"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SpinUpFlywheel"
-                      }
-                    }
-                  ]
+                  "name": "SpinUpFlywheel"
                 }
               },
               {
@@ -92,7 +79,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "New Path"
+                        "pathName": "Note1ToMiddlePoint"
                       }
                     },
                     {
