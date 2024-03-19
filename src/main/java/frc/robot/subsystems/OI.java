@@ -137,10 +137,10 @@ public class OI extends SubsystemBase {
 
     // Calling this command for both buttons to elimate confusion about which button needs to be
     // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
+    //resetGyroHeadingLeft.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
+    //    resetGyroHeadingRight::getAsBoolean));
+    //resetGyroHeadingRight.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
+    //    resetGyroHeadingRight::getAsBoolean));
   }
 
   @Override
