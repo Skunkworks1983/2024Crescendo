@@ -30,7 +30,6 @@ public class ShootWhenReady extends Command {
 
   @Override
   public void initialize() {
-    shooter.setFlywheelSpeed(shooter.flywheelSetpointMPS);
     System.out.println("Shoot When Ready Command Initialize");
   }
 
@@ -61,6 +60,7 @@ public class ShootWhenReady extends Command {
 
   @Override
   public boolean isFinished() {
-    return !shooter.getShooterIndexerBeambreak2() && !shooter.getShooterIndexerBeambreak1();
+    return !shooter.getShooterIndexerBeambreak1() && !shooter.getShooterIndexerBeambreak2()
+        && !indexer.getBeamBreakSensor();
   }
 }
