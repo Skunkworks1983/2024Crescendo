@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
     indexer = Indexer.getInstance();
     collector = Collector.getInstance();
     //enable the driver camera
-    CameraServer.startAutomaticCapture();
+    //CameraServer.startAutomaticCapture();
 
   //wait times
   NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
