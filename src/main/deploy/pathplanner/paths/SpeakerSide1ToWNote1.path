@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 0.7189571631051666,
+        "y": 6.694858784119604
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.34,
-        "y": 4.686052646484864
+        "x": 1.2933990244570825,
+        "y": 6.893302336228215
       },
       "isLocked": false,
-      "linkedName": "SpeakerSide2"
+      "linkedName": "SpeakerSide1"
     },
     {
       "anchor": {
         "x": 2.42,
-        "y": 4.073315016859041
+        "y": 7.0
       },
       "prevControl": {
-        "x": 1.5376492896772205,
-        "y": 4.073315016859041
+        "x": 1.617175346309981,
+        "y": 6.8828579387490905
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "WingNote3"
+      "linkedName": "WingNote1"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.75,
-    "maxAcceleration": 5.5,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -179.29545893165084,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "S2.4P.P.W213new",
+  "folder": "S1.5P.P.M1.W123",
   "previewStartingState": {
-    "rotation": 178.58080858048453,
+    "rotation": -123.23171106797936,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

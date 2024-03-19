@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.34,
-        "y": 4.686052646484864
-      },
-      "isLocked": false,
-      "linkedName": "SpeakerSide2"
-    },
-    {
-      "anchor": {
         "x": 2.42,
         "y": 4.073315016859041
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1262886647910708,
+        "y": 3.989759837026036
+      },
+      "isLocked": false,
+      "linkedName": "WingNote3"
+    },
+    {
+      "anchor": {
+        "x": 1.34,
+        "y": 5.56
+      },
       "prevControl": {
-        "x": 1.5376492896772205,
-        "y": 4.073315016859041
+        "x": 1.4709537816022202,
+        "y": 4.6477568782109575
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "WingNote3"
+      "linkedName": "SpeakerSide2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.75,
-    "maxAcceleration": 5.5,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 178.8625099495368,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "S2.4P.P.W213new",
+  "folder": "S1.5P.P.M1.W123",
   "previewStartingState": {
-    "rotation": 178.58080858048453,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
