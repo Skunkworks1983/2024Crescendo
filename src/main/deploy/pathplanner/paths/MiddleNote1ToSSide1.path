@@ -55,7 +55,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.6,
-    "maxAcceleration": 7.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -65,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "S1.5P.P.M12.W12",
+  "folder": null,
   "previewStartingState": {
     "rotation": -161.20011484134727,
     "velocity": 0

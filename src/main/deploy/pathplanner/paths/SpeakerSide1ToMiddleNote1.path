@@ -73,7 +73,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.6,
-    "maxAcceleration": 7.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -83,7 +83,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "S1.5P.P.M1.W123",
+  "folder": null,
   "previewStartingState": {
     "rotation": -119.6237487511738,
     "velocity": 0

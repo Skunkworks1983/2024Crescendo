@@ -146,14 +146,14 @@ public class Drivebase extends SubsystemBase {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
-    double Cx = speeds.vxMetersPerSecond;
+    /*double Cx = speeds.vxMetersPerSecond;
     double Cy = speeds.vyMetersPerSecond;
     double Omega = speeds.omegaRadiansPerSecond;
     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
 
     speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
-    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;*/
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 

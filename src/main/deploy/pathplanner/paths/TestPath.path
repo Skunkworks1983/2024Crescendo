@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.42,
-        "y": 5.556419458894899
+        "x": 1.335176614373586,
+        "y": 6.485970834537088
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6884198813609514,
-        "y": 5.556419458894899
+        "x": 2.335176614373587,
+        "y": 6.485970834537088
       },
       "isLocked": false,
-      "linkedName": "WingNote2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 5.377158438795249,
+        "y": 6.485970834537088
       },
       "prevControl": {
-        "x": 1.8371102875465257,
-        "y": 5.56
+        "x": 4.377158438795249,
+        "y": 6.485970834537088
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "SpeakerSide2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.15318486528867,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true
