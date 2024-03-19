@@ -42,7 +42,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  AHRS gyro = new AHRS(Port.kMXP);
+  AHRS gyro = new AHRS(Port.kOnboard);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -252,7 +252,7 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
 
