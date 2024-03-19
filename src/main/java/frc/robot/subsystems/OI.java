@@ -31,6 +31,7 @@ import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
+import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
 import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -49,6 +50,7 @@ public class OI extends SubsystemBase {
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
   JoystickButton linearAim;
+  JoystickButton interpolationAim;
   JoystickButton shootWhenReady;
   JoystickButton noteFloorToShooter;
   JoystickButton shooterToAmp;
@@ -92,6 +94,7 @@ public class OI extends SubsystemBase {
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
     shooterFromSmartDashboard = new JoystickButton(rightJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
+    interpolationAim = new JoystickButton(rightJoystick, Constants.IDS.INTERPOLATION_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -127,6 +130,7 @@ public class OI extends SubsystemBase {
 
     shooterToSpeaker.whileTrue(new ShooterToPodium());
     shooterFromSmartDashboard.whileTrue(new ShooterFromSmartDashboardSetting());
+    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 

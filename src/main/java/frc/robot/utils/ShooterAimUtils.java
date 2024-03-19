@@ -11,11 +11,23 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N4;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.ShooterInterpolationConstants;
 
 public class ShooterAimUtils {
 
   public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
+  }
+
+
+  public static double calculateInterpolatedAimAngle(double x, double y){
+    return(ShooterInterpolationConstants.A+ 
+      (ShooterInterpolationConstants.B*x) + 
+      (ShooterInterpolationConstants.C*y) + 
+      (ShooterInterpolationConstants.D*x*x) +
+      (ShooterInterpolationConstants.E*y*y) + 
+      (ShooterInterpolationConstants.F*x*y)
+    );
   }
 
   /*

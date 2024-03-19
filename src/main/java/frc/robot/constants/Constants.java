@@ -68,6 +68,7 @@ public class Constants {
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int SMART_DASHBOARD_AIM = 10;
+    public static final int INTERPOLATION_AIM = 11;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
     public static final int SHOOTER_TO_PASS = 24;
@@ -154,6 +155,18 @@ public class Constants {
     }
   }
 
+  public class ShooterInterpolationConstants{
+
+    //values from python 2.28458191e+01  5.54396750e+00  4.17835728e-01
+    //1.31744397e+00 -8.05396579e-02  5.50200993e-08
+    public static final double A=22.8458191;
+    public static final double B=5.54396750;
+    public static final double C=.417835728;
+    public static final double D=1.31744397;
+    public static final double E=-.0805396579;
+    public static final double F=5.50200993*Math.pow(10,-8);
+  }
+
   public class Shooter {
 
 
@@ -230,7 +243,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0.25;
+    public static final double MAX_FLYWHEEL_ERROR = 0.5;
     public static final double MAX_SHOOTER_PIVOT_ANGLE_ERROR=.5;
 
     // Max shooter pivot motor current output.
