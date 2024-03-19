@@ -17,7 +17,6 @@ public class ClimbWithGyro extends Command {
   /** Creates a new ClimbWithGyro. */
   Climber climber;
   Drivebase drivebase;
-  //GyroSystem gyroSystem;
   double leftOutput, rightOutput;
 
   public ClimbWithGyro() {
@@ -40,7 +39,7 @@ public class ClimbWithGyro extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double roll = 0; //drivebase.getRoll(); TODO: fix
+    double roll = drivebase.getRoll();
 
     leftOutput =
         ClimberConstants.BASE_PULL_SPEED - (roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT);

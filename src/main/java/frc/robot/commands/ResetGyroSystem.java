@@ -18,21 +18,18 @@ import frc.robot.subsystems.Drivebase;
 public class ResetGyroSystem extends InstantCommand {
 
   Drivebase drivebase;
-  //GyroSystem gyroSystem;
   Supplier<Boolean> isLeftButtonPressed, isRightButtonPressed;
 
   public ResetGyroSystem(Supplier<Boolean> isLeftButtonPressed, Supplier<Boolean> isRightButtonPressed) {
     this.isLeftButtonPressed = isLeftButtonPressed;
     this.isRightButtonPressed = isRightButtonPressed;
     drivebase = Drivebase.getInstance();
-    //gyroSystem = drivebase.getGyroSystem();
   }
 
   @Override
   public void initialize() {
     System.out.println("Reset Gyros Command Running");
     if (isLeftButtonPressed.get() && isRightButtonPressed.get()) {
-      //gyroSystem.resetGyros();
       System.out.println("If block running reset gyros");
     }
   }

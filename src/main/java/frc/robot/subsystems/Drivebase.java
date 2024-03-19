@@ -223,6 +223,10 @@ public class Drivebase extends SubsystemBase {
     return -gyro.getAngle();
   }
 
+  public double getRoll() {
+    return gyro.getRoll();
+  }
+
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
