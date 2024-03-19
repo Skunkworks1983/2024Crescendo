@@ -85,7 +85,7 @@ public class Drivebase extends SubsystemBase {
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
-  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(gyro.getAngle()),
+  SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
       new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
           backLeft.getPosition(), backRight.getPosition() },
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
@@ -217,9 +217,13 @@ public class Drivebase extends SubsystemBase {
     return !isRobotRelative;
   }
 
+  private double getGyroAngle() {
+    return -gyro.getAngle();
+  }
+
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    odometry.resetPosition(Rotation2d.fromDegrees(gyro.getAngle()),
+    odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() },
         resetPose);
@@ -229,7 +233,7 @@ public class Drivebase extends SubsystemBase {
   public void updateOdometry() {
 
     // Update the mechanical odometry
-    odometry.update(Rotation2d.fromDegrees(gyro.getAngle()),
+    odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() });
 
