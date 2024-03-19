@@ -25,6 +25,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,7 +43,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  AHRS gyro = new AHRS(Port.kOnboard);
+  AHRS gyro = new AHRS(SerialPort.Port.kUSB1);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -112,6 +113,7 @@ public class Drivebase extends SubsystemBase {
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
     fieldTarget = Optional.empty();
+    gyro.reset();
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
     // plugged in.
