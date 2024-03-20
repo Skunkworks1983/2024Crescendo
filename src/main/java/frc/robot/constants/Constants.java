@@ -158,7 +158,7 @@ public class Constants {
 
     //values from python 2.28458191e+01  5.54396750e+00  4.17835728e-01
     //1.31744397e+00 -8.05396579e-02  5.50200993e-08
-    public static final double A=22.8458191+6.0;
+    public static final double A=22.8458191+6.0;//added 6 for tuning
     public static final double B=5.54396750;
     public static final double C=.417835728;
     public static final double D=1.31744397;
