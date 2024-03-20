@@ -17,7 +17,7 @@ import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
 import frc.robot.utils.ShooterAimUtils;
 
-public class InterpolationAimShooterCommand extends Command {
+public class InterpolationAimShooterWithReloadCommand extends Command {
   private Shooter shooter;
   Rotation2d shooterAngle;
   double toleranceTicks;
@@ -26,16 +26,12 @@ public class InterpolationAimShooterCommand extends Command {
   Drivebase drivebase;
   Indexer indexer;
 
-  public InterpolationAimShooterCommand() {
+  public InterpolationAimShooterWithReloadCommand() {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
     drivebase = Drivebase.getInstance();
 
-    addRequirements(
-      SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT),
-      SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER),
-      SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL)
-    );
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
   }
 
   @Override
@@ -46,7 +42,7 @@ public class InterpolationAimShooterCommand extends Command {
 
     System.out.println("interpolation aim shooter command init");
   }
-
+  
   @Override
   public void execute() {
     if (Math.abs(shooter.getShooterPivotRotationInDegrees()
@@ -61,14 +57,13 @@ public class InterpolationAimShooterCommand extends Command {
     shooter.setPivotAngleAndSpeed(shooterAngle);
    
   }
+  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     System.out.println("interpolation aim shooter command end");
     shooter.setPivotMotorPercentOutput(0);
-    shooter.setIndexerMotorCoastMode();
-    shooter.setFlywheelMotorCoastMode();
   }
 
   // Returns true when the command should end.
