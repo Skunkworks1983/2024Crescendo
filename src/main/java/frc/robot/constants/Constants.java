@@ -156,14 +156,14 @@ public class Constants {
 
   public class ShooterInterpolationConstants{
 
-    //values from python 2.28458191e+01  5.54396750e+00  4.17835728e-01
-    //1.31744397e+00 -8.05396579e-02  5.50200993e-08
-    public static final double A=22.8458191+6.0;//added 6 for tuning
-    public static final double B=5.54396750;
-    public static final double C=.417835728;
-    public static final double D=1.31744397;
-    public static final double E=-.0805396579;
-    public static final double F=5.50200993*Math.pow(10,-8);
+    //values [ 76.13033621  -2.34522259 -11.19348242  -1.03725406   0.14930927
+   //2.92218928]
+    public static final double A=76.13033621;
+    public static final double B=-2.34522259;
+    public static final double C=-11.19348242;
+    public static final double D=-1.03725406;
+    public static final double E=0.14930927;
+    public static final double F=2.92218928;
   }
 
   public class Shooter {

@@ -21,7 +21,7 @@ public class ShooterAimUtils {
 
 
   public static double calculateInterpolatedAimAngle(double x, double y){
-    return(ShooterInterpolationConstants.A+ 
+    return(ShooterInterpolationConstants.A + 
       (ShooterInterpolationConstants.B*x) + 
       (ShooterInterpolationConstants.C*y) + 
       (ShooterInterpolationConstants.D*x*x) +
@@ -40,7 +40,7 @@ public class ShooterAimUtils {
    * 
    * This code precomputes trigonometry before the matricies because each of the
    * variables are used
-   * mulitple times. *
+   * mulitple times.
    */
   public static Translation3d calculatePivotPositionFieldRelative(double drivebaseRotation,
       double shooterPivotRotation, Translation2d drivebaseTranslation) {
