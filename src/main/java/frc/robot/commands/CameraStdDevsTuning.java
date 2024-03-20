@@ -4,9 +4,13 @@
 
 package frc.robot.commands;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Optional;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.PhotonVision;
@@ -19,6 +23,9 @@ public class CameraStdDevsTuning extends Command {
   LinkedList<Double> xMeasurements;
   LinkedList<Double> yMeasurements;
   LinkedList<Double> rotMeasurements;
+
+  File logFile;
+  FileWriter fileWriter;
 
   public CameraStdDevsTuning() {
   }
@@ -47,6 +54,19 @@ public class CameraStdDevsTuning extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    try {
+      logFile = new File("Camera_Std_Devs_Tuning_Log.txt");
+      fileWriter = new FileWriter("Camera_Std_Devs_Tuning_Log.txt");
+      fileWriter.write("COMMAND INITIALIZE");
+
+      if (logFile.createNewFile()) {
+        System.out.println("Successfully created file");
+      } else {
+        System.out.println("File already exists");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -89,6 +109,17 @@ public class CameraStdDevsTuning extends Command {
     SmartDashboard.putNumber("Camera X Std Dev", xStdDev);
     SmartDashboard.putNumber("Camera Y Std Dev", yStdDev);
     SmartDashboard.putNumber("Camera Rotation Std Dev", rotStdDev);
+
+    // Write to the file
+    try {
+      fileWriter.write("Timestamp: " + Timer.getFPGATimestamp());
+      fileWriter.write("X  : " + Double.toString(xStdDev));
+      fileWriter.write("Y  : " + Double.toString(yStdDev));
+      fileWriter.write("Rot: " + Double.toString(rotStdDev));
+      fileWriter.close();
+    } catch (IOException e) {
+      System.out.println("Execption writing to file: " + e.toString());
+    }
   }
 
   // Called once the command ends or is interrupted.
