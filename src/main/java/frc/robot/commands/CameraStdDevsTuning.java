@@ -66,19 +66,19 @@ public class CameraStdDevsTuning extends Command {
       rotMeasurements.add(measurement.getRotation().toRotation2d().getDegrees());
     }
 
-    if (measurements.size() > 1000) {
+    if (measurements.size() > PhotonVision.STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE) {
       measurements.remove(0);
     }
 
-    if (xMeasurements.size() > 1000) {
+    if (xMeasurements.size() > PhotonVision.STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE) {
       xMeasurements.remove(0);
     }
 
-    if (yMeasurements.size() > 1000) {
+    if (yMeasurements.size() > PhotonVision.STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE) {
       yMeasurements.remove(0);
     }
 
-    if (rotMeasurements.size() > 1000) {
+    if (rotMeasurements.size() > PhotonVision.STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE) {
       rotMeasurements.remove(0);
     }
 

@@ -418,6 +418,8 @@ public class Constants {
 
     // Meters
     public static final double APRILTAG_DISTANCE_CUTOFF = 4.5;
+
+    public static final double STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE = 1000;
   }
 
   public class Targeting {
