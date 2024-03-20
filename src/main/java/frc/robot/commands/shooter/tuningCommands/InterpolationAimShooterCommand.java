@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
 import frc.robot.subsystems.SubsystemGroups.Subsystems;
@@ -23,9 +24,11 @@ public class InterpolationAimShooterCommand extends Command {
   double timeAtInit;
   Timer timer;
   Drivebase drivebase;
+  Indexer indexer;
 
   public InterpolationAimShooterCommand() {
     shooter = Shooter.getInstance();
+    indexer = Indexer.getInstance();
     addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT));
     timer = new Timer();
     drivebase = Drivebase.getInstance();
@@ -44,7 +47,17 @@ public class InterpolationAimShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    if (Math.abs(shooter.getShooterPivotRotationInDegrees()
+        - shooterAngle.getDegrees()) < Constants.Shooter.SHOOTER_PIVOT_TOLARENCE_DEGREES) {
+      toleranceTicks++;
+    } else {
+      toleranceTicks = 0;
+    }
+    if (toleranceTicks >= Constants.Shooter.SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS) {
+      //run shooter
+    }
+   
+  }
   }
 
   // Called once the command ends or is interrupted.
@@ -57,15 +70,5 @@ public class InterpolationAimShooterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(shooter.getShooterPivotRotationInDegrees()
-        - shooterAngle.getDegrees()) < Constants.Shooter.SHOOTER_PIVOT_TOLARENCE_DEGREES) {
-      toleranceTicks++;
-    } else {
-      toleranceTicks = 0;
-    }
-    if (toleranceTicks >= Constants.Shooter.SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS) {
-      return true;
-    }
-    return false;
-  }
+    
 }
