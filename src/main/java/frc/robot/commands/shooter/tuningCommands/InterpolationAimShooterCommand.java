@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -44,6 +45,13 @@ public class InterpolationAimShooterCommand extends Command {
     shooterAngle = Rotation2d
         .fromDegrees(ShooterAimUtils.calculateInterpolatedAimAngle(pose.getX(), pose.getY()));
 
+    if(shooterAngle.getDegrees()>90.0){
+      shooterAngle = Rotation2d.fromDegrees(90);
+    }
+    else if(shooterAngle.getDegrees()<Constants.Shooter.SHOOTER_RESTING_POSITION.getDegrees()){
+      shooterAngle = Constants.Shooter.SHOOTER_RESTING_POSITION; 
+    }
+    shooter.setFlywheelSpeed(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
     System.out.println("interpolation aim shooter command init");
   }
 
@@ -56,10 +64,12 @@ public class InterpolationAimShooterCommand extends Command {
       toleranceTicks = 0;
     }
     if (toleranceTicks >= Constants.Shooter.SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS) {
-      shooter.setFlywheelSpeed(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
+      indexer.setPercentOutput(1);
+      shooter.setIndexerPercentOutput(1);
     }
-    shooter.setPivotAngleAndSpeed(shooterAngle);
-   
+      shooter.setPivotAngleAndSpeed(shooterAngle);
+
+    SmartDashboard.putNumber("Aiminterpolation", shooterAngle.getDegrees());
   }
 
   // Called once the command ends or is interrupted.
@@ -69,6 +79,7 @@ public class InterpolationAimShooterCommand extends Command {
     shooter.setPivotMotorPercentOutput(0);
     shooter.setIndexerMotorCoastMode();
     shooter.setFlywheelMotorCoastMode();
+    indexer.setIndexerCoastMode();
   }
 
   // Returns true when the command should end.

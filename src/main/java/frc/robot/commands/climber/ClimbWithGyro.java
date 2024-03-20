@@ -39,7 +39,7 @@ public class ClimbWithGyro extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double roll = drivebase.getGyroRoll();
+    double roll = drivebase.getRoll();
 
     leftOutput =
         ClimberConstants.BASE_PULL_SPEED - (roll / ClimberConstants.ROLL_DEGREES_TO_OUTPUT);
