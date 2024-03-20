@@ -6,9 +6,8 @@ package frc.robot.commands;
 
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.PhotonVision;
 import frc.robot.utils.Vision;
@@ -17,13 +16,15 @@ public class CameraStdDevsTuning extends Command {
 
   Vision vision;
   LinkedList<Transform3d> measurements;
+  LinkedList<Double> xMeasurements;
+  LinkedList<Double> yMeasurements;
+  LinkedList<Double> rotMeasurements;
 
   public CameraStdDevsTuning() {
   }
 
-  public double calculateStdDevs(Supplier<Double> measurementSupplier) {
+  public double calculateStdDevs(LinkedList<Double> measurements) {
     double averageTotal = 0;
-
 
     for (double measurement : measurements) {
       averageTotal += measurement;
@@ -60,8 +61,34 @@ public class CameraStdDevsTuning extends Command {
     }
 
     for (Transform3d measurement : measurements) {
-
+      xMeasurements.add(measurement.getX());
+      yMeasurements.add(measurement.getY());
+      rotMeasurements.add(measurement.getRotation().toRotation2d().getDegrees());
     }
+
+    if (measurements.size() > 1000) {
+      measurements.remove(0);
+    }
+
+    if (xMeasurements.size() > 1000) {
+      xMeasurements.remove(0);
+    }
+
+    if (yMeasurements.size() > 1000) {
+      yMeasurements.remove(0);
+    }
+
+    if (rotMeasurements.size() > 1000) {
+      rotMeasurements.remove(0);
+    }
+
+    double xStdDev = calculateStdDevs(xMeasurements);
+    double yStdDev = calculateStdDevs(yMeasurements);
+    double rotStdDev = calculateStdDevs(rotMeasurements);
+
+    SmartDashboard.putNumber("Camera X Std Dev", xStdDev);
+    SmartDashboard.putNumber("Camera Y Std Dev", yStdDev);
+    SmartDashboard.putNumber("Camera Rotation Std Dev", rotStdDev);
   }
 
   // Called once the command ends or is interrupted.
