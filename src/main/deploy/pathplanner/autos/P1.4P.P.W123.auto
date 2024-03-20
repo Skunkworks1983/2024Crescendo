@@ -20,9 +20,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "race",
+                      "type": "parallel",
                       "data": {
                         "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ShootWhenReady"
+                            }
+                          },
                           {
                             "type": "named",
                             "data": {
@@ -33,25 +39,6 @@
                             "type": "named",
                             "data": {
                               "name": "SpinUpFlywheel"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.5
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "ShootWhenReady"
                             }
                           }
                         ]
@@ -122,9 +109,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "parallel",
                       "data": {
-                        "name": "ShootWhenReady"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "SpinUpFlywheel"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ShootWhenReady"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
@@ -192,9 +192,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "parallel",
                       "data": {
-                        "name": "ShootWhenReady"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "SpinUpFlywheel"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ShootWhenReady"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
@@ -259,6 +272,12 @@
                       "type": "parallel",
                       "data": {
                         "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "SpinUpFlywheel"
+                            }
+                          },
                           {
                             "type": "named",
                             "data": {

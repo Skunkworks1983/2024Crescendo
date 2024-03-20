@@ -55,7 +55,7 @@ public class ShootWhenReady extends Command {
     System.out.println("Odometry position X: " + robotPose.getX());
     System.out.println("Odometry position Y: " + robotPose.getY());
     System.out.println("Odometry position Angle: " + robotPose.getRotation());
-    System.out.println("Shoot When Ready Command End");
+    System.out.println("Shoot When Ready Command End interrupted: " + interrupted);
   }
 
   @Override
