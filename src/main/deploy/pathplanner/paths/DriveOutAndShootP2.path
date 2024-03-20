@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.67,
+        "y": 4.41
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.0982202966441552,
+        "y": 3.3760046495665517
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.7633969110177412,
+        "y": 2.3291006378450425
+      },
+      "prevControl": {
+        "x": 1.5440645639561006,
+        "y": 2.9139868966760845
+      },
+      "nextControl": {
+        "x": 1.9861063747246064,
+        "y": 1.7352087346267366
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.713837081618184,
+        "y": 0.8355517983300609
+      },
+      "prevControl": {
+        "x": 2.1602840152245197,
+        "y": 1.3995492622028518
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 133.07804404106864,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "DriveOutAndShoots",
+  "previewStartingState": {
+    "rotation": 119.98163936884937,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

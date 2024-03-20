@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 import frc.robot.subsystems.Shooter;
 
 public class ManualIntakeNotes extends Command {
@@ -19,7 +21,9 @@ public class ManualIntakeNotes extends Command {
   public ManualIntakeNotes() {
     this.collector = Collector.getInstance();
     this.indexer = Indexer.getInstance();
-    this.shooter = Shooter.getInstance();
+
+    addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
+    shooter = Shooter.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -41,7 +45,7 @@ public class ManualIntakeNotes extends Command {
   public void end(boolean interrupted) {
     collector.setPercentOutput(0);
     indexer.setPercentOutput(0);
-    shooter.setIndexerPercentOutput(0);
+    shooter.setShooterIndexerSpeed(0);
     System.out.println("Manual Intake Notes Command End");
   }
 

@@ -23,8 +23,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,18 +42,21 @@ import frc.robot.constants.Constants.PhotonVision;
 public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
-  AHRS gyro = new AHRS(I2C.Port.kOnboard);
+
+  AHRS gyro = new AHRS(SerialPort.Port.kUSB1);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
   private final Field2d visualOdometryPrint = new Field2d();
 
   ChassisSpeeds speeds;
+  public boolean isRobotRelative;
 
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
@@ -90,11 +94,11 @@ public class Drivebase extends SubsystemBase {
   Vision vision;
 
   private Drivebase() {
-    gyro.reset();
-
+    isRobotRelative = false;
     // The robot should have the same heading as the heading specified here on
     // startup.
-    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    resetOdometry(new Pose2d(Constants.FIELD_X_LENGTH / 2, Constants.FIELD_Y_LENGTH / 2,
+        Rotation2d.fromDegrees(0)));
 
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
@@ -109,8 +113,10 @@ public class Drivebase extends SubsystemBase {
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
     fieldTarget = Optional.empty();
+    gyro.reset();
 
-    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't plugged in.
+    // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
+    // plugged in.
     try {
       vision = new Vision(new SkunkPhotonCamera[] {
           new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
@@ -128,34 +134,7 @@ public class Drivebase extends SubsystemBase {
     setDefaultCommand(new SwerveTeleop(drivebase, OI.getInstance()));
   }
 
-  /**
-   * Used to get the angle reported by the gyro. This method is private, and
-   * should only be called
-   * when creating/updating the SwervePoseEstimator. Otherwise, call
-   * getRobotHeading instead.
-   */
-  private double getGyroAngle() {
-    double angle = gyro.getAngle();
-    SmartDashboard.putNumber("gyro", -angle);
-
-    // Negative because gyro reads differently than wpilib.
-    return -angle;
-  }
-
-  /**
-   * Call this method instead of getGyroAngle(). This method returns the robot's
-   * heading according
-   * to the integrated odometry. This allows for an accurate heading measurement,
-   * even if the gyro
-   * is inaccurate.
-   * 
-   * @return The heading of the robot according to the integrated odometry, in
-   *         degrees. Note:
-   *         Measurement is 0-360 degrees instead of continuous.
-   */
-  public double getRobotHeading() {
-    return getRobotPose().getRotation().getDegrees();
-  }
+  /** Get an instance of the gyro system for use in commands. */
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {
@@ -167,6 +146,14 @@ public class Drivebase extends SubsystemBase {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
     }
+    double Cx = speeds.vxMetersPerSecond;
+    double Cy = speeds.vyMetersPerSecond;
+    double Omega = speeds.omegaRadiansPerSecond;
+    double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
+    double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
+
+    speeds.vxMetersPerSecond = Cx + K * Omega * Math.sin(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
+    speeds.vyMetersPerSecond = Cy - K * Omega * Math.cos(-Math.atan2(Cx, Cy) + Math.PI / 2) * magnitudeSpeed;
 
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
 
@@ -179,7 +166,8 @@ public class Drivebase extends SubsystemBase {
   // targeting buttion
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
-    degreesPerSecond = headingController.calculate(getRobotHeading());
+    degreesPerSecond = Math.min(Constants.TURNING_SPEED_CAP,
+        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getRobotHeading())));
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -198,6 +186,45 @@ public class Drivebase extends SubsystemBase {
   /** Returns the estimated position of the odometry */
   public Pose2d getRobotPose() {
     return odometry.getEstimatedPosition();
+  }
+
+  /**
+   * Call this method instead of getGyroAngle(). This method returns the robot's
+   * heading according
+   * to the integrated odometry. This allows for an accurate heading measurement,
+   * even if the gyro
+   * is inaccurate.
+   * 
+   * @return The heading of the robot according to the integrated odometry, in
+   *         degrees. Note:
+   *         Measurement is 0-360 degrees instead of continuous.
+   */
+  public double getRobotHeading() {
+    if(!isRobotRelative) {
+      return getRobotPose().getRotation().getDegrees();
+    }
+    
+    return 0.0;
+  }
+
+  public void setRobotRelative() {
+    isRobotRelative = true;
+  }
+
+  public void setFieldRelative() {
+    isRobotRelative = false;
+  }
+
+  public boolean getFieldRelative() {
+    return !isRobotRelative;
+  }
+
+  private double getGyroAngle() {
+    return -gyro.getAngle();
+  }
+
+  public double getRoll() {
+    return gyro.getRoll();
   }
 
   /** Reset the position of the odometry */
@@ -229,6 +256,18 @@ public class Drivebase extends SubsystemBase {
   @Override
   public void periodic() {
     updateOdometry();
+    SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
+    SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
+    SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
+
+    // If both gyros are dead, switch to robot relative control.
+    if (false) { //!gyro.isConnected()
+      isRobotRelative = true;
+    } else {
+      isRobotRelative = false;
+    }
   }
 
   public static Drivebase getInstance() {
@@ -245,12 +284,36 @@ public class Drivebase extends SubsystemBase {
     return chassisSpeeds;
   }
 
+  public ChassisSpeeds getFieldRelativeSpeeds(){
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeeds(), Rotation2d.fromDegrees(getRobotHeading()));
+  }
+
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setDrive(Units.metersToFeet(chassisSpeeds.vxMetersPerSecond),
         Units.metersToFeet(chassisSpeeds.vyMetersPerSecond),
         Units.radiansToDegrees(chassisSpeeds.omegaRadiansPerSecond),
         // path planner uses robot reletive drive command.
         false);
+  }
+
+  //sets the back right module pos for tuning 
+  public void setBackRightModuleTurnPos(double angleDegrees) {
+    backRight.setTurnMotorAngle(angleDegrees);
+  }
+
+   //returning the back right turn pos for tunning 
+  public double getBackRightModuleTurnPos() {
+    return backRight.getSwerveState().angle.getDegrees();
+  }
+
+   //returning the back right turn error for tunning 
+  public double getBackRightModuleTurnError() {
+    return backRight.getTurnError();
+  }
+
+  //returning the back right turn speed for tunning 
+  public double getBackRightModuleTurnVelocity() {
+    return backRight.getTurnMotorVelocity();
   }
 
   /**
@@ -262,7 +325,7 @@ public class Drivebase extends SubsystemBase {
 
     Optional<Translation2d> fieldTargetOptional;
 
-    if (fieldTarget == null) {
+    if (fieldTarget == null || fieldTarget == FieldTarget.NONE) {
       fieldTargetOptional = Optional.empty();
     } else {
       fieldTargetOptional = Optional
@@ -280,7 +343,6 @@ public class Drivebase extends SubsystemBase {
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
-
   }
 
   /**
@@ -310,7 +372,6 @@ public class Drivebase extends SubsystemBase {
           }
           return false;
         }, this);
-
   }
 
   public Command followPathCommand(String pathName) {

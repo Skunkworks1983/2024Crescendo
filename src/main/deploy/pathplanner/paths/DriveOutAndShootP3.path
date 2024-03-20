@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7398459580634182,
+        "y": 4.449313326107569
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.460509384123095,
+        "y": 3.83309387483915
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.766059069013813,
+        "y": 0.8355517983300609
+      },
+      "prevControl": {
+        "x": 1.9618404631211306,
+        "y": 1.1802169151412096
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 138.23970029610217,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "DriveOutAndShoots",
+  "previewStartingState": {
+    "rotation": 122.00538320808354,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

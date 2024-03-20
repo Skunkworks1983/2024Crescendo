@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.8819847299801942,
-      "y": 7.0
+      "x": 1.439620589164843,
+      "y": 3.8435382723182747
     },
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AroundStage"
+            "pathName": "DriveOutP2"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "StartingPos2",
   "choreoAuto": false
 }

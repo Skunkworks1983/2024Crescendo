@@ -1,0 +1,74 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.8,
+        "y": 5.767688926682201
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.173594805212206,
+        "y": 6.41286005218757
+      },
+      "isLocked": false,
+      "linkedName": "MiddleNote2"
+    },
+    {
+      "anchor": {
+        "x": 4.228274716098745,
+        "y": 7.68707654464091
+      },
+      "prevControl": {
+        "x": 6.066488672424876,
+        "y": 7.613965762287031
+      },
+      "nextControl": {
+        "x": 2.338932441414823,
+        "y": 7.762220839656747
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.7189571631051666,
+        "y": 6.694858784119604
+      },
+      "prevControl": {
+        "x": 1.9200628732046277,
+        "y": 7.342411427825401
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "SpeakerSide1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.15,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.6,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -122.15229514076708,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 178.5283888963191,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

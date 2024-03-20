@@ -5,7 +5,10 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SubsystemGroups;
+import frc.robot.subsystems.SubsystemGroups.Subsystems;
 
 public class FlywheelSpinup extends Command {
 
@@ -13,6 +16,7 @@ public class FlywheelSpinup extends Command {
 
   public FlywheelSpinup() {
     shooter = Shooter.getInstance();
+    addRequirements(SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL));
   }
 
 
@@ -24,7 +28,7 @@ public class FlywheelSpinup extends Command {
 
   @Override
   public void execute() {
-    shooter.setFlywheelSpeed(shooter.flywheelSetpointMPS);
+    shooter.setFlywheelSpeed(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
   }
 
 

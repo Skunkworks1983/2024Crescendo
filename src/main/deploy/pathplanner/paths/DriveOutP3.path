@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 6.442486981666077,
-        "y": 0.6788858361431748
+        "x": 3.7269436370881586,
+        "y": 1.7859919689305035
       },
       "prevControl": {
-        "x": 5.442486981666077,
-        "y": 0.6788858361431748
+        "x": 2.7269436370881586,
+        "y": 1.7859919689305035
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 7.0,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "DriveOuts",
   "previewStartingState": {
-    "rotation": 106.74575053832008,
+    "rotation": -6.170175095029591,
     "velocity": 0
   },
   "useDefaultConstraints": true

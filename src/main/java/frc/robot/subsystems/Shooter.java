@@ -12,11 +12,14 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,7 +31,6 @@ import frc.robot.utils.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 public class Shooter extends SubsystemBase {
-
   public TalonFX pivotMotor;
   public TalonFX shootMotor1;
   public TalonFX shootMotor2;
@@ -39,26 +41,20 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
+
   public enum LimitSwitch {
-    FORWARD_LIMIT_SWITCH, 
-    REVERSE_LIMIT_SWITCH
+    FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
   }
 
   // Meters per second
-  public double flywheelSetpointMPS = Constants.Shooter.TEMP_SHOOT_FLYWHEEL_SPEED_RPS
-      / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  public double flywheelSetpointMPS = Constants.Shooter.STOW_FLYWHEEL_SPEED;
 
   private static Shooter shooter;
-
-  // private final DigitalInput pivotMotorForwardLimit =
-  // new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH);
-  private final DigitalInput pivotMotorReverseLimit =
-      new DigitalInput(Constants.IDS.SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH);
 
   SmartPIDControllerTalonFX shootingController;
   SmartPIDControllerCANSparkMax indexerController;
   SmartPIDController pivotController;
-
+  double pivotKf = 0.0;
   final PositionVoltage positionVoltage = new PositionVoltage(0);
   final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
@@ -77,6 +73,9 @@ public class Shooter extends SubsystemBase {
 
     talonConfigPivotMotor.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     talonConfigPivotMotor.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
+    talonConfigPivotMotor.HardwareLimitSwitch.ForwardLimitEnable = true;
+    talonConfigPivotMotor.HardwareLimitSwitch.ReverseLimitEnable = true;
+    talonConfigPivotMotor.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 1;
     pivotMotor.getConfigurator().apply(talonConfigPivotMotor);
 
     pivotEncoder = new Encoder(Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_1,
@@ -121,9 +120,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putBoolean("break 1", getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("break 2", getShooterIndexerBeambreak2());
 
-    if (// pivotMotorForwardLimit.get()
-    false) {
-      // We dont yet have a top limit switch
+    if (getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH)) {
       pivotEncoder.reset();
       pivotEncoderBaseValue = Constants.Shooter.SHOOTER_MAX_POSITION_TICKS;
     } else if (getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
@@ -133,14 +130,20 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    SmartDashboard.putNumber("Shooter Shoot Setpoint", flywheelSetpointMPS);
+    SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
     SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+
+    pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }
 
   // needs to be run in execute
   public void setPivotAngleAndSpeed(Rotation2d desiredRotation) {
-    pivotMotor.setControl(new DutyCycleOut((pivotController
-        .calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees()))));
+    double controllerCalculation =
+        pivotController.calculate(getShooterPivotRotationInDegrees(), desiredRotation.getDegrees())
+            + pivotKf;
+
+    pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
+    SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
@@ -152,8 +155,17 @@ public class Shooter extends SubsystemBase {
     }
   }
 
+  public double getShooterPivotError() {
+    return pivotController.getPositionError();
+  }
+
   public void setFlywheelSetpoint(double flywheelSpeed) {
     flywheelSetpointMPS = flywheelSpeed;
+  }
+
+  public double getFlywheelVelocity() {
+    return shootMotor1.getVelocity().getValueAsDouble()
+        / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -194,9 +206,9 @@ public class Shooter extends SubsystemBase {
 
   public boolean getLimitSwitchOutput(LimitSwitch limitSwitch) {
     if (limitSwitch == LimitSwitch.FORWARD_LIMIT_SWITCH) {
-      return false; // pivotMotorForwardLimit.get();
-    } else if(limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
-      return !pivotMotorReverseLimit.get();
+      return pivotMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
+    } else if (limitSwitch == LimitSwitch.REVERSE_LIMIT_SWITCH) {
+      return pivotMotor.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
     }
     return false;
   }
@@ -221,6 +233,10 @@ public class Shooter extends SubsystemBase {
   public void setIndexerPercentOutput(double percent) {
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     shooterIndexerMotor.set(percent);
+  }
+
+  public double getShooterSetpoint() {
+    return pivotController.getSetpoint();
   }
 
   public static Shooter getInstance() {
