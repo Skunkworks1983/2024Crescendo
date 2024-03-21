@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -25,6 +26,7 @@ public class autoAmp extends Command {
 
   public autoAmp() {
     fieldTarget = FieldTarget.AMP;
+    xTargetPos = Constants.Targeting.FieldTarget.AMP.get().get().getX();
     oi = OI.getInstance();
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
@@ -54,10 +56,13 @@ public class autoAmp extends Command {
         Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
             (targetPoint.getX() - drivebase.getRobotPose().getX()))));
 
-    double distanceFromAmp = drivebase.getRobotPose().getX();
-
+    double distanceFromAmp = xTargetPos - drivebase.getRobotPose().getX();
+    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.2, 1), -1));
     drivebase.setDriveTurnPos(
-        0.5 * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+
+        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
+        //Math.max(Math.min(distanceFromAmp/5, 1), -1)
+        * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
         * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         true);

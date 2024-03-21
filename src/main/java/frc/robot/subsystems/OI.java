@@ -17,6 +17,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
+import frc.robot.commands.autoAmp;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
@@ -108,7 +109,7 @@ public class OI extends SubsystemBase {
 
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
-    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetingSpeaker.whileTrue(new autoAmp());
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
