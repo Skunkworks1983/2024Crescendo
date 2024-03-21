@@ -6,6 +6,7 @@ package frc.robot.commands.shooter.tuningCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,26 +22,28 @@ import frc.robot.utils.ShooterAimUtils;
 public class InterpolationAimShooterCommand extends Command {
   private Shooter shooter;
   Rotation2d shooterAngle;
-  double toleranceTicks;
-  double timeAtInit;
+  double driveToleranceTicks;
   Timer timer;
   Drivebase drivebase;
-  Indexer indexer;
+  boolean isMoving=true;
 
   public InterpolationAimShooterCommand() {
     shooter = Shooter.getInstance();
-    indexer = Indexer.getInstance();
     drivebase = Drivebase.getInstance();
 
     addRequirements(
-      SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT),
-      SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER),
-      SubsystemGroups.getInstance(Subsystems.SHOOTER_FLYWHEEL)
+      SubsystemGroups.getInstance(Subsystems.SHOOTER_PIVOT)
     );
   }
 
   @Override
   public void initialize() {
+    shooter.setFlywheelSetpoint(27.0);
+    resetAim();
+    System.out.println("interpolation aim shooter command init");
+  }
+
+  public void resetAim(){
     Pose2d pose = drivebase.getRobotPose();
     shooterAngle = Rotation2d
         .fromDegrees(ShooterAimUtils.calculateInterpolatedAimAngle(pose.getX(), pose.getY()));
@@ -51,25 +54,22 @@ public class InterpolationAimShooterCommand extends Command {
     else if(shooterAngle.getDegrees()<Constants.Shooter.SHOOTER_RESTING_POSITION.getDegrees()){
       shooterAngle = Constants.Shooter.SHOOTER_RESTING_POSITION; 
     }
-    shooter.setFlywheelSpeed(Constants.Shooter.PODIUM_FLYWHEEL_SPEED);
-    System.out.println("interpolation aim shooter command init");
   }
 
   @Override
   public void execute() {
-    if (Math.abs(shooter.getShooterPivotRotationInDegrees()
-        - shooterAngle.getDegrees()) < Constants.Shooter.SHOOTER_PIVOT_TOLARENCE_DEGREES) {
-      toleranceTicks++;
-    } else {
-      toleranceTicks = 0;
+    shooter.setPivotAngleAndSpeed(shooterAngle);
+    
+    double speed = new Translation2d(
+      drivebase.getFieldRelativeSpeeds().vxMetersPerSecond,drivebase.getFieldRelativeSpeeds().vyMetersPerSecond).getNorm();
+    if(speed>Constants.ShooterInterpolationConstants.MINIMUM_SPEED_TO_RE_AIM){driveToleranceTicks++;
     }
-    if (toleranceTicks >= Constants.Shooter.SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS) {
-      indexer.setPercentOutput(1);
-      shooter.setIndexerPercentOutput(1);
+    else{
+      driveToleranceTicks=0;
     }
-      shooter.setPivotAngleAndSpeed(shooterAngle);
-
-    SmartDashboard.putNumber("Aiminterpolation", shooterAngle.getDegrees());
+    if(driveToleranceTicks>Constants.ShooterInterpolationConstants.NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM){
+    resetAim();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -77,15 +77,11 @@ public class InterpolationAimShooterCommand extends Command {
   public void end(boolean interrupted) {
     System.out.println("interpolation aim shooter command end");
     shooter.setPivotMotorPercentOutput(0);
-    shooter.setIndexerMotorCoastMode();
-    shooter.setFlywheelMotorCoastMode();
-    indexer.setIndexerCoastMode();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !shooter.getShooterIndexerBeambreak2() && !shooter.getShooterIndexerBeambreak1() &&
-    !indexer.getBeamBreakSensor();
+    return false;
   }
 }

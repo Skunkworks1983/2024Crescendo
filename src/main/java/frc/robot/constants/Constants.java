@@ -67,7 +67,7 @@ public class Constants {
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
     public static final int SMART_DASHBOARD_AIM = 10;
-    public static final int INTERPOLATION_AIM = 11;
+    public static final int INTERPOLATION_AIM = 10;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
     public static final int SHOOTER_TO_PASS = 24;
@@ -156,14 +156,27 @@ public class Constants {
 
   public class ShooterInterpolationConstants{
 
-    //values [ 76.13033621  -2.34522259 -11.19348242  -1.03725406   0.14930927
-   //2.92218928]
+    public static final double MINIMUM_SPEED_TO_RE_AIM=.05;
+    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM=5;
+
+    //mirrored
     public static final double A=76.13033621;
     public static final double B=-2.34522259;
     public static final double C=-11.19348242;
     public static final double D=-1.03725406;
     public static final double E=0.14930927;
     public static final double F=2.92218928;
+    //79.96361754 -11.16442723 -10.56295564   2.27152757   0.75301618
+   //1.16175171
+    //not mirrored
+    //public static final double A=79.96361754;
+    //public static final double B=-11.16442723;
+    //public static final double C=-10.56295564;
+    //public static final double D=2.27152757;
+    //public static final double E=0.75301618;
+    //public static final double F=1.16175171;
+     
+     
   }
 
   public class Shooter {
@@ -439,7 +452,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(0.0, Units.feetToMeters(17.020833 /*-1.1 for blue side not red*/),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.52 /*-1.1 for blue side not red*/),
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(

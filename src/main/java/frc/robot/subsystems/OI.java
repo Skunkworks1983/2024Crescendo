@@ -91,7 +91,7 @@ public class OI extends SubsystemBase {
 
     //linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
     shooterFromSmartDashboard = new JoystickButton(rightJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
-    interpolationAim = new JoystickButton(rightJoystick, Constants.IDS.INTERPOLATION_AIM);
+    interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -124,7 +124,7 @@ public class OI extends SubsystemBase {
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    //shooterToSpeaker.whileTrue(new ShooterToPodium());
     shooterFromSmartDashboard.whileTrue(new ShooterFromSmartDashboardSetting());
     interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
