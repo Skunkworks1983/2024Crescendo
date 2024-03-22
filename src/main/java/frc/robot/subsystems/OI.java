@@ -25,6 +25,7 @@ import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
+import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleTurnTune;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleVelocityTuning;
 import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
@@ -44,11 +45,10 @@ public class OI extends SubsystemBase {
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
-  JoystickButton linearAim;
+  JoystickButton interpolationAim;
   JoystickButton shootWhenReady;
   JoystickButton noteFloorToShooter;
   JoystickButton shooterToAmp;
-  JoystickButton shooterToSpeaker;
   JoystickButton collectorStow;
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
@@ -82,8 +82,9 @@ public class OI extends SubsystemBase {
 
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
-    shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
+
+    interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -112,11 +113,11 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).and(shooterToPass.negate())
+    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
