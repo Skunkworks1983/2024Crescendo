@@ -66,12 +66,13 @@ public class Constants {
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
+    public static final int INTERPOLATION_AIM = 10;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
     public static final int SHOOTER_TO_PASS = 24;
     public static final int REVERSE_NOTE_BACKWARDS = 16;
     public static final int RESET_COLLECTOR = 8;
-    
+
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -106,7 +107,7 @@ public class Constants {
     public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
-    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0/24.0);
+    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0 / 24.0);
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 110;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
@@ -152,8 +153,21 @@ public class Constants {
     }
   }
 
-  public class Shooter {
+  public class ShooterInterpolationConstants {
 
+    // TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
+    public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
+    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
+
+    public static final double A = 79.96361754;
+    public static final double B = -11.16442723;
+    public static final double C = -10.56295564;
+    public static final double D = 2.27152757;
+    public static final double E = 0.75301618;
+    public static final double F = 1.16175171;
+  }
+
+  public class Shooter {
 
     public static final double AUTOAIMING_OFFSET = -3.25;
     // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
@@ -234,7 +248,7 @@ public class Constants {
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
 
     public static final double SHOOTER_PIVOT_TESTING_ANGLE = 90;
-    public static final double SHOOTER_PIVOT_TOLARENCE_DEGREES = 0.5;
+    public static final double SHOOTER_PIVOT_TOLARENCE_DEGREES = 0.4;
     public static final double SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS = 5;
 
     public static final double SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS = 15;
@@ -378,7 +392,7 @@ public class Constants {
   // m/s^2
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
 
-  
+
   public class GyroCrashDetection {
     public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
     public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
@@ -424,7 +438,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833 /*-1.1 for blue side not red*/),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833),
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(
