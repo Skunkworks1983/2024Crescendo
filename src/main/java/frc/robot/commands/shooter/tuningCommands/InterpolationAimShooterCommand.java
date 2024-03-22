@@ -38,7 +38,7 @@ public class InterpolationAimShooterCommand extends Command {
 
   @Override
   public void initialize() {
-    shooter.setFlywheelSetpoint(27.0);
+    shooter.setFlywheelSetpoint(Constants.Shooter.DEFUALT_SPEAKER_FLYWHEEL_SPEED);
     resetAim();
     System.out.println("interpolation aim shooter command init");
   }
@@ -51,6 +51,7 @@ public class InterpolationAimShooterCommand extends Command {
           )
         );
 
+    //ensures aim does not result in angles that break the shooter.
     if(shooterAngle.getDegrees()>90.0){
       shooterAngle = Rotation2d.fromDegrees(90);
     }
@@ -70,6 +71,8 @@ public class InterpolationAimShooterCommand extends Command {
     else{
       driveToleranceTicks=0;
     }
+
+    // Resets aim if drivebase is moving for long enough, indicating that aim value is too old
     if(driveToleranceTicks>Constants.ShooterInterpolationConstants.NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM){
     resetAim();
     }
