@@ -5,17 +5,44 @@
 package frc.robot.utils;
 
 import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N4;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.ShooterInterpolationConstants;
 
 public class ShooterAimUtils {
 
   public static double calculateHorizontalDistance(Translation3d a, Translation3d b) {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
+  }
+
+  public static double calculateInterpolatedAimAngle(Translation2d position){
+    return calculateInterpolatedAimAngle(position.getX(), position.getY());
+  }
+
+  public static double calculateInterpolatedAimAngle(double x, double y){
+    return(ShooterInterpolationConstants.A + 
+      (ShooterInterpolationConstants.B*x) + 
+      (ShooterInterpolationConstants.C*y) + 
+      (ShooterInterpolationConstants.D*x*x) +
+      (ShooterInterpolationConstants.E*y*y) + 
+      (ShooterInterpolationConstants.F*x*y)
+    );
+  }
+//only use the quarter of the field close to 0,0
+  public static Translation2d calculateInputForInterpolatedAimAngle(Translation2d originalPosition){
+    Translation2d reflectionPosition = new Translation2d(Constants.FIELD_X_LENGTH/2.0, 
+    Constants.Targeting.FieldTarget.SPEAKER.get().get().getY());
+    double xDistanceFromReflectionLine = Math.abs(originalPosition.getX()-reflectionPosition.getX());
+    double yDistanceFromReflectionLine = Math.abs(originalPosition.getY()-reflectionPosition.getY());
+    double x = reflectionPosition.getX() - xDistanceFromReflectionLine;
+    double y = reflectionPosition.getY() - yDistanceFromReflectionLine;
+    Translation2d newPosition = new Translation2d(x,y);
+    return newPosition;
   }
 
   /*
@@ -28,7 +55,7 @@ public class ShooterAimUtils {
    * 
    * This code precomputes trigonometry before the matricies because each of the
    * variables are used
-   * mulitple times. *
+   * mulitple times.
    */
   public static Translation3d calculatePivotPositionFieldRelative(double drivebaseRotation,
       double shooterPivotRotation, Translation2d drivebaseTranslation) {
