@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.74,
-        "y": 5.77
+        "x": 7.8,
+        "y": 5.767688926682201
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.538261784598104,
-        "y": 5.56221671449554
+        "x": 7.598261784598104,
+        "y": 5.559905641177742
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleNote2"
     },
     {
       "anchor": {
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 7.74,
+        "x": 7.8,
         "y": 4.035989475752537
       },
       "prevControl": {
-        "x": 7.280864821876878,
+        "x": 7.3408648218768775,
         "y": 4.035989475752537
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleNote3"
     }
   ],
   "rotationTargets": [],
@@ -49,7 +49,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.6,
-    "maxAcceleration": 7.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

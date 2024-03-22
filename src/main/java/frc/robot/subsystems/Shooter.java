@@ -41,6 +41,7 @@ public class Shooter extends SubsystemBase {
   public boolean isFlywheelSpiningWithSetpoint;
   Encoder pivotEncoder;
   double pivotEncoderBaseValue;
+  double lastFlywheelSpeed;
 
   public enum LimitSwitch {
     FORWARD_LIMIT_SWITCH, REVERSE_LIMIT_SWITCH
@@ -145,8 +146,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
-    shootMotor1.setControl(velocityVoltage
-        .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
+    if(speedMetersPerSecond != lastFlywheelSpeed) {
+      shootMotor1.setControl(velocityVoltage
+      .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
+    }
+    lastFlywheelSpeed = speedMetersPerSecond;
     isFlywheelSpiningWithSetpoint = true;
     if (speedMetersPerSecond == 0) {
       isFlywheelSpiningWithSetpoint = false;
@@ -175,6 +179,7 @@ public class Shooter extends SubsystemBase {
 
   public void setFlywheelMotorCoastMode() {
     shootMotor1.setControl(new VoltageOut(0));
+    lastFlywheelSpeed = 0;
     isFlywheelSpiningWithSetpoint = false;
   }
 
@@ -222,6 +227,7 @@ public class Shooter extends SubsystemBase {
 
   public void setFlywheelPercentOutput(double percent) {
     shootMotor1.set(percent);
+    lastFlywheelSpeed = percent;
   }
 
   public void setPivotMotorPercentOutput(double percent) {
