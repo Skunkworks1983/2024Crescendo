@@ -156,7 +156,7 @@ public class Constants {
 
   public class ShooterInterpolationConstants{
 
-    //TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
+    // TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
     public static final double MINIMUM_SPEED_TO_RE_AIM=.045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM=3;
 
