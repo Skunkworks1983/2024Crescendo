@@ -13,6 +13,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
@@ -36,24 +37,33 @@ public class NavigateToNote extends Command {
   }
 
   @Override
-  public void initialize() {    
+  public void initialize() {
   }
 
   @Override
   public void execute() {
+
+    // Get piece data from the camera
     Optional<PieceData> pieceData = vision.getPieceData(PhotonVision.PIECE_DETECTION_CAMERA_NAME);
 
+    // Check if there is a piece in view
     if (pieceData.isPresent()) {
-        Transform3d robotToPiece = PhotonVision.ROBOT_TO_PIECE_DETECTION_CAMERA.plus(pieceData.get().bestCameraToTargetTransform);
-        Pose2d noteFieldPosition = drivebase.getRobotPose().transformBy(new Pose2d(robotToPiece.getX(), robotToPiece.getY(), robotToPiece.getRotation().getDegrees())); 
-        pathToNote = drivebase.pathfindToPose(noteFieldPosition);
-    }
 
-    
+      // Get a transform to the piece
+      Transform3d robotToPiece = PhotonVision.ROBOT_TO_PIECE_DETECTION_CAMERA
+          .plus(pieceData.get().bestCameraToTargetTransform);
+
+      Pose2d noteFieldPosition = drivebase.getRobotPose()
+          .transformBy(new Transform2d(new Pose2d(),
+              new Pose2d(robotToPiece.getX(), robotToPiece.getY(), robotToPiece.getRotation().toRotation2d())));
+
+      pathToNote = drivebase.pathfindToPose(noteFieldPosition);
+    }
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {
