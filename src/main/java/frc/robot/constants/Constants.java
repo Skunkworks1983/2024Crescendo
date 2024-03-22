@@ -72,7 +72,7 @@ public class Constants {
     public static final int SHOOTER_TO_PASS = 24;
     public static final int REVERSE_NOTE_BACKWARDS = 16;
     public static final int RESET_COLLECTOR = 8;
-    
+
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
@@ -107,7 +107,7 @@ public class Constants {
     public static final int LEFT_PIVOT_MOTOR = 35;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
-    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0/24.0);
+    public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0 / 24.0);
     public static final double NOTE_INTAKE_SPEED = 0; // TODO:set this!
     public static final double COLLECTOR_FLOOR_POS = 110;
     public static final double COLLECTOR_STOW_POS = 0; // TODO:set this!
@@ -153,18 +153,18 @@ public class Constants {
     }
   }
 
-  public class ShooterInterpolationConstants{
+  public class ShooterInterpolationConstants {
 
     // TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
-    public static final double MINIMUM_SPEED_TO_RE_AIM=.045;
-    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM=3;
+    public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
+    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A=79.96361754;
-    public static final double B=-11.16442723;
-    public static final double C=-10.56295564;
-    public static final double D=2.27152757;
-    public static final double E=0.75301618;
-    public static final double F=1.16175171;
+    public static final double A = 79.96361754;
+    public static final double B = -11.16442723;
+    public static final double C = -10.56295564;
+    public static final double D = 2.27152757;
+    public static final double E = 0.75301618;
+    public static final double F = 1.16175171;
   }
 
   public class Shooter {
@@ -392,7 +392,7 @@ public class Constants {
   // m/s^2
   public static final double ACCELERATION_DUE_TO_GRAVITY = 9.808;
 
-  
+
   public class GyroCrashDetection {
     public static final double GYRO_NOISE_TOLERANCE = .0000000000000000000000000001;
     public static final int GYRO_MEASURMENTS_LIST_SIZE = 30;
