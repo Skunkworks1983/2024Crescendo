@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7085127656260409,
-      "y": 6.673969989161352
+      "x": 0.7398459580634182,
+      "y": 4.449313326107569
     },
-    "rotation": -116.8869341924767
+    "rotation": 122.19573393471327
   },
   "command": {
     "type": "sequential",
@@ -52,12 +52,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DriveOutAndShootP1"
+            "pathName": "DriveOutAndShootP3"
           }
         }
       ]
     }
   },
-  "folder": "StartingPos1",
+  "folder": "SpeakerSide3",
   "choreoAuto": false
 }

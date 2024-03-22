@@ -46,6 +46,7 @@ public class ShootWhenReady extends Command {
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
     indexer.setIndexerCoastMode();
+    /*
     Pose2d robotPose = drivebase.getRobotPose();
     System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() + ", position: "
         + shooter.getShooterPivotRotationInDegrees() + ", error: "
@@ -54,8 +55,8 @@ public class ShootWhenReady extends Command {
         + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
     System.out.println("Odometry position X: " + robotPose.getX());
     System.out.println("Odometry position Y: " + robotPose.getY());
-    System.out.println("Odometry position Angle: " + robotPose.getRotation());
-    System.out.println("Shoot When Ready Command End");
+    System.out.println("Odometry position Angle: " + robotPose.getRotation()); */
+    System.out.println("Shoot When Ready Command End interrupted: " + interrupted);
   }
 
   @Override

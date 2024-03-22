@@ -408,7 +408,7 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(13.0), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(15.6), Units.degreesToRadians(0)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
@@ -478,7 +478,7 @@ public class Constants {
   // pathplanner PID constants
   public class PathPlannerInfo {
 
-    public static final double PATHPLANNER_DRIVE_KP = 7;
+    public static final double PATHPLANNER_DRIVE_KP = 6.5;
     public static final double PATHPLANNER_DRIVE_KD = .05;
     public static final double PATHPLANNER_DRIVE_KI = .0;
     public static final double PATHPLANNER_DRIVE_KF = .0;

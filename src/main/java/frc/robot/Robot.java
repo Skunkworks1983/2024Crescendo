@@ -24,6 +24,7 @@ import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
@@ -107,6 +108,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
     // cancels swerve teleop command to make sure it does not interfere with auto
     if (swerve != null) {
       swerve.cancel();
