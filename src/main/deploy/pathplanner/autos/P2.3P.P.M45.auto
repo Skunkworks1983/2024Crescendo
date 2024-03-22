@@ -47,7 +47,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Side3ToMNote5"
+                        "pathName": "Side3ToMNote4"
                       }
                     }
                   ]
@@ -79,7 +79,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "MNote5ToSide3"
+                        "pathName": "MNote4ToSide3"
                       }
                     }
                   ]
@@ -130,7 +130,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Side3ToMNote4"
+                        "pathName": "Side3ToMNote5"
                       }
                     }
                   ]
@@ -162,7 +162,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "MNote4ToSide3"
+                        "pathName": "MNote5ToSide3"
                       }
                     }
                   ]
