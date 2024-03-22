@@ -17,5 +17,4 @@ public class VisionMeasurement {
         this.pose = pose;
         this.stdDevs = stdDevs;
     }
-
 }

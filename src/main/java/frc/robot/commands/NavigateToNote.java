@@ -4,44 +4,33 @@
 
 package frc.robot.commands;
 
-import java.util.List;
 import java.util.Optional;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.PhotonVision;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.vision.PieceData;
 import frc.robot.vision.Vision;
+import frc.robot.constants.Constants.PhotonVision;
 
-public class NavigateToNote extends Command {
+public class NavigateToNote {
 
   Vision vision;
   Drivebase drivebase;
   Command pathToNote;
+  Pose2d lastestNotePose;
 
-  public NavigateToNote() {
+  public NavigateToNote(Pose2d defaultNotePosition) {
     vision = Vision.getInstance();
     drivebase = Drivebase.getInstance();
+
+    this.lastestNotePose = defaultNotePosition;
   }
 
-  @Override
-  public void initialize() {
-  }
-
-  @Override
-  public void execute() {
+  public Command getNavigateToNoteCommand() {
 
     // Get piece data from the camera
     Optional<PieceData> pieceData = vision.getPieceData(PhotonVision.PIECE_DETECTION_CAMERA_NAME);
@@ -57,16 +46,11 @@ public class NavigateToNote extends Command {
           .transformBy(new Transform2d(new Pose2d(),
               new Pose2d(robotToPiece.getX(), robotToPiece.getY(), robotToPiece.getRotation().toRotation2d())));
 
-      pathToNote = drivebase.pathfindToPose(noteFieldPosition);
+      lastestNotePose = noteFieldPosition;
+
+      return drivebase.pathfindToPose(lastestNotePose);
     }
-  }
 
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+    return pathToNote;
   }
 }

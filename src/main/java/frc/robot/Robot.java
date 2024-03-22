@@ -7,11 +7,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.NavigateToNote;
 import frc.robot.commands.WaitDuration;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.OI;
@@ -27,6 +29,9 @@ public class Robot extends TimedRobot {
   Drivebase drivebase;
   Shooter shooter;
 
+  // TODO: Set this to the actual pose of the note
+  NavigateToNote navigateToNote = new NavigateToNote(new Pose2d());
+
   @Override
   public void robotInit() {
     oi = OI.getInstance();
@@ -34,6 +39,7 @@ public class Robot extends TimedRobot {
     shooter = Shooter.getInstance();
     NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
     autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser.addOption("Navigate To Note", navigateToNote.getNavigateToNoteCommand());
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
