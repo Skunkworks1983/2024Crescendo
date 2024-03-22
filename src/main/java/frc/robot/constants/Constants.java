@@ -66,7 +66,6 @@ public class Constants {
     // button Ids
     public static final int MANUAL_SWITCH = 2;
     public static final int SPEAKER_TARGETING_BUTTON = 1;
-    public static final int SMART_DASHBOARD_AIM = 10;
     public static final int INTERPOLATION_AIM = 10;
     public static final int AMP_TARGETING_BUTTON = 2;
     public static final int SET_ROBOT_RELATIVE = 5;
@@ -243,8 +242,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0.5;
-    public static final double MAX_SHOOTER_PIVOT_ANGLE_ERROR=.5;
+    public static final double MAX_FLYWHEEL_ERROR = 0.25;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
@@ -440,7 +438,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.52 /*-1.1 for blue side not red*/),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833),
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(

@@ -45,7 +45,6 @@ public class OI extends SubsystemBase {
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
-  JoystickButton linearAim;
   JoystickButton interpolationAim;
   JoystickButton shootWhenReady;
   JoystickButton noteFloorToShooter;
@@ -55,7 +54,6 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
-  JoystickButton shooterFromSmartDashboard;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -86,8 +84,6 @@ public class OI extends SubsystemBase {
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
-    //linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
-    shooterFromSmartDashboard = new JoystickButton(rightJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
     interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);

@@ -5,7 +5,6 @@
 package frc.robot.utils;
 
 import org.ejml.simple.SimpleMatrix;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -33,7 +32,10 @@ public class ShooterAimUtils {
       (ShooterInterpolationConstants.F*x*y)
     );
   }
-//only use the quarter of the field close to 0,0
+
+  //only use the quarter(not actually 1/4 of a field) of the field close to 0,0
+  //reflects across center of field on x and speaker y
+  //will reflect point to be in the first quarter
   public static Translation2d calculateInputForInterpolatedAimAngle(Translation2d originalPosition){
     Translation2d reflectionPosition = new Translation2d(Constants.FIELD_X_LENGTH/2.0, 
     Constants.Targeting.FieldTarget.SPEAKER.get().get().getY());
