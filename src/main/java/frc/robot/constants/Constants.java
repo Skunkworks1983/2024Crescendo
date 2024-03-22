@@ -408,7 +408,7 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(15.6), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(13), Units.degreesToRadians(0)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
