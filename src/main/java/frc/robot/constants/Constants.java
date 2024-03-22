@@ -159,7 +159,7 @@ public class Constants {
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A = 79.96361754;
+    public static final double A = 80.46361754;
     public static final double B = -11.16442723;
     public static final double C = -10.56295564;
     public static final double D = 2.27152757;

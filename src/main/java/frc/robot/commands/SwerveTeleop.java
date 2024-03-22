@@ -43,6 +43,7 @@ public class SwerveTeleop extends Command {
   Timer timer = new Timer();
   double lastSeconds;
   int fieldOrientationMultiplier;
+  int robotRelativeMultiplier;
 
   public SwerveTeleop(Drivebase drivebase, OI oi) {
     lastSeconds = timer.getFPGATimestamp();
@@ -60,6 +61,7 @@ public class SwerveTeleop extends Command {
     } else {
       fieldOrientationMultiplier = 1;
     }
+    robotRelativeMultiplier = 1;
     drivebase.setFieldRelative();
     System.out.println("Swerve Teleop Command Initialize");
   }
@@ -112,12 +114,21 @@ public class SwerveTeleop extends Command {
 
     // If not using the heading controller, run regular swerve without heading
     // control.
+
+    if (!drivebase.getFieldRelative()) {
+      //robotRelativeMultiplier = -1;
+      currentHeading = drivebase.getRobotHeading();
+      headingControllerSetpoint = currentHeading;
+    } else {
+      robotRelativeMultiplier = 1;
+    }
+
     if (!useHeadingControl) {
-      drivebase.setDrive(
-          MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+      drivebase.setDrive(MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
+          * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier * robotRelativeMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier
+              * robotRelativeMultiplier,
           MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
               * Constants.OI_TURN_SPEED_RATIO,
           drivebase.getFieldRelative());
@@ -125,11 +136,11 @@ public class SwerveTeleop extends Command {
       // Otherwise, set the heading controller to the desired setpoint.
     } else {
       drivebase.setHeadingController(headingControllerSetpoint);
-      drivebase.setDriveTurnPos(
-          MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+      drivebase.setDriveTurnPos(MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
+          * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier * robotRelativeMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier
+              * robotRelativeMultiplier,
           drivebase.getFieldRelative());
     }
   }

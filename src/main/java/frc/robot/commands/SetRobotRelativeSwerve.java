@@ -19,6 +19,7 @@ public class SetRobotRelativeSwerve extends Command {
   @Override
   public void initialize() {
     drivebase.setRobotRelative();
+    System.out.println("Set Robot Relitive swerve init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,6 +30,7 @@ public class SetRobotRelativeSwerve extends Command {
   @Override
   public void end(boolean interrupted) {
     drivebase.setFieldRelative();
+    System.out.println("Set Robot Relitive swerve end");
   }
 
   // Returns true when the command should end.
