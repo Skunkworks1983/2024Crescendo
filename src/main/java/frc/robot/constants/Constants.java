@@ -156,27 +156,19 @@ public class Constants {
 
   public class ShooterInterpolationConstants{
 
-    public static final double MINIMUM_SPEED_TO_RE_AIM=.05;
-    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM=5;
+    //TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
+    public static final double MINIMUM_SPEED_TO_RE_AIM=.045;
+    public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM=3;
 
-    public static final double A = 76.13033621;
-    public static final double B = -2.34522259;
-    public static final double C = -11.19348242;
-    public static final double D = -1.03725406;
-    public static final double E = 0.14930927;
-    public static final double F = 2.92218928;
-
-    //mirrored version (I think)
-    //public static final double A=79.96361754;
-    //public static final double B=-11.16442723;
-    //public static final double C=-10.56295564;
-    //public static final double D=2.27152757;
-    //public static final double E=0.75301618;
-    //public static final double F=1.16175171;
+    public static final double A=79.96361754;
+    public static final double B=-11.16442723;
+    public static final double C=-10.56295564;
+    public static final double D=2.27152757;
+    public static final double E=0.75301618;
+    public static final double F=1.16175171;
   }
 
   public class Shooter {
-
 
     public static final double AUTOAIMING_OFFSET = -3.25;
     // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut

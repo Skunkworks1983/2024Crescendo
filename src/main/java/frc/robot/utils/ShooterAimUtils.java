@@ -5,6 +5,7 @@
 package frc.robot.utils;
 
 import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -19,6 +20,9 @@ public class ShooterAimUtils {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
+  public static double calculateInterpolatedAimAngle(Translation2d position){
+    return calculateInterpolatedAimAngle(position.getX(), position.getY());
+  }
 
   public static double calculateInterpolatedAimAngle(double x, double y){
     return(ShooterInterpolationConstants.A + 
@@ -28,6 +32,17 @@ public class ShooterAimUtils {
       (ShooterInterpolationConstants.E*y*y) + 
       (ShooterInterpolationConstants.F*x*y)
     );
+  }
+//only use the quarter of the field close to 0,0
+  public static Translation2d calculateInputForInterpolatedAimAngle(Translation2d originalPosition){
+    Translation2d reflectionPosition = new Translation2d(Constants.FIELD_X_LENGTH/2.0, 
+    Constants.Targeting.FieldTarget.SPEAKER.get().get().getY());
+    double xDistanceFromReflectionLine = Math.abs(originalPosition.getX()-reflectionPosition.getX());
+    double yDistanceFromReflectionLine = Math.abs(originalPosition.getY()-reflectionPosition.getY());
+    double x = reflectionPosition.getX() - xDistanceFromReflectionLine;
+    double y = reflectionPosition.getY() - yDistanceFromReflectionLine;
+    Translation2d newPosition = new Translation2d(x,y);
+    return newPosition;
   }
 
   /*

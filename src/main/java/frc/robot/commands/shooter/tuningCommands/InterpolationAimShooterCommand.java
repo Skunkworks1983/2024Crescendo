@@ -46,7 +46,10 @@ public class InterpolationAimShooterCommand extends Command {
   public void resetAim(){
     Pose2d pose = drivebase.getRobotPose();
     shooterAngle = Rotation2d
-        .fromDegrees(ShooterAimUtils.calculateInterpolatedAimAngle(pose.getX(), pose.getY()));
+        .fromDegrees(ShooterAimUtils.calculateInterpolatedAimAngle(
+          ShooterAimUtils.calculateInputForInterpolatedAimAngle(pose.getTranslation())
+          )
+        );
 
     if(shooterAngle.getDegrees()>90.0){
       shooterAngle = Rotation2d.fromDegrees(90);
