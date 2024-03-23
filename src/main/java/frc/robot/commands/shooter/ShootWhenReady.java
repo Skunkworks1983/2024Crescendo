@@ -19,6 +19,8 @@ public class ShootWhenReady extends Command {
   private Indexer indexer;
   private Drivebase drivebase;
   double angleError;
+  int atSpeedCount = 0;
+  int minAtSpeedCount = 13;
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
@@ -31,12 +33,19 @@ public class ShootWhenReady extends Command {
   @Override
   public void initialize() {
     System.out.println("Shoot When Ready Command Initialize");
+    atSpeedCount = 0;
   }
 
   @Override
   public void execute() {
-    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR
-        && shooter.isFlywheelSpiningWithSetpoint) {
+    if(Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR){
+       atSpeedCount++;
+    }
+    else{
+      atSpeedCount = 0;
+    }
+
+    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
@@ -46,13 +55,13 @@ public class ShootWhenReady extends Command {
   public void end(boolean interrupted) {
     shooter.setIndexerMotorCoastMode();
     indexer.setIndexerCoastMode();
+    System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
+        + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
     /*
     Pose2d robotPose = drivebase.getRobotPose();
     System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() + ", position: "
         + shooter.getShooterPivotRotationInDegrees() + ", error: "
         + shooter.getShooterPivotError());
-    System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
-        + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
     System.out.println("Odometry position X: " + robotPose.getX());
     System.out.println("Odometry position Y: " + robotPose.getY());
     System.out.println("Odometry position Angle: " + robotPose.getRotation()); */
