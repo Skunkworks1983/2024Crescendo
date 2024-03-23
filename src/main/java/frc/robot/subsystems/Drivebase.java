@@ -220,7 +220,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   private double getGyroAngle() {
-    return -gyro.getAngle();
+      return -gyro.getAngle();
   }
 
   public double getRoll() {
@@ -261,13 +261,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
-
-    // If both gyros are dead, switch to robot relative control.
-    if (false) { //!gyro.isConnected()
-      isRobotRelative = true;
-    } else {
-      isRobotRelative = false;
-    }
   }
 
   public static Drivebase getInstance() {

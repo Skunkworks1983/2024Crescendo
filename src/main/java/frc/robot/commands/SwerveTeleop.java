@@ -112,6 +112,12 @@ public class SwerveTeleop extends Command {
 
     // If not using the heading controller, run regular swerve without heading
     // control.
+
+    if (!drivebase.getFieldRelative()) {
+      currentHeading = drivebase.getRobotHeading();
+      headingControllerSetpoint = currentHeading;
+    }
+
     if (!useHeadingControl) {
       drivebase.setDrive(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
