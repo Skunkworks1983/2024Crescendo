@@ -242,7 +242,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0.25;
+    public static final double MAX_FLYWHEEL_ERROR = 0.4;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
@@ -512,7 +512,7 @@ public class Constants {
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 15;
-    public static final double BASE_PULL_SPEED = -.65;
+    public static final double BASE_PULL_SPEED = -.75;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {
