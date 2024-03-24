@@ -7,6 +7,7 @@ package frc.robot.commands.shooter.tuningCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
@@ -61,6 +62,7 @@ public class InterpolationAimShooterCommand extends Command {
     } else {
       driveToleranceTicks = 0;
     }
+    SmartDashboard.putNumber("targeting speed for aiming", speed);
 
     // Resets aim if drivebase is moving for long enough, indicating that aim value is too old
     if (driveToleranceTicks > Constants.ShooterInterpolationConstants.NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM) {

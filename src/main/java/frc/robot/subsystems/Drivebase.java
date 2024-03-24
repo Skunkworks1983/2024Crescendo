@@ -141,7 +141,7 @@ public class Drivebase extends SubsystemBase {
     if (fieldRelative) {
       speeds = ChassisSpeeds.fromFieldRelativeSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond),
-          Rotation2d.fromDegrees(getRobotHeading()));
+          Rotation2d.fromDegrees(getGyroAngle()));
     } else {
       speeds = new ChassisSpeeds(Units.feetToMeters(xFeetPerSecond),
           Units.feetToMeters(yFeetPerSecond), Units.degreesToRadians(degreesPerSecond));
@@ -167,7 +167,7 @@ public class Drivebase extends SubsystemBase {
   public void setDriveTurnPos(double xFeetPerSecond, double yFeetPerSecond, boolean fieldRelative) {
     double degreesPerSecond;
     degreesPerSecond = Math.min(Constants.TURNING_SPEED_CAP,
-        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getRobotHeading())));
+        Math.max(-Constants.TURNING_SPEED_CAP, headingController.calculate(getGyroAngle())));
     setDrive(xFeetPerSecond, yFeetPerSecond, degreesPerSecond, fieldRelative);
   }
 
@@ -200,10 +200,10 @@ public class Drivebase extends SubsystemBase {
    *         Measurement is 0-360 degrees instead of continuous.
    */
   public double getRobotHeading() {
-    if(!isRobotRelative) {
+    if (!isRobotRelative) {
       return getRobotPose().getRotation().getDegrees();
     }
-    
+
     return 0.0;
   }
 
@@ -219,8 +219,8 @@ public class Drivebase extends SubsystemBase {
     return !isRobotRelative;
   }
 
-  private double getGyroAngle() {
-      return -gyro.getAngle();
+  public double getGyroAngle() {
+    return -gyro.getAngle();
   }
 
   public double getRoll() {
@@ -245,7 +245,8 @@ public class Drivebase extends SubsystemBase {
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
-    for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
+    var latestVision = vision.getLatestVisionMeasurements();
+    for (VisionMeasurement measurement : latestVision) {
       odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
           measurement.pose.timestampSeconds, measurement.stdDevs);
     }
@@ -277,8 +278,8 @@ public class Drivebase extends SubsystemBase {
     return chassisSpeeds;
   }
 
-  public ChassisSpeeds getFieldRelativeSpeeds(){
-    return ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeeds(), Rotation2d.fromDegrees(getRobotHeading()));
+  public ChassisSpeeds getFieldRelativeSpeeds() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeeds(), Rotation2d.fromDegrees(getGyroAngle()));
   }
 
   public void setDriveChassisSpeed(ChassisSpeeds chassisSpeeds) {
@@ -289,22 +290,22 @@ public class Drivebase extends SubsystemBase {
         false);
   }
 
-  //sets the back right module pos for tuning 
+  // sets the back right module pos for tuning
   public void setBackRightModuleTurnPos(double angleDegrees) {
     backRight.setTurnMotorAngle(angleDegrees);
   }
 
-   //returning the back right turn pos for tunning 
+  // returning the back right turn pos for tunning
   public double getBackRightModuleTurnPos() {
     return backRight.getSwerveState().angle.getDegrees();
   }
 
-   //returning the back right turn error for tunning 
+  // returning the back right turn error for tunning
   public double getBackRightModuleTurnError() {
     return backRight.getTurnError();
   }
 
-  //returning the back right turn speed for tunning 
+  // returning the back right turn speed for tunning
   public double getBackRightModuleTurnVelocity() {
     return backRight.getTurnMotorVelocity();
   }
@@ -336,6 +337,9 @@ public class Drivebase extends SubsystemBase {
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
+    //System.out.println("current heading: " + getGyroAngle() + " Current pos X: " + getRobotPose().getX() + " Y: "
+    //    + getRobotPose().getY());
+    //System.out.println("Targeting to X:" + fieldTarget.get().get().getX() + " Y: " + fieldTarget.get().get().getY());
   }
 
   /**

@@ -227,7 +227,7 @@ public class Constants {
 
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 17;
+    public static final double STOW_FLYWHEEL_SPEED = 21;
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
     public static final double PODIUM_FLYWHEEL_SPEED = 27;
@@ -335,7 +335,7 @@ public class Constants {
 
       // IN DEGREES
       public static final double MAX_VELOCITY = 500;
-      public static final double MAX_ACCELERATION = 600;
+      public static final double MAX_ACCELERATION = 1100;
 
 
       public static final boolean SMART_PID_ACTIVE = false;

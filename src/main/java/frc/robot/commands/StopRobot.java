@@ -4,43 +4,41 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.constants.Constants.Targeting.FieldTarget;
 
-public class SetFieldTarget extends Command {
-
+public class StopRobot extends Command {
+  /** Creates a new StopRobot. */
   Drivebase drivebase;
-  FieldTarget fieldTarget;
 
-  /** Creates a new SetTargetingPoint. */
-  public 
-  SetFieldTarget(FieldTarget fieldTarget) {
-    this.fieldTarget = fieldTarget;
+  public StopRobot() {
     drivebase = Drivebase.getInstance();
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.setFieldTarget(fieldTarget);
-    System.out.println("Set Field Target Command Initialize");
+    drivebase.setDrive(
+        0, 0, 0,
+        drivebase.getFieldRelative());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivebase.setFieldTarget(FieldTarget.NONE);
-    System.out.println("Set Field Target Command End");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

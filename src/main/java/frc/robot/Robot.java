@@ -18,6 +18,7 @@ import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.StopRobot;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.LoadPieceShooter;
@@ -63,7 +64,7 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("CollectNote", new CollectNote());
 
   // Shooter
-  NamedCommands.registerCommand("ShootNote",new Shoot());
+  NamedCommands.registerCommand("ShootNote", new Shoot());
   NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
   NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
   NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
@@ -74,6 +75,8 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+
+  NamedCommands.registerCommand("StopRobot", new StopRobot());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    //SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
