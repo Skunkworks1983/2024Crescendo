@@ -11,6 +11,7 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
+import frc.robot.commands.LagCommand;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
@@ -55,6 +56,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
+  JoystickButton lagButton;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -76,6 +78,7 @@ public class OI extends SubsystemBase {
     manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
 
     setRobotRelitive = new JoystickButton(rightJoystick, Constants.IDS.SET_ROBOT_RELATIVE);
+    lagButton = new JoystickButton(rightJoystick, 9);
 
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
@@ -137,6 +140,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new resetGyro());
+
+    //lagButton.whileTrue(new LagCommand());
   }
 
   @Override

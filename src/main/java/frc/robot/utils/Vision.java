@@ -20,9 +20,18 @@ import frc.robot.constants.Constants.PhotonVision;
 
 public class Vision {
     SkunkPhotonCamera[] cameras;
+    String [] hasTargetsPrints;
+    String [] distanceToTargetPrints; 
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
+        hasTargetsPrints = new String[this.cameras.length];
+        distanceToTargetPrints = new String[this.cameras.length];
+
+        for (int i = 0; i < cameras.length; i++) {
+            hasTargetsPrints[i] = "Camera " + (i+1) + " hasTargets";
+            distanceToTargetPrints[i] = "Camera " + (i+1) + " distanceToTarget";
+        }
     }
 
     /**
@@ -31,7 +40,7 @@ public class Vision {
      */
     public ArrayList<VisionMeasurement> getLatestVisionMeasurements() {
         ArrayList<VisionMeasurement> visionMeasurements = new ArrayList<VisionMeasurement>();
-        int i = 1;
+        int i = 0;
 
         // Iterate through list of cameras.
         for (SkunkPhotonCamera camera : cameras) {
@@ -41,7 +50,7 @@ public class Vision {
             boolean hasTargets = result.hasTargets();
             Transform3d distanceToTargetTransform;
 
-            SmartDashboard.putBoolean("Camera " + i + " hasTargets", hasTargets);
+            SmartDashboard.putBoolean(hasTargetsPrints[i], hasTargets);
 
             // Check if there are targets
             if (updatedVisualPose.isPresent() && hasTargets) {
@@ -68,12 +77,11 @@ public class Vision {
                 if (pose.estimatedPose.toPose2d().getX() < 0.0
                         || pose.estimatedPose.getX() > Constants.FIELD_X_LENGTH
                         || pose.estimatedPose.getY() < 0.0
-                        || pose.estimatedPose.getY() > Constants.FIELD_Y_LENGTH
-                        || distanceToTarget > PhotonVision.APRILTAG_DISTANCE_CUTOFF) {
+                        || pose.estimatedPose.getY() > Constants.FIELD_Y_LENGTH) {
                     continue;
                 }
 
-                SmartDashboard.putNumber("Camera " + i + " distanceToTarget", distanceToTarget);
+                SmartDashboard.putNumber(distanceToTargetPrints[i], distanceToTarget);
 
                 Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
                         distanceUncertainty, distanceUncertainty, rotationalUncertainty}));

@@ -223,7 +223,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroAngle() {
-    return -gyro.getAngle() + gyroOffset;
+    return -gyro.getAngle() - gyroOffset;
   }
 
   public void resetGyroOffset() {

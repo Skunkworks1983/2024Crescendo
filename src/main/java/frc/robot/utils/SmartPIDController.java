@@ -13,6 +13,8 @@ public class SmartPIDController extends PIDController {
 
     public String name;
     public boolean smart;
+    public String setpointLabel;
+    public String errorLabel;
 
     public SmartPIDController(double kp, double ki, double kd, String name, boolean smart) {
         super(kp, ki, kd);
@@ -23,6 +25,9 @@ public class SmartPIDController extends PIDController {
         SmartDashboard.putNumber(name + " kp Value", kp);
         SmartDashboard.putNumber(name + " ki Value", ki);
         SmartDashboard.putNumber(name + " kd Value", kd);
+
+        setpointLabel = name + " Setpoint";
+        errorLabel = name + " Error";
     }
 
     @Override
@@ -34,8 +39,8 @@ public class SmartPIDController extends PIDController {
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
         }
 
-        SmartDashboard.putNumber(name + " Error", getPositionError());
-        SmartDashboard.putNumber(name + " Setpoint", getSetpoint());
+        SmartDashboard.putNumber(name + errorLabel, getPositionError());
+        SmartDashboard.putNumber(name + setpointLabel, getSetpoint());
 
         return super.calculate(measurement);
     }
@@ -49,8 +54,8 @@ public class SmartPIDController extends PIDController {
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
         }
 
-        SmartDashboard.putNumber(name + " Error", getPositionError());
-        SmartDashboard.putNumber(name + " Setpoint", getSetpoint());
+        SmartDashboard.putNumber(errorLabel, getPositionError());
+        SmartDashboard.putNumber(setpointLabel, getSetpoint());
 
         return super.calculate(measurement, setpoint);
     }
