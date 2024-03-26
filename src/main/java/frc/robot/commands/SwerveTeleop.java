@@ -62,6 +62,7 @@ public class SwerveTeleop extends Command {
     }
     drivebase.setFieldRelative();
     System.out.println("Swerve Teleop Command Initialize");
+    drivebase.resetGyroOffset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -56,6 +56,7 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+  double gyroOffset;
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -127,6 +128,8 @@ public class Drivebase extends SubsystemBase {
       vision = new Vision(new SkunkPhotonCamera[] {});
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
     }
+
+    resetGyroOffset();
   }
 
   /** run in teleop init to set swerve as default teleop command */
@@ -220,7 +223,11 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroAngle() {
-    return -gyro.getAngle();
+    return -gyro.getAngle() + gyroOffset;
+  }
+
+  public void resetGyroOffset() {
+    gyroOffset = -gyro.getAngle();
   }
 
   public double getRoll() {
