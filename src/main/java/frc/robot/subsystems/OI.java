@@ -56,7 +56,6 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
-  JoystickButton lagButton;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -78,7 +77,6 @@ public class OI extends SubsystemBase {
     manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
 
     setRobotRelitive = new JoystickButton(rightJoystick, Constants.IDS.SET_ROBOT_RELATIVE);
-    lagButton = new JoystickButton(rightJoystick, 9);
 
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
