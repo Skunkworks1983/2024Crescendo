@@ -344,9 +344,6 @@ public class Drivebase extends SubsystemBase {
     } else {
       this.fieldTarget = fieldTargetOptional;
     }
-    //System.out.println("current heading: " + getGyroAngle() + " Current pos X: " + getRobotPose().getX() + " Y: "
-    //    + getRobotPose().getY());
-    //System.out.println("Targeting to X:" + fieldTarget.get().get().getX() + " Y: " + fieldTarget.get().get().getY());
   }
 
   /**

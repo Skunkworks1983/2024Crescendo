@@ -39,8 +39,8 @@ public class SmartPIDController extends PIDController {
             super.setD(SmartDashboard.getNumber(name + " kd Value", super.getD()));
         }
 
-        SmartDashboard.putNumber(name + errorLabel, getPositionError());
-        SmartDashboard.putNumber(name + setpointLabel, getSetpoint());
+        SmartDashboard.putNumber(errorLabel, getPositionError());
+        SmartDashboard.putNumber(setpointLabel, getSetpoint());
 
         return super.calculate(measurement);
     }

@@ -11,14 +11,13 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
-import frc.robot.commands.LagCommand;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
-import frc.robot.commands.resetGyro;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
@@ -137,9 +136,7 @@ public class OI extends SubsystemBase {
     manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
-    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new resetGyro());
-
-    //lagButton.whileTrue(new LagCommand());
+    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
   }
 
   @Override

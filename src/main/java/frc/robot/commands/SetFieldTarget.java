@@ -14,8 +14,7 @@ public class SetFieldTarget extends Command {
   FieldTarget fieldTarget;
 
   /** Creates a new SetTargetingPoint. */
-  public 
-  SetFieldTarget(FieldTarget fieldTarget) {
+  public SetFieldTarget(FieldTarget fieldTarget) {
     this.fieldTarget = fieldTarget;
     drivebase = Drivebase.getInstance();
   }

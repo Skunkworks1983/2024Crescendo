@@ -62,7 +62,6 @@ public class InterpolationAimShooterCommand extends Command {
     } else {
       driveToleranceTicks = 0;
     }
-    SmartDashboard.putNumber("targeting speed for aiming", speed);
 
     // Resets aim if drivebase is moving for long enough, indicating that aim value is too old
     if (driveToleranceTicks > Constants.ShooterInterpolationConstants.NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM) {

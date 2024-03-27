@@ -4,18 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivebase;
 
-public class resetGyro extends Command {
+public class ResetGyro extends Command {
   /** Creates a new resetGyro. */
   Drivebase drivebase;
-  public resetGyro() {
+
+  public ResetGyro() {
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
