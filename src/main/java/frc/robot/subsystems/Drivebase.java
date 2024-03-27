@@ -43,6 +43,8 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
+  public int perioidcLoopCount = 0;
+
   AHRS gyro = new AHRS(SerialPort.Port.kUSB1);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
@@ -254,15 +256,29 @@ public class Drivebase extends SubsystemBase {
     // each item in the list.
     var latestVision = vision.getLatestVisionMeasurements();
     for (VisionMeasurement measurement : latestVision) {
+      if(perioidcLoopCount%Constants.FRAMES_PER_ODOM_LOG==0){
+        System.out.println("Vision messurment x, y and uncertantly matrix:");
+        System.out.println(measurement.pose.estimatedPose.toPose2d().getX());
+        System.out.println(measurement.pose.estimatedPose.toPose2d().getX());
+        System.out.println(measurement.stdDevs.get(0,0));
+        System.out.println(measurement.stdDevs.get(1,0));
+        System.out.println(measurement.stdDevs.get(2,0));
+      }
       odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
           measurement.pose.timestampSeconds, measurement.stdDevs);
     }
 
     integratedOdometryPrint.setRobotPose(getRobotPose());
+    if(perioidcLoopCount%Constants.FRAMES_PER_ODOM_LOG==0){
+      System.out.println("Robot Pose x and y:");
+      System.out.println(getRobotPose().getX());
+      System.out.println(getRobotPose().getY());
+    }
   }
 
   @Override
   public void periodic() {
+    perioidcLoopCount++;
     updateOdometry();
     SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());

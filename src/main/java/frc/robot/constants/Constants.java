@@ -352,6 +352,9 @@ public class Constants {
     }
   }
 
+  //Setting this value to x would mean every x frames, odometry values are logged to driverstation
+  public static final int FRAMES_PER_ODOM_LOG = 5;
+
   // Speed & Deadband
   public static final double X_JOY_DEADBAND = .1;
   public static final double Y_JOY_DEADBAND = .1;
