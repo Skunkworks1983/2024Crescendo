@@ -88,8 +88,8 @@ public class Drivebase extends SubsystemBase {
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
   SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromDegrees(getGyroAngle()),
-      new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-          backLeft.getPosition(), backRight.getPosition() },
+      new SwerveModulePosition[] { frontLeft.getFakePosition(), frontRight.getFakePosition(),
+          backLeft.getFakePosition(), backRight.getFakePosition() },
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
@@ -237,8 +237,8 @@ public class Drivebase extends SubsystemBase {
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition() },
+        new SwerveModulePosition[] { frontLeft.getFakePosition(), frontRight.getFakePosition(),
+            backLeft.getFakePosition(), backRight.getFakePosition() },
         resetPose);
   }
 
@@ -247,8 +247,8 @@ public class Drivebase extends SubsystemBase {
 
     // Update the mechanical odometry
     odometry.update(Rotation2d.fromDegrees(getGyroAngle()),
-        new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
-            backLeft.getPosition(), backRight.getPosition() });
+        new SwerveModulePosition[] { frontLeft.getFakePosition(), frontRight.getFakePosition(),
+            backLeft.getFakePosition(), backRight.getFakePosition() });
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.

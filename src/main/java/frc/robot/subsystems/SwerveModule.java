@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import java.util.Random;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -35,6 +36,8 @@ public class SwerveModule extends SubsystemBase {
   SmartPIDControllerTalonFX driveController;
 
   final VelocityVoltage velocityController = new VelocityVoltage(0);
+  Random distanceRandom = new Random();
+  Random angleRandom = new Random();
 
   public SwerveModule(Constants.SwerveModuleConstants swerveModuleConstants) {
     driveMotor = new TalonFX(swerveModuleConstants.driveMotorId, Constants.CANIVORE_NAME);
@@ -80,9 +83,10 @@ public class SwerveModule extends SubsystemBase {
     driveController.updatePID();
   }
 
-  public double getTurnError(){
+  public double getTurnError() {
     return turnController.getPositionError();
   }
+
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
@@ -142,7 +146,22 @@ public class SwerveModule extends SubsystemBase {
     slot0Configs.kD = d;
 
     driveMotor.getConfigurator().apply(slot0Configs);
+  }
 
+  /** Should only be used for debugging. */
+  public double getRandomModuleAngle() {
+    return angleRandom.nextDouble(-180, 180);
+  }
+
+  /** Should only be used for debugging. */
+  public double getRandomModuleDistance() {
+    return distanceRandom.nextDouble(20);
+  }
+
+  /** Should only be used for debugging. */
+  public SwerveModulePosition getFakePosition() {
+    return new SwerveModulePosition(getRandomModuleDistance(),
+        Rotation2d.fromDegrees(getRandomModuleAngle()));
   }
 
   public SwerveModulePosition getPosition() {
@@ -170,9 +189,9 @@ public class SwerveModule extends SubsystemBase {
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
 
-    //SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
-    //SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
-    //SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
+    // SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
+    // SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
+    // SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
   }
 
   void updateTurnSpeedBasedOnSetpoint() {
