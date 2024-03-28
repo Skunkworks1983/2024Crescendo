@@ -56,7 +56,7 @@ public class AimShooterAtSpeakerAssumingNoGravity extends Command {
   @Override
   public void execute() {
     Translation3d shooterPivot =
-        ShooterAimUtils.calculatePivotPositionFieldRelative(drivebase.getRobotHeading(),
+        ShooterAimUtils.calculatePivotPositionFieldRelative(drivebase.getGyroAngle(),
             Units.degreesToRadians(shooter.getShooterPivotRotationInDegrees()),
             drivebase.getRobotPose().getTranslation());
 
