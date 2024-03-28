@@ -18,19 +18,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootWhenReady"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "LowerCollector"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
                 }
               }
             ]
@@ -101,22 +95,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -184,22 +165,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -245,7 +213,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "WNote3ToSpeakerSide3"
+                        "pathName": "WNote3ToSpeakerSide2"
                       }
                     },
                     {
@@ -267,22 +235,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {

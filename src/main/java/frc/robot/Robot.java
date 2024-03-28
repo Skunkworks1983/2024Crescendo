@@ -18,6 +18,7 @@ import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.SpinUpFlyWheelAndShoot;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.LoadPieceShooter;
@@ -74,6 +75,7 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+  NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
