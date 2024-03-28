@@ -45,12 +45,15 @@ public class ShooterToStow extends Command {
     public void end(boolean interrupted) {
         shooter.setPivotMotorPercentOutput(0);
         shooter.setFlywheelSetpoint(Constants.Shooter.STOW_FLYWHEEL_SPEED);
-        System.out.println("Shooter to Stow Command End");
+        if(interrupted) {
+            System.out.println("Shooter to Stow Command Interupted");
+        } else {
+            System.out.println("Shooter to Stow Command End");
+        }
     }
 
     @Override
     public boolean isFinished() {
-
         return shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH);
     }
 }

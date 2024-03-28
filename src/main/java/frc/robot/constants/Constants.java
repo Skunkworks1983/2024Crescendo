@@ -227,7 +227,7 @@ public class Constants {
 
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 17;
+    public static final double STOW_FLYWHEEL_SPEED = 21;
     public static final double AMP_FLYWHEEL_SPEED = 20;
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
     public static final double PODIUM_FLYWHEEL_SPEED = 27;
@@ -242,7 +242,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0.25;
+    public static final double MAX_FLYWHEEL_ERROR = 0.4;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;
@@ -335,7 +335,7 @@ public class Constants {
 
       // IN DEGREES
       public static final double MAX_VELOCITY = 500;
-      public static final double MAX_ACCELERATION = 600;
+      public static final double MAX_ACCELERATION = 1100;
 
 
       public static final boolean SMART_PID_ACTIVE = false;
@@ -512,7 +512,7 @@ public class Constants {
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 15;
-    public static final double BASE_PULL_SPEED = -.65;
+    public static final double BASE_PULL_SPEED = -.75;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {

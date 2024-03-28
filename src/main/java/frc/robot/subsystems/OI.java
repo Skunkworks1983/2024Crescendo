@@ -17,6 +17,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
@@ -135,13 +136,7 @@ public class OI extends SubsystemBase {
     manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
-
-    // Calling this command for both buttons to elimate confusion about which button needs to be
-    // pressed first.
-    //resetGyroHeadingLeft.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-    //    resetGyroHeadingRight::getAsBoolean));
-    //resetGyroHeadingRight.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-    //    resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
   }
 
   @Override

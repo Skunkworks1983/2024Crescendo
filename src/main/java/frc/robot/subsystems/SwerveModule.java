@@ -170,9 +170,9 @@ public class SwerveModule extends SubsystemBase {
     // set setpoint
     turnController.setSetpoint(optimized.angle.getDegrees());
 
-    SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
-    SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
-    SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
+    //SmartDashboard.putNumber("turn setPoint " + modulePosition, optimized.angle.getDegrees());
+    //SmartDashboard.putNumber("drive setPoint " + modulePosition, scaledVelocity);
+    //SmartDashboard.putNumber("turn encoder " + modulePosition, getTurnEncoder());
   }
 
   void updateTurnSpeedBasedOnSetpoint() {
