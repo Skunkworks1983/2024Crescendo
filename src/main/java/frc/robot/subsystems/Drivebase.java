@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
-import java.util.Random;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -57,8 +56,6 @@ public class Drivebase extends SubsystemBase {
 
   double maxVelocity = 0;
   double gyroOffset;
-
-  Random randomTimestamp = new Random();
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
