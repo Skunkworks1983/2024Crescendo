@@ -4,18 +4,24 @@
 
 package frc.robot.utils;
 
-import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
 public class VisionMeasurement {
-    public EstimatedRobotPose pose;
-    public Matrix<N3, N1> stdDevs;
+    public final Pose2d estimatedPose;
+    public final Matrix<N3, N1> stdDevs;
+    public final double timestamp;
 
-    public VisionMeasurement(EstimatedRobotPose pose, Matrix<N3, N1> stdDevs) {
-        this.pose = pose;
+    /**
+     * An object that contains a EstimatedRobotPose, a Matrix of standard deviations, and a
+     * timestamp.
+     */
+    public VisionMeasurement(Pose2d estimatedPose, Matrix<N3, N1> stdDevs, double timestamp) {
+        this.estimatedPose = estimatedPose;
         this.stdDevs = stdDevs;
+        this.timestamp = timestamp;
     }
 
 }
