@@ -112,6 +112,9 @@ public class Shooter extends SubsystemBase {
             .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
 
+    // Setting the tolerance on the pivot PID controller to 1 degree.
+    pivotController.setTolerance(1.0);
+
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -143,6 +146,13 @@ public class Shooter extends SubsystemBase {
 
     pivotMotor.setControl(new DutyCycleOut(controllerCalculation));
     SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
+  }
+
+  /** Returns true if the shooter pivot PID controller is at it's setpoint */
+  public boolean isPivotAtSetpoint() {
+    SmartDashboard.putBoolean("Shooter pivot at setpoint", pivotController.atSetpoint());
+    SmartDashboard.putNumber("Shooter pivot error", pivotController.getPositionError());
+    return pivotController.atSetpoint();
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {

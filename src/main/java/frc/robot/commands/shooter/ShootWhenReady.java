@@ -4,10 +4,8 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SubsystemGroups;
@@ -17,15 +15,15 @@ public class ShootWhenReady extends Command {
 
   private Shooter shooter;
   private Indexer indexer;
-  private Drivebase drivebase;
   double angleError;
   int atSpeedCount = 0;
+  int atPivotSetpointCount = 0;
   int minAtSpeedCount = 13;
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
-    drivebase = Drivebase.getInstance();
+
     // only reads the flywheel, so it doesn't require the flywheel
     addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
   }
@@ -38,14 +36,20 @@ public class ShootWhenReady extends Command {
 
   @Override
   public void execute() {
-    if(Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR){
-       atSpeedCount++;
-    }
-    else{
+
+    if (Math.abs(shooter.getFlywheelError()) <= Constants.Shooter.MAX_FLYWHEEL_ERROR) {
+      atSpeedCount++;
+    } else {
       atSpeedCount = 0;
     }
 
-    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint) {
+    if (shooter.isPivotAtSetpoint()) {
+      atPivotSetpointCount++;
+    } else {
+      atPivotSetpointCount = 0;
+    }
+
+    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint && atPivotSetpointCount > 3) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
@@ -58,13 +62,12 @@ public class ShootWhenReady extends Command {
     System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
         + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
     /*
-    Pose2d robotPose = drivebase.getRobotPose();
-    System.out.println("Shooter angle setpoint: " + shooter.getShooterSetpoint() + ", position: "
-        + shooter.getShooterPivotRotationInDegrees() + ", error: "
-        + shooter.getShooterPivotError());
-    System.out.println("Odometry position X: " + robotPose.getX());
-    System.out.println("Odometry position Y: " + robotPose.getY());
-    System.out.println("Odometry position Angle: " + robotPose.getRotation()); */
+     * Pose2d robotPose = drivebase.getRobotPose(); System.out.println("Shooter angle setpoint: " +
+     * shooter.getShooterSetpoint() + ", position: " + shooter.getShooterPivotRotationInDegrees() +
+     * ", error: " + shooter.getShooterPivotError()); System.out.println("Odometry position X: " +
+     * robotPose.getX()); System.out.println("Odometry position Y: " + robotPose.getY());
+     * System.out.println("Odometry position Angle: " + robotPose.getRotation());
+     */
     System.out.println("Shoot When Ready Command End interrupted: " + interrupted);
   }
 
