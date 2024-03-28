@@ -25,9 +25,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -247,15 +245,12 @@ public class Drivebase extends SubsystemBase {
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() });
 
-    double fakeTimestamp = Timer.getFPGATimestamp() + 2.0;
-
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
     for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
-      odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
-          fakeTimestamp, measurement.stdDevs);
+      odometry.addVisionMeasurement(measurement.estimatedPose,
+          measurement.timestamp, measurement.stdDevs);
     }
-
 
     integratedOdometryPrint.setRobotPose(getRobotPose());
   }

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.ejml.simple.SimpleMatrix;
 import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonVersion;
 import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.PhotonVision;
@@ -65,11 +65,12 @@ public class Vision {
                 double rotationalUncertainty =
                         distanceToTarget * PhotonVision.ROTATIONAL_UNCERTAINTY_PROPORTIONAL;
 
+                // If the estimated pose is not within the field dimensions, then don't add the
+                // vision measurement.
                 if (pose.estimatedPose.toPose2d().getX() < 0.0
-                        || pose.estimatedPose.getX() > Constants.FIELD_X_LENGTH
-                        || pose.estimatedPose.getY() < 0.0
-                        || pose.estimatedPose.getY() > Constants.FIELD_Y_LENGTH
-                        || distanceToTarget > PhotonVision.APRILTAG_DISTANCE_CUTOFF) {
+                        || pose.estimatedPose.toPose2d().getX() > Constants.FIELD_X_LENGTH
+                        || pose.estimatedPose.toPose2d().getY() < 0.0
+                        || pose.estimatedPose.toPose2d().getY() > Constants.FIELD_Y_LENGTH) {
                     continue;
                 }
 
@@ -78,7 +79,11 @@ public class Vision {
                 Matrix<N3, N1> uncertainty = new Matrix<N3, N1>(new SimpleMatrix(new double[] {
                         distanceUncertainty, distanceUncertainty, rotationalUncertainty}));
 
-                visionMeasurements.add(new VisionMeasurement(pose, uncertainty));
+                // If the timestamp is in the future, then use the FPGA timestamp instead. Bad
+                // timestamps will break the pose estimator.
+                double timestamp = Math.min(pose.timestampSeconds, Timer.getFPGATimestamp());
+
+                visionMeasurements.add(new VisionMeasurement(pose.estimatedPose.toPose2d(), uncertainty, timestamp));
             }
 
             i++;
