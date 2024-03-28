@@ -20,8 +20,8 @@ import frc.robot.constants.Constants.PhotonVision;
 
 public class Vision {
     SkunkPhotonCamera[] cameras;
-    String [] hasTargetsPrints;
-    String [] distanceToTargetPrints; 
+    String[] hasTargetsPrints;
+    String[] distanceToTargetPrints;
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
@@ -29,8 +29,8 @@ public class Vision {
         distanceToTargetPrints = new String[this.cameras.length];
 
         for (int i = 0; i < cameras.length; i++) {
-            hasTargetsPrints[i] = "Camera " + (i+1) + " hasTargets";
-            distanceToTargetPrints[i] = "Camera " + (i+1) + " distanceToTarget";
+            hasTargetsPrints[i] = "Camera " + (i + 1) + " hasTargets";
+            distanceToTargetPrints[i] = "Camera " + (i + 1) + " distanceToTarget";
         }
     }
 
@@ -92,7 +92,8 @@ public class Vision {
                 // timestamps will break the pose estimator.
                 double timestamp = Math.min(pose.timestampSeconds, Timer.getFPGATimestamp());
 
-                visionMeasurements.add(new VisionMeasurement(pose.estimatedPose.toPose2d(), uncertainty, timestamp));
+                visionMeasurements.add(new VisionMeasurement(pose.estimatedPose.toPose2d(),
+                        uncertainty, timestamp));
             }
 
             i++;
