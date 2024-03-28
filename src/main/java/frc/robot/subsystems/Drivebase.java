@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
+import java.util.Random;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,6 +58,8 @@ public class Drivebase extends SubsystemBase {
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
+
+  Random randomTimestamp = new Random();
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -243,12 +247,15 @@ public class Drivebase extends SubsystemBase {
         new SwerveModulePosition[] { frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition() });
 
+    double fakeTimestamp = Timer.getFPGATimestamp() + 2.0;
+
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
     for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
       odometry.addVisionMeasurement(measurement.pose.estimatedPose.toPose2d(),
-          measurement.pose.timestampSeconds, measurement.stdDevs);
+          fakeTimestamp, measurement.stdDevs);
     }
+
 
     integratedOdometryPrint.setRobotPose(getRobotPose());
   }
