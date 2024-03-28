@@ -19,6 +19,7 @@ import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SpinUpFlyWheelAndShoot;
+import frc.robot.commands.StopRobot;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.LoadPieceShooter;
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("CollectNote", new CollectNote());
 
   // Shooter
-  NamedCommands.registerCommand("ShootNote",new Shoot());
+  NamedCommands.registerCommand("ShootNote", new Shoot());
   NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
   NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
   NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
@@ -77,6 +78,9 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
   NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
+  NamedCommands.registerCommand("StopRobot", new StopRobot());
+;
+
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -88,7 +92,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    //SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
@@ -101,8 +105,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putBoolean("Collector Limit Forward", collector.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("Collector Limit Backward", collector.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Forward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Backward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
   }
 
   @Override
