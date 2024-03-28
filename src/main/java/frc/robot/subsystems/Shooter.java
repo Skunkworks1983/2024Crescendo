@@ -129,8 +129,8 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+    //SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
+    //SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }

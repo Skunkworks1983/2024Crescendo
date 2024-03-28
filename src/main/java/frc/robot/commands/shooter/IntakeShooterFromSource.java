@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter.untested;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Shooter;
@@ -28,7 +27,7 @@ public class IntakeShooterFromSource extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setFlywheelSpeed(-3);
+    shooter.setFlywheelSpeed(Constants.Shooter.SOURCE_FLYWHEEL_SPEED);
     shooter.setIndexerPercentOutput(-Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT);
     System.out.println(
         "Intake Shooter From Source Command Initialize");
@@ -43,7 +42,6 @@ public class IntakeShooterFromSource extends Command {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTER_MANUAL_INDEXER_PERCENT_OUTPUT_SLOW);
       shooter.setFlywheelMotorCoastMode();
       beambreak2Tripped = true;
-      System.out.println("peice is in, moving it forward");
     }
   }
 
