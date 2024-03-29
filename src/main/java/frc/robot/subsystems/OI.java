@@ -109,7 +109,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
-    setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
+    setRobotRelitive.whileTrue(new autoAmp(this));
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new autoAmp(this));

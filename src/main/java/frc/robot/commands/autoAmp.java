@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -38,8 +39,11 @@ public class autoAmp extends Command {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
       fieldOrientationMultiplier = -1;
+      xTargetPos = Constants.FIELD_X_LENGTH / 2 + (Constants.FIELD_X_LENGTH / 2 - xTargetPos);
+      System.out.println("Red");
     } else {
       fieldOrientationMultiplier = 1;
+      System.out.println("Blue");
     }
 
     drivebase.setFieldTarget(fieldTarget);
@@ -57,14 +61,16 @@ public class autoAmp extends Command {
             (targetPoint.getX() - drivebase.getRobotPose().getX()))));
 
     double distanceFromAmp = xTargetPos - drivebase.getRobotPose().getX();
-    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.2, 1), -1));
+    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.01, 0.5), -0.5));
+    SmartDashboard.putNumber("Distance from amp", distanceFromAmp);
+    SmartDashboard.putNumber("Target X", xTargetPos);
     drivebase.setDriveTurnPos(
 
         MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-        //Math.max(Math.min(distanceFromAmp/5, 1), -1)
-        * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+            // Math.max(Math.min(distanceFromAmp/5, 1), -1)
+            * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-        * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+            * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         true);
   }
 
