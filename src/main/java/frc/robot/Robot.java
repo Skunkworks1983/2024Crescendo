@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.CameraStdDevsTuning;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.IntakeNoteToIndexerAuto;
@@ -34,6 +35,7 @@ import frc.robot.subsystems.Collector.LimitSwitch;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private Command swerve;
+  private Command stdDevsTuning = new CameraStdDevsTuning();
   private SendableChooser<Command> autoChooser;
 
   OI oi;
@@ -129,6 +131,7 @@ public class Robot extends TimedRobot {
     }
 
     drivebase.setSwerveAsDefaultCommand();
+    stdDevsTuning.schedule();
   }
 
   @Override

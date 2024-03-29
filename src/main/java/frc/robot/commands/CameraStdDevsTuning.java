@@ -6,11 +6,9 @@ package frc.robot.commands;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Optional;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.PhotonVision;
