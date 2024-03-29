@@ -253,6 +253,13 @@ public class Constants {
     public static final double SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS = 5;
 
     public static final double SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS = 15;
+
+    // In the ShootWhenReady command, the shooter pivot must be at the setpoint for this number of
+    // ticks before allowed to shoot.
+    public static final double SHOOTER_ANGLE_WAIT_TICKS = 3;
+
+    // Setting the tolerance on the shooter pivot PID controller to this number.
+    public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
   }
 
   public class PIDControllers {
