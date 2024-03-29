@@ -112,9 +112,7 @@ public class Shooter extends SubsystemBase {
             .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
 
-    // Setting the tolerance on the pivot PID controller to 1 degree.
-    pivotController.setTolerance(1.0);
-
+    pivotController.setTolerance(Constants.Shooter.SHOOTER_PIVOT_PID_TOLERANCE);
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -132,8 +130,9 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    //SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
-    //SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+    // SmartDashboard.putNumber("Shooter Shoot Velocity",
+    // shootMotor1.getVelocity().getValueAsDouble());
+    // SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }
@@ -150,15 +149,13 @@ public class Shooter extends SubsystemBase {
 
   /** Returns true if the shooter pivot PID controller is at it's setpoint */
   public boolean isPivotAtSetpoint() {
-    SmartDashboard.putBoolean("Shooter pivot at setpoint", pivotController.atSetpoint());
-    SmartDashboard.putNumber("Shooter pivot error", pivotController.getPositionError());
     return pivotController.atSetpoint();
   }
 
   public void setFlywheelSpeed(double speedMetersPerSecond) {
-    if(speedMetersPerSecond != lastFlywheelSpeed) {
+    if (speedMetersPerSecond != lastFlywheelSpeed) {
       shootMotor1.setControl(velocityVoltage
-      .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
+          .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
     }
     lastFlywheelSpeed = speedMetersPerSecond;
     isFlywheelSpiningWithSetpoint = true;

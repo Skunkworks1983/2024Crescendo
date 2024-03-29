@@ -32,6 +32,7 @@ public class ShootWhenReady extends Command {
   public void initialize() {
     System.out.println("Shoot When Ready Command Initialize");
     atSpeedCount = 0;
+    atPivotSetpointCount = 0;
   }
 
   @Override
@@ -49,7 +50,8 @@ public class ShootWhenReady extends Command {
       atPivotSetpointCount = 0;
     }
 
-    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint && atPivotSetpointCount > 3) {
+    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint
+        && atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
