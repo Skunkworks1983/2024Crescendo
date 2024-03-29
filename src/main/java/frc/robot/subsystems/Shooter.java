@@ -112,6 +112,7 @@ public class Shooter extends SubsystemBase {
             .withSupplyCurrentLimit(Constants.Shooter.SHOOTER_PIVOT_MAX_AMPS)
             .withSupplyCurrentLimitEnable(true));
 
+    pivotController.setTolerance(Constants.Shooter.SHOOTER_PIVOT_PID_TOLERANCE);
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -129,8 +130,9 @@ public class Shooter extends SubsystemBase {
 
     shootingController.updatePID();
     indexerController.updatePID();
-    //SmartDashboard.putNumber("Shooter Shoot Velocity", shootMotor1.getVelocity().getValueAsDouble());
-    //SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+    // SmartDashboard.putNumber("Shooter Shoot Velocity",
+    // shootMotor1.getVelocity().getValueAsDouble());
+    // SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }
@@ -145,10 +147,15 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Pivot Motor Output", controllerCalculation);
   }
 
+  /** Returns true if the shooter pivot PID controller is at it's setpoint */
+  public boolean isPivotAtSetpoint() {
+    return pivotController.atSetpoint();
+  }
+
   public void setFlywheelSpeed(double speedMetersPerSecond) {
-    if(speedMetersPerSecond != lastFlywheelSpeed) {
+    if (speedMetersPerSecond != lastFlywheelSpeed) {
       shootMotor1.setControl(velocityVoltage
-      .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
+          .withVelocity((speedMetersPerSecond * Constants.Shooter.SHOOTER_ROTATIONS_PER_METER)));
     }
     lastFlywheelSpeed = speedMetersPerSecond;
     isFlywheelSpiningWithSetpoint = true;
@@ -168,6 +175,10 @@ public class Shooter extends SubsystemBase {
   public double getFlywheelVelocity() {
     return shootMotor1.getVelocity().getValueAsDouble()
         / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+  }
+
+  public double getFlywheelError() {
+    return flywheelSetpointMPS - shootMotor1.getVelocity().getValueAsDouble() / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
@@ -194,12 +205,6 @@ public class Shooter extends SubsystemBase {
 
   public boolean getShooterIndexerBeambreak2() {
     return !noteBreak2.get();
-  }
-
-  // error in meters per seconds
-  public double getFlywheelError() {
-    return shootMotor1.getClosedLoopError().getValue()
-        / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
   }
 
   public double getShooterPivotRotationInDegrees() {
