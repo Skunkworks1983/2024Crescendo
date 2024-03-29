@@ -17,15 +17,17 @@ import frc.robot.utils.Vision;
 public class CameraStdDevsTuning extends Command {
 
   Vision vision;
-  LinkedList<Transform3d> measurements;
-  LinkedList<Double> xMeasurements;
-  LinkedList<Double> yMeasurements;
-  LinkedList<Double> rotMeasurements;
+  LinkedList<Transform3d> measurements = new LinkedList<Transform3d>();
+  LinkedList<Double> xMeasurements = new LinkedList<Double>();
+  LinkedList<Double> yMeasurements = new LinkedList<Double>();
+  LinkedList<Double> rotMeasurements = new LinkedList<Double>();
 
   File logFile;
   FileWriter fileWriter;
 
-  public CameraStdDevsTuning() {}
+  public CameraStdDevsTuning() {
+    vision = Vision.getInstance();
+  }
 
   public double calculateStdDevs(LinkedList<Double> measurements) {
     double averageTotal = 0;

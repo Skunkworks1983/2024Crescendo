@@ -26,8 +26,9 @@ public class Vision {
     SkunkPhotonCamera[] cameras;
     String[] hasTargetsPrints;
     String[] distanceToTargetPrints;
+    private static Vision vision;
 
-    public Vision(SkunkPhotonCamera[] cameras) {
+    private Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
         hasTargetsPrints = new String[this.cameras.length];
         distanceToTargetPrints = new String[this.cameras.length];
@@ -121,5 +122,28 @@ public class Vision {
         }
 
         return visionMeasurements;
+    }
+
+    public static Vision getInstance() {
+
+        if (vision == null) {
+
+            // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
+            // plugged in.
+            try {
+                vision = new Vision(new SkunkPhotonCamera[] {
+                        new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME,
+                                PhotonVision.ROBOT_TO_CAMERA_1),
+                        new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME,
+                                PhotonVision.ROBOT_TO_CAMERA_2)});
+                SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+            } catch (Exception e) {
+                System.out.println("Exception creating cameras: " + e.toString());
+                vision = new Vision(new SkunkPhotonCamera[] {});
+                SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
+            }
+        }
+
+        return vision;
     }
 }
