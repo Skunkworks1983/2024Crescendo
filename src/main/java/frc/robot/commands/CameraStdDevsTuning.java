@@ -27,8 +27,7 @@ public class CameraStdDevsTuning extends Command {
   File logFile;
   FileWriter fileWriter;
 
-  public CameraStdDevsTuning() {
-  }
+  public CameraStdDevsTuning() {}
 
   public double calculateStdDevs(LinkedList<Double> measurements) {
     double averageTotal = 0;
@@ -54,26 +53,27 @@ public class CameraStdDevsTuning extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    try {
-      logFile = new File("Camera_Std_Devs_Tuning_Log.txt");
-      fileWriter = new FileWriter("Camera_Std_Devs_Tuning_Log.txt");
-      fileWriter.write("COMMAND INITIALIZE");
+    // try {
+    // logFile = new File("Camera_Std_Devs_Tuning_Log.txt");
+    // fileWriter = new FileWriter("Camera_Std_Devs_Tuning_Log.txt");
+    // fileWriter.write("COMMAND INITIALIZE");
 
-      if (logFile.createNewFile()) {
-        System.out.println("Successfully created file");
-      } else {
-        System.out.println("File already exists");
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // if (logFile.createNewFile()) {
+    // System.out.println("Successfully created file");
+    // } else {
+    // System.out.println("File already exists");
+    // }
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    Optional<Transform3d> transformOptional = vision.getRobotToTargetTransform(PhotonVision.CAMERA_1_NAME);
+    Optional<Transform3d> transformOptional =
+        vision.getRobotToTargetTransform(PhotonVision.CAMERA_1_NAME);
 
     if (transformOptional.isPresent()) {
       Transform3d transform3d = transformOptional.get();
@@ -84,6 +84,10 @@ public class CameraStdDevsTuning extends Command {
       xMeasurements.add(measurement.getX());
       yMeasurements.add(measurement.getY());
       rotMeasurements.add(measurement.getRotation().toRotation2d().getDegrees());
+
+      SmartDashboard.putNumber("Camera Tranform X", measurement.getX());
+      SmartDashboard.putNumber("Camera Transform Y", measurement.getY());
+      SmartDashboard.putNumber("Camera Transform Rot", measurement.getRotation().toRotation2d().getDegrees());
     }
 
     if (measurements.size() > PhotonVision.STD_DEVS_TUNING_MEASUREMENTS_LIST_SIZE) {
@@ -111,21 +115,20 @@ public class CameraStdDevsTuning extends Command {
     SmartDashboard.putNumber("Camera Rotation Std Dev", rotStdDev);
 
     // Write to the file
-    try {
-      fileWriter.write("Timestamp: " + Timer.getFPGATimestamp());
-      fileWriter.write("X  : " + Double.toString(xStdDev));
-      fileWriter.write("Y  : " + Double.toString(yStdDev));
-      fileWriter.write("Rot: " + Double.toString(rotStdDev));
-      fileWriter.close();
-    } catch (IOException e) {
-      System.out.println("Execption writing to file: " + e.toString());
-    }
+    // try {
+    // fileWriter.write("Timestamp: " + Timer.getFPGATimestamp());
+    // fileWriter.write("X : " + Double.toString(xStdDev));
+    // fileWriter.write("Y : " + Double.toString(yStdDev));
+    // fileWriter.write("Rot: " + Double.toString(rotStdDev));
+    // fileWriter.close();
+    // } catch (IOException e) {
+    // System.out.println("Execption writing to file: " + e.toString());
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
