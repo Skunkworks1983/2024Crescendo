@@ -79,7 +79,6 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
   NamedCommands.registerCommand("StopRobot", new StopRobot());
-;
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
