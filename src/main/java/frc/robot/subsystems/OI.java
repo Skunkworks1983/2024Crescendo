@@ -17,6 +17,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.ShootWhenReady;
@@ -25,6 +26,7 @@ import frc.robot.commands.shooter.ShooterToPassAngle;
 import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
+import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleTurnTune;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleVelocityTuning;
 import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
@@ -44,11 +46,10 @@ public class OI extends SubsystemBase {
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
-  JoystickButton linearAim;
+  JoystickButton interpolationAim;
   JoystickButton shootWhenReady;
   JoystickButton noteFloorToShooter;
   JoystickButton shooterToAmp;
-  JoystickButton shooterToSpeaker;
   JoystickButton collectorStow;
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
@@ -82,8 +83,9 @@ public class OI extends SubsystemBase {
 
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
-    shooterToSpeaker = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_SPEAKER);
     shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
+
+    interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -112,11 +114,11 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(shooterToSpeaker.negate()).and(shooterToPass.negate())
+    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    shooterToSpeaker.whileTrue(new ShooterToPodium());
+    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
@@ -124,7 +126,7 @@ public class OI extends SubsystemBase {
     collectorStow.whileTrue(new CollectorStow());
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    manualExpelBackwards.and(manualSwitch).whileTrue(new ManualRunNoteBackwards());
+    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
 
     smartClimb.onTrue(new ExtendClimber());
     smartClimb.onFalse(new SmartClimb());
@@ -134,13 +136,7 @@ public class OI extends SubsystemBase {
     manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
-
-    // Calling this command for both buttons to elimate confusion about which button needs to be
-    // pressed first.
-    resetGyroHeadingLeft.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
-    resetGyroHeadingRight.onTrue(new ResetGyroSystem(resetGyroHeadingLeft::getAsBoolean,
-        resetGyroHeadingRight::getAsBoolean));
+    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
   }
 
   @Override

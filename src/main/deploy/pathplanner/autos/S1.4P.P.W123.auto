@@ -1,0 +1,254 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.26,
+      "y": 5.545975061415772
+    },
+    "rotation": -179.24615166692934
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlyWheelAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LowerCollector"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "StartToWNote2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WNote2ToSpeakerSide2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SpeakerToWNote1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WNote1ToSpekaer"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SpeakerToWingNote3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WNote3ToSpeakerSide2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NoteFloorToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CollectorStow"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "StartingPos1",
+  "choreoAuto": false
+}

@@ -6,7 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,12 +19,15 @@ import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.SpinUpFlyWheelAndShoot;
+import frc.robot.commands.StopRobot;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
@@ -51,6 +54,8 @@ public class Robot extends TimedRobot {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
     collector = Collector.getInstance();
+    //enable the driver camera
+    CameraServer.startAutomaticCapture();
 
   //wait times
   NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
@@ -62,7 +67,7 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("CollectNote", new CollectNote());
 
   // Shooter
-  NamedCommands.registerCommand("ShootNote",new Shoot());
+  NamedCommands.registerCommand("ShootNote", new Shoot());
   NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
   NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
   NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
@@ -73,6 +78,9 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+  NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
+
+  NamedCommands.registerCommand("StopRobot", new StopRobot());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -85,7 +93,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    //SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
   }
 
   @Override
@@ -98,8 +106,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putBoolean("Collector Limit Forward", collector.getLimitSwitchOutput(LimitSwitch.FORWARD_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("Collector Limit Backward", collector.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Forward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Backward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
   }
 
   @Override
@@ -107,6 +115,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
     // cancels swerve teleop command to make sure it does not interfere with auto
     if (swerve != null) {
       swerve.cancel();

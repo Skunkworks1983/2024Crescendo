@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7398459580634182,
-      "y": 4.449313326107569
+      "x": 0.7085127656260409,
+      "y": 6.673969989161352
     },
-    "rotation": 122.19573393471327
+    "rotation": -116.8869341924767
   },
   "command": {
     "type": "sequential",
@@ -18,46 +18,33 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlywheel"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 2.0
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              }
-            ]
+            "waitTime": 10.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DriveOutAndShootP3"
+            "pathName": "DriveOutAndShootP1"
           }
         }
       ]
     }
   },
-  "folder": "StartingPos3",
+  "folder": null,
   "choreoAuto": false
 }

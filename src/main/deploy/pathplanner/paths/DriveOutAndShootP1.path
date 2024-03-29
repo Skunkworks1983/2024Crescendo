@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4396205891648424,
-        "y": 6.099528127809436
+        "x": 1.39784299924834,
+        "y": 7.572188172366167
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.029831163988028,
-        "y": 6.371082462266705
+        "x": 3.4449449051569863,
+        "y": 7.54085497992879
       },
       "prevControl": {
-        "x": 3.304048517435353,
-        "y": 6.192266447898653
+        "x": 2.672411844313316,
+        "y": 7.5721738878008304
       },
       "nextControl": {
-        "x": 4.750494590047705,
-        "y": 6.5486372194118445
+        "x": 4.217830318612292,
+        "y": 7.509521787491413
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.178714886691861,
-        "y": 7.519966184970539
+        "x": 5.241381271566616,
+        "y": 7.19618986311764
       },
       "prevControl": {
-        "x": 4.95938253963022,
-        "y": 7.19618986311764
+        "x": 4.656495012735573,
+        "y": 7.154412273201137
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,14 +49,14 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.6,
-    "maxAcceleration": 7.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -164.6667152069464,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "DriveOutAndShoots",

@@ -134,6 +134,9 @@ public class Collector extends SubsystemBase {
     if (pivotToPosition) {
       rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
     }
+
+    //SmartDashboard.putNumber("Collector pos error", pivotMotorController.getPositionError());
+    //SmartDashboard.putNumber("Collector velocity setpoint", pivotMotorController.getSetpoint().velocity);
   }
 
   public void setPercentOutput(double percent) {

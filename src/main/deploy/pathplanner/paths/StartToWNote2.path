@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.556419458894899
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8260632958924956,
-        "y": 5.556419458894899
+        "x": 1.7460632958924955,
+        "y": 5.545975061415772
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SpeakerSide2"
     },
     {
       "anchor": {
-        "x": 2.38,
+        "x": 2.42,
         "y": 5.556419458894899
       },
       "prevControl": {
-        "x": 1.4264123752218354,
+        "x": 1.4664123752218354,
         "y": 5.556419458894899
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "WingNote2"
     }
   ],
   "rotationTargets": [],
