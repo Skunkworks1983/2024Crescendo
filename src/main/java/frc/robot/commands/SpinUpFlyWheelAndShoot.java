@@ -15,6 +15,6 @@ import frc.robot.commands.shooter.ShootWhenReady;
 public class SpinUpFlyWheelAndShoot extends ParallelDeadlineGroup {
   /** Creates a new SpinUpFlyWheelAndShoot. */
   public SpinUpFlyWheelAndShoot() {
-    super (new ShootWhenReady(), new FlywheelSpinup());
+    super ((Command)new ShootWhenReady(), new FlywheelSpinup());
   }
 }
