@@ -24,10 +24,10 @@ public class autoAmp extends Command {
   int fieldOrientationMultiplier;
   OI oi;
 
-  public autoAmp() {
+  public autoAmp(OI oi) {
     fieldTarget = FieldTarget.AMP;
     xTargetPos = Constants.Targeting.FieldTarget.AMP.get().get().getX();
-    oi = OI.getInstance();
+    this.oi = oi;
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
   }
