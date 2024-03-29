@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.42,
-        "y": 4.073315016859041
+        "x": 2.39,
+        "y": 4.02
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1262886647910708,
-        "y": 3.989759837026036
+        "x": 1.9409516681628791,
+        "y": 4.522424108461449
       },
       "isLocked": false,
       "linkedName": "WingNote3"
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": {
-        "x": 1.4709537816022202,
-        "y": 4.6477568782109575
+        "x": 1.8051745009342444,
+        "y": 4.720867660564838
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "P1.4P.P.W123new",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

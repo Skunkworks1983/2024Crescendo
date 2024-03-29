@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.34,
-        "y": 6.330506318758457
+        "x": 1.26,
+        "y": 6.316481380174229
       },
       "isLocked": false,
       "linkedName": "SpeakerSide2"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "S2.4P.P.W213new",
+  "folder": null,
   "previewStartingState": {
     "rotation": -179.60609296820724,
     "velocity": 0

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.34,
-        "y": 4.686052646484864
+        "x": 1.26,
+        "y": 4.672027707900637
       },
       "isLocked": false,
       "linkedName": "SpeakerSide2"
     },
     {
       "anchor": {
-        "x": 2.42,
-        "y": 4.073315016859041
+        "x": 2.39,
+        "y": 4.02
       },
       "prevControl": {
-        "x": 1.5376492896772205,
-        "y": 4.073315016859041
+        "x": 1.5076492896772207,
+        "y": 4.02
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "S2.4P.P.W213new",
+  "folder": null,
   "previewStartingState": {
     "rotation": 178.58080858048453,
     "velocity": 0
