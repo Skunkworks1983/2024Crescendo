@@ -110,7 +110,8 @@ public class OI extends SubsystemBase {
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
     // DEBUG
-    testMechanicalOdometry = new JoystickButton(leftJoystick, 0);
+    testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
+    
     shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
