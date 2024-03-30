@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": {
-        "x": 1.8051745009342444,
-        "y": 6.183083307642443
+        "x": 1.7251745009342443,
+        "y": 6.169058369058216
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "P1.4P.P.W123new",
   "previewStartingState": {
     "rotation": -179.04410739580467,
     "velocity": 0

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.335176614373586,
-      "y": 5.56
+      "x": 1.26,
+      "y": 5.545975061415772
     },
     "rotation": -179.24615166692934
   },
@@ -18,19 +18,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootWhenReady"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "LowerCollector"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
                 }
               }
             ]
@@ -101,22 +95,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -184,22 +165,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -245,7 +213,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "WNote3ToSpeakerSide3"
+                        "pathName": "WNote3ToSpeakerSide2"
                       }
                     },
                     {
@@ -267,28 +235,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopRobot"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {

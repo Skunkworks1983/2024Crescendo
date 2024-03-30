@@ -12,22 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -95,22 +82,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -178,22 +152,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {

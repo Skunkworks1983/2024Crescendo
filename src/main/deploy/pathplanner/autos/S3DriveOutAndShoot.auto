@@ -18,35 +18,22 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlywheel"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 2.0
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              }
-            ]
+            "waitTime": 10.0
           }
         },
         {
@@ -58,6 +45,6 @@
       ]
     }
   },
-  "folder": "SpeakerSide3",
+  "folder": null,
   "choreoAuto": false
 }

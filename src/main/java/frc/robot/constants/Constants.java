@@ -32,21 +32,21 @@ public class Constants {
   public class IDS {
     // Climber Motor IDS
     // stub
-    public static final int LEFT_CLIMBER_MOTOR = 41;
-    public static final int RIGHT_CLIMBER_MOTOR = 1;
+    public static final int LEFT_CLIMBER_MOTOR = 14;
+    public static final int RIGHT_CLIMBER_MOTOR = 13;
 
 
     // Shooter Motor IDS
 
     // Left Flywheel
-    public static final int SHOOT_MOTOR1 = 4;
+    public static final int SHOOT_MOTOR1 = 37;
 
     // Right Flywheel
-    public static final int SHOOT_MOTOR2 = 3;
+    public static final int SHOOT_MOTOR2 = 36;
 
     // Shooter Pivot
-    public static final int SHOOTER_PIVOT_MOTOR = 5;
-    public static final int SHOOTER_INDEXER_MOTOR = 36;
+    public static final int SHOOTER_PIVOT_MOTOR = 15;
+    public static final int SHOOTER_INDEXER_MOTOR = 35;
     public static final int SHOOTER_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 0;
     public static final int SHOOTER_PIVOT_MOTOR_REVERSE_LIMIT_SWITCH = 8;
     public static final int SHOOTER_PIVOT_ENCODER_PIN_1 = 3;
@@ -96,15 +96,18 @@ public class Constants {
 
     // Button used to reset the gyro (used on both joysticks)
     public static final int RESET_GYRO_BUTTON = 3;
+
+    // Intake from shooter
+    public static final int SHOOTER_INTAKE = 23;
   }
 
   public class Collector {
     // Collector Motor IDS
     // stub
-    public static final int TOP_INTAKE_MOTOR = 32;
+    public static final int TOP_INTAKE_MOTOR = 30;
     public static final int BOTTOM_INTAKE_MOTOR = 31;
-    public static final int RIGHT_PIVOT_MOTOR = 34;
-    public static final int LEFT_PIVOT_MOTOR = 35;
+    public static final int RIGHT_PIVOT_MOTOR = 32;
+    public static final int LEFT_PIVOT_MOTOR = 34;
     public static final int INTAKE_GEAR_RATIO = 25;
     public static final double INTAKE_ROLLER_DIAMETER = 0.0381; // meters
     public static final double PIVOT_GEAR_RATIO = 20.0 * (42.0 / 24.0);
@@ -140,16 +143,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(11, 13, 15, 0.320801, "Front Left");
+          new SwerveModuleConstants(16, 18, 17, 0.320801, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(12, 14, 16, -0.387939, "Front Right");
+          new SwerveModuleConstants(10, 12, 11, -0.387939, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(21, 23, 25, -0.204590, "Back Left");
+          new SwerveModuleConstants(25, 23, 24, -0.204590, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 24, 26, 0.311035, "Back Right");
+          new SwerveModuleConstants(22, 20, 21, 0.311035, "Back Right");
     }
   }
 
@@ -261,6 +264,13 @@ public class Constants {
     public static final double SHOOTER_PIVOT_TUNING_SUCCESSFUL_TICKS = 5;
 
     public static final double SHOOTER_FLYWHEEL_TUNING_SUCCESSFUL_TICKS = 15;
+
+    // In the ShootWhenReady command, the shooter pivot must be at the setpoint for this number of
+    // ticks before allowed to shoot.
+    public static final double SHOOTER_ANGLE_WAIT_TICKS = 3;
+
+    // Setting the tolerance on the shooter pivot PID controller to this number.
+    public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
   }
 
   public class PIDControllers {
