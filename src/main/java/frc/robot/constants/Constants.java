@@ -170,14 +170,14 @@ public class Constants {
     public static final double DISTANCE_TO_WEIGHT_A_2 = 0.5;
     public static final double DISTANCE_TO_WEIGHT_B_2 = 0.5;
 
-    //Add values from google sheets
-    public static final ShooterAimState[] KNOWN_SHOOTING_POINTS = {
-      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
-      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
-      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
-      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
+    // Add values from google sheets
+    public static final ShooterAimState[] KNOWN_SHOOTING_POINTS =
+        {new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
 
-    };
+        };
   }
 
   public class Shooter {

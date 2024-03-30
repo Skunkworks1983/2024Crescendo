@@ -52,7 +52,8 @@ public class ShooterAimUtils {
     return weightedAverage;
   }
 
-  // critical equasion. exactly what values we feed into it dictate how well the mesh fits to the mesh
+  // critical equasion. exactly what values we feed into it dictate how well the mesh fits to the
+  // mesh
   private static double calculateWeightBasedOnDistance(double distance) {
     return ((ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_A_1 * Math.pow(2,
         -(Math.pow(ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_B_1 * distance, 2))))

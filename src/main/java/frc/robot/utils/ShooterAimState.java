@@ -14,22 +14,29 @@ public class ShooterAimState {
   double flywheelSpeed;
   Rotation2d pivotRotation;
 
-/*
   ShooterAimState(Translation2d position, Rotation2d pivotRotation, double flywheelSpeed){
-    this.flywheelSpeed=flywheelSpeed;
-    this.position=position;
-    this.pivotRotation=pivotRotation;
-  }*/
-  public ShooterAimState(Translation2d position, double pivotRotation, double flywheelSpeed){
-    //this(position, Rotation2d.fromDegrees(pivotRotation),flywheelSpeed);
+    this.flywheelSpeed=flywheelSpeed; this.position=position; this.pivotRotation=pivotRotation; 
   }
-  public ShooterAimState(){
+
+  public ShooterAimState(Translation2d position, double pivotRotation, double flywheelSpeed) {
+    this(position, Rotation2d.fromDegrees(pivotRotation),flywheelSpeed);
+  }
+
+  public ShooterAimState() {
 
   }
 
-  public Translation2d getPosition(){return position;}
-  public double getFlywheelSpeed(){return flywheelSpeed;}
-  public Rotation2d getPivotRotation(){return pivotRotation;}
+  public Translation2d getPosition() {
+    return position;
+  }
+
+  public double getFlywheelSpeed() {
+    return flywheelSpeed;
+  }
+
+  public Rotation2d getPivotRotation() {
+    return pivotRotation;
+  }
 
 
 }
