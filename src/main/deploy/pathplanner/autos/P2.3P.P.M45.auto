@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "SpinUpFlyWheelAndShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlyWheelAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StowShooter"
+                }
+              }
+            ]
           }
         },
         {
