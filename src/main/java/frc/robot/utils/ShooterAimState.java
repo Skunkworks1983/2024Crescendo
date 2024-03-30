@@ -22,10 +22,6 @@ public class ShooterAimState {
     this(position, Rotation2d.fromDegrees(pivotRotation),flywheelSpeed);
   }
 
-  public ShooterAimState() {
-
-  }
-
   public Translation2d getPosition() {
     return position;
   }
@@ -38,5 +34,16 @@ public class ShooterAimState {
     return pivotRotation;
   }
 
+  public void setPosition(Translation2d position) {
+    this.position=position;
+  }
+
+  public void setFlywheelSpeed(double flywheelSpeed) {
+    this.flywheelSpeed=flywheelSpeed;
+  }
+
+  public void setPivotRotation(Rotation2d pivotRotation) {
+    this.pivotRotation=pivotRotation;
+  }
 
 }
