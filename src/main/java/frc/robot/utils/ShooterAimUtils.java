@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N4;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.ShooterInterpolationConstants;
 
 public class ShooterAimUtils {
 
@@ -19,15 +18,45 @@ public class ShooterAimUtils {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
-  public static double calculateInterpolatedAimAngle(Translation2d position) {
-    return calculateInterpolatedAimAngle(position.getX(), position.getY());
-  }
+
+
 
   public static double calculateInterpolatedAimAngle(double x, double y) {
-    return (ShooterInterpolationConstants.A + (ShooterInterpolationConstants.B * x)
-        + (ShooterInterpolationConstants.C * y) + (ShooterInterpolationConstants.D * x * x)
-        + (ShooterInterpolationConstants.E * y * y) + (ShooterInterpolationConstants.F * x * y));
+    return calculateInterpolatedAimAngle(new Translation2d(x,y));
   }
+
+  //based on https://www.desmos.com/3d/3d22c872bf
+  public static double calculateInterpolatedAimAngle(Translation2d robotPosition) {
+    
+    //simple average (not used but included so it makes more sense to people who read this in the future)
+    double total = 0;
+    double numberOfValues = 0;
+
+    //weighted based on distance 
+    //You can think of it as there are effectively more copies of that point if position 
+    //value is close to that point.
+    double weightedNumberOfValues = 0;
+    double weightedTotal = 0;
+
+    for(Translation3d point : Constants.ShooterInterpolationConstants.KNOWN_SHOOTING_POINTS){
+      double weight = calculateWeightBasedOnDistance(point.toTranslation2d().getDistance(robotPosition));
+      numberOfValues+=1;
+      total+=point.getZ();
+      weightedNumberOfValues+=weight;
+      weightedTotal+=weight*point.getZ();
+    }
+
+    double unweightedAverage= total / numberOfValues;
+    double weightedAverage = weightedTotal / weightedNumberOfValues;
+    return weightedAverage;
+  }
+
+  //critical equasion. exactly what values we feed into it dictate how well the mesh fits to the points, 
+  //how lumpy it is, how it translated from one point to another.
+  private static double calculateWeightBasedOnDistance(double distance){
+    return distance * Constants.ShooterInterpolationConstants.DISTANCE_TO_WIEGHT_EXPONENT;
+  }
+
 
   // only use the quarter(not actually 1/4 of a field) of the field close to 0,0
   // reflects across center of field on x and speaker y

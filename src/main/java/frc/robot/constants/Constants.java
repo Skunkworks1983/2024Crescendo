@@ -159,20 +159,27 @@ public class Constants {
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A = 80.46361754;
-    public static final double B = -11.16442723;
-    public static final double C = -10.56295564;
-    public static final double D = 2.27152757;
-    public static final double E = 0.75301618;
-    public static final double F = 1.16175171;
+    public static final double DISTANCE_TO_WIEGHT_A = -1;
+    public static final double DISTANCE_TO_WIEGHT_B = -2;
+    public static final double DISTANCE_TO_WIEGHT_C = -2;
+    public static final double DISTANCE_TO_WIEGHT_D = -2;
+
+    public static final Translation3d[] KNOWN_SHOOTING_POINTS = {
+      new Translation3d(),
+      new Translation3d(),
+      new Translation3d(),
+      new Translation3d(),
+      new Translation3d(),
+      new Translation3d(),
+    };
+
+
   }
 
   public class Shooter {
 
     public static final double AUTOAIMING_OFFSET = -3.25;
-    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
-    // in half.
-    public static final int ANGLE_SEARCH_DEPTH = 10;
+
 
     // in m/s
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;
