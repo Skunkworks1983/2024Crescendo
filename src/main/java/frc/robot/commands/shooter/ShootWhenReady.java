@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Indexer;
@@ -63,6 +64,7 @@ public class ShootWhenReady extends Command {
     indexer.setIndexerCoastMode();
     System.out.println("Shooter speed setpoint: " + shooter.getFlywheelSetpoint() + ", velocity: "
         + shooter.getFlywheelVelocity() + ", error: " + shooter.getFlywheelError());
+
     /*
      * Pose2d robotPose = drivebase.getRobotPose(); System.out.println("Shooter angle setpoint: " +
      * shooter.getShooterSetpoint() + ", position: " + shooter.getShooterPivotRotationInDegrees() +
@@ -75,6 +77,10 @@ public class ShootWhenReady extends Command {
 
   @Override
   public boolean isFinished() {
+    SmartDashboard.putNumber("BSShooterPivotError", shooter.getShooterPivotError());
+    SmartDashboard.putNumber("BSShootFlywheelError",shooter.getFlywheelError());
+    SmartDashboard.putNumber("BSShooter Pivot Setpoint", shooter.getPivotSetPoint());
+
     return !shooter.getShooterIndexerBeambreak1() && !shooter.getShooterIndexerBeambreak2()
         && !indexer.getBeamBreakSensor();
   }
