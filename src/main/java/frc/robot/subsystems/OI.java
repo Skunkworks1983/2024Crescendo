@@ -17,6 +17,7 @@ import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
+import frc.robot.commands.TestMechanicalOdometry;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -68,6 +69,9 @@ public class OI extends SubsystemBase {
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
 
+  // DEBUG
+  JoystickButton testMechanicalOdometry;
+
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
@@ -108,6 +112,9 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
+    // DEBUG
+    testMechanicalOdometry = new JoystickButton(leftJoystick, 0);
+
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
@@ -137,6 +144,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
+
+    testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
   }
 
   @Override
