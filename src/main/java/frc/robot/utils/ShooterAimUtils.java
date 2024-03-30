@@ -53,19 +53,15 @@ public class ShooterAimUtils {
     return weightedAverage;
   }
 
-  // critical equasion. exactly what values we feed into it dictate how well the mesh fits to the
-  // points,
-  // how lumpy it is, how it translated from one point to another.
+  // critical equasion. exactly what values we feed into it dictate how well the mesh fits to the mesh
   private static double calculateWeightBasedOnDistance(double distance) {
-    // var a = Constants.ShooterInterpolationConstants;
     return ((ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_A_1 * Math.pow(2,
         -(Math.pow(ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_B_1 * distance, 2))))
         + (ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_A_2 * Math.pow(2,
             -(Math.pow(ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_B_2 * distance, 2)))));
   }
 
-
-  // only use the quarter(not actually 1/4 of a field) of the field close to 0,0
+  // only use the quarter(not actually 1/4 of area of the field) of the field close to 0,0
   // reflects across center of field on x and speaker y
   // will reflect point to be in the first quarter
   public static Translation2d calculateInputForInterpolatedAimAngle(
