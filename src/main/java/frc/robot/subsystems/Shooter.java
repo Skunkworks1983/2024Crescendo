@@ -81,7 +81,7 @@ public class Shooter extends SubsystemBase {
 
     pivotEncoder = new Encoder(Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_1,
         Constants.IDS.SHOOTER_PIVOT_ENCODER_PIN_2);
-    pivotEncoderBaseValue = 0.0;
+    pivotEncoderBaseValue = Constants.Shooter.SHOOTER_RESTING_POSITION_TICKS;
 
     shootMotor2.setControl(new Follower(Constants.IDS.SHOOT_MOTOR1, true));
     shooterIndexerMotor =
@@ -113,6 +113,8 @@ public class Shooter extends SubsystemBase {
             .withSupplyCurrentLimitEnable(true));
 
     pivotController.setTolerance(Constants.Shooter.SHOOTER_PIVOT_PID_TOLERANCE);
+    pivotController.setSetpoint(Constants.Shooter.SHOOTER_RESTING_POSITION.getDegrees());
+    pivotController.calculate(getShooterPivotRotationInDegrees());
     shooterIndexerMotor.setIdleMode(IdleMode.kBrake);
     isFlywheelSpiningWithSetpoint = false;
   }
@@ -132,7 +134,7 @@ public class Shooter extends SubsystemBase {
     indexerController.updatePID();
     // SmartDashboard.putNumber("Shooter Shoot Velocity",
     // shootMotor1.getVelocity().getValueAsDouble());
-    // SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
+   // SmartDashboard.putNumber("Shooter Shoot Error", getFlywheelError());
 
     pivotKf = 0.0375 * Math.sin(Units.degreesToRadians(getShooterPivotRotationInDegrees()));
   }
@@ -167,7 +169,9 @@ public class Shooter extends SubsystemBase {
   public double getShooterPivotError() {
     return pivotController.getPositionError();
   }
-
+  public double getPivotSetPoint(){
+    return pivotController.getSetpoint();
+  } 
   public void setFlywheelSetpoint(double flywheelSpeed) {
     flywheelSetpointMPS = flywheelSpeed;
   }
@@ -178,7 +182,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getFlywheelError() {
-    return flywheelSetpointMPS - shootMotor1.getVelocity().getValueAsDouble() / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+    return getFlywheelVelocity() - flywheelSetpointMPS;
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {
