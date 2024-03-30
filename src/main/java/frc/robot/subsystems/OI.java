@@ -120,7 +120,7 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate())
+    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate()).and(shooterIntake.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 

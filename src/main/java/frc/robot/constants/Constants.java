@@ -98,7 +98,7 @@ public class Constants {
     public static final int RESET_GYRO_BUTTON = 3;
 
     // Intake from shooter
-    public static final int SHOOTER_INTAKE = 17;
+    public static final int SHOOTER_INTAKE = 23;
   }
 
   public class Collector {
