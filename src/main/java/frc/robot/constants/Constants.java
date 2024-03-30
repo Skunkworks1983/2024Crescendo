@@ -96,6 +96,9 @@ public class Constants {
 
     // Button used to reset the gyro (used on both joysticks)
     public static final int RESET_GYRO_BUTTON = 3;
+
+    // Intake from shooter
+    public static final int SHOOTER_INTAKE = 17;
   }
 
   public class Collector {
