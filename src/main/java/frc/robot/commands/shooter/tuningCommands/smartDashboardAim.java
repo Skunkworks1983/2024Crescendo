@@ -88,11 +88,11 @@ public class smartDashboardAim extends Command {
     shooter.setIndexerMotorCoastMode();
     indexer.setIndexerCoastMode();
     shooter.setPivotMotorPercentOutput(0.0);
-    System.out.println("Shooter from smart dashboard setting Command End");
-    System.out.println("Values are angle: " +shooterAngle.getDegrees());
-    System.out.println("Command took " + (Timer.getFPGATimestamp()-timeAtStart)+" seconds.");
     Pose2d a = Drivebase.getInstance().getRobotPose();
+    System.out.println("Shooter from smart dashboard setting Command End");
+    System.out.println("angle: " +shooterAngle.getDegrees());
     System.out.println("Robot thought it was at the position: " + a.getX() + "," + a.getY());
+    System.out.println("Command took " + (Timer.getFPGATimestamp()-timeAtStart)+" seconds.");
   }
 
   @Override
