@@ -240,6 +240,9 @@ public class Drivebase extends SubsystemBase {
   public double getRoll() {
     return gyro.getRoll();
   }
+  public void setGyroOffset(double trueHeading){
+    gyroOffset = (trueHeading + gyro.getAngle()) % 360;
+  }
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
@@ -247,6 +250,7 @@ public class Drivebase extends SubsystemBase {
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
         resetPose);
+        setGyroOffset(resetPose.getRotation().getDegrees());
   }
 
   /** Update odometry position. Call this function every loop in periodic. */
