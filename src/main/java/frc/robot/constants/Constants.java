@@ -159,10 +159,11 @@ public class Constants {
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double DISTANCE_TO_WIEGHT_A = -1;
-    public static final double DISTANCE_TO_WIEGHT_B = -2;
-    public static final double DISTANCE_TO_WIEGHT_C = -2;
-    public static final double DISTANCE_TO_WIEGHT_D = -2;
+    public static final double DISTANCE_TO_WEIGHT_A_1 = 4.7;
+    public static final double DISTANCE_TO_WEIGHT_B_1 = 1.3;
+
+    public static final double DISTANCE_TO_WEIGHT_A_2 = 0.5;
+    public static final double DISTANCE_TO_WEIGHT_B_2 = 0.5;
 
     public static final Translation3d[] KNOWN_SHOOTING_POINTS = {
       new Translation3d(),
