@@ -416,7 +416,7 @@ public class Constants {
     // Forwards facing camera
     public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
         Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(15.6), Units.degreesToRadians(0)));
+        new Rotation3d(0, Units.degreesToRadians(10), Units.degreesToRadians(2)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
@@ -428,12 +428,12 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 2;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 1.5;
 
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
