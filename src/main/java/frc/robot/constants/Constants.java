@@ -6,8 +6,10 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.utils.ShooterAimState;
 
 public class Constants {
 
@@ -168,16 +170,14 @@ public class Constants {
     public static final double DISTANCE_TO_WEIGHT_A_2 = 0.5;
     public static final double DISTANCE_TO_WEIGHT_B_2 = 0.5;
 
-    public static final Translation3d[] KNOWN_SHOOTING_POINTS = {
-      new Translation3d(),
-      new Translation3d(),
-      new Translation3d(),
-      new Translation3d(),
-      new Translation3d(),
-      new Translation3d(),
+    //Add values from google sheets
+    public static final ShooterAimState[] KNOWN_SHOOTING_POINTS = {
+      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
+      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
+      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
+      new ShooterAimState(new Translation2d(0,0),0.0,0.0),
+
     };
-
-
   }
 
   public class Shooter {

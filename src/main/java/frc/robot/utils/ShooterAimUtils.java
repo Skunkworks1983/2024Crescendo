@@ -28,24 +28,23 @@ public class ShooterAimUtils {
   // based on https://www.desmos.com/3d/3d22c872bf
   public static double calculateInterpolatedAimAngle(Translation2d robotPosition) {
 
-    // simple average (not used but included so it makes more sense to people who read this in the
-    // future)
+    // simple average (not currently used)
     double total = 0;
     double numberOfValues = 0;
 
     // weighted based on distance
     // You can think of it as there are effectively more copies of that point if position
-    // value is close to that point.
+    // value is close to that point and so the point is more relevant to the current robot position.
     double weightedNumberOfValues = 0;
     double weightedTotal = 0;
 
-    for (Translation3d point : Constants.ShooterInterpolationConstants.KNOWN_SHOOTING_POINTS) {
+    for (ShooterAimState point : Constants.ShooterInterpolationConstants.KNOWN_SHOOTING_POINTS) {
       double weight =
-          calculateWeightBasedOnDistance(point.toTranslation2d().getDistance(robotPosition));
+          calculateWeightBasedOnDistance(point.getPosition().getDistance(robotPosition));
       numberOfValues += 1;
-      total += point.getZ();
+      total += point.getPivotRotation().getDegrees();
       weightedNumberOfValues += weight;
-      weightedTotal += weight * point.getZ();
+      weightedTotal += weight * point.getPivotRotation().getDegrees();
     }
 
     double unweightedAverage = total / numberOfValues;
