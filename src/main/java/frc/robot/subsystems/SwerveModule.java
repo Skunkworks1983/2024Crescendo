@@ -122,6 +122,7 @@ public class SwerveModule extends SubsystemBase {
   // DEBUG
   public void zeroModuleAndSetCoastMode() {
     setState(new SwerveModuleState());
+    driveMotor.set(0.0);
     driveMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
