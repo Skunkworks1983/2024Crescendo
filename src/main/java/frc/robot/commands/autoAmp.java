@@ -61,7 +61,7 @@ public class autoAmp extends Command {
             (targetPoint.getX() - drivebase.getRobotPose().getX()))));
 
     double distanceFromAmp = xTargetPos - drivebase.getRobotPose().getX();
-    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.01, 0.5), -0.5));
+    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.1, 0.5), -0.5));
     SmartDashboard.putNumber("Distance from amp", distanceFromAmp);
     SmartDashboard.putNumber("Target X", xTargetPos);
     drivebase.setDriveTurnPos(
