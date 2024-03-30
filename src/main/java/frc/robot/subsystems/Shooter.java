@@ -178,7 +178,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getFlywheelError() {
-    return flywheelSetpointMPS - shootMotor1.getVelocity().getValueAsDouble() / Constants.Shooter.SHOOTER_ROTATIONS_PER_METER;
+    return flywheelSetpointMPS - getFlywheelVelocity();
   }
 
   public void setShooterIndexerSpeed(double speedMetersPerSecond) {

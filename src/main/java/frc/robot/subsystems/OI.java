@@ -20,6 +20,7 @@ import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.shooter.IntakeShooterFromSource;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToPassAngle;
@@ -30,6 +31,7 @@ import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleTurnTune;
 import frc.robot.commands.shooter.tuningCommands.SwerveModuleVelocityTuning;
 import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
+import frc.robot.commands.shooter.tuningCommands.smartDashboardAim;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -55,6 +57,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
+  JoystickButton frontLoad;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -108,6 +111,9 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
+    frontLoad = new JoystickButton(buttonStick, 9);
+    frontLoad.whileTrue(new IntakeShooterFromSource());
+
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
@@ -118,7 +124,7 @@ public class OI extends SubsystemBase {
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
+    interpolationAim.whileTrue(new smartDashboardAim());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
