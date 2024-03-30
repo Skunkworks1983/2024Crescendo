@@ -22,15 +22,28 @@ public class Vision {
     SkunkPhotonCamera[] cameras;
     String[] hasTargetsPrints;
     String[] distanceToTargetPrints;
+    String[] distanceToTargetTransformPrintsX;
+    String[] distanceToTargetTransformPrintsY;
+    String[] distanceToTargetTransformPrintsRot;
+
+
 
     public Vision(SkunkPhotonCamera[] cameras) {
         this.cameras = cameras;
         hasTargetsPrints = new String[this.cameras.length];
         distanceToTargetPrints = new String[this.cameras.length];
+        distanceToTargetTransformPrintsX = new String[this.cameras.length];
+        distanceToTargetTransformPrintsY = new String[this.cameras.length];
+        distanceToTargetTransformPrintsRot = new String[this.cameras.length];
+
+
 
         for (int i = 0; i < cameras.length; i++) {
             hasTargetsPrints[i] = "Camera " + (i + 1) + " hasTargets";
             distanceToTargetPrints[i] = "Camera " + (i + 1) + " distanceToTarget";
+            distanceToTargetTransformPrintsX[i] = "Camera " + (i + 1) + " targetTransform X ";
+            distanceToTargetTransformPrintsY[i] = "Camera " + (i + 1) + " targetTransform Y ";
+            distanceToTargetTransformPrintsRot[i] = "Camera " + (i + 1) + " targetTransform Rpt ";
         }
     }
 
@@ -68,6 +81,13 @@ public class Vision {
 
                 double distanceToTarget = Math.sqrt(Math.pow(distanceToTargetTransform.getX(), 2)
                         + Math.pow(distanceToTargetTransform.getY(), 2));
+
+                SmartDashboard.putNumber(distanceToTargetTransformPrintsX[i],
+                        distanceToTargetTransform.getX());
+                SmartDashboard.putNumber(distanceToTargetTransformPrintsY[i],
+                        distanceToTargetTransform.getY());
+                SmartDashboard.putNumber(distanceToTargetTransformPrintsRot[i],
+                        distanceToTargetTransform.getRotation().toRotation2d().getDegrees());
 
                 double distanceUncertainty =
                         distanceToTarget * PhotonVision.DISTANCE_UNCERTAINTY_PROPORTIONAL;

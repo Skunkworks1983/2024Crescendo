@@ -428,12 +428,12 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .5;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
     // vision measurement.
-    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 2;
+    public static final double ROTATIONAL_UNCERTAINTY_PROPORTIONAL = 1;
 
     // Used for a SmartDashboard boolean that tells you if the camera is plugged in.
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
