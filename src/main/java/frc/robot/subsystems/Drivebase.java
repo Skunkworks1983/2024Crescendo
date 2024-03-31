@@ -279,7 +279,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
-    SmartDashboard.putNumber("Heading Controller Setpoint", headingController.getSetpoint());
   }
 
   public static Drivebase getInstance() {
