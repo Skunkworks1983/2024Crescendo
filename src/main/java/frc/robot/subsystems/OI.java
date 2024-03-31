@@ -63,8 +63,7 @@ public class OI extends SubsystemBase {
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
 
-  // DEBUG
-  JoystickButton testMechanicalOdometry;
+  // JoystickButton testMechanicalOdometry;
   
   // Shooter intake button
   JoystickButton shooterIntake;
@@ -109,8 +108,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
-    // DEBUG
-    testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
+    // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
     
     shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
@@ -144,7 +142,7 @@ public class OI extends SubsystemBase {
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
 
-    testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
+    // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
     shooterIntake.whileTrue(new IntakeShooterFromSource());
   }
