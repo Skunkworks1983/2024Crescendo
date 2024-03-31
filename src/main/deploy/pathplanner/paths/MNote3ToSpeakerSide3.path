@@ -4,15 +4,31 @@
     {
       "anchor": {
         "x": 7.8,
-        "y": 0.815270702239519
+        "y": 4.035989475752537
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.010715732067597,
-        "y": 1.0737100274642255
+        "x": 6.097821864849703,
+        "y": 4.282202966441556
       },
       "isLocked": false,
-      "linkedName": "MiddleNote5"
+      "linkedName": "MiddleNote3"
+    },
+    {
+      "anchor": {
+        "x": 4.01938676650368,
+        "y": 3.2168744235707303
+      },
+      "prevControl": {
+        "x": 5.230936874087489,
+        "y": 3.7808718874435203
+      },
+      "nextControl": {
+        "x": 2.961859820966157,
+        "y": 2.7245773972019367
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,8 +36,8 @@
         "y": 4.41
       },
       "prevControl": {
-        "x": 1.7979949277455805,
-        "y": 3.6057813941073174
+        "x": 0.9382895101615846,
+        "y": 3.9166490546721553
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +48,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "stow collector",
-      "waypointRelativePos": 0.45,
+      "name": "StowCollector",
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -57,13 +73,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.17352002964441,
+    "rotation": 118.88231752148343,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P2.3P.P.M45",
+  "folder": "S3.3P.P.M43",
   "previewStartingState": {
-    "rotation": 162.96222263186186,
+    "rotation": 178.9513435815959,
     "velocity": 0
   },
   "useDefaultConstraints": true
