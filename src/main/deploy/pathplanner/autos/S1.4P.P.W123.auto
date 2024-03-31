@@ -31,64 +31,38 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "StartToWNote2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "StartToWNote2"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.5
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote2ToSpeakerSide2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "WNote2ToSpeakerSide2"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.5
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
@@ -101,64 +75,38 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "SpeakerToWNote1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "SpeakerToWNote1"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.5
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote1ToSpekaer"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "WNote1ToSpekaer"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.5
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
@@ -171,64 +119,38 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "SpeakerToWingNote3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "SpeakerToWingNote3"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.5
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote3ToSpeakerSide2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
+                  "pathName": "WNote3ToSpeakerSide2"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 2.0
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
