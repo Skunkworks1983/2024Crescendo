@@ -133,7 +133,7 @@ public class Constants {
     public static final double CORRECTIVE_SCALE = 0.1;
 
     // aproxamation based on travel distance of trajectory. Value is in feet.
-    public static final double WHEEL_DIAMETER = .33333333;
+    public static final double WHEEL_DIAMETER = 0.32516666666;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
