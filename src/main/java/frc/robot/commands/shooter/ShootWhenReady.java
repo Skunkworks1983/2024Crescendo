@@ -51,6 +51,25 @@ public class ShootWhenReady extends Command {
       atPivotSetpointCount = 0;
     }
 
+    if(atSpeedCount > minAtSpeedCount) {
+      SmartDashboard.putBoolean("At Speed", true);
+    } else {
+      SmartDashboard.putBoolean("At Speed", false);
+    }
+
+    if(shooter.isFlywheelSpiningWithSetpoint) {
+      SmartDashboard.putBoolean("Spining with setpoint", true);
+    } else {
+      SmartDashboard.putBoolean("Spining with setpoint", false);
+    }
+
+    if(atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS) {
+      SmartDashboard.putBoolean("At pivot angle", true);
+    } else {
+      SmartDashboard.putBoolean("At pivot angle", false);
+    }
+
+
     if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint
         && atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
