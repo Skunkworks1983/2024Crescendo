@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -116,6 +117,13 @@ public class SwerveModule extends SubsystemBase {
     double feetPerSecond =
         driveMotor.getVelocity().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
     return feetPerSecond;
+  }
+
+  // DEBUG
+  public void zeroModuleAndSetCoastMode() {
+    setState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(90)));
+    driveMotor.set(0.0);
+    driveMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public SwerveModuleState getSwerveState() {

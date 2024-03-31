@@ -328,6 +328,14 @@ public class Drivebase extends SubsystemBase {
     return backRight.getTurnMotorVelocity();
   }
 
+  // DEBUG
+  public void zeroModulesAndSetCoastMode() {
+    frontLeft.zeroModuleAndSetCoastMode();
+    frontRight.zeroModuleAndSetCoastMode();
+    backLeft.zeroModuleAndSetCoastMode();
+    backRight.zeroModuleAndSetCoastMode();
+  }
+
   /**
    * Sets the current target point used for targeting.
    * 
