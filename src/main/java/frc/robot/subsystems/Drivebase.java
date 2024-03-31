@@ -230,11 +230,11 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroAngle() {
-    return -gyro.getAngle() - gyroOffset;
+    return -gyro.getAngle() + gyroOffset; 
   }
 
   public void resetGyroOffset() {
-    gyroOffset = -gyro.getAngle();
+    gyroOffset = gyro.getAngle();
   }
 
   public double getRoll() {

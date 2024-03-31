@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.26,
-        "y": 6.316481380174229
+        "x": 1.8333111873815688,
+        "y": 6.271396077786225
       },
       "isLocked": false,
       "linkedName": "SpeakerSide2"
     },
     {
       "anchor": {
-        "x": 2.42,
-        "y": 7.0
+        "x": 2.463171542119166,
+        "y": 6.726191976556981
       },
       "prevControl": {
-        "x": 1.4459323558537873,
-        "y": 6.828245593301891
+        "x": 1.8782852832881245,
+        "y": 6.297971679912826
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -142.3523793598923,
     "rotateFast": false
   },
   "reversed": false,
