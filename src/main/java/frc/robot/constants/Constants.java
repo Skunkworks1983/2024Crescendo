@@ -264,6 +264,13 @@ public class Constants {
     // Setting the tolerance on the shooter pivot PID controller to this number.
     public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
   }
+  public class AutoShooting {
+    public static double WNOTE1_ANGLE = 50;
+    public static double WNOTE2_ANGLE = 41;
+    public static double WNOTE3_ANGLE = 50;
+  
+    
+  }
 
   public class PIDControllers {
 
