@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.67,
-      "y": 4.41
+      "x": 0.6667351757095377,
+      "y": 4.407535736191065
     },
     "rotation": 120.06858282186239
   },
@@ -103,12 +103,6 @@
           "type": "named",
           "data": {
             "name": "SpinUpFlyWheelAndShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectorStow"
           }
         }
       ]
