@@ -16,7 +16,9 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -56,7 +58,6 @@ public class Drivebase extends SubsystemBase {
 
   double maxVelocity = 0;
   double gyroOffset;
-
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
       Constants.PIDControllers.HeadingControlPID.KD, "Heading Controller",
@@ -146,6 +147,16 @@ public class Drivebase extends SubsystemBase {
   }
 
   /** Get an instance of the gyro system for use in commands. */
+
+public Pose2d setVisionOffsetCameraOne(Transform3d t){
+    vision = new Vision(new SkunkPhotonCamera[] {
+      new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, t),
+      new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
+    SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
+    var a=vision.getLatestVisionMeasurements();
+    if(a.size() == 0)return null;
+    return a.get(0).estimatedPose;
+  }
 
   public void setDrive(double xFeetPerSecond, double yFeetPerSecond, double degreesPerSecond,
       boolean fieldRelative) {

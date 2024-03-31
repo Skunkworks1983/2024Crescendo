@@ -20,6 +20,7 @@ import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
+import frc.robot.commands.test_commands.FindBruteForceWorkingVisionPositions;
 import frc.robot.commands.shooter.IntakeShooterFromSource;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
@@ -124,7 +125,7 @@ public class OI extends SubsystemBase {
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
+    interpolationAim.onTrue(new FindBruteForceWorkingVisionPositions());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
