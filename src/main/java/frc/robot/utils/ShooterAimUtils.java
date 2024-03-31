@@ -25,7 +25,7 @@ public class ShooterAimUtils {
     return calculateInterpolatedAimAngle(new Translation2d(x, y));
   }
 
-  // based on https://www.desmos.com/3d/3d22c872bf
+  // based on https://www.desmos.com/3d/bfbacaf9a2
   public static double calculateInterpolatedAimAngle(Translation2d robotPosition) {
 
     // simple average (not currently used)
