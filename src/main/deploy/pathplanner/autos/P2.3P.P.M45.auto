@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.67,
-      "y": 4.41
+      "x": 0.6667351757095377,
+      "y": 4.407535736191065
     },
     "rotation": 120.06858282186239
   },
@@ -18,64 +18,38 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Side3ToMNote4"
-                      }
-                    }
-                  ]
+                  "pathName": "Side3ToMNote4"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 12.0
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "MNote4ToSide3"
-                      }
-                    }
-                  ]
+                  "pathName": "MNote4ToSide3"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 12.0
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
@@ -88,64 +62,38 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Side3ToMNote5"
-                      }
-                    }
-                  ]
+                  "pathName": "Side3ToMNote5"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 12.0
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "parallel",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "MNote5ToSide3"
-                      }
-                    }
-                  ]
+                  "pathName": "MNote5ToSide3"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 12.0
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
@@ -155,12 +103,6 @@
           "type": "named",
           "data": {
             "name": "SpinUpFlyWheelAndShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectorStow"
           }
         }
       ]
