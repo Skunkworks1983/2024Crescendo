@@ -14,23 +14,17 @@ import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
 import frc.robot.commands.NoteFloorToShooter;
-import frc.robot.commands.ResetGyroSystem;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
+import frc.robot.commands.TestMechanicalOdometry;
 import frc.robot.commands.ResetGyro;
-import frc.robot.commands.shooter.AimShooterAtSpeakerAssumingNoGravity;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.IntakeShooterFromSource;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToPassAngle;
-import frc.robot.commands.shooter.ShooterToPodium;
 import frc.robot.commands.shooter.ShooterToStow;
-import frc.robot.commands.shooter.tuningCommands.FlywheelPIDTuning;
 import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
-import frc.robot.commands.shooter.tuningCommands.SwerveModuleTurnTune;
-import frc.robot.commands.shooter.tuningCommands.SwerveModuleVelocityTuning;
-import frc.robot.commands.shooter.tuningCommands.shooterPivotTuneCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -69,6 +63,8 @@ public class OI extends SubsystemBase {
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
 
+  // JoystickButton testMechanicalOdometry;
+  
   // Shooter intake button
   JoystickButton shooterIntake;
 
@@ -112,6 +108,8 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
+    // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
+    
     shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
@@ -143,6 +141,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
+
+    // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
     shooterIntake.whileTrue(new IntakeShooterFromSource());
   }

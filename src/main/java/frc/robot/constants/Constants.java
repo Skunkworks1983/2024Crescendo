@@ -135,7 +135,7 @@ public class Constants {
     public static final double CORRECTIVE_SCALE = 0.1;
 
     // aproxamation based on travel distance of trajectory. Value is in feet.
-    public static final double WHEEL_DIAMETER = .33333333;
+    public static final double WHEEL_DIAMETER = 0.32516666666;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
@@ -145,16 +145,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(16, 18, 17, 0.320801, "Front Left");
+          new SwerveModuleConstants(16, 18, 17, 0.311035, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(10, 12, 11, -0.387939, "Front Right");
+          new SwerveModuleConstants(10, 12, 11, -0.415283, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(25, 23, 24, -0.204590, "Back Left");
+          new SwerveModuleConstants(25, 23, 24, -0.205566, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 20, 21, 0.311035, "Back Right");
+          new SwerveModuleConstants(22, 20, 21, 0.308838, "Back Right");
     }
   }
 
@@ -425,9 +425,9 @@ public class Constants {
     public static final String CAMERA_1_NAME = "Forward";
 
     // Forwards facing camera
-    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
-        Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(15.6), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256)+.37,
+    Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(13.5),//10.727 + 2.088 - 0.175 was 12.64
+    new Rotation3d(0, Units.degreesToRadians(12.0), Units.degreesToRadians(-2)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =

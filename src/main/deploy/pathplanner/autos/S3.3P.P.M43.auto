@@ -2,32 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.26,
-      "y": 5.545975061415772
+      "x": 0.67,
+      "y": 4.41
     },
-    "rotation": -179.24615166692934
+    "rotation": 118.50760136055115
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LowerCollector"
-                }
-              }
-            ]
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -37,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "StartToWNote2"
+                  "pathName": "Side3ToMNote4"
                 }
               },
               {
@@ -56,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WNote2ToSpeakerSide2"
+                  "pathName": "MNote4ToSide3"
                 }
               },
               {
@@ -81,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SpeakerToWNote1"
+                  "pathName": "SpeakerSide3ToMNote3"
                 }
               },
               {
@@ -100,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WNote1ToSpekaer"
+                  "pathName": "MNote3ToSpeakerSide3"
                 }
               },
               {
@@ -116,61 +103,11 @@
           "type": "named",
           "data": {
             "name": "SpinUpFlyWheelAndShoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "SpeakerToWingNote3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeNoteToIndexer"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "WNote3ToSpeakerSide2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "NoteFloorToShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpinUpFlyWheelAndShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CollectorStow"
           }
         }
       ]
     }
   },
-  "folder": "StartingPos1",
+  "folder": null,
   "choreoAuto": false
 }

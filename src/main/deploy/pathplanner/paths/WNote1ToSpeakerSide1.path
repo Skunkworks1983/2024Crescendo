@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.42,
-        "y": 7.0
+        "x": 2.463171542119166,
+        "y": 6.726191976556981
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2856167849740285,
-        "y": 7.697520942115676
+        "x": 2.3287883270931946,
+        "y": 7.423712918672657
       },
       "isLocked": false,
       "linkedName": "WingNote1"
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.6,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
