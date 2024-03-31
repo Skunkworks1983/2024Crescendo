@@ -143,16 +143,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(16, 18, 17, -0.188965, "Front Left");
+          new SwerveModuleConstants(16, 18, 17, 0.311035, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(10, 12, 11, 0.084717, "Front Right");
+          new SwerveModuleConstants(10, 12, 11, -0.415283, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(25, 23, 24, 0.294434, "Back Left");
+          new SwerveModuleConstants(25, 23, 24, -0.205566, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 20, 21, -0.191162, "Back Right");
+          new SwerveModuleConstants(22, 20, 21, 0.308838, "Back Right");
     }
   }
 
