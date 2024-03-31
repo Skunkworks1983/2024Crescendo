@@ -246,11 +246,11 @@ public class Drivebase extends SubsystemBase {
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
+    setGyroOffset(resetPose.getRotation().getDegrees());
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
         resetPose);
-        setGyroOffset(resetPose.getRotation().getDegrees());
   }
 
   /** Update odometry position. Call this function every loop in periodic. */
