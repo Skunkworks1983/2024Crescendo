@@ -36,12 +36,12 @@
         "y": 4.41
       },
       "prevControl": {
-        "x": 1.3038434219362085,
+        "x": 1.3038434219362087,
         "y": 3.519761950465377
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SpeakerSide3"
     }
   ],
   "rotationTargets": [],
