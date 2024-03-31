@@ -20,6 +20,12 @@ public class ShooterAimUtils {
   }
 
 
+  public static double calculateCurveFitAimAngle(double x, double y) {
+    return (ShooterInterpolationConstants.A_COEFFICIENT + (ShooterInterpolationConstants.B_COEFFICIENT * x)
+        + (ShooterInterpolationConstants.C_COEFFICIENT * y) + (ShooterInterpolationConstants.D_COEFFICIENT * x * x)
+        + (ShooterInterpolationConstants.E_COEFFICIENT * y * y) + (ShooterInterpolationConstants.F_COEFFICIENT * x * y));
+  }
+
 
   public static double calculateInterpolatedAimAngle(double x, double y) {
     return calculateInterpolatedAimAngle(new Translation2d(x, y));
