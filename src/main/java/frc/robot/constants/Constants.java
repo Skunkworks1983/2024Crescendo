@@ -431,7 +431,7 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .25;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
