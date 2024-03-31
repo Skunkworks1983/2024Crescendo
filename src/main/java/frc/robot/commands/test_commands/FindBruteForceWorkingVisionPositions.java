@@ -19,7 +19,7 @@ public class FindBruteForceWorkingVisionPositions extends Command {
 
   Drivebase drivebase;
   Pose2d actualPose;
-  ArrayList<Double> goodIndexes;// is double so smartdashboard can accept
+  ArrayList<Double> goodIndexes = new ArrayList<>();// is double so smartdashboard can accept
   Pose2d[] error;
   double[] inputX;
   double[] inputPitch;
