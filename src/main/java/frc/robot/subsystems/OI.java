@@ -71,6 +71,9 @@ public class OI extends SubsystemBase {
   JoystickButton resetGyroHeadingLeft;
   JoystickButton resetGyroHeadingRight;
 
+  // Shooter intake button
+  JoystickButton shooterIntake;
+
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
     rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
@@ -111,8 +114,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
 
-    frontLoad = new JoystickButton(buttonStick, 9);
-    frontLoad.whileTrue(new IntakeShooterFromSource());
+    shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
     setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
@@ -120,7 +122,7 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
 
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate())
+    shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate()).and(shooterIntake.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
@@ -143,6 +145,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
+
+    shooterIntake.whileTrue(new IntakeShooterFromSource());
   }
 
   @Override
