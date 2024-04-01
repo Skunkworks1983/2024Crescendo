@@ -8,45 +8,50 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9487339076459329,
-        "y": 7.885520096739939
+        "x": 1.3665098068109631,
+        "y": 7.467744197574909
       },
       "isLocked": false,
       "linkedName": "SpeakerSide1"
     },
     {
       "anchor": {
-        "x": 4.071608753904531,
-        "y": 7.582632569845292
+        "x": 3.9776091765923995,
+        "y": 7.728854134553053
       },
       "prevControl": {
-        "x": 2.8278490729448014,
-        "y": 7.624439617944779
+        "x": 2.677959373166797,
+        "y": 7.7066378985970605
       },
       "nextControl": {
-        "x": 5.314492053920496,
-        "y": 7.540854979928789
+        "x": 5.199603681650112,
+        "y": 7.749742929511305
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.90470262874368,
-        "y": 7.070857093368131
+        "x": 7.8315918463897995,
+        "y": 7.519966184970539
       },
       "prevControl": {
-        "x": 6.912484868226733,
-        "y": 7.154412273201136
+        "x": 7.027373240497117,
+        "y": 7.551299377407915
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleNote1"
+      "linkedName": "MNote1"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.45,
       "rotationDegrees": 180.0,
       "rotateFast": true
     }
@@ -55,7 +60,7 @@
   "eventMarkers": [
     {
       "name": "LowerCollector",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 1.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,21 +77,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.6,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
-    "rotateFast": true
+    "rotation": 168.05582281155367,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "P2.3P.P.M12",
   "previewStartingState": {
-    "rotation": -119.6237487511738,
+    "rotation": -120.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

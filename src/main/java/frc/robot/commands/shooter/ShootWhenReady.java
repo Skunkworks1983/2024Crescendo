@@ -56,6 +56,8 @@ public class ShootWhenReady extends Command {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
+    //SmartDashboard.putNumber("BSFlywheelerror", shooter.getFlywheelError());
+    //SmartDashboard.putNumber("BSShooterPivotError", shooter.getShooterPivotError());
   }
 
   @Override

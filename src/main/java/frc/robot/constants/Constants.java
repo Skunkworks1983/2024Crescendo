@@ -264,6 +264,13 @@ public class Constants {
     // Setting the tolerance on the shooter pivot PID controller to this number.
     public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
   }
+  public class AutoShooting {
+    public static double WNOTE1_ANGLE = 53;
+    public static double WNOTE2_ANGLE = 45;
+    public static double WNOTE3_ANGLE = 50;
+  
+    
+  }
 
   public class PIDControllers {
 
@@ -431,7 +438,7 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .25;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .75;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
@@ -442,7 +449,7 @@ public class Constants {
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
 
     // Meters
-    public static final double APRILTAG_DISTANCE_CUTOFF = 4.5;
+    public static final double APRILTAG_DISTANCE_CUTOFF = 3;
   }
 
   public class Targeting {

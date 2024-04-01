@@ -26,6 +26,8 @@ import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
@@ -79,6 +81,12 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
   NamedCommands.registerCommand("StopRobot", new StopRobot());
+
+  NamedCommands.registerCommand("ShooterPivotW1", new ShooterToAngle(Constants.AutoShooting.WNOTE1_ANGLE));
+  NamedCommands.registerCommand("ShooterPivotW2", new ShooterToAngle(Constants.AutoShooting.WNOTE2_ANGLE));
+  NamedCommands.registerCommand("ShooterPivotW3", new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
+
+  NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
