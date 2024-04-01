@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.42,
-        "y": 5.556419458894899
+        "x": 7.90470262874368,
+        "y": 7.070857093368131
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8782852832881245,
-        "y": 5.493753074020143
+        "x": 6.912484868226732,
+        "y": 6.809747156389988
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleNote1"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 6.726191976556981
       },
       "prevControl": {
-        "x": 1.7738413084968672,
-        "y": 6.945524323618622
+        "x": 3.4971668925526154,
+        "y": 6.767969566473484
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "4PieceFar",
   "previewStartingState": {
-    "rotation": 179.16807557907765,
+    "rotation": -150.57254359681028,
     "velocity": 0
   },
   "useDefaultConstraints": true

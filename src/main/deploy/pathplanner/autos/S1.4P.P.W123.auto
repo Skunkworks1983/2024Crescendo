@@ -157,15 +157,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "SpinUpFlyWheelAndShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlyWheelAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CollectorStow"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "CollectorStow"
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SS1ToSource"
           }
         }
       ]
