@@ -12,8 +12,8 @@ public class WaitUntilTimeInAuto extends Command {
   /** Creates a new WaitUntilTimeInAuto. */
   int waitUntil;
 
-  public WaitUntilTimeInAuto(int waitTime) {
-    waitUntil = waitTime;
+  public WaitUntilTimeInAuto(int timeBeforeEndOfAuto) {
+    waitUntil = timeBeforeEndOfAuto;
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +31,6 @@ public class WaitUntilTimeInAuto extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return DriverStation.getMatchTime() >= waitUntil;
+    return DriverStation.getMatchTime() <= waitUntil;
   }
 }
