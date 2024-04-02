@@ -31,7 +31,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -50,22 +50,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPivotW2"
-                }
-              }
-            ]
+            "name": "AimAndShootCommand"
           }
         },
         {
@@ -94,22 +81,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPivotW1"
-                }
-              }
-            ]
+            "name": "AimAndShootCommand"
           }
         },
         {
@@ -138,22 +112,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPivotW3"
-                }
-              }
-            ]
+            "name": "AimAndShootCommand"
           }
         },
         {
@@ -207,13 +168,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPivotW1"
+                  "name": "AimAndShootCommand"
                 }
               },
               {
