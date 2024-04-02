@@ -230,19 +230,29 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroAngle() {
-    return -gyro.getAngle() - gyroOffset;
+    return -gyro.getAngle() + gyroOffset; 
   }
 
   public void resetGyroOffset() {
-    gyroOffset = -gyro.getAngle();
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+    gyroOffset = (gyro.getAngle() + 180) % 360;
+    } else {
+    gyroOffset = gyro.getAngle();
+    }
+
   }
 
   public double getRoll() {
     return gyro.getRoll();
   }
+  public void setGyroOffset(double trueHeading){
+    gyroOffset = (trueHeading + gyro.getAngle()) % 360;
+  }
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
+    setGyroOffset(resetPose.getRotation().getDegrees());
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
@@ -322,6 +332,14 @@ public class Drivebase extends SubsystemBase {
   // returning the back right turn speed for tunning
   public double getBackRightModuleTurnVelocity() {
     return backRight.getTurnMotorVelocity();
+  }
+
+  // DEBUG
+  public void zeroModulesAndSetCoastMode() {
+    frontLeft.zeroModuleAndSetCoastMode();
+    frontRight.zeroModuleAndSetCoastMode();
+    backLeft.zeroModuleAndSetCoastMode();
+    backRight.zeroModuleAndSetCoastMode();
   }
 
   /**

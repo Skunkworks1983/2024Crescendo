@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.800258653952423,
-        "y": 7.41552221017928
+        "x": 7.8315918463897995,
+        "y": 7.384189017741904
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.9216097626252795,
-        "y": 7.41552221017928
+        "x": 7.95294295506266,
+        "y": 7.384189017741904
       },
       "isLocked": false,
       "linkedName": "MiddleNote1"
@@ -48,7 +48,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.6,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.IntakeNoteToIndexerAuto;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.SpinUpFlyWheelAndShoot;
 import frc.robot.commands.StopRobot;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
@@ -25,6 +27,8 @@ import frc.robot.commands.shooter.LoadPieceShooter;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
+import frc.robot.commands.shooter.ShooterToAngle;
+import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
@@ -75,8 +79,17 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
   NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+  NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
   NamedCommands.registerCommand("StopRobot", new StopRobot());
+
+  NamedCommands.registerCommand("ShooterPivotW1", new ShooterToAngle(Constants.AutoShooting.WNOTE1_ANGLE));
+  NamedCommands.registerCommand("ShooterPivotW2", new ShooterToAngle(Constants.AutoShooting.WNOTE2_ANGLE));
+  NamedCommands.registerCommand("ShooterPivotW3", new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
+
+  NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
+
+  NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();

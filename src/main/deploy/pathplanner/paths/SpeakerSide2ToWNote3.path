@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 1.26,
+        "y": 5.545975061415772
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2516214345405796,
-        "y": 5.044643982417736
+        "x": 1.1716214345405795,
+        "y": 5.030619043833509
       },
       "isLocked": false,
       "linkedName": "SpeakerSide2"
     },
     {
       "anchor": {
-        "x": 2.42,
-        "y": 4.073315016859041
+        "x": 2.463171542119166,
+        "y": 4.355313748795437
       },
       "prevControl": {
-        "x": 0.9382895101668073,
-        "y": 3.885315862234778
+        "x": 0.9814610522859734,
+        "y": 4.167314594171174
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.6,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

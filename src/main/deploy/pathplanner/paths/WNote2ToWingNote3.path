@@ -4,46 +4,46 @@
     {
       "anchor": {
         "x": 2.42,
-        "y": 4.073315016859041
+        "y": 5.556419458894899
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1262886647910708,
-        "y": 3.989759837026036
+        "x": 1.7842857059759927,
+        "y": 5.65041903620703
       },
       "isLocked": false,
-      "linkedName": "WingNote3"
+      "linkedName": "WingNote2"
     },
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.56
+        "x": 2.463171542119166,
+        "y": 4.355313748795437
       },
       "prevControl": {
-        "x": 1.4709537816022202,
-        "y": 4.6477568782109575
+        "x": 1.6380641412682322,
+        "y": 4.637312480731832
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "SpeakerSide2"
+      "linkedName": "WingNote3"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.6,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 178.8625099495368,
-    "rotateFast": false
+    "rotation": 147.72435568542238,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Copy of 5PieceFar",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.335176614373586,
-      "y": 5.56
+      "x": 1.26,
+      "y": 5.545975061415772
     },
     "rotation": -179.24615166692934
   },
@@ -18,7 +18,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootWhenReady"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
@@ -26,75 +26,24 @@
                 "data": {
                   "name": "LowerCollector"
                 }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "StartToWNote2"
+                }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "StartToWNote2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote2ToSpeakerSide2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
+                  "name": "IntakeNoteToIndexer"
                 }
               }
             ]
@@ -105,187 +54,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "ShootWhenReady"
+                  "pathName": "WNote2ToSpeakerSide2"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "SpeakerToWNote1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote1ToSpekaer"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "SpeakerToWingNote3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WNote3ToSpeakerSide3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NoteFloorToShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootWhenReady"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SpinUpFlywheel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopRobot"
+                  "name": "NoteFloorToShooter"
                 }
               }
             ]
@@ -294,7 +71,120 @@
         {
           "type": "named",
           "data": {
-            "name": "CollectorStow"
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SpeakerToWNote1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNoteToIndexer"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "WNote1ToSpekaer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoteFloorToShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SpeakerToWingNote3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNoteToIndexer"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "WNote3ToSpeakerSide2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoteFloorToShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SpinUpFlyWheelAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "CollectorStow"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SS1ToSource"
           }
         }
       ]
