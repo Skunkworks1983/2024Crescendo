@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants;
@@ -20,13 +21,15 @@ public class ShootWhenReady extends Command {
   int atSpeedCount = 0;
   int atPivotSetpointCount = 0;
   int minAtSpeedCount = 13;
+  double timeAtInit;
+  Timer timer;
 
   public ShootWhenReady() {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
-
     // only reads the flywheel, so it doesn't require the flywheel
     addRequirements(SubsystemGroups.getInstance(Subsystems.ROBOT_INDEXER));
+    timer = new Timer();
   }
 
   @Override
@@ -34,6 +37,7 @@ public class ShootWhenReady extends Command {
     System.out.println("Shoot When Ready Command Initialize");
     atSpeedCount = 0;
     atPivotSetpointCount = 0;
+    timeAtInit = timer.getFPGATimestamp();
   }
 
   @Override
@@ -51,13 +55,14 @@ public class ShootWhenReady extends Command {
       atPivotSetpointCount = 0;
     }
 
-    if (atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint
-        && atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS) {
+    if ((atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint
+        && atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS)
+        || timer.getFPGATimestamp() - timeAtInit >= 5) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
-    //SmartDashboard.putNumber("BSFlywheelerror", shooter.getFlywheelError());
-    //SmartDashboard.putNumber("BSShooterPivotError", shooter.getShooterPivotError());
+    // SmartDashboard.putNumber("BSFlywheelerror", shooter.getFlywheelError());
+    // SmartDashboard.putNumber("BSShooterPivotError", shooter.getShooterPivotError());
   }
 
   @Override
@@ -80,7 +85,7 @@ public class ShootWhenReady extends Command {
   @Override
   public boolean isFinished() {
     SmartDashboard.putNumber("BSShooterPivotError", shooter.getShooterPivotError());
-    SmartDashboard.putNumber("BSShootFlywheelError",shooter.getFlywheelError());
+    SmartDashboard.putNumber("BSShootFlywheelError", shooter.getFlywheelError());
     SmartDashboard.putNumber("BSShooter Pivot Setpoint", shooter.getPivotSetPoint());
 
     return !shooter.getShooterIndexerBeambreak1() && !shooter.getShooterIndexerBeambreak2()
