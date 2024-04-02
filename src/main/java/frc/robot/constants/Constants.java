@@ -6,8 +6,10 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.utils.ShooterAimState;
 
 public class Constants {
 
@@ -158,24 +160,45 @@ public class Constants {
 
   public class ShooterInterpolationConstants {
 
+    public static final double A_COEFFICIENT = 1.25090821 * Math.pow(10,2);
+    public static final double B_COEFFICIENT = -1.57056835 * Math.pow(10,1);
+    public static final double C_COEFFICIENT = -3.87513617 * Math.pow(10,1);
+    public static final double D_COEFFICIENT = 3.54081199;
+    public static final double E_COEFFICIENT = 3.49116406;
+    public static final double F_COEFFICIENT = 8.47042804;
+
+    public static final double G_COEFFICIENT = -7.44807799 * Math.pow(10,-1);
+    public static final double H_COEFFICIENT = 4.82389371 * Math.pow(10,-6);
+    public static final double I_COEFFICIENT = -7.63099765 * Math.pow(10,-1);
+    public static final double J_COEFFICIENT = -6.09079745 * Math.pow(10,-6);;
+
+
+
+
     // TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A = 80.46361754;
-    public static final double B = -11.16442723;
-    public static final double C = -10.56295564;
-    public static final double D = 2.27152757;
-    public static final double E = 0.75301618;
-    public static final double F = 1.16175171;
+    public static final double DISTANCE_TO_WEIGHT_A_1 = 4.7;
+    public static final double DISTANCE_TO_WEIGHT_B_1 = 1.3;
+
+    public static final double DISTANCE_TO_WEIGHT_A_2 = 0.5;
+    public static final double DISTANCE_TO_WEIGHT_B_2 = 0.5;
+
+    // Add values from google sheets
+    public static final ShooterAimState[] KNOWN_SHOOTING_POINTS =
+        {new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+            new ShooterAimState(new Translation2d(0, 0), 0.0, 0.0),
+
+        };
   }
 
   public class Shooter {
 
     public static final double AUTOAIMING_OFFSET = -3.25;
-    // 10 is maximum because 2^10=1024=number of ticks in motor and each time, search space is cut
-    // in half.
-    public static final int ANGLE_SEARCH_DEPTH = 10;
+
 
     // in m/s
     public static final double BASE_FLYWHEEL_AUTOAIMING_SPEED = 5;

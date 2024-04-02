@@ -19,17 +19,65 @@ public class ShooterAimUtils {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
-  public static double calculateInterpolatedAimAngle(Translation2d position) {
-    return calculateInterpolatedAimAngle(position.getX(), position.getY());
+  public static double calculateCurveFitAimAngle(double x, double y) {
+    return (ShooterInterpolationConstants.A_COEFFICIENT + (ShooterInterpolationConstants.B_COEFFICIENT * x)
+        + (ShooterInterpolationConstants.C_COEFFICIENT * y) + (ShooterInterpolationConstants.D_COEFFICIENT * x * x)
+        + (ShooterInterpolationConstants.E_COEFFICIENT * y * y) + (ShooterInterpolationConstants.F_COEFFICIENT * x * y)
+        +(ShooterInterpolationConstants.G_COEFFICIENT*x*x*x) + (ShooterInterpolationConstants.H_COEFFICIENT*y*x*x) + (ShooterInterpolationConstants.I_COEFFICIENT*x*y*y) 
+        + (ShooterInterpolationConstants.J_COEFFICIENT*y*y*y));
   }
+
+
+  public static double compositeInterpolatedAimAngle(double x, double y){
+    calculateCurveFitAimAngle(x,y);
+    calculateInterpolatedAimAngle(x,y);
+  }
+
+  public static double calculateInterpolatedWeightTotal(double x, double y){
+
+  };
 
   public static double calculateInterpolatedAimAngle(double x, double y) {
-    return (ShooterInterpolationConstants.A + (ShooterInterpolationConstants.B * x)
-        + (ShooterInterpolationConstants.C * y) + (ShooterInterpolationConstants.D * x * x)
-        + (ShooterInterpolationConstants.E * y * y) + (ShooterInterpolationConstants.F * x * y));
+    return calculateInterpolatedAimAngle(new Translation2d(x, y));
   }
 
-  // only use the quarter(not actually 1/4 of a field) of the field close to 0,0
+  // based on https://www.desmos.com/3d/bfbacaf9a2
+  public static double calculateInterpolatedAimAngle(Translation2d robotPosition) {
+
+    // simple average (not currently used)
+    double total = 0;
+    double numberOfValues = 0;
+
+    // weighted based on distance
+    // You can think of it as there are effectively more copies of that point if position
+    // value is close to that point and so the point is more relevant to the current robot position.
+    double weightedNumberOfValues = 0;
+    double weightedTotal = 0;
+
+    for (ShooterAimState point : Constants.ShooterInterpolationConstants.KNOWN_SHOOTING_POINTS) {
+      double weight =
+          calculateWeightBasedOnDistance(point.getPosition().getDistance(robotPosition));
+      numberOfValues += 1;
+      total += point.getPivotRotation().getDegrees();
+      weightedNumberOfValues += weight;
+      weightedTotal += weight * point.getPivotRotation().getDegrees();
+    }
+
+    double unweightedAverage = total / numberOfValues;
+    double weightedAverage = weightedTotal / weightedNumberOfValues;
+    return weightedAverage;
+  }
+
+  // critical equasion. exactly what values we feed into it dictate how well the mesh fits to the
+  // mesh
+  private static double calculateWeightBasedOnDistance(double distance) {
+    return ((ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_A_1 * Math.pow(2,
+        -(Math.pow(ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_B_1 * distance, 2))))
+        + (ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_A_2 * Math.pow(2,
+            -(Math.pow(ShooterInterpolationConstants.DISTANCE_TO_WEIGHT_B_2 * distance, 2)))));
+  }
+
+  // only use the quarter(not actually 1/4 of area of the field) of the field close to 0,0
   // reflects across center of field on x and speaker y
   // will reflect point to be in the first quarter
   public static Translation2d calculateInputForInterpolatedAimAngle(
