@@ -113,12 +113,12 @@ public class OI extends SubsystemBase {
     
     shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
-    setRobotRelitive.whileTrue(new autoAmp(this));
+    setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    targetingAmp.whileTrue(new SetRobotRelativeSwerve());
+    targetingAmp.whileTrue(new autoAmp(this));
 
-    shooterToAmp.whileTrue(new autoAmp(this));
+    shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate()).and(shooterIntake.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
