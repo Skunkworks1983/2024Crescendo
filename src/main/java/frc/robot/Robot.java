@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.IntakeNoteToIndexerAuto;
@@ -87,6 +88,8 @@ public class Robot extends TimedRobot {
   NamedCommands.registerCommand("ShooterPivotW3", new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
 
   NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
+
+  NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
