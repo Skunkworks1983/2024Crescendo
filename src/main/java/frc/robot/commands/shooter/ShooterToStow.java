@@ -16,6 +16,7 @@ import frc.robot.subsystems.SubsystemGroups.Subsystems;
 public class ShooterToStow extends Command {
 
     private Shooter shooter;
+    double waitTicks;
 
     public ShooterToStow() {
         shooter = Shooter.getInstance();
@@ -30,6 +31,7 @@ public class ShooterToStow extends Command {
 
         shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_FAST_SPEED);
         System.out.println("Shooter to Stow Command Initialize");
+        waitTicks = 0;
     }
 
     @Override
@@ -54,6 +56,11 @@ public class ShooterToStow extends Command {
 
     @Override
     public boolean isFinished() {
-        return shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH);
+        if (shooter.getLimitSwitchOutput(LimitSwitch.REVERSE_LIMIT_SWITCH)) {
+            waitTicks++;
+        } else {
+            waitTicks = 0;
+        }
+        return waitTicks >= Constants.Shooter.SHOOTER_STOW_WAIT_TICKS;
     }
 }
