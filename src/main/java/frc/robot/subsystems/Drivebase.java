@@ -236,7 +236,7 @@ public class Drivebase extends SubsystemBase {
   public void resetGyroOffset() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-    gyroOffset = (gyro.getAngle() + 180)%360;
+    gyroOffset = (gyro.getAngle() + 180) % 360;
     } else {
     gyroOffset = gyro.getAngle();
     }
