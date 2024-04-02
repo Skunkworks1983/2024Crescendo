@@ -394,6 +394,9 @@ public class Constants {
   public static final Pose2d START_POSITION = new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0));
   public static final double TIME_UNTIL_HEADING_CONTROL = 1; // seconds
 
+  // Degrees
+  public static final double HEADING_CONTOLLER_AT_SETPOINT_TOLERANCE = 2.0;
+
   // The position that the targeting buttion will point at
   public static final double TARGETING_POSITION_X = 0;
   public static final double TARGETING_POSITION_Y = 0;

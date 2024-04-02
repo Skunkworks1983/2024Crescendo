@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -56,6 +57,8 @@ public class Drivebase extends SubsystemBase {
 
   double maxVelocity = 0;
   double gyroOffset;
+
+  Optional<Rotation2d> pathPlannerHeadingOverride;
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -112,6 +115,8 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
+    pathPlannerHeadingOverride = Optional.empty();
+
     configurePathPlanner();
     headingController.enableContinuousInput(0, 360);
 
@@ -122,6 +127,7 @@ public class Drivebase extends SubsystemBase {
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
     fieldTarget = Optional.empty();
+
     gyro.reset();
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
@@ -187,6 +193,10 @@ public class Drivebase extends SubsystemBase {
   public void setHeadingController(double setpoint) {
     headingController.setSetpoint(setpoint);
     SmartDashboard.putNumber("Heading Setpoint", setpoint);
+  }
+
+  public boolean headingControllerAtSetpoint() {
+    return Math.abs(getGyroAngle() - headingController.getSetpoint()) > 2.0;
   }
 
   public void setModuleStates(SwerveModuleState[] states) {
@@ -372,8 +382,9 @@ public class Drivebase extends SubsystemBase {
     return fieldTarget;
   }
 
-  public void configurePathPlanner() {
 
+  public void configurePathPlanner() {
+  
     AutoBuilder.configureHolonomic(this::getRobotPose, this::resetOdometry,
         this::getRobotRelativeSpeeds, this::setDriveChassisSpeed,
         new HolonomicPathFollowerConfig(
@@ -392,6 +403,16 @@ public class Drivebase extends SubsystemBase {
           }
           return false;
         }, this);
+
+    PPHolonomicDriveController.setRotationTargetOverride(this::getPathPlannerHeadingOverride);
+  }
+
+  public Optional<Rotation2d> getPathPlannerHeadingOverride() {
+    return pathPlannerHeadingOverride;
+  }
+
+  public void setPathPlannerHeadingOverride(Optional<Rotation2d> headingOverride) {
+    pathPlannerHeadingOverride = headingOverride;
   }
 
   public Command followPathCommand(String pathName) {
