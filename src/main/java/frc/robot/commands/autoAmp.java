@@ -66,8 +66,9 @@ public class autoAmp extends Command {
     SmartDashboard.putNumber("Target X", xTargetPos);
     drivebase.setDriveTurnPos(
         (Math.max(Math.min(distanceFromAmp * 0.5, 0.5), -0.5)
-            + (MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)/5))
-                * Constants.OI_DRIVE_SPEED_RATIO,
+            + (MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) / 5
+                * fieldOrientationMultiplier))
+            * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
             * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         true);
