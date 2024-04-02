@@ -24,9 +24,11 @@ public class ShooterAimUtils {
   }
 
   public static double calculateInterpolatedAimAngle(double x, double y) {
-    return (ShooterInterpolationConstants.A + (ShooterInterpolationConstants.B * x)
-        + (ShooterInterpolationConstants.C * y) + (ShooterInterpolationConstants.D * x * x)
-        + (ShooterInterpolationConstants.E * y * y) + (ShooterInterpolationConstants.F * x * y));
+    return (ShooterInterpolationConstants.A_COEFFICIENT + (ShooterInterpolationConstants.B_COEFFICIENT * x)
+        + (ShooterInterpolationConstants.C_COEFFICIENT * y) + (ShooterInterpolationConstants.D_COEFFICIENT * x * x)
+        + (ShooterInterpolationConstants.E_COEFFICIENT * y * y) + (ShooterInterpolationConstants.F_COEFFICIENT * x * y)
+        +(ShooterInterpolationConstants.G_COEFFICIENT*x*x*x) + (ShooterInterpolationConstants.H_COEFFICIENT*y*x*x) + (ShooterInterpolationConstants.I_COEFFICIENT*x*y*y) 
+        + (ShooterInterpolationConstants.J_COEFFICIENT*y*y*y));
   }
 
   // only use the quarter(not actually 1/4 of a field) of the field close to 0,0

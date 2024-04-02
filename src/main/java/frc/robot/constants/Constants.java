@@ -162,12 +162,16 @@ public class Constants {
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A = 80.46361754;
-    public static final double B = -11.16442723;
-    public static final double C = -10.56295564;
-    public static final double D = 2.27152757;
-    public static final double E = 0.75301618;
-    public static final double F = 1.16175171;
+    public static final double A_COEFFICIENT = 1.25090821 * Math.pow(10,2);
+    public static final double B_COEFFICIENT = -1.57056835 * Math.pow(10,1);
+    public static final double C_COEFFICIENT = -3.87513617 * Math.pow(10,1);
+    public static final double D_COEFFICIENT = 3.54081199;
+    public static final double E_COEFFICIENT = 3.49116406;
+    public static final double F_COEFFICIENT = 8.47042804;
+    public static final double G_COEFFICIENT = -7.44807799 * Math.pow(10,-1);
+    public static final double H_COEFFICIENT = 4.82389371 * Math.pow(10,-6);
+    public static final double I_COEFFICIENT = -7.63099765 * Math.pow(10,-1);
+    public static final double J_COEFFICIENT = -6.09079745 * Math.pow(10,-6);;
   }
 
   public class Shooter {
@@ -456,7 +460,7 @@ public class Constants {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833) -.1,
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(
