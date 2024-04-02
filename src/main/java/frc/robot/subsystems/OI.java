@@ -116,9 +116,9 @@ public class OI extends SubsystemBase {
     setRobotRelitive.whileTrue(new autoAmp(this));
 
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    targetingAmp.whileTrue(new autoAmp(this));
+    targetingAmp.whileTrue(new SetRobotRelativeSwerve());
 
-    shooterToAmp.whileTrue(new ShooterToAmp());
+    shooterToAmp.whileTrue(new autoAmp(this));
     shooterToAmp.negate().and(interpolationAim.negate()).and(shooterToPass.negate()).and(shooterIntake.negate())
         .whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());

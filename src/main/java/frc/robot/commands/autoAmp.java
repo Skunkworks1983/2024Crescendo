@@ -27,7 +27,6 @@ public class autoAmp extends Command {
 
   public autoAmp(OI oi) {
     fieldTarget = FieldTarget.AMP;
-    xTargetPos = Constants.Targeting.FieldTarget.AMP.get().get().getX();
     this.oi = oi;
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
@@ -36,6 +35,7 @@ public class autoAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    xTargetPos = Constants.Targeting.FieldTarget.AMP.get().get().getX();
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
       fieldOrientationMultiplier = -1;
@@ -61,14 +61,13 @@ public class autoAmp extends Command {
             (targetPoint.getX() - drivebase.getRobotPose().getX()))));
 
     double distanceFromAmp = xTargetPos - drivebase.getRobotPose().getX();
-    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.1, 0.5), -0.5));
+    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.5, 0.5), -0.5));
     SmartDashboard.putNumber("Distance from amp", distanceFromAmp);
     SmartDashboard.putNumber("Target X", xTargetPos);
     drivebase.setDriveTurnPos(
-
-        MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-            // Math.max(Math.min(distanceFromAmp/5, 1), -1)
-            * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+        (Math.max(Math.min(distanceFromAmp * 0.5, 0.5), -0.5)
+            + (MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)/5))
+                * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
             * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         true);
@@ -80,7 +79,7 @@ public class autoAmp extends Command {
     drivebase.setFieldTarget(FieldTarget.NONE);
   }
 
-  // Returns true when the command should end.
+  // Returns true when the command should end.%
   @Override
   public boolean isFinished() {
     return false;

@@ -62,6 +62,9 @@ public class SwerveTeleop extends Command {
     }
     drivebase.setFieldRelative();
     System.out.println("Swerve Teleop Command Initialize");
+
+    currentHeading = drivebase.getGyroAngle();
+    headingControllerSetpoint = currentHeading;
     }
 
   // Called every time the scheduler runs while the command is scheduled.
