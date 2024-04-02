@@ -19,13 +19,23 @@ public class ShooterAimUtils {
     return a.toTranslation2d().getDistance(b.toTranslation2d());
   }
 
-
   public static double calculateCurveFitAimAngle(double x, double y) {
     return (ShooterInterpolationConstants.A_COEFFICIENT + (ShooterInterpolationConstants.B_COEFFICIENT * x)
         + (ShooterInterpolationConstants.C_COEFFICIENT * y) + (ShooterInterpolationConstants.D_COEFFICIENT * x * x)
-        + (ShooterInterpolationConstants.E_COEFFICIENT * y * y) + (ShooterInterpolationConstants.F_COEFFICIENT * x * y));
+        + (ShooterInterpolationConstants.E_COEFFICIENT * y * y) + (ShooterInterpolationConstants.F_COEFFICIENT * x * y)
+        +(ShooterInterpolationConstants.G_COEFFICIENT*x*x*x) + (ShooterInterpolationConstants.H_COEFFICIENT*y*x*x) + (ShooterInterpolationConstants.I_COEFFICIENT*x*y*y) 
+        + (ShooterInterpolationConstants.J_COEFFICIENT*y*y*y));
   }
 
+
+  public static double compositeInterpolatedAimAngle(double x, double y){
+    calculateCurveFitAimAngle(x,y);
+    calculateInterpolatedAimAngle(x,y);
+  }
+
+  public static double calculateInterpolatedWeightTotal(double x, double y){
+
+  };
 
   public static double calculateInterpolatedAimAngle(double x, double y) {
     return calculateInterpolatedAimAngle(new Translation2d(x, y));

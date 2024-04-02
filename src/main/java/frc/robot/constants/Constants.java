@@ -160,12 +160,19 @@ public class Constants {
 
   public class ShooterInterpolationConstants {
 
-    public static final double A_COEFFICIENT = 0.0;
-    public static final double B_COEFFICIENT = 0.0;
-    public static final double C_COEFFICIENT = 0.0;
-    public static final double D_COEFFICIENT = 0.0;
-    public static final double E_COEFFICIENT = 0.0;
-    public static final double F_COEFFICIENT = 0.0;
+    public static final double A_COEFFICIENT = 1.25090821 * Math.pow(10,2);
+    public static final double B_COEFFICIENT = -1.57056835 * Math.pow(10,1);
+    public static final double C_COEFFICIENT = -3.87513617 * Math.pow(10,1);
+    public static final double D_COEFFICIENT = 3.54081199;
+    public static final double E_COEFFICIENT = 3.49116406;
+    public static final double F_COEFFICIENT = 8.47042804;
+
+    public static final double G_COEFFICIENT = -7.44807799 * Math.pow(10,-1);
+    public static final double H_COEFFICIENT = 4.82389371 * Math.pow(10,-6);
+    public static final double I_COEFFICIENT = -7.63099765 * Math.pow(10,-1);
+    public static final double J_COEFFICIENT = -6.09079745 * Math.pow(10,-6);;
+
+
 
 
     // TODO: retune MINIMUM_SPEED_TO_RE_AIM and NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM
