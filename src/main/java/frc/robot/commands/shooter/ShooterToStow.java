@@ -61,6 +61,6 @@ public class ShooterToStow extends Command {
         } else {
             waitTicks = 0;
         }
-        return waitTicks >= 3;
+        return waitTicks >= Constants.Shooter.SHOOTER_STOW_WAIT_TICKS;
     }
 }

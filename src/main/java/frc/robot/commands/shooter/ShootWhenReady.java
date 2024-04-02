@@ -57,7 +57,7 @@ public class ShootWhenReady extends Command {
 
     if ((atSpeedCount > minAtSpeedCount && shooter.isFlywheelSpiningWithSetpoint
         && atPivotSetpointCount > Constants.Shooter.SHOOTER_ANGLE_WAIT_TICKS)
-        || timer.getFPGATimestamp() - timeAtInit >= 5) {
+        || timer.getFPGATimestamp() - timeAtInit >= Constants.Shooter.SHOOT_WHEN_READY_SECONDS_BEFORE_SHOOT) {
       shooter.setIndexerPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
     }
