@@ -67,10 +67,10 @@ public class Climber extends SubsystemBase {
       slot1configs.kD = 0.0;
       slot1configs.kV = 0.0;
 
-    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
-    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
-    SmartDashboard.putNumber("Left Amps", getClimberTorque(ClimbModule.LEFT));
-    SmartDashboard.putNumber("Right Amps", getClimberTorque(ClimbModule.RIGHT));
+    //SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    //SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    //SmartDashboard.putNumber("Left Amps", getClimberTorque(ClimbModule.LEFT));
+    //SmartDashboard.putNumber("Right Amps", getClimberTorque(ClimbModule.RIGHT));
   }
 
   public void applySlotConfig(ClimbModule module, ClimberSlotConfigs config) {
