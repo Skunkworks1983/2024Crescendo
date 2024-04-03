@@ -515,7 +515,7 @@ public class Constants {
         1 / ((Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO);
 
     public static final double MAX_POSITION = 63;// .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
-    public static final double MIN_POSITION = 64;// .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MIN_POSITION = 0;// .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.

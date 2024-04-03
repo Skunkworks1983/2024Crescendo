@@ -61,6 +61,8 @@ public class ClimbWithGyro extends Command {
     climber.setBrakeMode(ClimbModule.LEFT);
     climber.setClimberOutput(ClimbModule.RIGHT, 0);
     climber.setBrakeMode(ClimbModule.RIGHT);
+    climber.setClimberPosition(ClimbModule.LEFT, climber.getClimberPostition(ClimbModule.LEFT));
+    climber.setClimberPosition(ClimbModule.RIGHT, climber.getClimberPostition(ClimbModule.LEFT));
     SmartDashboard.putBoolean("ClimbWithGyro", false);
   }
 

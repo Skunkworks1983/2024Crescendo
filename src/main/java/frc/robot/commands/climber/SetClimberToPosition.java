@@ -21,14 +21,6 @@ public class SetClimberToPosition extends Command {
     this.position = position;
     this.module = module;
     climber = Climber.getInstance();
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    SmartDashboard.putBoolean("SetClimberToPosition " + module, false);
-    System.out.println("Set Climber to Position Command Initialize");
-    climber.setClimberPosition(module, position);
 
     if (module == ClimbModule.LEFT) {
       addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_LEFT));
@@ -38,6 +30,14 @@ public class SetClimberToPosition extends Command {
       addRequirements(SubsystemGroups.getInstance(Subsystems.CLIMBER_RIGHT),
           SubsystemGroups.getInstance(Subsystems.CLIMBER_LEFT));
     }
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    SmartDashboard.putBoolean("SetClimberToPosition " + module, false);
+    System.out.println("Set Climber to Position Command Initialize");
+    climber.setClimberPosition(module, position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
