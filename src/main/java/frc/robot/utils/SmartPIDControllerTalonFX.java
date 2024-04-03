@@ -20,6 +20,7 @@ public class SmartPIDControllerTalonFX {
     public double lastKiValue;
     public double lastKdValue;
     public double lastKfValue;
+    public Slot0Configs slot0Configs;
 
 
     public SmartPIDControllerTalonFX(double kp, double ki, double kd, double kf, String name,
@@ -34,7 +35,7 @@ public class SmartPIDControllerTalonFX {
         lastKdValue = kd;
         lastKfValue = kf;
 
-        Slot0Configs slot0Configs = new Slot0Configs();
+        slot0Configs = new Slot0Configs();
 
         slot0Configs.kP = lastKpValue;
         slot0Configs.kI = lastKiValue;
