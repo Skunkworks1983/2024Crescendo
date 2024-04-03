@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinUpFlyWheelAndShoot"
+            "name": "AimAndShootCommand"
           }
         },
         {
@@ -31,6 +31,12 @@
                 "type": "named",
                 "data": {
                   "name": "IntakeNoteToIndexer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterToStow"
                 }
               }
             ]
@@ -58,7 +64,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinUpFlyWheelAndShoot"
+            "name": "AimAndShootCommand"
           }
         },
         {
@@ -75,6 +81,12 @@
                 "type": "named",
                 "data": {
                   "name": "IntakeNoteToIndexer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterToStow"
                 }
               }
             ]
@@ -102,7 +114,13 @@
         {
           "type": "named",
           "data": {
-            "name": "SpinUpFlyWheelAndShoot"
+            "name": "AimAndShootCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterToStow"
           }
         }
       ]

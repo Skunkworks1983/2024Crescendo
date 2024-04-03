@@ -18,7 +18,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SpinUpFlyWheelAndShoot"
+                  "name": "AimAndShootCommand"
                 }
               },
               {
@@ -31,9 +31,22 @@
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 10.0
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 10.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterToStow"
+                }
+              }
+            ]
           }
         },
         {
