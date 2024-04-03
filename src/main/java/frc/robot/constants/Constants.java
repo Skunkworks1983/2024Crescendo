@@ -133,7 +133,7 @@ public class Constants {
     public static final double CORRECTIVE_SCALE = 0.1;
 
     // aproxamation based on travel distance of trajectory. Value is in feet.
-    public static final double WHEEL_DIAMETER = .33333333;
+    public static final double WHEEL_DIAMETER = 0.32516666666;
     public static final double REVS_PER_FOOT = DRIVE_MOTOR_GEAR_RATIO / (WHEEL_DIAMETER * Math.PI);
 
     // Module translations feet
@@ -143,16 +143,16 @@ public class Constants {
     public class ModuleConstants {
 
       public static final SwerveModuleConstants FRONT_LEFT_MODULE =
-          new SwerveModuleConstants(16, 18, 17, 0.320801, "Front Left");
+          new SwerveModuleConstants(16, 18, 17, 0.311035, "Front Left");
 
       public static final SwerveModuleConstants FRONT_RIGHT_MODULE =
-          new SwerveModuleConstants(10, 12, 11, -0.387939, "Front Right");
+          new SwerveModuleConstants(10, 12, 11, -0.415283, "Front Right");
 
       public static final SwerveModuleConstants BACK_LEFT_MODULE =
-          new SwerveModuleConstants(25, 23, 24, -0.204590, "Back Left");
+          new SwerveModuleConstants(25, 23, 24, -0.205566, "Back Left");
 
       public static final SwerveModuleConstants BACK_RIGHT_MODULE =
-          new SwerveModuleConstants(22, 20, 21, 0.311035, "Back Right");
+          new SwerveModuleConstants(22, 20, 21, 0.308838, "Back Right");
     }
   }
 
@@ -162,12 +162,16 @@ public class Constants {
     public static final double MINIMUM_SPEED_TO_RE_AIM = .045;
     public static final double NUMBER_OF_TICKS_GOING_TO_FAST_TO_RE_AIM = 3;
 
-    public static final double A = 80.46361754;
-    public static final double B = -11.16442723;
-    public static final double C = -10.56295564;
-    public static final double D = 2.27152757;
-    public static final double E = 0.75301618;
-    public static final double F = 1.16175171;
+    public static final double A_COEFFICIENT = 1.25090821 * Math.pow(10,2);
+    public static final double B_COEFFICIENT = -1.57056835 * Math.pow(10,1);
+    public static final double C_COEFFICIENT = -3.87513617 * Math.pow(10,1);
+    public static final double D_COEFFICIENT = 3.54081199;
+    public static final double E_COEFFICIENT = 3.49116406;
+    public static final double F_COEFFICIENT = 8.47042804;
+    public static final double G_COEFFICIENT = -7.44807799 * Math.pow(10,-1);
+    public static final double H_COEFFICIENT = 4.82389371 * Math.pow(10,-6);
+    public static final double I_COEFFICIENT = -7.63099765 * Math.pow(10,-1);
+    public static final double J_COEFFICIENT = -6.09079745 * Math.pow(10,-6);;
   }
 
   public class Shooter {
@@ -263,6 +267,16 @@ public class Constants {
 
     // Setting the tolerance on the shooter pivot PID controller to this number.
     public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
+
+    public static final double SHOOTER_STOW_WAIT_TICKS = 3;
+    public static final double SHOOT_WHEN_READY_SECONDS_BEFORE_SHOOT = 5;
+  }
+  public class AutoShooting {
+    public static double WNOTE1_ANGLE = 53;
+    public static double WNOTE2_ANGLE = 45;
+    public static double WNOTE3_ANGLE = 50;
+  
+    
   }
 
   public class PIDControllers {
@@ -417,9 +431,9 @@ public class Constants {
     public static final String CAMERA_1_NAME = "Forward";
 
     // Forwards facing camera
-    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256),
-        Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(10.727 + 2.088 - 0.175),
-        new Rotation3d(0, Units.degreesToRadians(15.6), Units.degreesToRadians(0)));
+    public static final Transform3d ROBOT_TO_CAMERA_1 = new Transform3d(Units.inchesToMeters(8.256)+.37,
+    Units.inchesToMeters(0.901 + .875), Units.inchesToMeters(13.5),//10.727 + 2.088 - 0.175 was 12.64
+    new Rotation3d(0, Units.degreesToRadians(12.0), Units.degreesToRadians(-2)));
 
     // Sideways facing camera
     public static final Transform3d ROBOT_TO_CAMERA_2 =
@@ -431,7 +445,7 @@ public class Constants {
     // Multplying distance to target by this constant to get X and Y uncertainty
     // when adding a
     // vision measurment.
-    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = 1.5;
+    public static final double DISTANCE_UNCERTAINTY_PROPORTIONAL = .75;
 
     // Multiplying distance to target by this constant to get rotational uncertainty
     // when adding a
@@ -442,14 +456,14 @@ public class Constants {
     public static final String CAMERA_STATUS_BOOLEAN = "CAMERA PLUGGED IN";
 
     // Meters
-    public static final double APRILTAG_DISTANCE_CUTOFF = 4.5;
+    public static final double APRILTAG_DISTANCE_CUTOFF = 3;
   }
 
   public class Targeting {
 
     public enum FieldTarget {
       // SPEAKER uses middle part of goal for z value.
-      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833),
+      SPEAKER(new Translation3d(-0.1, Units.feetToMeters(18.520833) -.1,
           Units.feetToMeters(7.2) + 0.43)), SPEAKER_LOWEST_GOAL_PART(
               new Translation3d(SPEAKER.get().get().getX(), SPEAKER.get().get().getY(),
                   Units.feetToMeters(6.0))), AMP(

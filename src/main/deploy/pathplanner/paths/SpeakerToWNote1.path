@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.26,
-        "y": 6.316481380174229
+        "x": 1.8333111873815688,
+        "y": 6.271396077786225
       },
       "isLocked": false,
       "linkedName": "SpeakerSide2"
     },
     {
       "anchor": {
-        "x": 2.42,
-        "y": 7.0
+        "x": 2.5885043118686752,
+        "y": 6.757525168994358
       },
       "prevControl": {
-        "x": 1.4459323558537873,
-        "y": 6.828245593301891
+        "x": 2.0036180530376337,
+        "y": 6.329304872350203
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -142.3523793598923,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "P1.4P.P.W123new",
   "previewStartingState": {
     "rotation": -179.60609296820724,
     "velocity": 0

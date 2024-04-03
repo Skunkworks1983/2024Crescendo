@@ -1,0 +1,113 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6667351757095377,
+      "y": 4.407535736191065
+    },
+    "rotation": 120.06858282186239
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Side3ToMNote4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNoteToIndexer"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MNote4ToSide3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoteFloorToShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Side3ToMNote5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNoteToIndexer"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MNote5ToSide3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoteFloorToShooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpinUpFlyWheelAndShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

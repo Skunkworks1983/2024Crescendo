@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.42,
-        "y": 7.0
+        "x": 2.5885043118686752,
+        "y": 6.757525168994358
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.212506002620149,
-        "y": 6.767969566473484
+        "x": 2.381010314488824,
+        "y": 6.525494735467842
       },
       "isLocked": false,
       "linkedName": "WingNote1"
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.6,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "P1.4P.P.W123new",
+  "folder": null,
   "previewStartingState": {
     "rotation": -179.04410739580467,
     "velocity": 0
