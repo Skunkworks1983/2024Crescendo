@@ -54,7 +54,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Collector Stow",
       "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",

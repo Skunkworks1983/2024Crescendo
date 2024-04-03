@@ -63,7 +63,7 @@ public class SwerveTeleop extends Command {
     drivebase.setFieldRelative();
     System.out.println("Swerve Teleop Command Initialize");
 
-    currentHeading = drivebase.getRobotPose().getRotation().getDegrees();
+    currentHeading = drivebase.getGyroAngle();
     headingControllerSetpoint = currentHeading;
     }
 
@@ -92,7 +92,7 @@ public class SwerveTeleop extends Command {
       // If the joystick is outside of the deadband, run regular swerve.
     } else if (outsideDeadband) {
 
-      currentHeading = drivebase.getRobotPose().getRotation().getDegrees();
+      currentHeading = drivebase.getGyroAngle();
       lastSeconds = timer.getFPGATimestamp();
       hasUpdated = false;
 
@@ -102,7 +102,7 @@ public class SwerveTeleop extends Command {
       // Waits a second to allow extra turn momentum to dissipate.
       if (timer.getFPGATimestamp() - lastSeconds > Constants.TIME_UNTIL_HEADING_CONTROL
           && !hasUpdated) {
-        currentHeading = drivebase.getRobotPose().getRotation().getDegrees();
+        currentHeading = drivebase.getGyroAngle();
         headingControllerSetpoint = currentHeading;
 
         // Ensures that the setpoint is only set once when maintaining heading.
