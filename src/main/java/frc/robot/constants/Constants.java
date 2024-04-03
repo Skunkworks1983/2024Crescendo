@@ -543,6 +543,10 @@ public class Constants {
     public enum ClimbModule {
       LEFT, RIGHT;
     }
+
+    public enum ClimberSlotConfigs {
+      SLOT_0, SLOT_1
+    }
   }
 
   public class IndexerConstants {

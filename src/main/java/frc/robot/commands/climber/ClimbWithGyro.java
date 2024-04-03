@@ -4,10 +4,12 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
+import frc.robot.constants.Constants.ClimberConstants.ClimberSlotConfigs;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.SubsystemGroups;
@@ -57,12 +59,10 @@ public class ClimbWithGyro extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Climb With Gyro Command End");
-    climber.setClimberOutput(ClimbModule.LEFT, 0);
     climber.setBrakeMode(ClimbModule.LEFT);
-    climber.setClimberOutput(ClimbModule.RIGHT, 0);
     climber.setBrakeMode(ClimbModule.RIGHT);
-    climber.setClimberPosition(ClimbModule.LEFT, climber.getClimberPostition(ClimbModule.LEFT));
-    climber.setClimberPosition(ClimbModule.RIGHT, climber.getClimberPostition(ClimbModule.LEFT));
+    climber.applySlotConfig(ClimbModule.LEFT, ClimberSlotConfigs.SLOT_1);
+    climber.applySlotConfig(ClimbModule.RIGHT, ClimberSlotConfigs.SLOT_1);
     SmartDashboard.putBoolean("ClimbWithGyro", false);
   }
 

@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
+import frc.robot.constants.Constants.ClimberConstants.ClimberSlotConfigs;
 import frc.robot.utils.SmartPIDControllerTalonFX;
 
 public class Climber extends SubsystemBase {
@@ -25,8 +28,10 @@ public class Climber extends SubsystemBase {
   private static Climber climber;
   private final PositionVoltage postitionVoltage = new PositionVoltage(0);
 
-  SmartPIDControllerTalonFX leftPositionController;
-  SmartPIDControllerTalonFX rightPositionController;
+  SmartPIDControllerTalonFX leftClimbPositionController;
+  SmartPIDControllerTalonFX rightClimbPositionController;
+
+  Slot1Configs slot1configs;
 
   private Climber() {
 
@@ -43,22 +48,45 @@ public class Climber extends SubsystemBase {
     rightClimbMotor.getConfigurator().apply(notInverted);
 
     // Using Smart PID Controllers on the motors for position control
-    leftPositionController = new SmartPIDControllerTalonFX(
+    leftClimbPositionController = new SmartPIDControllerTalonFX(
         Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI,
         Constants.PIDControllers.ClimberPID.CLIMBER_KD, Constants.PIDControllers.DrivePID.KF,
         "Left Climb Motor", Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, leftClimbMotor);
 
-    rightPositionController = new SmartPIDControllerTalonFX(
+    rightClimbPositionController = new SmartPIDControllerTalonFX(
         Constants.PIDControllers.ClimberPID.CLIMBER_KP,
         Constants.PIDControllers.ClimberPID.CLIMBER_KI,
         Constants.PIDControllers.ClimberPID.CLIMBER_KD, Constants.PIDControllers.DrivePID.KF,
         "Right Climb Motor", Constants.PIDControllers.ClimberPID.SMART_PID_ACTIVE, rightClimbMotor);
 
+      slot1configs = new Slot1Configs();
+
+      slot1configs.kP = .6;
+      slot1configs.kI = 0.0;
+      slot1configs.kD = 0.0;
+      slot1configs.kV = 0.0;
+
     SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
     SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
     SmartDashboard.putNumber("Left Amps", getClimberTorque(ClimbModule.LEFT));
     SmartDashboard.putNumber("Right Amps", getClimberTorque(ClimbModule.RIGHT));
+  }
+
+  public void applySlotConfig(ClimbModule module, ClimberSlotConfigs config) {
+    if (module == ClimbModule.LEFT) {
+      if (config == ClimberSlotConfigs.SLOT_0) {
+        leftClimbMotor.getConfigurator().apply(leftClimbPositionController.slot0Configs);
+      } else {
+        leftClimbMotor.getConfigurator().apply(slot1configs);
+      }
+    } else {
+      if (config == ClimberSlotConfigs.SLOT_0) {
+        rightClimbMotor.getConfigurator().apply(rightClimbPositionController.slot0Configs);
+      } else {
+        rightClimbMotor.getConfigurator().apply(slot1configs);
+      }
+    }
   }
 
   public void setClimberPosition(ClimbModule module, double setpointMeters) {
