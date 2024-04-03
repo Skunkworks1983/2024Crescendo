@@ -61,14 +61,14 @@ public class autoAmp extends Command {
             (targetPoint.getX() - drivebase.getRobotPose().getX()))));
 
     double distanceFromAmp = xTargetPos - drivebase.getRobotPose().getX();
-    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.5, 0.5), -0.5));
+    SmartDashboard.putNumber("X speed", Math.max(Math.min(distanceFromAmp * 0.75, 0.7), -0.75));
     SmartDashboard.putNumber("Distance from amp", distanceFromAmp);
     SmartDashboard.putNumber("Target X", xTargetPos);
     drivebase.setDriveTurnPos(
-        (Math.max(Math.min(distanceFromAmp * 0.5, 0.5), -0.5)
-            + (MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) / 5
-                * fieldOrientationMultiplier))
-            * Constants.OI_DRIVE_SPEED_RATIO,
+        Math.max(Math.min((Math.max(Math.min(distanceFromAmp * 0.75, 0.7), -0.75)
+            + (MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND) / 3)
+                * fieldOrientationMultiplier),
+            1), -1) * Constants.OI_DRIVE_SPEED_RATIO,
         MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
             * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
         true);
