@@ -49,7 +49,7 @@
   "eventMarkers": [
     {
       "name": "lower collector",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.85,
       "command": {
         "type": "parallel",
         "data": {
