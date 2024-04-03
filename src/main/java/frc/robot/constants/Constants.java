@@ -32,8 +32,8 @@ public class Constants {
   public class IDS {
     // Climber Motor IDS
     // stub
-    public static final int LEFT_CLIMBER_MOTOR = 14;
-    public static final int RIGHT_CLIMBER_MOTOR = 13;
+    public static final int LEFT_CLIMBER_MOTOR = 13;
+    public static final int RIGHT_CLIMBER_MOTOR = 14;
 
 
     // Shooter Motor IDS
@@ -507,15 +507,15 @@ public class Constants {
 
   public class ClimberConstants {
 
-    public static final double GEAR_RATIO = 2.0 * 20.0 * 10.0 / 14.0;
+    public static final double GEAR_RATIO = 20.0 * 10.0 / 14.0;
 
     // Meters
     public static final double CLIMBER_CORD_CYLINDER_DIAMETER = 0.031369;
     public static final double CLIMBER_METERS_TO_MOTOR_ROTATIONS =
         1 / ((Math.PI * CLIMBER_CORD_CYLINDER_DIAMETER) / GEAR_RATIO);
 
-    public static final double MAX_POSITION = .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
-    public static final double MIN_POSITION = .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MAX_POSITION = 63;// .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
+    public static final double MIN_POSITION = 64;// .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
@@ -523,7 +523,7 @@ public class Constants {
 
     // CLIMBER_CHAIN_TORQUE used to be 10. Setting it lower to see if it helps keep robot level.
     public static final double CLIMBER_CHAIN_TORQUE = 15;
-    public static final double BASE_PULL_SPEED = -.75;
+    public static final double BASE_PULL_SPEED = -.40;
     public static final double ROLL_DEGREES_TO_OUTPUT = 100;
 
     public enum ClimbModule {

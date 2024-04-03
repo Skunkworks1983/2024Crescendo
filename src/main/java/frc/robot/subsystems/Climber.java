@@ -39,8 +39,8 @@ public class Climber extends SubsystemBase {
     inverted.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     notInverted.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    leftClimbMotor.getConfigurator().apply(notInverted);
-    rightClimbMotor.getConfigurator().apply(inverted);
+    leftClimbMotor.getConfigurator().apply(inverted);
+    rightClimbMotor.getConfigurator().apply(notInverted);
 
     // Using Smart PID Controllers on the motors for position control
     leftPositionController = new SmartPIDControllerTalonFX(
@@ -111,10 +111,10 @@ public class Climber extends SubsystemBase {
   public void periodic() {
 
     // Updating SmartDashboard prints every loop.
-    //SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
-    //SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
-    //SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
-    //SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
+    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
   }
 
   public static Climber getInstance() {
