@@ -241,6 +241,8 @@ public class Constants {
     public static final double SOURCE_FLYWHEEL_SPEED = -3;
     public static final double PASS_FLYWHEEL_SPEED = 23;
 
+    public static final double PASS_HORIZONTAL_SPEED=4;//m/s
+
     public static final double PODIUM_ANGLE_DEGREES = 50;
     public static final double PASS_ANGLE_DEGREES = 50;
 
@@ -470,7 +472,9 @@ public class Constants {
                       new Translation3d(Units.feetToMeters(6.0), Units.feetToMeters(999999999),
                           0)), SPEAKER_HOOD(
                               new Translation3d(.47, SPEAKER.get().get().getY(),
-                                  Units.feetToMeters(7))), NONE();
+                                  Units.feetToMeters(7))),PASS_TARGET(
+                                    new Translation3d(0,Units.feetToMeters(26.9375) ,
+                                        0.0)), NONE();
 
       Translation3d target;
 
