@@ -55,41 +55,45 @@ public class Robot extends TimedRobot {
     shooter = Shooter.getInstance();
     indexer = Indexer.getInstance();
     collector = Collector.getInstance();
-    //enable the driver camera
+    // enable the driver camera
     CameraServer.startAutomaticCapture();
 
-  //wait times
-  NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
-  NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
+    // wait times
+    NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
+    NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
 
-  // Collector 
-  NamedCommands.registerCommand("LowerCollector", new LowerCollector());
-  NamedCommands.registerCommand("CollectorStow", new CollectorStow());
-  NamedCommands.registerCommand("CollectNote", new CollectNote());
+    // Collector
+    NamedCommands.registerCommand("LowerCollector", new LowerCollector());
+    NamedCommands.registerCommand("CollectorStow", new CollectorStow());
+    NamedCommands.registerCommand("CollectNote", new CollectNote());
 
-  // Shooter
-  NamedCommands.registerCommand("ShootNote", new Shoot());
-  NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
-  NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
-  NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
-  NamedCommands.registerCommand("LoadPieceShooter", new LoadPieceShooter());
+    // Shooter
+    NamedCommands.registerCommand("ShootNote", new Shoot());
+    NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
+    NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
+    NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
+    NamedCommands.registerCommand("LoadPieceShooter", new LoadPieceShooter());
 
-  //indexer
-  NamedCommands.registerCommand("LowerCollectorAndInatake", new LowerCollectorAndIntakeToIndexer());
-  NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
+    // indexer
+    NamedCommands.registerCommand("LowerCollectorAndInatake",
+        new LowerCollectorAndIntakeToIndexer());
+    NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
 
-  NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
-  NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
+    NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
+    NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
 
-  NamedCommands.registerCommand("StopRobot", new StopRobot());
+    NamedCommands.registerCommand("StopRobot", new StopRobot());
 
-  NamedCommands.registerCommand("ShooterPivotW1", new ShooterToAngle(Constants.AutoShooting.WNOTE1_ANGLE));
-  NamedCommands.registerCommand("ShooterPivotW2", new ShooterToAngle(Constants.AutoShooting.WNOTE2_ANGLE));
-  NamedCommands.registerCommand("ShooterPivotW3", new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
+    NamedCommands.registerCommand("ShooterPivotW1",
+        new ShooterToAngle(Constants.AutoShooting.WNOTE1_ANGLE));
+    NamedCommands.registerCommand("ShooterPivotW2",
+        new ShooterToAngle(Constants.AutoShooting.WNOTE2_ANGLE));
+    NamedCommands.registerCommand("ShooterPivotW3",
+        new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
 
-  NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
+    NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
 
-  NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
+    NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -102,12 +106,17 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    //SmartDashboard.putNumber("Collector Angle", collector.getCollectorPos());
+    SmartDashboard.putNumber("Gyro Angle", drivebase.getGyroAngle());
+    SmartDashboard.putNumber("Drivebase Heading Angle",
+        drivebase.getRobotPose().getRotation().getDegrees());
+    System.out.println("Gyro Angle: " + drivebase.getGyroAngle() + ", Drivebase Heading Angle: "
+        + drivebase.getRobotPose().getRotation().getDegrees() + ", Dif: "
+        + (drivebase.getRobotPose().getRotation().getDegrees() - drivebase.getGyroAngle()));
   }
 
   @Override
   public void disabledInit() {
-    
+
   }
 
   @Override
@@ -115,8 +124,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Indexer Beambreak", indexer.getBeamBreakSensor());
     SmartDashboard.putBoolean("Shooter Beambreak One", shooter.getShooterIndexerBeambreak1());
     SmartDashboard.putBoolean("Shooter Beambreak Two", shooter.getShooterIndexerBeambreak2());
-    SmartDashboard.putBoolean("Shooter Limit Forward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
-    SmartDashboard.putBoolean("Shooter Limit Backward", shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Forward",
+        shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Shooter Limit Backward",
+        shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
   }
 
   @Override
