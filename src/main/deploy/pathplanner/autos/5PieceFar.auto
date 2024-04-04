@@ -56,9 +56,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "AimAndShootCommand"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAndShootCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TargetPoseForAuto"
+                }
+              }
+            ]
           }
         },
         {
@@ -93,9 +106,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "AimAndShootCommand"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAndShootCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TargetPoseForAuto"
+                }
+              }
+            ]
           }
         },
         {
@@ -124,9 +150,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "AimAndShootCommand"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAndShootCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TargetPoseForAuto"
+                }
+              }
+            ]
           }
         },
         {
@@ -187,6 +226,12 @@
                 "type": "named",
                 "data": {
                   "name": "CollectorStow"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TargetPoseForAuto"
                 }
               }
             ]

@@ -21,6 +21,7 @@ import frc.robot.commands.LowerCollectorAndIntakeToIndexer;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.SpinUpFlyWheelAndShoot;
 import frc.robot.commands.StopRobot;
+import frc.robot.commands.TargetPosForAuto;
 import frc.robot.commands.WaitDuration;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.LoadPieceShooter;
@@ -30,6 +31,7 @@ import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToAngle;
 import frc.robot.commands.shooter.ShooterToStow;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Constants.Targeting.FieldTarget;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
@@ -94,6 +96,8 @@ public class Robot extends TimedRobot {
     NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
 
     NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
+
+    NamedCommands.registerCommand("TargetPoseForAuto", new TargetPosForAuto(FieldTarget.SPEAKER));
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
