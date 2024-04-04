@@ -269,7 +269,7 @@ public class Constants {
     public static final double SHOOTER_PIVOT_PID_TOLERANCE = 1.0;
 
     public static final double SHOOTER_STOW_WAIT_TICKS = 3;
-    public static final double SHOOT_WHEN_READY_SECONDS_BEFORE_SHOOT = 5;
+    public static final double SHOOT_WHEN_READY_SECONDS_BEFORE_SHOOT = 3.5;
   }
   public class AutoShooting {
     public static double WNOTE1_ANGLE = 53;
