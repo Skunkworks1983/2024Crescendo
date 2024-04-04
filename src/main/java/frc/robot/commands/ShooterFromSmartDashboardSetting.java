@@ -43,7 +43,7 @@ public class ShooterFromSmartDashboardSetting extends Command {
     flywheelTicks=0;
     pivotTicks=0;
     timeAtStart=Timer.getFPGATimestamp();
-    shooterAngle =Rotation2d.fromDegrees(SmartDashboard.getNumber("shooterAngle", 0.0));
+    shooterAngle = Rotation2d.fromDegrees(SmartDashboard.getNumber("shooterAngle", 0.0));
     System.out.println("Shooter from smart dashboard setting Command Initialize");
     shooter.setFlywheelSpeed(SmartDashboard.getNumber("flywheelSpeed", 0.0));
   }

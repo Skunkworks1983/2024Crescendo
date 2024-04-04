@@ -11,6 +11,7 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.ShooterFromSmartDashboardSetting;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
+import frc.robot.commands.ChangeAngleTest;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
@@ -56,6 +57,8 @@ public class OI extends SubsystemBase {
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
   JoystickButton shooterFromSmartDashboard;
+  JoystickButton shooterAddAngle;
+  JoystickButton shooterSubtractAngle;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -89,6 +92,10 @@ public class OI extends SubsystemBase {
 
     linearAim = new JoystickButton(rightJoystick, Constants.IDS.LINEAR_AIM);
     shooterFromSmartDashboard = new JoystickButton(rightJoystick, Constants.IDS.SMART_DASHBOARD_AIM);
+    shooterAddAngle = new JoystickButton(rightJoystick,8);
+    shooterSubtractAngle = new JoystickButton(leftJoystick, 9);
+
+
 
     flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
     shootWhenReady = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
@@ -123,6 +130,8 @@ public class OI extends SubsystemBase {
 
     shooterToSpeaker.whileTrue(new ShooterToPodium());
     shooterFromSmartDashboard.whileTrue(new ShooterFromSmartDashboardSetting());
+    shooterSubtractAngle.onTrue(new ChangeAngleTest(-.5));
+    shooterAddAngle.onTrue(new ChangeAngleTest(.5));
     flywheelSpinup.whileTrue(new FlywheelSpinup());
     shootWhenReady.whileTrue(new ShootWhenReady());
 
