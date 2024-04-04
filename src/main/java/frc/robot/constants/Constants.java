@@ -119,7 +119,7 @@ public class Constants {
 
     // Max collector pivot motor current output.
     public static final int COLLECTOR_PIVOT_MAX_AMPS = 1;
-    public static final double COLLECTOR_POS_TOLERANCE = 0; // TODO:set this!
+    public static final double COLLECTOR_POS_TOLERANCE = 5; // TODO:set this!
     public static final double COLLECTOR_MANUAL_PERCENT_OUTPUT = 1;
 
     public static final int COLLECTOR_PIVOT_MOTOR_FORWARD_LIMIT_SWITCH = 1;
@@ -250,7 +250,7 @@ public class Constants {
     public static final double SHOOTING_INDEXER_SPEED = 1;
 
     // maximum error for flywheel spinup to consider shooting
-    public static final double MAX_FLYWHEEL_ERROR = 0.4;
+    public static final double MAX_FLYWHEEL_ERROR = 0.6;
 
     // Max shooter pivot motor current output.
     public static final double SHOOTER_PIVOT_MAX_AMPS = 5;

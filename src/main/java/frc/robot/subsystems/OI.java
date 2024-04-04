@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.climber.ExtendClimber;
@@ -13,7 +14,9 @@ import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
+import frc.robot.commands.ManualEjectPeiceFront;
 import frc.robot.commands.NoteFloorToShooter;
+import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.TestMechanicalOdometry;
@@ -51,6 +54,7 @@ public class OI extends SubsystemBase {
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
+  JoystickButton ejectPieceFront;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -108,6 +112,8 @@ public class OI extends SubsystemBase {
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
+    ejectPieceFront = new JoystickButton(buttonStick, 1);
+    ejectPieceFront.whileTrue(new ManualEjectPeiceFront());
 
     // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
     
@@ -142,6 +148,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown.and(manualSwitch)
         .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
+
+    resetCollector.whileTrue(new ResetCollector());
 
     // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 

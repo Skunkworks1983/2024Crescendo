@@ -54,9 +54,7 @@ public class LoadPieceShooter extends Command {
       shooter.setPivotMotorPercentOutput(Constants.Shooter.SHOOTER_PIVOT_SLOW_DOWN_LOAD_PEICE);
       shooter.setIndexerPercentOutput(Constants.Shooter.LOADING_INDEXER_SPEED);
       indexer.setPercentOutput(Constants.Shooter.SHOOTING_INDEXER_SPEED);
-      if (!collector.isStowed()) {
-        collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
-      }
+      collector.setPercentOutput(Constants.Collector.COLLECTOR_MANUAL_PERCENT_OUTPUT);
       initialSpeedSet = true;
       System.out.println("Load Piece Shooter initialSpeedSet");
     }

@@ -102,12 +102,12 @@ public class Collector extends SubsystemBase {
 
   public boolean isStowed() {
     return (Math.abs(Constants.Collector.COLLECTOR_STOW_POS
-        - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
+        - getCollectorPos()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public boolean isAtFloor() {
     return (Math.abs(Constants.Collector.COLLECTOR_FLOOR_POS
-        - rightPivotMotor.getPosition().getValue()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
+        - getCollectorPos()) < Constants.Collector.COLLECTOR_POS_TOLERANCE);
   }
 
   public void setCollectorGoal(double angle) {
@@ -135,7 +135,7 @@ public class Collector extends SubsystemBase {
       rightPivotMotor.setControl(new DutyCycleOut(calculateOutput));
     }
 
-    //SmartDashboard.putNumber("Collector pos error", pivotMotorController.getPositionError());
+    SmartDashboard.putNumber("Collector pos", getCollectorPos());
     //SmartDashboard.putNumber("Collector velocity setpoint", pivotMotorController.getSetpoint().velocity);
   }
 
