@@ -43,7 +43,7 @@ public class ShooterAimUtils {
     double yDistanceFromReflectionLine =
         Math.abs(originalPosition.getY() - reflectionPosition.getY());
     double x = reflectionPosition.getX() - xDistanceFromReflectionLine;
-    double y = reflectionPosition.getY() - yDistanceFromReflectionLine;
+    double y = originalPosition.getY(); //reflectionPosition.getY() - yDistanceFromReflectionLine;
     Translation2d newPosition = new Translation2d(x, y);
     return newPosition;
   }
