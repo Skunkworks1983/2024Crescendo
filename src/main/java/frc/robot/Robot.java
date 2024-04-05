@@ -126,6 +126,7 @@ public class Robot extends TimedRobot {
         shooter.getLimitSwitchOutput(Shooter.LimitSwitch.FORWARD_LIMIT_SWITCH));
     SmartDashboard.putBoolean("Shooter Limit Backward",
         shooter.getLimitSwitchOutput(Shooter.LimitSwitch.REVERSE_LIMIT_SWITCH));
+    SmartDashboard.putBoolean("Gyro Connected", drivebase.gyro.isConnected());
   }
 
   @Override

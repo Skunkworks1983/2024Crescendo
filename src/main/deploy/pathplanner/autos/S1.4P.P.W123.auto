@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.26,
+      "x": 1.31,
       "y": 5.545975061415772
     },
     "rotation": -179.24615166692934
@@ -18,7 +18,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AimAndShootCommand"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
@@ -56,7 +56,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -77,7 +77,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AimAndShootCommand"
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -106,7 +106,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -127,7 +127,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AimAndShootCommand"
+            "name": "SpinUpFlyWheelAndShoot"
           }
         },
         {
@@ -175,13 +175,13 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "AimAndShootCommand"
+                  "name": "SpinUpFlyWheelAndShoot"
                 }
               },
               {
@@ -200,7 +200,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {

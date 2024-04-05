@@ -188,6 +188,10 @@ public class OI extends SubsystemBase {
     return -rightJoystick.getY();
   }
 
+  public boolean getSpeakerTargetButton() {
+    return targetingSpeaker.getAsBoolean();
+  }
+
   public static OI getInstance() {
     if (oi == null) {
       oi = new OI();

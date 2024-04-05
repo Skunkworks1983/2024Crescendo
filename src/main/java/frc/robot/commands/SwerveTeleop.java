@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.UnitBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -85,6 +86,9 @@ public class SwerveTeleop extends Command {
       headingControllerSetpoint =
           Units.radiansToDegrees(Math.atan2((targetPoint.getY() - drivebase.getRobotPose().getY()),
               (targetPoint.getX() - drivebase.getRobotPose().getX())));
+      if(oi.getSpeakerTargetButton()) {
+        headingControllerSetpoint = headingControllerSetpoint + 2;
+      }
       currentHeading = drivebase.getRobotPose().getRotation().getDegrees();
       lastSeconds = timer.getFPGATimestamp();
       useHeadingControl = true;

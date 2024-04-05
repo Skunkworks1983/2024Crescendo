@@ -107,7 +107,7 @@ public class SwerveModule extends SubsystemBase {
   public double getDriveEncoderPosition() {
 
     double distance = driveMotor.getPosition().getValue() / Constants.DrivebaseInfo.REVS_PER_FOOT;
-    SmartDashboard.putNumber("drive encoder " + turnMotor, distance);
+    //SmartDashboard.putNumber("drive encoder " + turnMotor, distance);
     return distance;
   }
 
@@ -172,7 +172,7 @@ public class SwerveModule extends SubsystemBase {
         Math.pow(Math.cos(optimized.angle.getRadians() - (turnPositionRadians)), 2);
 
     double scaledVelocity = Units.metersToFeet(velocityScale * optimized.speedMetersPerSecond);
-    SmartDashboard.putNumber("setting velocity", scaledVelocity);
+    //SmartDashboard.putNumber("setting velocity", scaledVelocity);
     setDriveMotorVelocity(scaledVelocity);
 
     // set setpoint

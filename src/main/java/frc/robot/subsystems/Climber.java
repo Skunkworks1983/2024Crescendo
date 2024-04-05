@@ -139,10 +139,10 @@ public class Climber extends SubsystemBase {
   public void periodic() {
 
     // Updating SmartDashboard prints every loop.
-    SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
-    SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
-    SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
-    SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
+    //SmartDashboard.putNumber("Left Climber Position", getClimberPostition(ClimbModule.LEFT));
+    //SmartDashboard.putNumber("Right Climber Position", getClimberPostition(ClimbModule.RIGHT));
+    //SmartDashboard.putNumber("Left Amps", climber.getClimberTorque(ClimbModule.LEFT));
+    //SmartDashboard.putNumber("Right Amps", climber.getClimberTorque(ClimbModule.RIGHT));
   }
 
   public static Climber getInstance() {
