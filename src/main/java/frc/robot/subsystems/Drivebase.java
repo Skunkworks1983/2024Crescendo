@@ -239,8 +239,10 @@ public class Drivebase extends SubsystemBase {
       isGyroBad = false;
       return gStatSig.getValueAsDouble();
     }
+    if(!isGyroBad) {
+      System.out.println("getGyroAngle Read Bad, Error: " + gStatSig.getName());
+    }
     isGyroBad = true;
-    System.out.println("getGyroAngle Read Bad");
     return 0;
   }
 
@@ -263,14 +265,16 @@ public class Drivebase extends SubsystemBase {
     if(gStatSig.getStatus() == StatusCode.OK) {
       return -gStatSig.getValueAsDouble();
     }
-    System.out.println("getRoll Read Bad");
+    if(!isGyroBad) {
+      System.out.println("getRoll Read Bad, Error: " + gStatSig.getName());
+    }
     return 0;
   }
 
   public void setGyro(double trueHeading){
     var gStatSig = gyro.setYaw(trueHeading);
-    if(gStatSig != StatusCode.OK) {
-      System.out.println("setGyro Read Bad");
+    if(gStatSig != StatusCode.OK && !isGyroBad) {
+      System.out.println("setGyro Read Bad, Error: " + gStatSig.getName());
     }
   }
 
