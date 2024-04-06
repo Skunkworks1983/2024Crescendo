@@ -59,6 +59,7 @@ public class Collector extends SubsystemBase {
     leftPivotMotor = new TalonFX(Constants.Collector.LEFT_PIVOT_MOTOR);
 
     bottomIntakeMotor.follow(topIntakeMotor);
+    topIntakeMotor.setInverted(true);
     leftPivotMotor.setControl(new Follower(Constants.Collector.RIGHT_PIVOT_MOTOR, true));
 
     topIntakeMotor.getEncoder().setVelocityConversionFactor(Constants.Collector.INTAKE_GEAR_RATIO
