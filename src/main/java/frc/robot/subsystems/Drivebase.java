@@ -45,7 +45,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  private Pigeon2 gyro = new Pigeon2(99); //TODO
+  private Pigeon2 gyro = new Pigeon2(26);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
