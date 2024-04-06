@@ -24,6 +24,7 @@ import frc.robot.commands.autoAmp;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.shooter.FlywheelSpinup;
 import frc.robot.commands.shooter.IntakeShooterFromSource;
+import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.commands.shooter.ShooterToAmp;
 import frc.robot.commands.shooter.ShooterToPassAngle;
@@ -55,6 +56,7 @@ public class OI extends SubsystemBase {
   JoystickButton resetCollector;
   JoystickButton shooterToPass;
   JoystickButton ejectPieceFront;
+  JoystickButton manualShoot;
 
   // Climber buttons
   JoystickButton smartClimb;
@@ -109,6 +111,8 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
+    manualShoot = new JoystickButton(buttonStick, 25);
+
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
@@ -150,6 +154,8 @@ public class OI extends SubsystemBase {
     resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
 
     resetCollector.whileTrue(new ResetCollector());
+
+    manualShoot.whileTrue(new Shoot());
 
     // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
