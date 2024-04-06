@@ -125,7 +125,7 @@ public class Drivebase extends SubsystemBase {
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
     fieldTarget = Optional.empty();
-    gyro.setYaw(0);
+    setGyro(0);
 
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
@@ -240,6 +240,7 @@ public class Drivebase extends SubsystemBase {
       return gStatSig.getValueAsDouble();
     }
     isGyroBad = true;
+    System.out.println("getGyroAngle Read Bad");
     return 0;
   }
 
@@ -250,19 +251,27 @@ public class Drivebase extends SubsystemBase {
   public void resetGyroOffset() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-    gyro.setYaw(180);
+    setGyro(180);
     } else {
-    gyro.setYaw(0);
+    setGyro(0);
     }
 
   }
 
   public double getRoll() {
-    return -gyro.getRoll().getValueAsDouble();
+    var gStatSig = gyro.getRoll();
+    if(gStatSig.getStatus() == StatusCode.OK) {
+      return -gStatSig.getValueAsDouble();
+    }
+    System.out.println("getRoll Read Bad");
+    return 0;
   }
 
   public void setGyro(double trueHeading){
-    gyro.setYaw(trueHeading);
+    var gStatSig = gyro.setYaw(trueHeading);
+    if(gStatSig != StatusCode.OK) {
+      System.out.println("setGyro Read Bad");
+    }
   }
 
   /** Reset the position of the odometry */
