@@ -45,7 +45,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  private Pigeon2 gyro = new Pigeon2(26);
+  private Pigeon2 gyro = new Pigeon2(26, Constants.CANIVORE_NAME);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
