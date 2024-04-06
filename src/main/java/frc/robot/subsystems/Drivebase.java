@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.Optional;
 
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -141,6 +142,9 @@ public class Drivebase extends SubsystemBase {
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
     }
 
+    Pigeon2Configuration gConfiguration = new Pigeon2Configuration();
+    gConfiguration.MountPose.MountPoseYaw = -90; 
+    gyro.getConfigurator().apply(gConfiguration);
     resetGyroOffset();
   }
 
@@ -242,8 +246,8 @@ public class Drivebase extends SubsystemBase {
     if(!isGyroBad) {
       System.out.println("getGyroAngle Read Bad, Error: " + gStatSig.getName());
     }
-    isGyroBad = true;
-    return 0;
+    isGyroBad = false;
+    return gStatSig.getValueAsDouble();
   }
 
   public boolean isGyroGood() {
@@ -310,7 +314,7 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     //SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     //SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    //SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     //SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     //SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
   }
