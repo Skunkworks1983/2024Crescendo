@@ -143,7 +143,7 @@ public class Drivebase extends SubsystemBase {
     }
 
     Pigeon2Configuration gConfiguration = new Pigeon2Configuration();
-    gConfiguration.MountPose.MountPoseYaw = -90; 
+    gConfiguration.MountPose.MountPoseYaw = 180; 
     gyro.getConfigurator().apply(gConfiguration);
     resetGyroOffset();
   }
@@ -267,7 +267,7 @@ public class Drivebase extends SubsystemBase {
   public double getRoll() {
     var gStatSig = gyro.getRoll();
     if(gStatSig.getStatus() == StatusCode.OK) {
-      return -gStatSig.getValueAsDouble();
+      return gStatSig.getValueAsDouble();
     }
     if(!isGyroBad) {
       System.out.println("getRoll Read Bad, Error: " + gStatSig.getName());
@@ -315,6 +315,7 @@ public class Drivebase extends SubsystemBase {
     //SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     //SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Gyro Roll", getRoll());
     //SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     //SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
   }
