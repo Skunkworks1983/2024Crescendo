@@ -111,7 +111,7 @@ public class OI extends SubsystemBase {
     manualRightClimberDown =
         new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
-    manualShoot = new JoystickButton(buttonStick, 25);
+    manualShoot = new JoystickButton(buttonStick, 22);
 
     resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);

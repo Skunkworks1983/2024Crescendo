@@ -5,6 +5,10 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -42,7 +46,7 @@ public class Drivebase extends SubsystemBase {
 
   private static Drivebase drivebase;
 
-  public AHRS gyro = new AHRS(SerialPort.Port.kUSB1);
+  private Pigeon2 gyro = new Pigeon2(26, Constants.CANIVORE_NAME);
 
   // Shuffleboard/Glass visualizations of robot position on the field.
   private final Field2d integratedOdometryPrint = new Field2d();
@@ -50,12 +54,12 @@ public class Drivebase extends SubsystemBase {
 
   ChassisSpeeds speeds;
   public boolean isRobotRelative;
+  private boolean isGyroBad = false;
 
   // Position used for targeting.
   Optional<Translation2d> fieldTarget;
 
   double maxVelocity = 0;
-  double gyroOffset;
 
   SmartPIDController headingController = new SmartPIDController(
       Constants.PIDControllers.HeadingControlPID.KP, Constants.PIDControllers.HeadingControlPID.KI,
@@ -122,7 +126,8 @@ public class Drivebase extends SubsystemBase {
     // Setting the targetingPoint to Optional.empty() (there is no target until
     // button is pressed).
     fieldTarget = Optional.empty();
-    gyro.reset();
+    setGyro(0);
+
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
     // plugged in.
@@ -137,6 +142,9 @@ public class Drivebase extends SubsystemBase {
       SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
     }
 
+    Pigeon2Configuration gConfiguration = new Pigeon2Configuration();
+    gConfiguration.MountPose.MountPoseYaw = 180; 
+    gyro.getConfigurator().apply(gConfiguration);
     resetGyroOffset();
   }
 
@@ -230,29 +238,53 @@ public class Drivebase extends SubsystemBase {
   }
 
   public double getGyroAngle() {
-    return -gyro.getAngle() + gyroOffset; 
+    var gStatSig = gyro.getYaw();
+    if(gStatSig.getStatus() == StatusCode.OK) {
+      isGyroBad = false;
+      return gStatSig.getValueAsDouble();
+    }
+    if(!isGyroBad) {
+      System.out.println("getGyroAngle Read Bad, Error: " + gStatSig.getName());
+    }
+    isGyroBad = false;
+    return gStatSig.getValueAsDouble();
+  }
+
+  public boolean isGyroGood() {
+    return !isGyroBad;
   }
 
   public void resetGyroOffset() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-    gyroOffset = (gyro.getAngle() + 180) % 360;
+    setGyro(180);
     } else {
-    gyroOffset = gyro.getAngle();
+    setGyro(0);
     }
 
   }
 
   public double getRoll() {
-    return gyro.getRoll();
+    var gStatSig = gyro.getRoll();
+    if(gStatSig.getStatus() == StatusCode.OK) {
+      return gStatSig.getValueAsDouble();
+    }
+    if(!isGyroBad) {
+      System.out.println("getRoll Read Bad, Error: " + gStatSig.getName());
+    }
+    return 0;
   }
-  public void setGyroOffset(double trueHeading){
-    gyroOffset = (trueHeading + gyro.getAngle()) % 360;
+
+  public void setGyro(double trueHeading){
+    var gStatSig = gyro.setYaw(trueHeading);
+    if(gStatSig != StatusCode.OK && !isGyroBad) {
+      System.out.println("setGyro Read Bad, Error: " + gStatSig.getName());
+    }
   }
 
   /** Reset the position of the odometry */
   public void resetOdometry(Pose2d resetPose) {
-    setGyroOffset(resetPose.getRotation().getDegrees());
+    setGyro(resetPose.getRotation().getDegrees());
     odometry.resetPosition(Rotation2d.fromDegrees(getGyroAngle()),
         new SwerveModulePosition[] {frontLeft.getPosition(), frontRight.getPosition(),
             backLeft.getPosition(), backRight.getPosition()},
@@ -282,7 +314,8 @@ public class Drivebase extends SubsystemBase {
     updateOdometry();
     //SmartDashboard.putNumber("Odometry X Meters", odometry.getEstimatedPosition().getX());
     //SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
-    //SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Gyro Roll", getRoll());
     //SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     //SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
   }
