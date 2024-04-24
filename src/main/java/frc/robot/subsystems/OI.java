@@ -14,7 +14,7 @@ import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
-import frc.robot.commands.ManualEjectPeiceFront;
+//import frc.robot.commands.ManualEjectPeiceFront;
 import frc.robot.commands.NoteFloorToShooter;
 import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
@@ -117,7 +117,7 @@ public class OI extends SubsystemBase {
     resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
     resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
     ejectPieceFront = new JoystickButton(buttonStick, 1);
-    ejectPieceFront.whileTrue(new ManualEjectPeiceFront());
+    //ejectPieceFront.whileTrue(new ManualEjectPeiceFront());
 
     // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
     

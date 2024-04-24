@@ -189,8 +189,9 @@ public class Constants {
     // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
     // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
     // the hood have no way of getting in.
+    public static final double FLYWHEEL_BLUE_ORIGIN_MULT=.25;
     public static final double AUTO_AIM_ROTATION_RATIO = .3;
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25*FLYWHEEL_BLUE_ORIGIN_MULT;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
@@ -234,12 +235,12 @@ public class Constants {
 
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 21;
-    public static final double AMP_FLYWHEEL_SPEED = 20;
-    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0;
-    public static final double PODIUM_FLYWHEEL_SPEED = 27;
-    public static final double SOURCE_FLYWHEEL_SPEED = -3;
-    public static final double PASS_FLYWHEEL_SPEED = 23;
+    public static final double STOW_FLYWHEEL_SPEED = 21*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double AMP_FLYWHEEL_SPEED = 20*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double PODIUM_FLYWHEEL_SPEED = 27*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double SOURCE_FLYWHEEL_SPEED = -3*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double PASS_FLYWHEEL_SPEED = 23*FLYWHEEL_BLUE_ORIGIN_MULT;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
     public static final double PASS_ANGLE_DEGREES = 50;
@@ -353,10 +354,10 @@ public class Constants {
     public class CollectorPivotPID {
 
       // Setting low value for testing.
-      public static final double KP = 0.035;
+      public static final double KP = 0.035*.25;
       public static final double KI = 0;
       public static final double KD = 0;
-      public static final double FF = 0.005;
+      public static final double FF = 0.005*.25;
 
       // IN DEGREES
       public static final double MAX_VELOCITY = 500;
