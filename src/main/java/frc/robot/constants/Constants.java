@@ -387,11 +387,11 @@ public class Constants {
   // per second.
   // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 14.76;
+  public static final double OI_DRIVE_SPEED_RATIO = 14.76 *.25;//slowed by .25
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
-  public static final double OI_TURN_SPEED_RATIO = 360;
+  public static final double OI_TURN_SPEED_RATIO = 360 *.25;//slowed by .25
 
   public static final double TURNING_SPEED_CAP = 270;
 
