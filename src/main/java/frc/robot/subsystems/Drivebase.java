@@ -441,4 +441,11 @@ public class Drivebase extends SubsystemBase {
   public Command followAutoTrajectory(String autoName) {
     return new PathPlannerAuto(autoName);
   }
+
+  public void setBreakMode(boolean breakMode){
+    frontLeft.setBreakMode(breakMode);
+    backLeft.setBreakMode(breakMode);
+    frontRight.setBreakMode(breakMode);
+    backRight.setBreakMode(breakMode);
+  }
 }

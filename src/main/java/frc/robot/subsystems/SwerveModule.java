@@ -126,6 +126,17 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
+
+  public void setBreakMode(boolean breakMode){
+    if(breakMode){
+      driveMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
+    else{
+      driveMotor.setNeutralMode(NeutralModeValue.Coast);
+    }
+
+
+  }
   public SwerveModuleState getSwerveState() {
     return new SwerveModuleState(Units.feetToMeters(getDriveEncoderVelocity()),
         Rotation2d.fromDegrees(getTurnEncoder()));

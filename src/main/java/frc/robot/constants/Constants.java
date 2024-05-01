@@ -189,7 +189,7 @@ public class Constants {
     // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
     // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
     // the hood have no way of getting in.
-    public static final double FLYWHEEL_BLUE_ORIGIN_MULT=.8;
+    public static final double FLYWHEEL_BLUE_ORIGIN_MULT=1.0;//just change to 1.0 to shoot farther
     public static final double AUTO_AIM_ROTATION_RATIO = .3;
     public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25*FLYWHEEL_BLUE_ORIGIN_MULT;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
@@ -240,7 +240,7 @@ public class Constants {
     public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0*FLYWHEEL_BLUE_ORIGIN_MULT;
     public static final double PODIUM_FLYWHEEL_SPEED = 27*FLYWHEEL_BLUE_ORIGIN_MULT;
     public static final double SOURCE_FLYWHEEL_SPEED = -3*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double PASS_FLYWHEEL_SPEED = 23*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double PASS_FLYWHEEL_SPEED = 27*FLYWHEEL_BLUE_ORIGIN_MULT;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
     public static final double PASS_ANGLE_DEGREES = 50;
