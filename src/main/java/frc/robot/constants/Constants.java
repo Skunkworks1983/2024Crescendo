@@ -2,6 +2,7 @@
 package frc.robot.constants;
 
 import java.util.Optional;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -10,6 +11,12 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
+
+
+  public static class DemoSlowdownPercent{
+    public static final double FLYWHEEL_BLUE_ORIGIN_MULT=1.0;//just change to 1.0 to shoot farther
+    public static final double DRIVE_SPEED_BLUE_ORIGIN_MULT=.25;
+  }
 
   public static class SwerveModuleConstants {
     public int driveMotorId;
@@ -189,9 +196,8 @@ public class Constants {
     // indicate aiming 30% of the total diffrence in angle away from the lowest possible angle.
     // Shoots slightly low because notes that hit the lower edge can bounce in but notes that hit
     // the hood have no way of getting in.
-    public static final double FLYWHEEL_BLUE_ORIGIN_MULT=1.0;//just change to 1.0 to shoot farther
     public static final double AUTO_AIM_ROTATION_RATIO = .3;
-    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double TEMP_SHOOT_FLYWHEEL_SPEED_RPS = 25*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
     public static final double SHOOT_MOTOR_GEAR_RATIO = 1;
     public static final double INDEXER_MOTOR_GEAR_RATIO = 16;
     public static final double SHOOT_PIVOT_GEAR_RATIO_ENCODER = 12.0 / 30.0;
@@ -235,12 +241,12 @@ public class Constants {
 
 
     // Set Flywheel speeds for Shooter in m/s
-    public static final double STOW_FLYWHEEL_SPEED = 21*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double AMP_FLYWHEEL_SPEED = 20*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double PODIUM_FLYWHEEL_SPEED = 27*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double SOURCE_FLYWHEEL_SPEED = -3*FLYWHEEL_BLUE_ORIGIN_MULT;
-    public static final double PASS_FLYWHEEL_SPEED = 27*FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double STOW_FLYWHEEL_SPEED = 21*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double AMP_FLYWHEEL_SPEED = 20*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double DEFUALT_SPEAKER_FLYWHEEL_SPEED = 27.0*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double PODIUM_FLYWHEEL_SPEED = 27*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double SOURCE_FLYWHEEL_SPEED = -3*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
+    public static final double PASS_FLYWHEEL_SPEED = 27*DemoSlowdownPercent.FLYWHEEL_BLUE_ORIGIN_MULT;
 
     public static final double PODIUM_ANGLE_DEGREES = 50;
     public static final double PASS_ANGLE_DEGREES = 50;
@@ -388,7 +394,7 @@ public class Constants {
   // per second.
   // 14.2 f/s was the max speed we could get in SwerveTeleop.
   // TODO: characterization to find true max speed.
-  public static final double OI_DRIVE_SPEED_RATIO = 14.76 *.25;//slowed by .25
+  public static final double OI_DRIVE_SPEED_RATIO = 14.76 * DemoSlowdownPercent.DRIVE_SPEED_BLUE_ORIGIN_MULT;//slowed by .25
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
