@@ -97,10 +97,10 @@ public class OI extends SubsystemBase {
 
     // interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
-    shoot = new JoystickButton(xboxStick, 8);
+    shoot = new JoystickButton(xboxStick, 5);
 
-    collectorDown = new JoystickButton(xboxStick, 5);
-    collectorStow = new JoystickButton(xboxStick, 7);
+    collectorDown = new JoystickButton(xboxStick, 2);
+    collectorStow = new JoystickButton(xboxStick, 3);
 
     noteFloorToShooter = new JoystickButton(xboxStick, 1);
     // manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
@@ -189,7 +189,7 @@ public class OI extends SubsystemBase {
   // Used to control the rotational speed of the robot in SwerveTeleop.
   public double getRightX() {
 
-    return -xboxStick.getRawAxis(2);
+    return -xboxStick.getRawAxis(4);
     // Positive joystick corrosponds to negative robot relative coordiantes, so rightJoystick.getX()
     // must be negated.
     // return -rightJoystick.getX();

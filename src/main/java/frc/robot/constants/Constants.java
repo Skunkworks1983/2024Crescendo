@@ -398,7 +398,7 @@ public class Constants {
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
-  public static final double OI_TURN_SPEED_RATIO = 360 *.25;//slowed by .25
+  public static final double OI_TURN_SPEED_RATIO = 360 *.5;//slowed by .25
 
   public static final double TURNING_SPEED_CAP = 270;
 
