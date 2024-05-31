@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Optional;
 
 import com.ctre.phoenix6.StatusCode;
@@ -33,6 +36,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotDiagnostic.SwerveModuleSpeeds;
+import frc.robot.RobotDiagnostic.SwerveModuleStatus;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -95,6 +100,8 @@ public class Drivebase extends SubsystemBase {
   SwerveModule backRight =
       new SwerveModule(Constants.DrivebaseInfo.ModuleConstants.BACK_RIGHT_MODULE);
 
+  SwerveModule[] swerveModules = { frontLeft, frontRight, backLeft, backRight };
+  
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(leftFrontLocation,
       rightFrontLocation, leftBackLocation, rightBackLocation);
 
@@ -105,8 +112,9 @@ public class Drivebase extends SubsystemBase {
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
   Vision vision;
+  Map<String, Boolean> diagnosticResults = new HashMap<String, Boolean>();
 
-  private Drivebase() {
+  public Drivebase() {
     isRobotRelative = false;
     // The robot should have the same heading as the heading specified here on
     // startup.
@@ -440,5 +448,35 @@ public class Drivebase extends SubsystemBase {
 
   public Command followAutoTrajectory(String autoName) {
     return new PathPlannerAuto(autoName);
+  }
+
+  public SwerveModuleStatus[] areSwerveModulesRunning() {
+
+    SmartDashboard.putNumber("front left turn velocity", frontLeft.getTurnMotorVelocity());
+    return new SwerveModuleStatus[] {
+      new SwerveModuleStatus(frontLeft.getDriveEncoderVelocity() != 0, frontLeft.getTurnMotorVelocity() != 0),
+      new SwerveModuleStatus(frontRight.getDriveEncoderVelocity() != 0, frontRight.getTurnMotorVelocity() != 0),
+      new SwerveModuleStatus(backLeft.getDriveEncoderVelocity() != 0, backLeft.getTurnMotorVelocity() != 0),
+      new SwerveModuleStatus(backRight.getDriveEncoderVelocity() != 0, backRight.getTurnMotorVelocity() != 0),    
+    };
+  }
+
+  public void setSwerveModuleMotorSpeeds(SwerveModuleSpeeds[] motorSpeeds) {
+    frontLeft.setDriveMotorVelocity(motorSpeeds[0].driveSpeed);
+    frontLeft.setTurnMotorSpeed(motorSpeeds[0].turnSpeed);
+    frontRight.setDriveMotorVelocity(motorSpeeds[1].driveSpeed);
+    frontRight.setTurnMotorSpeed(motorSpeeds[1].turnSpeed);
+    backLeft.setDriveMotorVelocity(motorSpeeds[2].driveSpeed);
+    backLeft.setTurnMotorSpeed(motorSpeeds[2].turnSpeed);
+    backRight.setDriveMotorVelocity(motorSpeeds[3].driveSpeed);
+    backRight.setTurnMotorSpeed(motorSpeeds[3].turnSpeed);
+  }
+
+  public void addDiagnosticResult(String diagnosticName, Boolean result) {
+    diagnosticResults.put(diagnosticName, result);
+  }
+
+  public Map<String, Boolean> getDiagnosticResults() {
+    return diagnosticResults;
   }
 }

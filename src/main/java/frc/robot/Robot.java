@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.RobotDiagnostic.RunRobotDiagnostic;
 import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.CollectNote;
 import frc.robot.commands.CollectorStow;
@@ -37,7 +38,6 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.OI;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Collector.LimitSwitch;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -170,6 +170,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+    Command robotDiagnostic = new RunRobotDiagnostic();
+    robotDiagnostic.schedule();
   }
 
   @Override

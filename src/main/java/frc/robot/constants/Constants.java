@@ -531,6 +531,8 @@ public class Constants {
     public static final double MAX_POSITION = 63;// .47 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
     public static final double MIN_POSITION = 0;// .01 * CLIMBER_METERS_TO_MOTOR_ROTATIONS;
 
+    public static final double DIAGNOSTIC_MOVEMENT = 3;
+
     // Tolerance when checking if the climber is at a position setpoint. NOTE: This
     // tolerance is in motor rotations, NOT cm.
     public static final double CLIMBER_MOTOR_POSITION_TOLERANCE = .5;

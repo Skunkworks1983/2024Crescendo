@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -77,13 +78,14 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    updateTurnSpeedBasedOnSetpoint();
-    driveController.updatePID();
+    // updateTurnSpeedBasedOnSetpoint();
+    // driveController.updatePID();
   }
 
-  public double getTurnError(){
+  public double getTurnError() {
     return turnController.getPositionError();
   }
+
   // sets drive motor in velocity mode (set feet per second)
   public void setDriveMotorVelocity(double feetPerSecond) {
 
@@ -92,7 +94,8 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setTurnMotorSpeed(double speed) {
-    turnMotor.set(speed);
+    final DutyCycleOut m_motorRequest = new DutyCycleOut(0.0);
+    turnMotor.setControl(m_motorRequest.withOutput(speed));
   }
 
   public void setTurnMotorAngle(double angleDegrees) {
@@ -100,7 +103,9 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public double getTurnMotorVelocity() {
-    return turnMotor.getVelocity().getValueAsDouble();
+    double turnMotorVelocity = turnMotor.getVelocity().getValueAsDouble();
+    SmartDashboard.putNumber(getModuleName() + "Turn Motor Velocity", turnMotorVelocity);
+    return turnMotorVelocity;
   }
 
   // gets drive encoder as distance traveled in feet
@@ -193,5 +198,9 @@ public class SwerveModule extends SubsystemBase {
       setTurnMotorSpeed(MathUtil.clamp(speed, Constants.PIDControllers.TurnPID.PID_LOW_LIMIT,
           Constants.PIDControllers.TurnPID.PID_HIGH_LIMIT));
     }
+  }
+
+  public String getModuleName() {
+    return modulePosition;
   }
 }

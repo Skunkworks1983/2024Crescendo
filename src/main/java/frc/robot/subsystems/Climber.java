@@ -7,8 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import java.util.HashMap;
+import java.util.Map;
 import com.ctre.phoenix6.configs.Slot1Configs;
-import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 
@@ -24,6 +25,7 @@ public class Climber extends SubsystemBase {
 
   TalonFX leftClimbMotor;
   TalonFX rightClimbMotor;
+  Map<String, Boolean> climberDiagnosticResults = new HashMap<String, Boolean>();
 
   private static Climber climber;
   private final PositionVoltage postitionVoltage = new PositionVoltage(0);
@@ -133,6 +135,22 @@ public class Climber extends SubsystemBase {
   public boolean atPositionSetpoint(double setpoint, ClimbModule module) {
     SmartDashboard.putNumber("within tolerance", Math.abs(getClimberPostition(module) - setpoint));
     return Math.abs(getClimberPostition(module) - setpoint) < ClimberConstants.CLIMBER_MOTOR_POSITION_TOLERANCE;
+  }
+
+  public double getClimberMotorVelocity(ClimbModule module) {
+    if (module == ClimbModule.LEFT) {
+      return leftClimbMotor.getVelocity().getValueAsDouble();
+    } else { 
+      return rightClimbMotor.getVelocity().getValueAsDouble();
+    }
+  }
+
+  public void addDiagnosticResult(String diagnostic, boolean result) {
+    climberDiagnosticResults.put(diagnostic, result);
+  }
+
+  public Map<String, Boolean> getDiagnosticResults() {
+    return climberDiagnosticResults;
   }
 
   @Override
