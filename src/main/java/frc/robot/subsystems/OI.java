@@ -189,13 +189,15 @@ public class OI extends SubsystemBase {
   // Used to control the rotational speed of the robot in SwerveTeleop.
   public double getRightX() {
 
-    return -xboxStick.getRawAxis(4);
+    System.out.println(-xboxStick.getRawAxis(2));
+    return -xboxStick.getRawAxis(2);
     // Positive joystick corrosponds to negative robot relative coordiantes, so rightJoystick.getX()
     // must be negated.
     // return -rightJoystick.getX();
   }
 
   public double getRightY() {
+    System.out.println(-xboxStick.getRawAxis(3));
     return -xboxStick.getRawAxis(3);
     // return -rightJoystick.getY();
   }

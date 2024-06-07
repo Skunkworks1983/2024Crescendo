@@ -135,6 +135,7 @@ public class SwerveTeleop extends Command {
               * Constants.OI_TURN_SPEED_RATIO,
           drivebase.getFieldRelative());
 
+      System.out.println("setting non-heading control speeds");
       // Otherwise, set the heading controller to the desired setpoint.
     } else {
       drivebase.setHeadingController(headingControllerSetpoint);
