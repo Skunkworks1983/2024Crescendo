@@ -4,6 +4,7 @@
 
 package frc.robot.RobotDiagnostic;
 
+import java.util.Map;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,20 +13,29 @@ import frc.robot.subsystems.Drivebase;
 public class DrivebaseDiagnostic extends Command {
 
   Drivebase drivebase;
-  boolean[] swerveModuleDrive;
-  boolean[] swerveModuleSteer;
-  Timer timer;
-  String[] diagnosticNames = new String[] {"FL Drive", "FR Drive", "BL Drive", "BR Drive", "FL Turn", "FR Turn", "BL Turn", "BR Turn"};
+  Map<String, Runnable> diagnosticResults;
 
   public DrivebaseDiagnostic() {
-    timer = new Timer();
+
+    diagnosticResults = Map.ofEntries(
+      Map.entry("FL Drive", () -> SmartDashboard.putBoolean("FL Drive", false)),
+      Map.entry("FL Turn", () -> SmartDashboard.putBoolean("FL Turn", false)),
+      Map.entry("FR Drive", () -> SmartDashboard.putBoolean("FR Drive", false)),
+      Map.entry("FR Turn", () -> SmartDashboard.putBoolean("FR Turn", false)),
+      Map.entry("BL Drive", () -> SmartDashboard.putBoolean("BL Drive", false)),
+      Map.entry("BL Turn", () -> SmartDashboard.putBoolean("BL Turn", false)),
+      Map.entry("BR Drive", () -> SmartDashboard.putBoolean("BR Drive", false)),
+      Map.entry("BR Turn", () -> SmartDashboard.putBoolean("BR Turn", false))
+    );
+
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
   }
 
   @Override
   public void initialize() {
-    timer.restart();
+
+    // Set each of the drivebase motors to a slow speed.
     drivebase.setSwerveModuleMotorSpeeds(
         new SwerveModuleSpeeds[] {new SwerveModuleSpeeds(.2, .1), new SwerveModuleSpeeds(.2, .1),
             new SwerveModuleSpeeds(.2, .1), new SwerveModuleSpeeds(.2, .1)});
@@ -33,15 +43,7 @@ public class DrivebaseDiagnostic extends Command {
 
   @Override
   public void execute() {
-    for (int i = 0; i < 4; i++) {
-      SmartDashboard.putBoolean(diagnosticNames[i],
-          drivebase.areSwerveModulesRunning()[i].isDriveRunning);
-    }
-
-    for (int i = 0; i < 4; i++) {
-      SmartDashboard.putBoolean(diagnosticNames[i + 4],
-          drivebase.areSwerveModulesRunning()[i].isTurnRunning);
-    }
+    for()
   }
 
   @Override
@@ -51,19 +53,7 @@ public class DrivebaseDiagnostic extends Command {
 
     timer.stop();
 
-    for (int i = 0; i < 4; i++) {
-      drivebase.addDiagnosticResult(diagnosticNames[i],
-          drivebase.areSwerveModulesRunning()[i].isDriveRunning);
-    }
-
-    for (int i = 0; i < 4; i++) {
-      drivebase.addDiagnosticResult(diagnosticNames[i + 4],
-          drivebase.areSwerveModulesRunning()[i].isTurnRunning);
-    }
-  }
-
-  @Override
-  public boolean isFinished() {
-    return timer.hasElapsed(20.0);
+    DiagnosticResults.addResults(diagnosticResults);
+    System.out.println("Drivebase Diagnostic End");
   }
 }

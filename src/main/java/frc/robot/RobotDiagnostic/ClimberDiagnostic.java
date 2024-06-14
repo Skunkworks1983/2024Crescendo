@@ -4,7 +4,6 @@
 
 package frc.robot.RobotDiagnostic;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -13,10 +12,15 @@ import frc.robot.subsystems.Climber;
 public class ClimberDiagnostic extends Command {
 
   Climber climber;
-  boolean leftIsRunning = false;
-  boolean rightIsRunning = false;
+  SmartDashboardOutput[] diagnosticResults;
 
   public ClimberDiagnostic() {
+
+    diagnosticResults = new SmartDashboardOutput[] {
+      new SmartDashboardOutput("Left Climber", false),
+      new SmartDashboardOutput("Right Climber", false)
+    };
+
     climber = Climber.getInstance();
     addRequirements(climber);
   }
@@ -30,27 +34,19 @@ public class ClimberDiagnostic extends Command {
   @Override
   public void execute() {
     if (climber.getClimberMotorVelocity(ClimbModule.LEFT) > .3) {
-      leftIsRunning = true;
+      diagnosticResults[0].instance = new SmartDashboardOutput("Left Climber", true);
     }
 
     if (climber.getClimberMotorVelocity(ClimbModule.RIGHT) > .3) {
-      rightIsRunning = true;
+      diagnosticResults[1].instance = new SmartDashboardOutput("Right Climber", true);
     }
-
-    SmartDashboard.putBoolean("Left Climb", leftIsRunning);
-    SmartDashboard.putBoolean("Right Climb", rightIsRunning);
   }
 
   @Override
   public void end(boolean interrupted) {
     climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
     climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION);
-    climber.addDiagnosticResult("Left Climb", leftIsRunning);
-    climber.addDiagnosticResult("Right Climb", rightIsRunning);
-  }
 
-  @Override
-  public boolean isFinished() {
-    return false;
+    DiagnosticResults.addResults(diagnosticResults);
   }
 }

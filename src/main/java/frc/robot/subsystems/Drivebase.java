@@ -31,13 +31,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotDiagnostic.SwerveModuleSpeeds;
-import frc.robot.RobotDiagnostic.SwerveModuleStatus;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -450,17 +448,6 @@ public class Drivebase extends SubsystemBase {
     return new PathPlannerAuto(autoName);
   }
 
-  public SwerveModuleStatus[] areSwerveModulesRunning() {
-
-    SmartDashboard.putNumber("front left turn velocity", frontLeft.getTurnMotorVelocity());
-    return new SwerveModuleStatus[] {
-      new SwerveModuleStatus(frontLeft.getDriveEncoderVelocity() != 0, frontLeft.getTurnMotorVelocity() != 0),
-      new SwerveModuleStatus(frontRight.getDriveEncoderVelocity() != 0, frontRight.getTurnMotorVelocity() != 0),
-      new SwerveModuleStatus(backLeft.getDriveEncoderVelocity() != 0, backLeft.getTurnMotorVelocity() != 0),
-      new SwerveModuleStatus(backRight.getDriveEncoderVelocity() != 0, backRight.getTurnMotorVelocity() != 0),    
-    };
-  }
-
   public void setSwerveModuleMotorSpeeds(SwerveModuleSpeeds[] motorSpeeds) {
     frontLeft.setDriveMotorVelocity(motorSpeeds[0].driveSpeed);
     frontLeft.setTurnMotorSpeed(motorSpeeds[0].turnSpeed);
@@ -472,11 +459,12 @@ public class Drivebase extends SubsystemBase {
     backRight.setTurnMotorSpeed(motorSpeeds[3].turnSpeed);
   }
 
-  public void addDiagnosticResult(String diagnosticName, Boolean result) {
-    diagnosticResults.put(diagnosticName, result);
-  }
-
-  public Map<String, Boolean> getDiagnosticResults() {
-    return diagnosticResults;
+  public SwerveModuleSpeeds[] getSwerveModuleMotorSpeeds () {
+    return new SwerveModuleSpeeds[] {
+      new SwerveModuleSpeeds(frontLeft.getDriveEncoderVelocity(), frontLeft.getTurnMotorVelocity()),
+      new SwerveModuleSpeeds(frontRight.getDriveEncoderVelocity(), frontRight.getTurnMotorVelocity()),
+      new SwerveModuleSpeeds(backLeft.getDriveEncoderVelocity(), backLeft.getTurnMotorVelocity()),
+      new SwerveModuleSpeeds(backRight.getDriveEncoderVelocity(), backRight.getTurnMotorVelocity()),
+    };
   }
 }
