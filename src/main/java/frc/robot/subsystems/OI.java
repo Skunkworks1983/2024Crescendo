@@ -78,65 +78,65 @@ public class OI extends SubsystemBase {
   JoystickButton shooterIntake;
 
   public OI() {
-    // leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
-    // rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
-    // buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
-    xboxStick = new Joystick(0);
+    leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
+    rightJoystick = new Joystick(Constants.IDS.RIGHT_JOYSTICK);
+    buttonStick = new Joystick(Constants.IDS.BUTTON_STICK);
+    //xboxStick = new Joystick(0);
 
-    // manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
+    manualSwitch = new JoystickButton(buttonStick, Constants.IDS.MANUAL_SWITCH);
 
-    // setRobotRelitive = new JoystickButton(rightJoystick, Constants.IDS.SET_ROBOT_RELATIVE);
+    setRobotRelitive = new JoystickButton(rightJoystick, Constants.IDS.SET_ROBOT_RELATIVE);
 
     // Targeting buttons
-    // targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
-    // targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+    targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
+    targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
 
-    // // Shooter Pivot Buttons
-    // shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
-    shooterToPass = new JoystickButton(xboxStick, 6);
+    // Shooter Pivot Buttons
+    shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
+    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS) 
 
-    // interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
+    interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
-    shoot = new JoystickButton(xboxStick, 5);
+    //shoot = new JoystickButton(xboxStick, 5);
 
-    collectorDown = new JoystickButton(xboxStick, 2);
-    collectorStow = new JoystickButton(xboxStick, 3);
+    collectorDown = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_DOWN);
+    collectorStow = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_STOW);
 
-    noteFloorToShooter = new JoystickButton(xboxStick, 1);
-    // manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
+    noteFloorToShooter = new JoystickButton(buttonStick, Contants.IDS.NOTE_FLOOR_TO_SHOOTER);
+    manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
 
-    // smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
+    smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
-    // manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
-    // manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
-    // manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
-    // manualRightClimberDown =
-    //     new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
+    manualLeftClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_UP);
+    manualLeftClimberDown = new JoystickButton(buttonStick, Constants.IDS.MANUAL_LEFT_CLIMBER_DOWN);
+    manualRightClimberUp = new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_UP);
+    manualRightClimberDown =
+        new JoystickButton(buttonStick, Constants.IDS.MANUAL_RIGHT_CLIMBER_DOWN);
 
-    // manualShoot = new JoystickButton(buttonStick, 22);
+    manualShoot = new JoystickButton(buttonStick, 22);
 
-    // resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
-    // resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
-    // resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
-    // ejectPieceFront = new JoystickButton(buttonStick, 1);
-    // //ejectPieceFront.whileTrue(new ManualEjectPeiceFront());
+    resetGyroHeadingLeft = new JoystickButton(leftJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    resetGyroHeadingRight = new JoystickButton(rightJoystick, Constants.IDS.RESET_GYRO_BUTTON);
+    resetCollector = new JoystickButton(buttonStick, Constants.IDS.RESET_COLLECTOR);
+    ejectPieceFront = new JoystickButton(buttonStick, 1);
+    //ejectPieceFront.whileTrue(new ManualEjectPeiceFront());
 
-    // // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
+    // testMechanicalOdometry = new JoystickButton(rightJoystick, 6);
     
-    shooterIntake = new JoystickButton(xboxStick, 4);
+    //shooterIntake = new JoystickButton(xboxStick, 4);
 
-    // setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
+    setRobotRelitive.whileTrue(new SetRobotRelativeSwerve());
 
-    // targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
-    // targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
+    targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
+    targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
  
-    // shooterToAmp.whileTrue(new ShooterToAmp());
+    shooterToAmp.whileTrue(new ShooterToAmp());
     shooterToPass.negate().and(shooterIntake.negate()).whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
-    // interpolationAim.whileTrue(new InterpolationAimShooterCommand());
-    // flywheelSpinup.whileTrue(new FlywheelSpinup());
-    // shootWhenReady.whileTrue(new ShootWhenReady());
+    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
+    flywheelSpinup.whileTrue(new FlywheelSpinup());
+    shootWhenReady.whileTrue(new ShootWhenReady());
 
     shoot.whileTrue(new ParallelCommandGroup(new FlywheelSpinup(), new ShootWhenReady()));
 
@@ -144,23 +144,23 @@ public class OI extends SubsystemBase {
     collectorStow.whileTrue(new CollectorStow());
 
     noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    // manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
+    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
 
-    // smartClimb.onTrue(new ExtendClimber());
-    // smartClimb.onFalse(new SmartClimb());
+    smartClimb.onTrue(new ExtendClimber());
+    smartClimb.onFalse(new SmartClimb());
 
-    // manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
-    // manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
-    // manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
-    // manualRightClimberDown.and(manualSwitch)
-    //     .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
-    // resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
+    manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
+    manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
+    manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
+    manualRightClimberDown.and(manualSwitch)
+        .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
+    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
 
-    // resetCollector.whileTrue(new ResetCollector());
+    resetCollector.whileTrue(new ResetCollector());
 
-    // manualShoot.whileTrue(new Shoot());
+    manualShoot.whileTrue(new Shoot());
 
-    // // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
+    // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
     shooterIntake.whileTrue(new IntakeShooterFromSource());
   }
@@ -171,33 +171,29 @@ public class OI extends SubsystemBase {
   // Used to control the x field relative speed of the robot in SwerveTeleop.
   public double getLeftX() {
 
-    return -xboxStick.getRawAxis(0);
     // Positive joystick corrosponds to negaive robot relative coordinates, so leftJoystick.getX()
     // must be negated.
-    // return -leftJoystick.getX();
+    return -leftJoystick.getX();
   }
 
   // Used to control the y field relative speed of the robot in SwerveTeleop.
   public double getLeftY() {
 
-    return -xboxStick.getRawAxis(1);
     // Positive joystick corrosponds to negetive robot relative coordiantes, so leftJoystick.getY()
     // must be negated.
-    // return -leftJoystick.getY();
+    return -leftJoystick.getY();
   }
 
   // Used to control the rotational speed of the robot in SwerveTeleop.
   public double getRightX() {
 
-    return -xboxStick.getRawAxis(4);
     // Positive joystick corrosponds to negative robot relative coordiantes, so rightJoystick.getX()
     // must be negated.
-    // return -rightJoystick.getX();
+    return -rightJoystick.getX();
   }
 
   public double getRightY() {
-    return -xboxStick.getRawAxis(3);
-    // return -rightJoystick.getY();
+    return -rightJoystick.getY();
   }
 
   public boolean getSpeakerTargetButton() {
