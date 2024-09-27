@@ -83,8 +83,8 @@ public class Constants {
 
     public static final int SMART_AIM = 2;
     public static final int LINEAR_AIM = 3;
-    public static final int SHOOT_WHEN_READY = 11;
-    public static final int FLYWHEEL_SPINUP = 9;
+    public static final int SHOOT_WHEN_READY = 9;
+    public static final int FLYWHEEL_SPINUP = 11;
 
     public static final int COLLECTOR_STOW = 15;
     public static final int COLLECTOR_DOWN = 13;
@@ -398,7 +398,7 @@ public class Constants {
 
   // Multiplying joystick output by this value in SwerveTeleop to get degrees per
   // second.
-  public static final double OI_TURN_SPEED_RATIO = 360 *.5;//slowed by .25
+  public static final double OI_TURN_SPEED_RATIO = 360;//slowed by .25
 
   public static final double TURNING_SPEED_CAP = 270;
 

@@ -90,20 +90,22 @@ public class OI extends SubsystemBase {
     // Targeting buttons
     targetingSpeaker = new JoystickButton(rightJoystick, Constants.IDS.SPEAKER_TARGETING_BUTTON);
     targetingAmp = new JoystickButton(rightJoystick, Constants.IDS.AMP_TARGETING_BUTTON);
+    flywheelSpinup = new JoystickButton(buttonStick, Constants.IDS.FLYWHEEL_SPINUP);
 
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
-    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS) 
+    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
-    //shoot = new JoystickButton(xboxStick, 5);
+    shoot = new JoystickButton(buttonStick, Constants.IDS.SHOOT_WHEN_READY);
 
     collectorDown = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_DOWN);
     collectorStow = new JoystickButton(buttonStick, Constants.IDS.COLLECTOR_STOW);
 
-    noteFloorToShooter = new JoystickButton(buttonStick, Contants.IDS.NOTE_FLOOR_TO_SHOOTER);
+    noteFloorToShooter = new JoystickButton(buttonStick, Constants.IDS.NOTE_FLOOR_TO_SHOOTER);
     manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
+    shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
@@ -131,12 +133,12 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
  
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToPass.negate().and(shooterIntake.negate()).whileTrue(new ShooterToStow());
+    shooterToPass.negate().and(shooterIntake.negate()).and(shooterToAmp.negate()).and(interpolationAim.negate()).whileTrue(new ShooterToStow());
     shooterToPass.whileTrue(new ShooterToPassAngle());
 
     interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
-    shootWhenReady.whileTrue(new ShootWhenReady());
+    //shootWhenReady.whileTrue(new ShootWhenReady());
 
     shoot.whileTrue(new ParallelCommandGroup(new FlywheelSpinup(), new ShootWhenReady()));
 
