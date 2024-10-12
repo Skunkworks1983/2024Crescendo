@@ -134,16 +134,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    // collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
-    // cancels swerve teleop command to make sure it does not interfere with auto
-    // if (swerve != null) {
-    //   swerve.cancel();
-    // }
 
-    // Command currentAutonomousCommand = autoChooser.getSelected();
-    // if (currentAutonomousCommand != null) {
-    //   currentAutonomousCommand.schedule();
-    // }
+    collector.resetCollectorAngle(Constants.Collector.COLLECTOR_STOW_POS);
+    
+    // cancels swerve teleop command to make sure it does not interfere with auto
+    if (swerve != null) {
+      swerve.cancel();
+    }
+
+    Command currentAutonomousCommand = autoChooser.getSelected();
+    if (currentAutonomousCommand != null) {
+      currentAutonomousCommand.schedule();
+    }
   }
 
   @Override
