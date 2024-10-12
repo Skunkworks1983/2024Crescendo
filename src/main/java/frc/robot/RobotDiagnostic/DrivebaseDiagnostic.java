@@ -4,8 +4,8 @@
 
 package frc.robot.RobotDiagnostic;
 
+import java.util.HashMap;
 import java.util.Map;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivebase;
@@ -13,27 +13,24 @@ import frc.robot.subsystems.Drivebase;
 public class DrivebaseDiagnostic extends Command {
 
   Drivebase drivebase;
-  Map<String, Runnable> diagnosticResults;
+  Map<String, Runnable> diagnosticOutputs = new HashMap<String, Runnable>();
 
   public DrivebaseDiagnostic() {
-
-    diagnosticResults = Map.ofEntries(
-      Map.entry("FL Drive", () -> SmartDashboard.putBoolean("FL Drive", false)),
-      Map.entry("FL Turn", () -> SmartDashboard.putBoolean("FL Turn", false)),
-      Map.entry("FR Drive", () -> SmartDashboard.putBoolean("FR Drive", false)),
-      Map.entry("FR Turn", () -> SmartDashboard.putBoolean("FR Turn", false)),
-      Map.entry("BL Drive", () -> SmartDashboard.putBoolean("BL Drive", false)),
-      Map.entry("BL Turn", () -> SmartDashboard.putBoolean("BL Turn", false)),
-      Map.entry("BR Drive", () -> SmartDashboard.putBoolean("BR Drive", false)),
-      Map.entry("BR Turn", () -> SmartDashboard.putBoolean("BR Turn", false))
-    );
-
     drivebase = Drivebase.getInstance();
     addRequirements(drivebase);
   }
 
   @Override
   public void initialize() {
+
+    diagnosticOutputs.put("FL Drive", () -> SmartDashboard.putBoolean("FL Drive", false));
+    diagnosticOutputs.put("FL Turn", () -> SmartDashboard.putBoolean("FL Turn", false));
+    diagnosticOutputs.put("FR Drive", () -> SmartDashboard.putBoolean("FR Drive", false));
+    diagnosticOutputs.put("FR Turn", () -> SmartDashboard.putBoolean("FR Turn", false));
+    diagnosticOutputs.put("BL Drive", () -> SmartDashboard.putBoolean("BL Drive", false));
+    diagnosticOutputs.put("BL Turn", () -> SmartDashboard.putBoolean("BL Turn", false));
+    diagnosticOutputs.put("BR Drive", () -> SmartDashboard.putBoolean("BR Drive", false));
+    diagnosticOutputs.put("BR Turn", () -> SmartDashboard.putBoolean("BR Turn", false));
 
     // Set each of the drivebase motors to a slow speed.
     drivebase.setSwerveModuleMotorSpeeds(
@@ -43,7 +40,40 @@ public class DrivebaseDiagnostic extends Command {
 
   @Override
   public void execute() {
-    for()
+    SwerveModuleSpeeds[] speeds = drivebase.getSwerveModuleMotorSpeeds();
+
+    if (speeds[0].driveSpeed != 0.0) {
+      diagnosticOutputs.put("FL Drive", () -> SmartDashboard.putBoolean("FL Drive", true));
+    }
+
+    if (speeds[0].turnSpeed != 0.0) {
+      diagnosticOutputs.put("FL Turn", () -> SmartDashboard.putBoolean("FL Turn", true));
+    }
+
+    if (speeds[1].driveSpeed != 0.0) {
+      diagnosticOutputs.put("FR Drive", () -> SmartDashboard.putBoolean("FR Drive", true));
+    }
+
+    if (speeds[1].turnSpeed != 0.0) {
+      diagnosticOutputs.put("FR Turn", () -> SmartDashboard.putBoolean("FR Turn", true));
+    }
+
+    if (speeds[2].driveSpeed != 0.0) {
+      diagnosticOutputs.put("BL Drive", () -> SmartDashboard.putBoolean("BL Drive", true));
+    }
+
+    if (speeds[2].turnSpeed != 0.0) {
+      diagnosticOutputs.put("BL Turn", () -> SmartDashboard.putBoolean("BL Turn", true));
+    }
+
+    if (speeds[3].driveSpeed != 0.0) {
+      diagnosticOutputs.put("BR Drive", () -> SmartDashboard.putBoolean("BR Drive", true));
+    }
+
+    if (speeds[3].turnSpeed != 0.0) {
+      diagnosticOutputs.put("BR Turn", () -> SmartDashboard.putBoolean("BR Turn", true));
+    }
+
   }
 
   @Override
@@ -51,9 +81,7 @@ public class DrivebaseDiagnostic extends Command {
     drivebase.setSwerveModuleMotorSpeeds(new SwerveModuleSpeeds[] {new SwerveModuleSpeeds(0, 0),
         new SwerveModuleSpeeds(0, 0), new SwerveModuleSpeeds(0, 0), new SwerveModuleSpeeds(0, 0),});
 
-    timer.stop();
-
-    DiagnosticResults.addResults(diagnosticResults);
+    DiagnosticOutputs.addResults(diagnosticOutputs);
     System.out.println("Drivebase Diagnostic End");
   }
 }

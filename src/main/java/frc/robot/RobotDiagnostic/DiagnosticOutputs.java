@@ -7,7 +7,7 @@ package frc.robot.RobotDiagnostic;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiagnosticResults {
+public class DiagnosticOutputs {
 
     static Map<String, Runnable> diagnosticResults = new HashMap<String, Runnable>();
 

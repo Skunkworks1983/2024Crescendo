@@ -4,22 +4,26 @@
 
 package frc.robot.RobotDiagnostic;
 
-import java.util.Map;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Drivebase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class PrintDiagnostic extends InstantCommand {
-
-  Drivebase drivebase;
+public class PrintDiagnostic extends Command {
 
   public PrintDiagnostic() {
-    drivebase = Drivebase.getInstance();
   }
 
   @Override
-  public void initialize() {
-    for (Map.Entry<String, Runnable> entry : DiagnosticResults.getResults().entrySet()) {
-      entry.getValue().run();
-    }
+  public void initialize() {}
+
+  @Override
+  public void execute() {
+    
+  }
+
+  @Override
+  public void end(boolean interrupted) {}
+
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

@@ -4,6 +4,9 @@
 
 package frc.robot.RobotDiagnostic;
 
+import java.util.HashMap;
+import java.util.Map;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.Constants.ClimberConstants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
@@ -12,33 +15,31 @@ import frc.robot.subsystems.Climber;
 public class ClimberDiagnostic extends Command {
 
   Climber climber;
-  SmartDashboardOutput[] diagnosticResults;
+  Map<String, Runnable> diagnosticOutputs = new HashMap<String, Runnable>();
 
   public ClimberDiagnostic() {
-
-    diagnosticResults = new SmartDashboardOutput[] {
-      new SmartDashboardOutput("Left Climber", false),
-      new SmartDashboardOutput("Right Climber", false)
-    };
-
     climber = Climber.getInstance();
     addRequirements(climber);
   }
 
   @Override
   public void initialize() {
+
+    diagnosticOutputs.put("Left Climber", () -> SmartDashboard.putBoolean("Left Climber", false));
+    diagnosticOutputs.put("Right Climber", () -> SmartDashboard.putBoolean("Right Climber", false));
+
     climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.DIAGNOSTIC_MOVEMENT);
     climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.DIAGNOSTIC_MOVEMENT);
   }
 
   @Override
   public void execute() {
-    if (climber.getClimberMotorVelocity(ClimbModule.LEFT) > .3) {
-      diagnosticResults[0].instance = new SmartDashboardOutput("Left Climber", true);
+    if (climber.getClimberMotorVelocity(ClimbModule.LEFT) > 0.0) {
+      diagnosticOutputs.put("Left Climber", () -> SmartDashboard.putBoolean("Left Climber", true));
     }
 
-    if (climber.getClimberMotorVelocity(ClimbModule.RIGHT) > .3) {
-      diagnosticResults[1].instance = new SmartDashboardOutput("Right Climber", true);
+    if (climber.getClimberMotorVelocity(ClimbModule.RIGHT) > 0.0) {
+      diagnosticOutputs.put("Right Climber", () -> SmartDashboard.putBoolean("Right Climber", true));
     }
   }
 
@@ -47,6 +48,6 @@ public class ClimberDiagnostic extends Command {
     climber.setClimberPosition(ClimbModule.LEFT, ClimberConstants.MIN_POSITION);
     climber.setClimberPosition(ClimbModule.RIGHT, ClimberConstants.MIN_POSITION);
 
-    DiagnosticResults.addResults(diagnosticResults);
+    DiagnosticOutputs.addResults(diagnosticOutputs);
   }
 }
