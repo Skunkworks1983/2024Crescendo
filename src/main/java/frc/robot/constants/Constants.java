@@ -15,7 +15,7 @@ public class Constants {
 
   public static class DemoSlowdownPercent{
     public static final double FLYWHEEL_BLUE_ORIGIN_MULT=1.0;//just change to 1.0 to shoot farther
-    public static final double DRIVE_SPEED_BLUE_ORIGIN_MULT=.25;
+    public static final double DRIVE_SPEED_BLUE_ORIGIN_MULT=1.0;
   }
 
   public static class SwerveModuleConstants {
