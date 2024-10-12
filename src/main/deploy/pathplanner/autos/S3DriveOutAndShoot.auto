@@ -45,14 +45,14 @@
                 "data": {
                   "name": "ShooterToStow"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DriveOutAndShootP3"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "DriveOutAndShootP3"
           }
         }
       ]
