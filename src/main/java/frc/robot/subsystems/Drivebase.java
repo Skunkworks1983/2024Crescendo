@@ -143,7 +143,7 @@ public class Drivebase extends SubsystemBase {
     }
 
     Pigeon2Configuration gConfiguration = new Pigeon2Configuration();
-    gConfiguration.MountPose.MountPoseYaw = 180; 
+    gConfiguration.MountPose.MountPoseYaw = 0; 
     gyro.getConfigurator().apply(gConfiguration);
     resetGyroOffset();
   }
@@ -257,9 +257,9 @@ public class Drivebase extends SubsystemBase {
   public void resetGyroOffset() {
     Optional<Alliance> alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-    setGyro(180);
-    } else {
     setGyro(0);
+    } else {
+    setGyro(180);
     }
 
   }
