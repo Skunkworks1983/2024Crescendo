@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
 
     // wait times
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   @Override
@@ -100,10 +100,10 @@ public class Robot extends TimedRobot {
       swerve.cancel();
     }
 
-    Command currentAutonomousCommand = autoChooser.getSelected();
-    if (currentAutonomousCommand != null) {
-      currentAutonomousCommand.schedule();
-    }
+    //Command currentAutonomousCommand = autoChooser.getSelected();
+    //if (currentAutonomousCommand != null) {
+    //  currentAutonomousCommand.schedule();
+    //}
   }
 
   @Override
@@ -114,10 +114,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putNumber("DriveSpeed",8.25);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    Drivebase.getInstance().setBreakMode(false);
+    //Drivebase.getInstance().setBreakMode(false);
 
     drivebase.setSwerveAsDefaultCommand();
   }

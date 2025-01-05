@@ -77,7 +77,7 @@ public class OI extends SubsystemBase {
   // JoystickButton testMechanicalOdometry;
   
   // Shooter intake button
-  JoystickButton shooterIntake;
+  //JoystickButton shooterIntake;
 
   public OI() {
     leftJoystick = new Joystick(Constants.IDS.LEFT_JOYSTICK);
@@ -97,7 +97,7 @@ public class OI extends SubsystemBase {
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
     //shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
-    driveFast = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
+    driveFast = new JoystickButton(buttonStick, 23);
 
     interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
@@ -108,7 +108,7 @@ public class OI extends SubsystemBase {
 
     noteFloorToShooter = new JoystickButton(buttonStick, Constants.IDS.NOTE_FLOOR_TO_SHOOTER);
     manualExpelBackwards = new JoystickButton(buttonStick, Constants.IDS.REVERSE_NOTE_BACKWARDS);
-    shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
+    //shooterIntake = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_INTAKE);
 
     smartClimb = new JoystickButton(buttonStick, Constants.IDS.SMART_CLIMB);
 
@@ -167,7 +167,7 @@ public class OI extends SubsystemBase {
 
     // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
-    shooterIntake.whileTrue(new IntakeShooterFromSource());
+    //shooterIntake.whileTrue(new IntakeShooterFromSource());
 
     driveFast.whileTrue(new DriveFastTest());
   }

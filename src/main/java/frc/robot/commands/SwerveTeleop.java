@@ -52,6 +52,7 @@ public class SwerveTeleop extends Command {
     addRequirements(drivebase);
   }
 
+  double speedForThisTest;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -66,11 +67,14 @@ public class SwerveTeleop extends Command {
 
     currentHeading = drivebase.getGyroAngle();
     headingControllerSetpoint = currentHeading;
+
     }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    speedForThisTest = SmartDashboard.getNumber("DriveSpeed",8.25);
     boolean useHeadingControl = false;
     boolean isTargeting = drivebase.getFieldTarget().isPresent();
     boolean outsideDeadband = Math.abs(oi.getRightX()) > Constants.ROT_JOY_DEADBAND;
@@ -128,9 +132,9 @@ public class SwerveTeleop extends Command {
     if (!useHeadingControl) {
       drivebase.setDrive(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * speedForThisTest * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * speedForThisTest * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getRightX(), Constants.ROT_JOY_DEADBAND)
               * Constants.OI_TURN_SPEED_RATIO,
           drivebase.getFieldRelative());
@@ -140,9 +144,9 @@ public class SwerveTeleop extends Command {
       drivebase.setHeadingController(headingControllerSetpoint);
       drivebase.setDriveTurnPos(
           MathUtil.applyDeadband(oi.getLeftY(), Constants.X_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * speedForThisTest * fieldOrientationMultiplier,
           MathUtil.applyDeadband(oi.getLeftX(), Constants.Y_JOY_DEADBAND)
-              * Constants.OI_DRIVE_SPEED_RATIO * fieldOrientationMultiplier,
+              * speedForThisTest * fieldOrientationMultiplier,
           drivebase.getFieldRelative());
     }
   }

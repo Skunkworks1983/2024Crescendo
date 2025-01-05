@@ -4,41 +4,53 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivebase;
 
 public class DriveFastTest extends Command {//8.25 feet per second
   /** Creates a new DriveFastTest. */
   Drivebase drivebase;
+  double speed;
   public DriveFastTest() {
     // Use addRequirements() here to declare subsystem dependencies.
     drivebase = Drivebase.getInstance();
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("!!!! DRIVE FAST STARTED!!!!");
+      drivebase.setBreakMode(true);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    drivebase.setDrive(
-      0.0,
-      8.25,
-      0.0,
-      false);
-drivebase.setBreakMode(true);
+    speed = SmartDashboard.getNumber("DriveSpeed",8.25);
+    SmartDashboard.putNumber("DriveSpeedCheck",speed);
+    double currentHeading = drivebase.getGyroAngle();
+    double headingControllerSetpoint = currentHeading;
+    drivebase.setHeadingController(headingControllerSetpoint);
+    drivebase.setDriveTurnPos(
+      -1 * speed,
+      .0,
+      true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
-    drivebase.setDrive(0,
-    0,
-    0,
-    false);
+    System.out.println("!!!! DRIVE FAST END!!!!");
+    
+    double currentHeading = drivebase.getGyroAngle();
+    double headingControllerSetpoint = currentHeading;
+    drivebase.setHeadingController(headingControllerSetpoint);
+    drivebase.setDriveTurnPos(0.0,
+    0.0,
+    true);
 
 drivebase.setBreakMode(true);
   }
