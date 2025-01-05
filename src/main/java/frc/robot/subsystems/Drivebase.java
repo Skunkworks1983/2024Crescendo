@@ -10,12 +10,6 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 // import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -116,7 +110,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
-    configurePathPlanner();
     headingController.enableContinuousInput(0, 360);
 
     SmartDashboard.putNumber("testTurnP", 0);
@@ -411,36 +404,6 @@ public class Drivebase extends SubsystemBase {
     return fieldTarget;
   }
 
-  public void configurePathPlanner() {
-
-    AutoBuilder.configureHolonomic(this::getRobotPose, this::resetOdometry,
-        this::getRobotRelativeSpeeds, this::setDriveChassisSpeed,
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP,
-                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KI,
-                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KD),
-            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_TURN_KP,
-                Constants.PathPlannerInfo.PATHPLANNER_TURN_KI,
-                Constants.PathPlannerInfo.PATHPLANNER_TURN_KD),
-            Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
-            Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS, new ReplanningConfig()),
-        () -> {
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-        }, this);
-  }
-
-  public Command followPathCommand(String pathName) {
-    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-    return AutoBuilder.followPath(path);
-  }
-
-  public Command followAutoTrajectory(String autoName) {
-    return new PathPlannerAuto(autoName);
-  }
 
   public void setBreakMode(boolean breakMode){
     frontLeft.setBreakMode(breakMode);

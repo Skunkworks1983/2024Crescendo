@@ -13,6 +13,7 @@ import frc.robot.commands.climber.ExtendClimber;
 import frc.robot.commands.climber.ManualMoveClimber;
 import frc.robot.commands.climber.SmartClimb;
 import frc.robot.commands.CollectorStow;
+import frc.robot.commands.DriveFastTest;
 import frc.robot.commands.LowerCollector;
 import frc.robot.commands.ManualRunNoteBackwards;
 //import frc.robot.commands.ManualEjectPeiceFront;
@@ -45,6 +46,7 @@ public class OI extends SubsystemBase {
 
   JoystickButton manualSwitch;
 
+  JoystickButton driveFast;
   JoystickButton targetingSpeaker;
   JoystickButton targetingAmp;
   JoystickButton flywheelSpinup;
@@ -56,7 +58,7 @@ public class OI extends SubsystemBase {
   JoystickButton collectorDown;
   JoystickButton manualExpelBackwards;
   JoystickButton resetCollector;
-  JoystickButton shooterToPass;
+  // JoystickButton shooterToPass;
   JoystickButton ejectPieceFront;
   JoystickButton manualShoot;
 
@@ -94,7 +96,8 @@ public class OI extends SubsystemBase {
 
     // Shooter Pivot Buttons
     shooterToAmp = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_AMP);
-    shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
+    //shooterToPass = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
+    driveFast = new JoystickButton(buttonStick, Constants.IDS.SHOOTER_TO_PASS);
 
     interpolationAim = new JoystickButton(buttonStick, Constants.IDS.INTERPOLATION_AIM);
 
@@ -133,8 +136,8 @@ public class OI extends SubsystemBase {
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
  
     shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToPass.negate().and(shooterIntake.negate()).and(shooterToAmp.negate()).and(interpolationAim.negate()).whileTrue(new ShooterToStow());
-    shooterToPass.whileTrue(new ShooterToPassAngle());
+    // shooterToPass.negate().and(shooterIntake.negate()).and(shooterToAmp.negate()).and(interpolationAim.negate()).whileTrue(new ShooterToStow());
+    // shooterToPass.whileTrue(new ShooterToPassAngle());
 
     interpolationAim.whileTrue(new InterpolationAimShooterCommand());
     flywheelSpinup.whileTrue(new FlywheelSpinup());
@@ -165,6 +168,8 @@ public class OI extends SubsystemBase {
     // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
 
     shooterIntake.whileTrue(new IntakeShooterFromSource());
+
+    driveFast.whileTrue(new DriveFastTest());
   }
 
   @Override

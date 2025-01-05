@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -61,46 +59,6 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
 
     // wait times
-    NamedCommands.registerCommand("WaitOneSecond", new WaitDuration(1.0));
-    NamedCommands.registerCommand("WaitHalfSecond", new WaitDuration(0.5));
-
-    // Collector
-    NamedCommands.registerCommand("LowerCollector", new LowerCollector());
-    NamedCommands.registerCommand("CollectorStow", new CollectorStow());
-    NamedCommands.registerCommand("CollectNote", new CollectNote());
-
-    // Shooter
-    NamedCommands.registerCommand("ShootNote", new Shoot());
-    NamedCommands.registerCommand("SpinUpFlywheel", new FlywheelSpinup());
-    NamedCommands.registerCommand("ShooterToAmp", new ShooterToAmp());
-    NamedCommands.registerCommand("ShootWhenReady", new ShootWhenReady());
-    NamedCommands.registerCommand("LoadPieceShooter", new LoadPieceShooter());
-
-    // indexer
-    NamedCommands.registerCommand("LowerCollectorAndInatake",
-        new LowerCollectorAndIntakeToIndexer());
-    NamedCommands.registerCommand("IntakeNoteToIndexer", new IntakeNoteToIndexerAuto());
-
-    NamedCommands.registerCommand("NoteFloorToShooter", new NoteFloorToShooter());
-    NamedCommands.registerCommand("SpinUpFlyWheelAndShoot", new SpinUpFlyWheelAndShoot());
-
-    NamedCommands.registerCommand("StopRobot", new StopRobot());
-
-    NamedCommands.registerCommand("ShooterPivotW1",
-        new ShooterToAngle(Constants.AutoShooting.WNOTE1_ANGLE));
-    NamedCommands.registerCommand("ShooterPivotW2",
-        new ShooterToAngle(Constants.AutoShooting.WNOTE2_ANGLE));
-    NamedCommands.registerCommand("ShooterPivotW3",
-        new ShooterToAngle(Constants.AutoShooting.WNOTE3_ANGLE));
-
-    NamedCommands.registerCommand("ShooterToStow", new ShooterToStow());
-
-    NamedCommands.registerCommand("AimAndShootCommand", new AimAndShootCommand());
-
-    NamedCommands.registerCommand("TargetPoseForAuto", new TargetPosForAuto(FieldTarget.SPEAKER));
-
-
-    autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
