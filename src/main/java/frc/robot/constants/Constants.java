@@ -15,7 +15,7 @@ public class Constants {
 
   public static class DemoSlowdownPercent{
     public static final double FLYWHEEL_BLUE_ORIGIN_MULT=1.0;//just change to 1.0 to shoot farther
-    public static final double DRIVE_SPEED_BLUE_ORIGIN_MULT=.25;
+    public static final double DRIVE_SPEED_BLUE_ORIGIN_MULT=1;
   }
 
   public static class SwerveModuleConstants {
@@ -305,7 +305,7 @@ public class Constants {
 
     public class DrivePID {
       // Velocity Mode PID Constants
-      public static final double KP = 0.01;
+      public static final double KP = 0.1;
       public static final double KI = .000;
       public static final double KD = 0.000;
       public static final double KF = .1160;

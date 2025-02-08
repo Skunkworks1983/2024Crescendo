@@ -4,7 +4,10 @@
 
 package frc.robot.utils;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
@@ -14,29 +17,29 @@ public class SmartPIDControllerCANSparkMax {
 
     public String name;
     public boolean smart;
-    public CANSparkMax motor;
+    public SparkMax motor;
     public double lastKpValue;
     public double lastKiValue;
     public double lastKdValue;
     public double lastKfValue;
+    public SparkMaxConfig config;
 
 
     public SmartPIDControllerCANSparkMax(double kp, double ki, double kd, double kf, String name,
-            boolean smart, CANSparkMax motor) {
+            boolean smart, SparkMax motor) {
 
         this.motor = motor;
         this.name = name;
         this.smart = smart;
+        config = new SparkMaxConfig();
 
         lastKpValue = kp;
         lastKiValue = ki;
         lastKdValue = kd;
         lastKfValue = kf;
 
-        motor.getPIDController().setP(kp);
-        motor.getPIDController().setI(ki);
-        motor.getPIDController().setD(kd);
-        motor.getPIDController().setFF(kf);
+        config.closedLoop.pidf(kp, ki, kd, kf);
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SmartDashboard.putNumber(name + " kp Value", kp);
         SmartDashboard.putNumber(name + " ki Value", ki);
@@ -63,10 +66,8 @@ public class SmartPIDControllerCANSparkMax {
             lastKdValue = currentKdValue;
             lastKfValue = currentKfValue;
 
-            motor.getPIDController().setP(lastKpValue);
-            motor.getPIDController().setI(lastKiValue);
-            motor.getPIDController().setD(lastKdValue);
-            motor.getPIDController().setFF(lastKfValue);
+            config.closedLoop.pidf(lastKpValue, lastKiValue, lastKdValue, lastKfValue);
+            motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         }
     }
 }

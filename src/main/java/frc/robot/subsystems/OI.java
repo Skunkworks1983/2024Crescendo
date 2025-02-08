@@ -9,28 +9,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.climber.ExtendClimber;
-import frc.robot.commands.climber.ManualMoveClimber;
-import frc.robot.commands.climber.SmartClimb;
-import frc.robot.commands.CollectorStow;
-import frc.robot.commands.LowerCollector;
-import frc.robot.commands.ManualRunNoteBackwards;
 //import frc.robot.commands.ManualEjectPeiceFront;
-import frc.robot.commands.NoteFloorToShooter;
-import frc.robot.commands.ResetCollector;
 import frc.robot.commands.SetFieldTarget;
 import frc.robot.commands.SetRobotRelativeSwerve;
 import frc.robot.commands.TestMechanicalOdometry;
 import frc.robot.commands.autoAmp;
 import frc.robot.commands.ResetGyro;
-import frc.robot.commands.shooter.FlywheelSpinup;
-import frc.robot.commands.shooter.IntakeShooterFromSource;
-import frc.robot.commands.shooter.Shoot;
-import frc.robot.commands.shooter.ShootWhenReady;
-import frc.robot.commands.shooter.ShooterToAmp;
-import frc.robot.commands.shooter.ShooterToPassAngle;
-import frc.robot.commands.shooter.ShooterToStow;
-import frc.robot.commands.shooter.tuningCommands.InterpolationAimShooterCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.ClimberConstants.ClimbModule;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
@@ -132,39 +116,6 @@ public class OI extends SubsystemBase {
     targetingSpeaker.whileTrue(new SetFieldTarget(FieldTarget.SPEAKER));
     targetingAmp.whileTrue(new SetFieldTarget(FieldTarget.AMP));
  
-    shooterToAmp.whileTrue(new ShooterToAmp());
-    shooterToPass.negate().and(shooterIntake.negate()).and(shooterToAmp.negate()).and(interpolationAim.negate()).whileTrue(new ShooterToStow());
-    shooterToPass.whileTrue(new ShooterToPassAngle());
-
-    interpolationAim.whileTrue(new InterpolationAimShooterCommand());
-    flywheelSpinup.whileTrue(new FlywheelSpinup());
-    //shootWhenReady.whileTrue(new ShootWhenReady());
-
-    shoot.whileTrue(new ParallelCommandGroup(new FlywheelSpinup(), new ShootWhenReady()));
-
-    collectorDown.whileTrue(new LowerCollector());
-    collectorStow.whileTrue(new CollectorStow());
-
-    noteFloorToShooter.whileTrue(new NoteFloorToShooter());
-    manualExpelBackwards.whileTrue(new ManualRunNoteBackwards());
-
-    smartClimb.onTrue(new ExtendClimber());
-    smartClimb.onFalse(new SmartClimb());
-
-    manualLeftClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, .2));
-    manualLeftClimberDown.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.LEFT, -.2));
-    manualRightClimberUp.and(manualSwitch).whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, .2));
-    manualRightClimberDown.and(manualSwitch)
-        .whileTrue(new ManualMoveClimber(ClimbModule.RIGHT, -.2));
-    resetGyroHeadingLeft.and(resetGyroHeadingRight).onTrue(new ResetGyro());
-
-    resetCollector.whileTrue(new ResetCollector());
-
-    manualShoot.whileTrue(new Shoot());
-
-    // testMechanicalOdometry.whileTrue(new TestMechanicalOdometry());
-
-    shooterIntake.whileTrue(new IntakeShooterFromSource());
   }
 
   @Override

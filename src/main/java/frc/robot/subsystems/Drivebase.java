@@ -9,13 +9,6 @@ import java.util.Optional;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -36,9 +29,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SwerveTeleop;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Targeting.FieldTarget;
-import frc.robot.utils.SkunkPhotonCamera;
 import frc.robot.utils.SmartPIDController;
-import frc.robot.utils.Vision;
 import frc.robot.utils.VisionMeasurement;
 import frc.robot.constants.Constants.PhotonVision;
 
@@ -104,7 +95,6 @@ public class Drivebase extends SubsystemBase {
               backLeft.getPosition(), backRight.getPosition()},
           new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
 
-  Vision vision;
 
   private Drivebase() {
     isRobotRelative = false;
@@ -116,7 +106,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("Integrated Odometry", integratedOdometryPrint);
     SmartDashboard.putData("Visual Odometry", visualOdometryPrint);
 
-    configurePathPlanner();
     headingController.enableContinuousInput(0, 360);
 
     SmartDashboard.putNumber("testTurnP", 0);
@@ -131,16 +120,6 @@ public class Drivebase extends SubsystemBase {
 
     // Try/catch statement to ensure robot code doesn't crash if camera(s) aren't
     // plugged in.
-    try {
-      vision = new Vision(new SkunkPhotonCamera[] {
-          new SkunkPhotonCamera(PhotonVision.CAMERA_1_NAME, PhotonVision.ROBOT_TO_CAMERA_1),
-          new SkunkPhotonCamera(PhotonVision.CAMERA_2_NAME, PhotonVision.ROBOT_TO_CAMERA_2)});
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, true);
-    } catch (Exception e) {
-      System.out.println("Exception creating cameras: " + e.toString());
-      vision = new Vision(new SkunkPhotonCamera[] {});
-      SmartDashboard.putBoolean(PhotonVision.CAMERA_STATUS_BOOLEAN, false);
-    }
 
     Pigeon2Configuration gConfiguration = new Pigeon2Configuration();
     gConfiguration.MountPose.MountPoseYaw = 180; 
@@ -167,6 +146,8 @@ public class Drivebase extends SubsystemBase {
     }
     double Cx = speeds.vxMetersPerSecond;
     double Cy = speeds.vyMetersPerSecond;
+    System.out.println(Cx);
+    System.out.println(Cy);
     double Omega = speeds.omegaRadiansPerSecond;
     double magnitudeSpeed = Math.sqrt(Math.pow(Cx, 2) + Math.pow(Cy, 2));
     double K = Constants.DrivebaseInfo.CORRECTIVE_SCALE;
@@ -301,10 +282,6 @@ public class Drivebase extends SubsystemBase {
 
     // Iterate though list of VisionMeasurements and call addVisionMeasurement for
     // each item in the list.
-    for (VisionMeasurement measurement : vision.getLatestVisionMeasurements()) {
-      odometry.addVisionMeasurement(measurement.estimatedPose, measurement.timestamp,
-          measurement.stdDevs);
-    }
 
     integratedOdometryPrint.setRobotPose(getRobotPose());
   }
@@ -316,6 +293,14 @@ public class Drivebase extends SubsystemBase {
     //SmartDashboard.putNumber("Odometry Y Meters", odometry.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putNumber("Gyro Roll", getRoll());
+    if(speeds != null)
+    {
+    SmartDashboard.putNumber("Speed", Math.sqrt(speeds.vxMetersPerSecond * speeds.vxMetersPerSecond + 
+                                                speeds.vyMetersPerSecond*speeds.vyMetersPerSecond));
+    }
+    SmartDashboard.putNumber("Acceleration x", gyro.getAccelerationX().getValueAsDouble());
+    SmartDashboard.putNumber("Acceleration y", gyro.getAccelerationY().getValueAsDouble());
+    SmartDashboard.putNumber("Acceleration z", gyro.getAccelerationZ().getValueAsDouble());
     //SmartDashboard.putBoolean("is Robot Relative", isRobotRelative);
     //SmartDashboard.putNumber("Heading Controller Error", headingController.getPositionError());
   }
@@ -409,37 +394,6 @@ public class Drivebase extends SubsystemBase {
    */
   public Optional<Translation2d> getFieldTarget() {
     return fieldTarget;
-  }
-
-  public void configurePathPlanner() {
-
-    AutoBuilder.configureHolonomic(this::getRobotPose, this::resetOdometry,
-        this::getRobotRelativeSpeeds, this::setDriveChassisSpeed,
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KP,
-                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KI,
-                Constants.PathPlannerInfo.PATHPLANNER_DRIVE_KD),
-            new PIDConstants(Constants.PathPlannerInfo.PATHPLANNER_TURN_KP,
-                Constants.PathPlannerInfo.PATHPLANNER_TURN_KI,
-                Constants.PathPlannerInfo.PATHPLANNER_TURN_KD),
-            Constants.PathPlannerInfo.PATHPLANNER_MAX_METERS_PER_SECOND,
-            Constants.PathPlannerInfo.PATHPLANNER_DRIVEBASE_RADIUS_METERS, new ReplanningConfig()),
-        () -> {
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-        }, this);
-  }
-
-  public Command followPathCommand(String pathName) {
-    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-    return AutoBuilder.followPath(path);
-  }
-
-  public Command followAutoTrajectory(String autoName) {
-    return new PathPlannerAuto(autoName);
   }
 
   public void setBreakMode(boolean breakMode){
